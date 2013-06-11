@@ -26,7 +26,7 @@
     <Setting Name="_md_localvoltage" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">1701</Value>
     </Setting>
-    <Setting Name="_md_rvbvoltage" Type="System.UInt16" Scope="User">
+    <Setting Name="_md_FRVBvoltage" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">1992</Value>
     </Setting>
     <Setting Name="_protocol" Type="System.String" Scope="User">
@@ -35,16 +35,16 @@
     <Setting Name="_heartbeat" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">2</Value>
     </Setting>
-    <Setting Name="_deltavoltage" Type="System.Double" Scope="User">
+    <Setting Name="_Fdeltavoltage" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="_multiplier" Type="System.Double" Scope="User">
+    <Setting Name="_Fmultiplier" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="IEC61850LocalVoltage" Type="System.String" Scope="User">
       <Value Profile="(Default)">ATCC0$MX$LodCtrV$mag$i</Value>
     </Setting>
-    <Setting Name="IEC61850RVBVoltage" Type="System.String" Scope="User">
+    <Setting Name="IEC61850FRVBVoltage" Type="System.String" Scope="User">
       <Value Profile="(Default)">ATCC0$SP$FRemVVal$setMag$i</Value>
     </Setting>
     <Setting Name="iechost" Type="System.String" Scope="User">
@@ -55,6 +55,9 @@
     </Setting>
     <Setting Name="_IPAddressToRead" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="_md_RRVBvoltage" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">1996</Value>
     </Setting>
   </Settings>
 </SettingsFile>

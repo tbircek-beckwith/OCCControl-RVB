@@ -5,7 +5,7 @@ Imports System.Net
 Imports System.Timers
 
 Public Class RVBSim
-    Const SupportedRVBRevision As String = "8"       'Supported RVB feature document revision
+    Const SupportedRVBRevision As String = "15"       'Supported RVB feature document revision
     Const M2001D_Comm_Scale As Integer = 10
     Const MaxDeltaVoltage As Integer = 100
     Const MinDeltaVoltage As Integer = -100
@@ -105,9 +105,9 @@ Public Class RVBSim
         'Reading Local voltage and transmitting back
         'done by apporiate protocol selected by the user
         Try
-            mip = IPAddress.Parse(txthost.Text)
+            mip = Net.IPAddress.Parse(txthost.Text)
             If Not IPAddressToReadTextbox.Text = Nothing Then
-                m_ip = IPAddress.Parse(IPAddressToReadTextbox.Text)
+                m_ip = Net.IPAddress.Parse(IPAddressToReadTextbox.Text)
             Else
                 m_ip = mip
                 IPAddressToReadTextbox.Text = mip.ToString
@@ -125,9 +125,9 @@ Public Class RVBSim
                 readresult = (iec.iec(m_ip, m_port, txtLocalVoltage.Text, "Connect")) '/ M2001D_Comm_Scale
             End If
 
-            If Not (readresult > RVBMax.Value Or readresult < RVBMin.Value) Then
+            If Not (readresult > FwdRVBMax.Value Or readresult < FwdRVBMin.Value) Then
                 delayforOmicronPowerUp += 1
-                'SetProgressBarValue(Heart_Beat_Timer)
+                ''SetProgressBarValue(Heart_Beat_Timer)
                 Heart_Beat_Timer += 109
                 If (Heart_Beat_Timer >= Heart_Beat_Set) OrElse (delayforOmicronPowerUp = delayforOmicronPowerUpMax) Then
                     'write to the unit using customer selected protocol
@@ -237,17 +237,18 @@ Public Class RVBSim
                     ._md_port = CUShort(txtport.Text)
                     ._protocol = "modbus"
                     ._md_localvoltage = CUShort(locvoltage.Value)
-                    ._md_rvbvoltage = CUShort(RVBVoltage.Value)
+                    ._md_FRVBvoltage = CUShort(RVBVoltage.Value)
+                    ._md_RRVBvoltage = CUShort(Modbus_R_RVBVoltage_Value.Value)
                 ElseIf iec61850box.Checked Then
                     .iechost = txthost.Text
                     .iecport = CUShort(txtport.Text)
                     ._protocol = "iec"
                     .IEC61850LocalVoltage = txtLocalVoltage.Text
-                    .IEC61850RVBVoltage = txtRVBVoltage.Text
+                    .IEC61850FRVBVoltage = txtRVBVoltage.Text
                 End If
                 ._heartbeat = CUShort(heartbeattimer.Value)
-                ._deltavoltage = CDbl(Forward_DeltaVoltage.Value)
-                ._multiplier = CDbl(F_RVBScaleFactor_Value.Value)
+                ._Fdeltavoltage = CDbl(Forward_DeltaVoltage.Value)
+                ._Fmultiplier = CDbl(F_RVBScaleFactor_Value.Value)
                 If Not IPAddressToReadTextbox.Text = Nothing Then
                     ._IPAddressToRead = IPAddressToReadTextbox.Text
                 Else
@@ -311,10 +312,10 @@ Public Class RVBSim
                 Else
                     txtLocalVoltage.Text = My.Settings.IEC61850LocalVoltage
                 End If
-                If My.Settings.IEC61850RVBVoltage = Nothing Then
+                If My.Settings.IEC61850FRVBVoltage = Nothing Then
                     txtRVBVoltage.Text = "ATCC0$SP$FRemVVal$setMag$i"
                 Else
-                    txtRVBVoltage.Text = My.Settings.IEC61850RVBVoltage
+                    txtRVBVoltage.Text = My.Settings.IEC61850FRVBVoltage
                 End If
                 If My.Settings.iecport = Nothing Then
                     txtport.Text = "102"
@@ -415,16 +416,16 @@ Public Class RVBSim
                                 Case "dnp"
                                     ._destination = cmdlines.GetValue(i + 1)
                                 Case "modbus"
-                                    ._md_rvbvoltage = cmdlines.GetValue(i + 1)
+                                    ._md_FRVBvoltage = cmdlines.GetValue(i + 1)
                                 Case "iec"
-                                    .IEC61850RVBVoltage = UCase(cmdlines.GetValue(i + 1))
+                                    .IEC61850FRVBVoltage = UCase(cmdlines.GetValue(i + 1))
                             End Select
                         Case "-h"
                             ._heartbeat = cmdlines.GetValue(i + 1)
                         Case "-v"
-                            ._deltavoltage = cmdlines.GetValue(i + 1)
+                            ._Fdeltavoltage = cmdlines.GetValue(i + 1)
                         Case "-x"
-                            ._multiplier = cmdlines.GetValue(i + 1)
+                            ._Fmultiplier = cmdlines.GetValue(i + 1)
                         Case "-g"
                             If cmdlines.GetValue(i + 1) = "off" Then
                                 visibility = False
@@ -482,40 +483,41 @@ Public Class RVBSim
 
     Private Sub populatetheform()
         'Me.Text = "RVBTest V-" & My.Application.Info.Version.ToString & " " & My.Application.Info.Copyright ' & " Version "
-
-        Dim copyright As String = My.Application.Info.Copyright
-        Dim versionFormat As String = "(v-{0}.{1}.{2}.{3})"
-        Dim version As String = System.String.Format(versionFormat,
-                                                        My.Application.Info.Version.Major,
-                                                            My.Application.Info.Version.Minor,
-                                                                My.Application.Info.Version.Build,
-                                                                    My.Application.Info.Version.Revision)
+        'Dim copyright As String = My.Application.Info.Copyright
+        'Dim versionFormat As String = "(v-{0}.{1}.{2}.{3})"
+        'Dim version As String = System.String.Format(versionFormat,My.Application.Info.Version.Major,My.Application.Info.Version.Minor,My.Application.Info.Version.Build,        My.Application.Info.Version.Revision)
         'Me.Text = My.Application.Info.Title & " " & copyright & " " & version & " RVB Revision: " & SupportedRVBRevision
-        Me.Text = "RVB Simulator By " & copyright & " " & version & " Supported RVB Revision: " & SupportedRVBRevision
+        'Me.Text = "RVB Simulator By " + copyright + " " + version + " Supported RVB Revision: " + SupportedRVBRevision
+        Me.Text = String.Format("RVB Simulator v-{0}.{1}", My.Application.Info.Version.Major, My.Application.Info.Version.Minor)
+
         If CInt(SupportedRVBRevision) >= 15 Then
             support = True
-            grpRVBLimits.Visible = True
+            grpRevSettings.Visible = True
         Else
             support = False
-            grpRVBLimits.Visible = False
+            grpRevSettings.Visible = False
         End If
-        SetText(txtRVBMax, FormatNumber(CDbl(RVBMax.Value / 10), 1))
-        SetText(txtRVBMin, FormatNumber(CDbl(RVBMin.Value / 10), 1))
+        SetText(txtFwdRVBMax, FormatNumber(CDbl(FwdRVBMax.Value / 10), 1))
+        SetText(txtFwdRVBMin, FormatNumber(CDbl(FwdRVBMin.Value / 10), 1))
+        SetText(txtRevRVBMax, FormatNumber(CDbl(RevRVBMax.Value / 10), 1))
+        SetText(txtRevRVBMin, FormatNumber(CDbl(RevRVBMin.Value / 10), 1))
+
         With My.Settings
             sourcenum.Value = ._source
             destnum.Value = ._destination
             locvoltage.Value = ._md_localvoltage
-            RVBVoltage.Value = ._md_rvbvoltage
+            RVBVoltage.Value = ._md_FRVBvoltage
+            Modbus_R_RVBVoltage_Value.Value = ._md_RRVBvoltage
             heartbeattimer.Value = ._heartbeat
             IPAddressToReadTextbox.Text = ._IPAddressToRead
-            If ._deltavoltage < MinDeltaVoltage Or ._deltavoltage > MaxDeltaVoltage Then
+            If ._Fdeltavoltage < MinDeltaVoltage Or ._Fdeltavoltage > MaxDeltaVoltage Then
                 Forward_DeltaVoltage.Value = 0.0
             Else
-                Forward_DeltaVoltage.Value = ._deltavoltage
+                Forward_DeltaVoltage.Value = ._Fdeltavoltage
             End If
-            F_RVBScaleFactor_Value.Value = ._multiplier
+            F_RVBScaleFactor_Value.Value = ._Fmultiplier
             txtLocalVoltage.Text = .IEC61850LocalVoltage
-            txtRVBVoltage.Text = .IEC61850RVBVoltage
+            txtRVBVoltage.Text = .IEC61850FRVBVoltage
             '************************************************************
             '*  if visibility set to true by the user                   *
             '*  Verify the form is in visible area                      *
@@ -568,19 +570,28 @@ Public Class RVBSim
             Case "radLocal"
                 Forward_Voltage_Label.Text = DirectMessage
                 Reverse_Voltage_Label.Text = DirectMessage
-                Forward_DeltaVoltage.Minimum = RVBMin.Value / M2001D_Comm_Scale   'MinSpecValue
-                Forward_DeltaVoltage.Maximum = RVBMax.Value / M2001D_Comm_Scale   'MaxSpecValue
-                Reverse_DeltaVoltage.Minimum = RVBMin.Value / M2001D_Comm_Scale
-                Reverse_DeltaVoltage.Maximum = RVBMax.Value / M2001D_Comm_Scale
+                Forward_DeltaVoltage.Minimum = FwdRVBMin.Value / M2001D_Comm_Scale   'MinSpecValue
+                Forward_DeltaVoltage.Maximum = FwdRVBMax.Value / M2001D_Comm_Scale   'MaxSpecValue
+                Reverse_DeltaVoltage.Minimum = FwdRVBMin.Value / M2001D_Comm_Scale
+                Reverse_DeltaVoltage.Maximum = FwdRVBMax.Value / M2001D_Comm_Scale
         End Select
     End Sub
 
-    Private Sub RVBLimits(sender As System.Object, e As System.EventArgs) Handles RVBMin.ValueChanged, RVBMax.ValueChanged
+    Private Sub RVBHscrollLimits(sender As System.Object, e As System.EventArgs) Handles FwdRVBMin.ValueChanged, FwdRVBMax.ValueChanged, RevRVBMax.ValueChanged, RevRVBMin.ValueChanged
         Select Case sender.name
-            Case "RVBMax"
-                SetText(txtRVBMax, FormatNumber(CDbl(sender.value / 10), 1))
-            Case "RVBMin"
-                SetText(txtRVBMin, FormatNumber(CDbl(sender.value / 10), 1))
+            Case "FwdRVBMax"
+                SetText(txtFwdRVBMax, FormatNumber(CDbl(sender.value / 10), 1))
+            Case "FwdRVBMin"
+                SetText(txtFwdRVBMin, FormatNumber(CDbl(sender.value / 10), 1))
+            Case "RevRVBMax"
+                SetText(txtRevRVBMax, FormatNumber(CDbl(sender.value / 10), 1))
+            Case "RevRVBMin"
+                SetText(txtRevRVBMin, FormatNumber(CDbl(sender.value / 10), 1))
         End Select
+    End Sub
+
+    Private Sub RVBTextLimits(sender As System.Object, e As System.EventArgs) Handles txtFwdRVBMax.TextChanged, txtFwdRVBMin.TextChanged, txtRevRVBMax.TextChanged, txtRevRVBMin.TextChanged
+        Dim senderValue As Double = FormatNumber(CDbl(sender.text) * 10, 1)
+        Console.WriteLine("Value is {0}", senderValue)
     End Sub
 End Class

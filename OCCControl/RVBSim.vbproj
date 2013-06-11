@@ -80,7 +80,7 @@
     <ManifestKeyFile>RVB_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
@@ -103,7 +103,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\tcpdnp\tcpdnp\bin\Release\tcpdnp.dll</HintPath>
     </Reference>
-    <Reference Include="tcpmodbus, Version=1.0.2.1, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="tcpmodbus, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\tcpmodbus\tcpmodbus\bin\Release\tcpmodbus.dll</HintPath>
     </Reference>
