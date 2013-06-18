@@ -57,186 +57,186 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("20, 20")>  _
-        Public Property _location() As Global.System.Drawing.Point
+        Public Property location() As Global.System.Drawing.Point
             Get
-                Return CType(Me("_location"),Global.System.Drawing.Point)
+                Return CType(Me("location"),Global.System.Drawing.Point)
             End Get
             Set
-                Me("_location") = value
+                Me("location") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property _dnphost() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("127.0.0.1")>  _
+        Public Property dnphost() As String
             Get
-                Return CType(Me("_dnphost"),String)
+                Return CType(Me("dnphost"),String)
             End Get
             Set
-                Me("_dnphost") = value
+                Me("dnphost") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("20000")>  _
-        Public Property _dnpport() As UShort
+        Public Property dnpport() As UShort
             Get
-                Return CType(Me("_dnpport"),UShort)
+                Return CType(Me("dnpport"),UShort)
             End Get
             Set
-                Me("_dnpport") = value
+                Me("dnpport") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property _md_host() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("127.0.0.1")>  _
+        Public Property mdhost() As String
             Get
-                Return CType(Me("_md_host"),String)
+                Return CType(Me("mdhost"),String)
             End Get
             Set
-                Me("_md_host") = value
+                Me("mdhost") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("502")>  _
-        Public Property _md_port() As UShort
+        Public Property mdport() As UShort
             Get
-                Return CType(Me("_md_port"),UShort)
+                Return CType(Me("mdport"),UShort)
             End Get
             Set
-                Me("_md_port") = value
+                Me("mdport") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("3")>  _
-        Public Property _source() As UShort
+        Public Property source() As UShort
             Get
-                Return CType(Me("_source"),UShort)
+                Return CType(Me("source"),UShort)
             End Get
             Set
-                Me("_source") = value
+                Me("source") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
-        Public Property _destination() As UShort
+        Public Property destination() As UShort
             Get
-                Return CType(Me("_destination"),UShort)
+                Return CType(Me("destination"),UShort)
             End Get
             Set
-                Me("_destination") = value
+                Me("destination") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("1701")>  _
-        Public Property _md_localvoltage() As UShort
+        Public Property mdLocalvoltage() As UShort
             Get
-                Return CType(Me("_md_localvoltage"),UShort)
+                Return CType(Me("mdLocalvoltage"),UShort)
             End Get
             Set
-                Me("_md_localvoltage") = value
+                Me("mdLocalvoltage") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("1992")>  _
-        Public Property _md_FRVBvoltage() As UShort
+        Public Property mdFRVBvoltage() As UShort
             Get
-                Return CType(Me("_md_FRVBvoltage"),UShort)
+                Return CType(Me("mdFRVBvoltage"),UShort)
             End Get
             Set
-                Me("_md_FRVBvoltage") = value
+                Me("mdFRVBvoltage") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("dnp")>  _
-        Public Property _protocol() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("modbus")>  _
+        Public Property protocol() As String
             Get
-                Return CType(Me("_protocol"),String)
+                Return CType(Me("protocol"),String)
             End Get
             Set
-                Me("_protocol") = value
+                Me("protocol") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("2")>  _
-        Public Property _heartbeat() As UShort
+        Public Property heartbeat() As UShort
             Get
-                Return CType(Me("_heartbeat"),UShort)
+                Return CType(Me("heartbeat"),UShort)
             End Get
             Set
-                Me("_heartbeat") = value
+                Me("heartbeat") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
-        Public Property _Fdeltavoltage() As Double
+        Public Property Fdeltavoltage() As Double
             Get
-                Return CType(Me("_Fdeltavoltage"),Double)
+                Return CType(Me("Fdeltavoltage"),Double)
             End Get
             Set
-                Me("_Fdeltavoltage") = value
+                Me("Fdeltavoltage") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
-        Public Property _Fmultiplier() As Double
+        Public Property Fmultiplier() As Double
             Get
-                Return CType(Me("_Fmultiplier"),Double)
+                Return CType(Me("Fmultiplier"),Double)
             End Get
             Set
-                Me("_Fmultiplier") = value
+                Me("Fmultiplier") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("ATCC0$MX$LodCtrV$mag$i")>  _
-        Public Property IEC61850LocalVoltage() As String
+        Public Property IECLocalVoltage() As String
             Get
-                Return CType(Me("IEC61850LocalVoltage"),String)
+                Return CType(Me("IECLocalVoltage"),String)
             End Get
             Set
-                Me("IEC61850LocalVoltage") = value
+                Me("IECLocalVoltage") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("ATCC0$SP$FRemVVal$setMag$i")>  _
-        Public Property IEC61850FRVBVoltage() As String
+        Public Property IECFwdRVBVoltage() As String
             Get
-                Return CType(Me("IEC61850FRVBVoltage"),String)
+                Return CType(Me("IECFwdRVBVoltage"),String)
             End Get
             Set
-                Me("IEC61850FRVBVoltage") = value
+                Me("IECFwdRVBVoltage") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("127.0.0.1")>  _
         Public Property iechost() As String
             Get
                 Return CType(Me("iechost"),String)
@@ -260,25 +260,61 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
-        Public Property _IPAddressToRead() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("127.0.0.1")>  _
+        Public Property IPAddressToRead() As String
             Get
-                Return CType(Me("_IPAddressToRead"),String)
+                Return CType(Me("IPAddressToRead"),String)
             End Get
             Set
-                Me("_IPAddressToRead") = value
+                Me("IPAddressToRead") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("1996")>  _
-        Public Property _md_RRVBvoltage() As UShort
+        Public Property mdRRVBvoltage() As UShort
             Get
-                Return CType(Me("_md_RRVBvoltage"),UShort)
+                Return CType(Me("mdRRVBvoltage"),UShort)
             End Get
             Set
-                Me("_md_RRVBvoltage") = value
+                Me("mdRRVBvoltage") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("ATCC0$SP$RRemVVal$setMag$i")>  _
+        Public Property IECRevRVBVoltage() As String
+            Get
+                Return CType(Me("IECRevRVBVoltage"),String)
+            End Get
+            Set
+                Me("IECRevRVBVoltage") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("0")>  _
+        Public Property Rdeltavoltage() As Double
+            Get
+                Return CType(Me("Rdeltavoltage"),Double)
+            End Get
+            Set
+                Me("Rdeltavoltage") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("1")>  _
+        Public Property Rmultiplier() As Double
+            Get
+                Return CType(Me("Rmultiplier"),Double)
+            End Get
+            Set
+                Me("Rmultiplier") = value
             End Set
         End Property
     End Class

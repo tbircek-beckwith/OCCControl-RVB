@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<rvb>
+  <registers>
+    <rvb name="RVB Enable" reg="1991" value="1"/>
+    <rvb name="RVB Disable" reg="1991" value="0"/>
+    <rvb name="Fwd Voltage Value" reg="1992" 
+  </registers>
+</rvb>

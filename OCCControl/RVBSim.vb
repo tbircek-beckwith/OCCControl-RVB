@@ -16,10 +16,12 @@ Public Class RVBSim
     Const TDelay As Integer = 500                    'Heartbeat refresh time is off so it can refresh
 
     Dim ReadLocalVoltageTimer As System.Timers.Timer
+    Dim m_ip, mip As IPAddress
+    Dim m_port As UShort
     Dim delayforOmicronPowerUp As Integer = 0
     Dim Heart_Beat_Timer As Double = 0.0
     Dim Heart_Beat_Set As Double = 0.0
-    Dim Forward_RVBVoltage2Write As Double
+    Dim Forward_RVBVoltage2Write As Double = 0.0
     Dim dnp As New tcpdnp.dnp
     Dim modbus As New tcpmodbus.modbus
     Dim iec As New iec.iec
@@ -27,31 +29,26 @@ Public Class RVBSim
     Dim processID As Integer = 0
     Dim visibility As Boolean = True
     Dim RVBVisibilityTime As Double = 0.0
-    'Rev 15 changes 
+    ''Rev 15 changes 
     Dim support As Boolean      'True rev 15 or greater False rev 8
-    Dim Reverse_RVBVoltage2Write As Double
+    Dim Reverse_RVBVoltage2Write As Double = 0.0
+    Dim powerDirection As UInt16 = 0
+
+    Enum Register
+        None = 0
+        RVBEnable = 1991
+        'FwdRVBVoltage = 1992
+        FwdRVBScaleFactor = 1993
+        RVBHeartbeatTimer = 1994
+        'RVBBiasActive = 1995
+        'RevRVBVoltage = 1996
+        RevRVBScaleFactor = 1997
+        RVBMaximum = 1998
+        RVBMinimum = 1999
+        FactoryOptions = 4787
+    End Enum
 
     Private Delegate Sub SetTextDelegate(ByVal myControl As Control, ByVal itsText As String)
-    Private Delegate Sub ClearTextDelegate(ByVal myControl As TextBox)
-    'Private Delegate Sub SetProgressBarValueDelegate(ByVal itsValue As Integer)
-
-    'Private Sub SetProgressBarValue(ByVal itsValue As Integer)
-    '    If ProgressBar1.InvokeRequired Then
-    '        Dim del As New SetProgressBarValueDelegate(AddressOf SetProgressBarValue)
-    '        ProgressBar1.Invoke(del, New Object() {itsValue})
-    '    Else
-    '        ProgressBar1.Value = itsValue
-    '    End If
-    'End Sub
-
-    Private Sub ClearText(ByVal myControl As TextBox)
-        If myControl.InvokeRequired Then
-            Dim del As New ClearTextDelegate(AddressOf ClearText)
-            myControl.Invoke(del, New Object() {myControl})
-        Else
-            myControl.Clear()
-        End If
-    End Sub
 
     Private Sub SetText(ByVal myControl As Control, ByVal itsText As String)
         If myControl.InvokeRequired Then
@@ -63,97 +60,83 @@ Public Class RVBSim
     End Sub
 
     Private Sub GenerateRVBVoltage2Transfer()
-
         Dim Forward_RVBVoltage2OperateWith As Double = 0.0
         Dim Reverse_RVBVoltage2OperateWith As Double = 0.0
 
-        Select Case radLocal.Checked
+        Select Case radUseFixedVoltage.Checked
             Case False
                 Dim ActualLocalVoltage As Double = readresult / M2001D_Comm_Scale
-                Forward_RVBVoltage2OperateWith = (ActualLocalVoltage + Forward_DeltaVoltage.Value) ' * multiplier.Value   'using delta voltage
+                Console.WriteLine("Actual voltage is: {0}", ActualLocalVoltage)
+                If Not ActualLocalVoltage = 0.0 Then
+                    Forward_RVBVoltage2OperateWith = (ActualLocalVoltage + CDbl(FwdDeltaVoltage.Value)) ' Else Forward_RVBVoltage2OperateWith = 0 ' * multiplier.Value   'using delta voltage
+                    Reverse_RVBVoltage2OperateWith = (ActualLocalVoltage + CDbl(RevDeltaVoltage.Value))
+                Else
+                    Forward_RVBVoltage2OperateWith = 0.0
+                    Reverse_RVBVoltage2OperateWith = 0.0
+                End If
             Case True
-                Forward_RVBVoltage2OperateWith = Forward_DeltaVoltage.Value ' * multiplier.Value      'using fixed voltage
+                Forward_RVBVoltage2OperateWith = CDbl(FwdDeltaVoltage.Value) ' * multiplier.Value      'using fixed voltage
+                Reverse_RVBVoltage2OperateWith = CDbl(RevDeltaVoltage.Value)
         End Select
-        Forward_RVBVoltage2OperateWith *= F_RVBScaleFactor_Value.Value
+        Forward_RVBVoltage2OperateWith *= CDbl(FwdRVBScaleFactor.Value)
+        Reverse_RVBVoltage2OperateWith *= CDbl(RevRVBScaleFactor.Value)
+
         Forward_RVBVoltage2Write = Forward_RVBVoltage2OperateWith
+        Reverse_RVBVoltage2Write = Reverse_RVBVoltage2OperateWith
     End Sub
 
     Private Sub ticker(ByVal mip As IPAddress, ByVal m_port As UShort)
+        Try
+            GenerateRVBVoltage2Transfer()
 
-        GenerateRVBVoltage2Transfer()
+            If dnpbutton.Checked Then
+                dnp.tcpdnp(mip, m_port, CUShort(NumericUpDownDNPDestinationAddress.Value), CUShort(NumericUpDownDNPSourceAddress.Value), _dnpfunc.directnoack,
+                           _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, 0, CUShort(Forward_RVBVoltage2Write), 0)
+            End If
 
-        If dnpbutton.Checked Then
-            dnp.tcpdnp(mip, m_port, CUShort(destnum.Value), CUShort(sourcenum.Value), _dnpfunc.directnoack,
-                       _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, 0, CUShort(Forward_RVBVoltage2Write), 0)
-        End If
-
-        If modbusbox.Checked Then
-            modbus.CommunicateSingleUnit(mip, m_port, CUShort(RVBVoltage.Value), _modbusfunc.write, CUShort(Forward_RVBVoltage2Write)) 'CUShort(writeresult))
-        End If
-        If iec61850box.Checked Then
-            iec.iec(mip, m_port, txtRVBVoltage.Text, "Write", CUShort(Forward_RVBVoltage2Write))
-            'iec.iec(mip, m_port, txtRVBVoltage.Text, "Write", 1200)
-        End If
-        RVBVisibilityTime = RVBVisibilityDelay
+            If modbusbox.Checked Then
+                modbus.CommunicateSingleUnit(mip, m_port, CUShort(NumericUpDownModbusFwdRVBVoltageRegister.Value), _modbusfunc.write, CUShort(Forward_RVBVoltage2Write))
+                modbus.CommunicateSingleUnit(mip, m_port, CUShort(NumericUpDownModbusRevRVBVoltageRegister.Value), _modbusfunc.write, CUShort(Reverse_RVBVoltage2Write))
+            End If
+            If iec61850box.Checked Then
+                iec.iec(mip, m_port, txtIECFwdRVBVoltage.Text, "Write", CUShort(Forward_RVBVoltage2Write))
+            End If
+            RVBVisibilityTime = RVBVisibilityDelay
+        Catch ex As Exception
+            SetText(Label1, ex.ToString)
+        End Try
     End Sub
-
-    Dim m_ip, mip As IPAddress
-    Dim m_port As UShort
-    Dim canvas As Graphics '= New Graphics '(Me.ProgressBar1.CreateGraphics)
 
     Private Sub ReadLocalVoltage()
         'Reading Local voltage and transmitting back
         'done by apporiate protocol selected by the user
         Try
-            mip = Net.IPAddress.Parse(txthost.Text)
-            If Not IPAddressToReadTextbox.Text = Nothing Then
-                m_ip = Net.IPAddress.Parse(IPAddressToReadTextbox.Text)
-            Else
-                m_ip = mip
-                IPAddressToReadTextbox.Text = mip.ToString
-            End If
-            m_port = CUShort(txtport.Text)
-
             'Local Voltage will read every 100ms but writing back will be done in 
             ' the user speficied time frame
             If dnpbutton.Checked Then
-                readresult = (dnp.tcpdnp(m_ip, m_port, CUShort(destnum.Value), CUShort(sourcenum.Value), _dnpfunc.read,
-                                            _dnpobj.AnalogInput, _dnpvar.varall, _dnpindex.read)) '/ M2001D_Comm_Scale
+                readresult = (dnp.tcpdnp(m_ip, m_port, CUShort(NumericUpDownDNPDestinationAddress.Value), CUShort(NumericUpDownDNPSourceAddress.Value), _dnpfunc.read,
+                                            _dnpobj.AnalogInput, _dnpvar.varall, _dnpindex.read))
             ElseIf modbusbox.Checked Then
-                readresult = (modbus.CommunicateSingleUnit(m_ip, m_port, CUShort(locvoltage.Value), _modbusfunc.read, 1)) '/ Comm_Scale
+                readresult = (modbus.CommunicateSingleUnit(m_ip, m_port, CUShort(NumericUpDownModbusLocalVoltageRegister.Value), _modbusfunc.read, 1))
             ElseIf iec61850box.Checked Then
-                readresult = (iec.iec(m_ip, m_port, txtLocalVoltage.Text, "Connect")) '/ M2001D_Comm_Scale
+                readresult = (iec.iec(m_ip, m_port, txtIECLocalVoltage.Text, "Connect"))
             End If
 
-            If Not (readresult > FwdRVBMax.Value Or readresult < FwdRVBMin.Value) Then
-                delayforOmicronPowerUp += 1
-                ''SetProgressBarValue(Heart_Beat_Timer)
-                Heart_Beat_Timer += 109
-                If (Heart_Beat_Timer >= Heart_Beat_Set) OrElse (delayforOmicronPowerUp = delayforOmicronPowerUpMax) Then
-                    'write to the unit using customer selected protocol
-                    'ticker(m_ip, m_port)
-                    ticker(mip, m_port)
-                    Heart_Beat_Timer = 0
-                    'SetProgressBarValue(Heart_Beat_Timer)
-                    delayforOmicronPowerUp = 7
-                End If
-                If delayforOmicronPowerUp > delayforOmicronPowerUpMax Then
-                    SetText(Label1, "Reads: " & FormatNumber(CDbl(readresult / M2001D_Comm_Scale), 1))
-                    If Not RVBVisibilityTime = 0 Then
-                        SetText(Label1, Label1.Text & " Writes: " & FormatNumber(Forward_RVBVoltage2Write, 1))
-                        RVBVisibilityTime -= 1
-                    ElseIf RVBVisibilityTime = 0 Then
-                        SetText(Label1, "Reads: " & FormatNumber(CDbl(readresult / M2001D_Comm_Scale), 1) & " Writes: ----")
-                        '& vbCrLf & (CInt(Heart_Beat_Timer / 1000)).ToString & " secs of " & (CInt(Heart_Beat_Set / 1000).ToString & " secs"))
-                    End If
-                End If
-
-            Else
-                delayforOmicronPowerUp = 0
+            delayforOmicronPowerUp += 1
+            Heart_Beat_Timer += 109
+            If (Heart_Beat_Timer >= Heart_Beat_Set) OrElse (delayforOmicronPowerUp = delayforOmicronPowerUpMax) Then
+                'write to the unit using customer selected protocol
+                ticker(mip, m_port)
                 Heart_Beat_Timer = 0
-                'SetProgressBarValue(Heart_Beat_Timer)
-                SetText(Label1, "Read value is out of limits...")
-                'SetText(Label1, readresult)
+                delayforOmicronPowerUp = 7
+            End If
+            If delayforOmicronPowerUp > delayforOmicronPowerUpMax Then
+                If Not RVBVisibilityTime = 0 Then
+                   RVBVisibilityTime -= 1
+                    ' ElseIf RVBVisibilityTime = 0 Then
+
+                End If
+                SetText(Label1, String.Format("     Reads: {0}" + vbCrLf + "Fwd RVB: {1}" + vbCrLf + "Rev RVB: {2}", FormatNumber(CDbl(readresult / M2001D_Comm_Scale), 1), FormatNumber(Forward_RVBVoltage2Write, 1), FormatNumber(Reverse_RVBVoltage2Write, 1)))
             End If
 
         Catch ex As Exception
@@ -162,30 +145,81 @@ Public Class RVBSim
     End Sub
 
     Private Sub Disenable()
-        locvoltage.Enabled = Button1.Enabled
-        RVBVoltage.Enabled = Button1.Enabled
-        sourcenum.Enabled = Button1.Enabled
-        txtLocalVoltage.Enabled = Button1.Enabled
-        txtRVBVoltage.Enabled = Button1.Enabled
-        destnum.Enabled = Button1.Enabled
-        txthost.Enabled = Button1.Enabled
-        txtport.Enabled = Button1.Enabled
-        dnpbutton.Enabled = Button1.Enabled
-        modbusbox.Enabled = Button1.Enabled
-        iec61850box.Enabled = Button1.Enabled
-        F_RVBScaleFactor_Value.Enabled = Button1.Enabled
-        heartbeattimer.Enabled = Button1.Enabled
-        radDelta.Enabled = Button1.Enabled
-        radLocal.Enabled = Button1.Enabled
-        'deltavoltage.Enabled = Button1.Enabled
-        IPAddressToReadTextbox.Enabled = Button1.Enabled
+        With btnStart
+            'dnp settings dis/enable
+            NumericUpDownDNPSourceAddress.Enabled = .Enabled
+            NumericUpDownDNPDestinationAddress.Enabled = .Enabled
+            'modbus settings dis/enable
+            NumericUpDownModbusLocalVoltageRegister.Enabled = .Enabled
+            NumericUpDownModbusFwdRVBVoltageRegister.Enabled = .Enabled
+            NumericUpDownModbusRevRVBVoltageRegister.Enabled = .Enabled
+            'iec61850 settings dis/enable
+            txtIECLocalVoltage.Enabled = .Enabled
+            txtIECFwdRVBVoltage.Enabled = .Enabled
+            txtIECRevRVBVoltage.Enabled = .Enabled
+            'communication settings dis/enable
+            txtWrite.Enabled = .Enabled
+            txtPort.Enabled = .Enabled
+            txtRead.Enabled = .Enabled
+            'protocol options dis/enable
+            dnpbutton.Enabled = .Enabled
+            modbusbox.Enabled = .Enabled
+            iec61850box.Enabled = .Enabled
+            'general rvb settings dis/enable
+            heartbeattimer.Enabled = .Enabled
+            radUseDeltaVoltage.Enabled = .Enabled
+            radUseFixedVoltage.Enabled = .Enabled
+            'forward rvb settings dis/enable
+            FwdRVBScaleFactor.Enabled = .Enabled
+            RVBMax.Enabled = .Enabled
+            RVBMin.Enabled = .Enabled
+            'reverse rvb settings dis/enable
+            RevRVBScaleFactor.Enabled = .Enabled
+        End With
+    End Sub
+
+    Private Sub SendSettings()
+        'Enable RVB
+        modbus.CommunicateSingleUnit(m_ip, m_port, Register.RVBEnable, _modbusfunc.write, 1)
+        'set RVB heartbeat timer
+        modbus.CommunicateSingleUnit(m_ip, m_port, Register.RVBHeartbeatTimer, _modbusfunc.write, heartbeattimer.Value)
+        'set RVB Max
+        modbus.CommunicateSingleUnit(m_ip, m_port, Register.RVBMaximum, _modbusfunc.write, RVBMax.Value * M2001D_Comm_Scale)
+        'set RVB Min
+        modbus.CommunicateSingleUnit(m_ip, m_port, Register.RVBMinimum, _modbusfunc.write, RVBMin.Value * M2001D_Comm_Scale)
+        'set Fwd RVB Scale Factor
+        modbus.CommunicateSingleUnit(m_ip, m_port, Register.FwdRVBScaleFactor, _modbusfunc.write, FwdRVBScaleFactor.Value * M2001D_Comm_Scale)
+        'set Rev RVB Scale Factor 
+        modbus.CommunicateSingleUnit(m_ip, m_port, Register.RevRVBScaleFactor, _modbusfunc.write, RevRVBScaleFactor.Value * M2001D_Comm_Scale)
     End Sub
 
 #Region " Timers "
     Private Sub Start()
-        Button2.Enabled = True
-        Button1.Enabled = False
+        btnStop.Enabled = True
+        btnStart.Enabled = False
         Disenable()
+
+        mip = Net.IPAddress.Parse(txtWrite.Text)
+        If Not txtRead.Text = Nothing Then
+            m_ip = Net.IPAddress.Parse(txtRead.Text)
+        Else
+            m_ip = mip
+            txtRead.Text = mip.ToString
+        End If
+        m_port = CUShort(txtPort.Text)
+
+        'turn on rvb option in the factory if it is not enabled already
+        Dim factoryOptions As UInt16 = modbus.CommunicateSingleUnit(m_ip, m_port, Register.FactoryOptions, _modbusfunc.read, 1)
+        If Not (factoryOptions = (factoryOptions Or &H20)) Then   'RVB is bit 5
+            factoryOptions = (factoryOptions Or &H20)
+            modbus.CommunicateSingleUnit(m_ip, m_port, Register.FactoryOptions, _modbusfunc.write, factoryOptions)
+        End If
+        '''''''''''''''''''''''''''''''''''''
+
+        'Send RVB settings everytime start pressed
+        SendSettings()
+        '''''''''''''''''''''''''''''''''''''
+
         ReadLocalVoltageTimer = New System.Timers.Timer
         With ReadLocalVoltageTimer
             AddHandler .Elapsed, AddressOf ReadLocalVoltage
@@ -193,66 +227,64 @@ Public Class RVBSim
             .Enabled = True
         End With
         Heart_Beat_Set = (heartbeattimer.Value * 1000) - TDelay
-        'ProgressBar1.Maximum = (heartbeattimer.Value * 1000) - 100
+
         ReadLocalVoltage()
     End Sub
 #End Region
 
     Private Sub Pause()
         SetText(Label1, "Comm stopped ...")
-        Button2.Enabled = False
-        Button1.Enabled = True
+        btnStop.Enabled = False
+        btnStart.Enabled = True
         Disenable()
         delayforOmicronPowerUp = 0
         Heart_Beat_Timer = 0
-        'SetProgressBarValue(Heart_Beat_Timer)
         ReadLocalVoltageTimer.Stop()
         ReadLocalVoltageTimer.Dispose()
     End Sub
 
-    'Private Sub _close()
-    '    Me.Close()
-    'End Sub
-
-    Private Sub Button1_Click(sender As System.Object, e As System.EventArgs) Handles Button1.Click
+    Private Sub btnStart_Click(sender As System.Object, e As System.EventArgs) Handles btnStart.Click
         Start()
     End Sub
 
-    Private Sub Button2_Click(sender As System.Object, e As System.EventArgs) Handles Button2.Click
+    Private Sub btnStop_Click(sender As System.Object, e As System.EventArgs) Handles btnStop.Click
         Pause()
     End Sub
 
     Private Sub Form1_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Try
             With My.Settings
-                ._location = Me.DesktopLocation
+                .location = Me.DesktopLocation
                 If dnpbutton.Checked Then
-                    ._dnphost = txthost.Text
-                    ._dnpport = CUShort(txtport.Text)
-                    ._protocol = "dnp"
-                    ._source = CUShort(sourcenum.Value)
-                    ._destination = CUShort(destnum.Value)
+                    .dnphost = txtWrite.Text
+                    .dnpport = CUShort(txtPort.Text)
+                    .protocol = "dnp"
+                    .source = CUShort(NumericUpDownDNPSourceAddress.Value)
+                    .destination = CUShort(NumericUpDownDNPDestinationAddress.Value)
                 ElseIf modbusbox.Checked Then
-                    ._md_host = txthost.Text
-                    ._md_port = CUShort(txtport.Text)
-                    ._protocol = "modbus"
-                    ._md_localvoltage = CUShort(locvoltage.Value)
-                    ._md_FRVBvoltage = CUShort(RVBVoltage.Value)
-                    ._md_RRVBvoltage = CUShort(Modbus_R_RVBVoltage_Value.Value)
+                    .mdhost = txtWrite.Text
+                    .mdport = CUShort(txtPort.Text)
+                    .protocol = "modbus"
+                    .mdLocalvoltage = CUShort(NumericUpDownModbusLocalVoltageRegister.Value)
+                    .mdFRVBvoltage = CUShort(NumericUpDownModbusFwdRVBVoltageRegister.Value)
+                    .mdRRVBvoltage = CUShort(NumericUpDownModbusRevRVBVoltageRegister.Value)
                 ElseIf iec61850box.Checked Then
-                    .iechost = txthost.Text
-                    .iecport = CUShort(txtport.Text)
-                    ._protocol = "iec"
-                    .IEC61850LocalVoltage = txtLocalVoltage.Text
-                    .IEC61850FRVBVoltage = txtRVBVoltage.Text
+                    .iechost = txtWrite.Text
+                    .iecport = CUShort(txtPort.Text)
+                    .protocol = "iec"
+                    .IECLocalVoltage = txtIECLocalVoltage.Text
+                    .IECFwdRVBVoltage = txtIECFwdRVBVoltage.Text
+                    .IECRevRVBVoltage = txtIECRevRVBVoltage.Text
                 End If
-                ._heartbeat = CUShort(heartbeattimer.Value)
-                ._Fdeltavoltage = CDbl(Forward_DeltaVoltage.Value)
-                ._Fmultiplier = CDbl(F_RVBScaleFactor_Value.Value)
-                If Not IPAddressToReadTextbox.Text = Nothing Then
-                    ._IPAddressToRead = IPAddressToReadTextbox.Text
+                .heartbeat = CUShort(heartbeattimer.Value)
+                .Fdeltavoltage = CDbl(FwdDeltaVoltage.Value)
+                .Fmultiplier = CDbl(FwdRVBScaleFactor.Value)
+                .Rdeltavoltage = CDbl(RevDeltaVoltage.Value)
+                .Rmultiplier = CDbl(RevRVBScaleFactor.Value)
+                If Not txtRead.Text = Nothing Then
+                    .IPAddressToRead = txtRead.Text
                 Else
-                    ._IPAddressToRead = txthost.Text
+                    .IPAddressToRead = txtWrite.Text
                 End If
 
             End With
@@ -282,9 +314,9 @@ Public Class RVBSim
             checkcommandline()
         Else
             populatetheform()
-            'txthost.Focus()
-            IPAddressToReadTextbox.Focus()
+            txtRead.Focus()
         End If
+
     End Sub
 
     Private Sub checkHandler(sender As System.Object)
@@ -292,67 +324,67 @@ Public Class RVBSim
             Case "DNP3.0"
                 AddressBox.Text = "DNP3.0 Addresses"
                 lblwarning.Text = "Don't forget to download DNP config file (RVBTest.xml)"
-                If My.Settings._dnpport = Nothing Then
-                    txtport.Text = "20000"
+                If My.Settings.dnpport = Nothing Then
+                    txtPort.Text = "20000"
                 Else
-                    txtport.Text = My.Settings._dnpport.ToString
+                    txtPort.Text = My.Settings.dnpport.ToString
                 End If
             Case "Modbus"
                 AddressBox.Text = "Modbus registers"
-                If My.Settings._md_port = Nothing Then
-                    txtport.Text = "502"
+                If My.Settings.mdport = Nothing Then
+                    txtPort.Text = "502"
                 Else
-                    txtport.Text = My.Settings._md_port.ToString
+                    txtPort.Text = My.Settings.mdport.ToString
                 End If
             Case "IEC61850"
                 AddressBox.Text = "IEC61850 Datasets"
                 lblwarning.Text = "Don't forget to purchase IEC61850"
-                If My.Settings.IEC61850LocalVoltage = Nothing Then
-                    txtLocalVoltage.Text = "ATCC0$MX$LodCtrV$mag$i"
+                If My.Settings.IECLocalVoltage = Nothing Then
+                    txtIECLocalVoltage.Text = "ATCC0$MX$LodCtrV$mag$i"
                 Else
-                    txtLocalVoltage.Text = My.Settings.IEC61850LocalVoltage
+                    txtIECLocalVoltage.Text = My.Settings.IECLocalVoltage
                 End If
-                If My.Settings.IEC61850FRVBVoltage = Nothing Then
-                    txtRVBVoltage.Text = "ATCC0$SP$FRemVVal$setMag$i"
+                If My.Settings.IECFwdRVBVoltage = Nothing Then
+                    txtIECFwdRVBVoltage.Text = "ATCC0$SP$FRemVVal$setMag$i"
                 Else
-                    txtRVBVoltage.Text = My.Settings.IEC61850FRVBVoltage
+                    txtIECFwdRVBVoltage.Text = My.Settings.IECFwdRVBVoltage
                 End If
                 If My.Settings.iecport = Nothing Then
-                    txtport.Text = "102"
+                    txtPort.Text = "102"
                 Else
-                    txtport.Text = My.Settings.iecport.ToString
+                    txtPort.Text = My.Settings.iecport.ToString
                 End If
         End Select
 
-        IPAddressToReadTextbox.Enabled = modbusbox.Checked      'dnp & iec61850 library is not supporting 2 different ip addresses yet
+        txtRead.Enabled = modbusbox.Checked      'dnp & iec61850 library is not supporting 2 different ip addresses yet
         'blocking 2nd address
         lbldestination.Visible = dnpbutton.Checked
         lblsource.Visible = dnpbutton.Checked
-        sourcenum.Visible = dnpbutton.Checked
-        destnum.Visible = dnpbutton.Checked
+        NumericUpDownDNPSourceAddress.Visible = dnpbutton.Checked
+        NumericUpDownDNPDestinationAddress.Visible = dnpbutton.Checked
         lblwarning.Visible = dnpbutton.Checked Or iec61850box.Checked
 
         lbllocalvoltage.Visible = modbusbox.Checked
         Modbus_F_RVBVoltage_Label.Visible = modbusbox.Checked
         Modbus_R_RVBVoltage_Label.Visible = modbusbox.Checked And support
-        locvoltage.Visible = modbusbox.Checked
-        RVBVoltage.Visible = modbusbox.Checked
-        Modbus_R_RVBVoltage_Value.Visible = modbusbox.Checked And support
+        NumericUpDownModbusLocalVoltageRegister.Visible = modbusbox.Checked
+        NumericUpDownModbusFwdRVBVoltageRegister.Visible = modbusbox.Checked
+        NumericUpDownModbusRevRVBVoltageRegister.Visible = modbusbox.Checked And support
 
         IEC_LocalVoltage_Label.Visible = iec61850box.Checked
         IEC_F_RVBVoltage_Label.Visible = iec61850box.Checked
         IEC_R_RVBVoltage_Label.Visible = iec61850box.Checked And support
-        txtLocalVoltage.Visible = iec61850box.Checked
-        txtRVBVoltage.Visible = iec61850box.Checked
-        IEC_R_RVBVoltage_Value.Visible = iec61850box.Checked And support
+        txtIECLocalVoltage.Visible = iec61850box.Checked
+        txtIECFwdRVBVoltage.Visible = iec61850box.Checked
+        txtIECRevRVBVoltage.Visible = iec61850box.Checked And support
 
         'txthost.Select()
-        IPAddressToReadTextbox.Select()
+        txtRead.Select()
         'rev 15 items
         R_RVBScaleFactor_Label.Visible = support
-        R_RVBScaleFactor_Value.Visible = support
+        RevRVBScaleFactor.Visible = support
         Reverse_Voltage_Label.Visible = support
-        Reverse_DeltaVoltage.Visible = support
+        RevDeltaVoltage.Visible = support
 
     End Sub
 
@@ -373,9 +405,10 @@ Public Class RVBSim
         Dim i As Integer = 0
 
         Try
-            Dim cmdlines As String() = New String(My.Application.CommandLineArgs.Count) {}
+            Dim cmdlines As String() = New String(My.Application.CommandLineArgs.Count - 1) {}
             For Each item As String In My.Application.CommandLineArgs
                 cmdlines.SetValue(item.ToLower, i)
+                Console.WriteLine("Command Line is: {0}", item.ToLower)
                 i += 1
             Next
             i = 0
@@ -383,56 +416,55 @@ Public Class RVBSim
                 For Each item In cmdlines
                     Select Case item.ToLower
                         Case "-p"
-                            ._protocol = cmdlines.GetValue(i + 1)
+                            .protocol = cmdlines.GetValue(i + 1)
                         Case "-i"
-                            Select Case ._protocol
+                            Select Case .protocol
                                 Case "dnp"
-                                    ._dnphost = cmdlines.GetValue(i + 1)
+                                    .dnphost = cmdlines.GetValue(i + 1)
                                 Case "modbus"
-                                    ._md_host = cmdlines.GetValue(i + 1)
+                                    .mdhost = cmdlines.GetValue(i + 1)
                                 Case "iec"
                                     .iechost = cmdlines.GetValue(i + 1)
                             End Select
                         Case "-o"
-                            Select Case ._protocol
+                            Select Case .protocol
                                 Case "dnp"
-                                    ._dnpport = cmdlines.GetValue(i + 1)
+                                    .dnpport = cmdlines.GetValue(i + 1)
                                 Case "modbus"
-                                    ._md_port = cmdlines.GetValue(i + 1)
+                                    .mdport = cmdlines.GetValue(i + 1)
                                 Case "iec"
                                     .iecport = cmdlines.GetValue(i + 1)
                             End Select
                         Case "-m"
-                            Select Case ._protocol
+                            Select Case .protocol
                                 Case "dnp"
-                                    ._source = cmdlines.GetValue(i + 1)
+                                    .source = cmdlines.GetValue(i + 1)
                                 Case "modbus"
-                                    ._md_localvoltage = cmdlines.GetValue(i + 1)
+                                    .mdLocalvoltage = cmdlines.GetValue(i + 1)
                                 Case "iec"
-                                    .IEC61850LocalVoltage = UCase(cmdlines.GetValue(i + 1))
+                                    .IECLocalVoltage = UCase(cmdlines.GetValue(i + 1))
                             End Select
                         Case "-d"
-                            Select Case ._protocol
+                            Select Case .protocol
                                 Case "dnp"
-                                    ._destination = cmdlines.GetValue(i + 1)
+                                    .destination = cmdlines.GetValue(i + 1)
                                 Case "modbus"
-                                    ._md_FRVBvoltage = cmdlines.GetValue(i + 1)
+                                    .mdFRVBvoltage = cmdlines.GetValue(i + 1)
                                 Case "iec"
-                                    .IEC61850FRVBVoltage = UCase(cmdlines.GetValue(i + 1))
+                                    .IECFwdRVBVoltage = UCase(cmdlines.GetValue(i + 1))
                             End Select
                         Case "-h"
-                            ._heartbeat = cmdlines.GetValue(i + 1)
+                            .heartbeat = cmdlines.GetValue(i + 1)
                         Case "-v"
-                            ._Fdeltavoltage = cmdlines.GetValue(i + 1)
+                            .Fdeltavoltage = cmdlines.GetValue(i + 1)
                         Case "-x"
-                            ._Fmultiplier = cmdlines.GetValue(i + 1)
+                            .Fmultiplier = cmdlines.GetValue(i + 1)
                         Case "-g"
                             If cmdlines.GetValue(i + 1) = "off" Then
                                 visibility = False
                             End If
-                            populatetheform()
                         Case "-r"
-                            ._IPAddressToRead = cmdlines.GetValue(i + 1)
+                            .IPAddressToRead = cmdlines.GetValue(i + 1)
                         Case "-s"
                             Select Case cmdlines.GetValue(i + 1)
                                 Case "start"
@@ -447,6 +479,7 @@ Public Class RVBSim
                     i += 1
                 Next
             End With
+            populatetheform()
         Catch ex As Exception
             'no feedback to user
         End Try
@@ -482,12 +515,7 @@ Public Class RVBSim
     'End Sub
 
     Private Sub populatetheform()
-        'Me.Text = "RVBTest V-" & My.Application.Info.Version.ToString & " " & My.Application.Info.Copyright ' & " Version "
-        'Dim copyright As String = My.Application.Info.Copyright
-        'Dim versionFormat As String = "(v-{0}.{1}.{2}.{3})"
-        'Dim version As String = System.String.Format(versionFormat,My.Application.Info.Version.Major,My.Application.Info.Version.Minor,My.Application.Info.Version.Build,        My.Application.Info.Version.Revision)
-        'Me.Text = My.Application.Info.Title & " " & copyright & " " & version & " RVB Revision: " & SupportedRVBRevision
-        'Me.Text = "RVB Simulator By " + copyright + " " + version + " Supported RVB Revision: " + SupportedRVBRevision
+
         Me.Text = String.Format("RVB Simulator v-{0}.{1}", My.Application.Info.Version.Major, My.Application.Info.Version.Minor)
 
         If CInt(SupportedRVBRevision) >= 15 Then
@@ -497,27 +525,26 @@ Public Class RVBSim
             support = False
             grpRevSettings.Visible = False
         End If
-        SetText(txtFwdRVBMax, FormatNumber(CDbl(FwdRVBMax.Value / 10), 1))
-        SetText(txtFwdRVBMin, FormatNumber(CDbl(FwdRVBMin.Value / 10), 1))
-        SetText(txtRevRVBMax, FormatNumber(CDbl(RevRVBMax.Value / 10), 1))
-        SetText(txtRevRVBMin, FormatNumber(CDbl(RevRVBMin.Value / 10), 1))
 
         With My.Settings
-            sourcenum.Value = ._source
-            destnum.Value = ._destination
-            locvoltage.Value = ._md_localvoltage
-            RVBVoltage.Value = ._md_FRVBvoltage
-            Modbus_R_RVBVoltage_Value.Value = ._md_RRVBvoltage
-            heartbeattimer.Value = ._heartbeat
-            IPAddressToReadTextbox.Text = ._IPAddressToRead
-            If ._Fdeltavoltage < MinDeltaVoltage Or ._Fdeltavoltage > MaxDeltaVoltage Then
-                Forward_DeltaVoltage.Value = 0.0
-            Else
-                Forward_DeltaVoltage.Value = ._Fdeltavoltage
-            End If
-            F_RVBScaleFactor_Value.Value = ._Fmultiplier
-            txtLocalVoltage.Text = .IEC61850LocalVoltage
-            txtRVBVoltage.Text = .IEC61850FRVBVoltage
+            NumericUpDownDNPSourceAddress.Value = .source
+            NumericUpDownDNPDestinationAddress.Value = .destination
+
+            NumericUpDownModbusLocalVoltageRegister.Value = .mdLocalvoltage
+            NumericUpDownModbusFwdRVBVoltageRegister.Value = .mdFRVBvoltage
+            NumericUpDownModbusRevRVBVoltageRegister.Value = .mdRRVBvoltage
+
+            heartbeattimer.Value = .heartbeat
+            txtRead.Text = .IPAddressToRead
+            If .Fdeltavoltage < MinDeltaVoltage Or .Fdeltavoltage > MaxDeltaVoltage Then FwdDeltaVoltage.Value = 0.0 Else FwdDeltaVoltage.Value = .Fdeltavoltage
+            If .Rdeltavoltage < MinDeltaVoltage Or .Rdeltavoltage > MaxDeltaVoltage Then RevDeltaVoltage.Value = 0.0 Else RevDeltaVoltage.Value = .Rdeltavoltage
+
+            FwdRVBScaleFactor.Value = .Fmultiplier
+            RevRVBScaleFactor.Value = .Rmultiplier
+            txtIECLocalVoltage.Text = .IECLocalVoltage
+            txtIECFwdRVBVoltage.Text = .IECFwdRVBVoltage
+            txtIECRevRVBVoltage.Text = .IECRevRVBVoltage
+
             '************************************************************
             '*  if visibility set to true by the user                   *
             '*  Verify the form is in visible area                      *
@@ -526,72 +553,105 @@ Public Class RVBSim
             If visibility Then
                 Dim x As Integer = My.Computer.Screen.WorkingArea.Left
                 Dim y As Integer = My.Computer.Screen.WorkingArea.Right
-                If ._location.X < x Or ._location.X > y Then
+                If .location.X < x Or .location.X > y Then
                     Me.DesktopLocation = New System.Drawing.Point(20, 20)
                 Else
-                    Me.DesktopLocation = ._location
+                    Me.DesktopLocation = .location
                 End If
             Else
                 Me.DesktopLocation = New System.Drawing.Point(32000, 32000)
+                ' Me.DesktopLocation = New System.Drawing.Point(20, 20)
             End If
             '************************************************************
-            Select Case ._protocol
+            Select Case .protocol
                 Case "dnp"
                     dnpbutton.Checked = True
-                    'modbusbox.Checked = False
-                    txthost.Text = ._dnphost
-                    txtport.Text = ._dnpport
+                    txtRead.Text = .dnphost
+                    txtWrite.Text = .dnphost
+                    txtPort.Text = .dnpport
                     checkHandler(dnpbutton)
                 Case "modbus"
-                    'dnpbutton.Checked = False
                     modbusbox.Checked = True
-                    txthost.Text = ._md_host
-                    txtport.Text = ._md_port
+                    txtRead.Text = .mdhost
+                    txtWrite.Text = .mdhost
+                    txtPort.Text = .mdport
                     checkHandler(modbusbox)
                 Case "iec"
                     iec61850box.Checked = True
-                    txthost.Text = .iechost
-                    txtport.Text = .iecport
+                    txtRead.Text = .iechost
+                    txtWrite.Text = .iechost
+                    txtPort.Text = .iecport
                     checkHandler(iec61850box)
             End Select
         End With
     End Sub
 
-    Private Sub Radio_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radDelta.CheckedChanged, radLocal.CheckedChanged
+    Private Sub Radio_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radUseDeltaVoltage.CheckedChanged, radUseFixedVoltage.CheckedChanged
 
         Select Case sender.name
-            Case "radDelta"
+            Case "radUseDeltaVoltage"
                 Forward_Voltage_Label.Text = DeltaMessage
                 Reverse_Voltage_Label.Text = DeltaMessage
-                Forward_DeltaVoltage.Minimum = MinDeltaVoltage
-                Forward_DeltaVoltage.Maximum = MaxDeltaVoltage
-                Reverse_DeltaVoltage.Minimum = MinDeltaVoltage
-                Reverse_DeltaVoltage.Maximum = MaxDeltaVoltage
-            Case "radLocal"
+                FwdDeltaVoltage.Minimum = MinDeltaVoltage
+                FwdDeltaVoltage.Maximum = MaxDeltaVoltage
+                RevDeltaVoltage.Minimum = MinDeltaVoltage
+                RevDeltaVoltage.Maximum = MaxDeltaVoltage
+                FwdDeltaVoltage.Value = 0.0
+                RevDeltaVoltage.Value = 0.0
+            Case "radUseFixedVoltage"
                 Forward_Voltage_Label.Text = DirectMessage
                 Reverse_Voltage_Label.Text = DirectMessage
-                Forward_DeltaVoltage.Minimum = FwdRVBMin.Value / M2001D_Comm_Scale   'MinSpecValue
-                Forward_DeltaVoltage.Maximum = FwdRVBMax.Value / M2001D_Comm_Scale   'MaxSpecValue
-                Reverse_DeltaVoltage.Minimum = FwdRVBMin.Value / M2001D_Comm_Scale
-                Reverse_DeltaVoltage.Maximum = FwdRVBMax.Value / M2001D_Comm_Scale
+                FwdDeltaVoltage.Minimum = RVBMin.Value 'MinSpecValue
+                FwdDeltaVoltage.Maximum = RVBMax.Value 'MaxSpecValue
+                RevDeltaVoltage.Minimum = RVBMin.Value 'MinSpecValue
+                RevDeltaVoltage.Maximum = RVBMax.Value 'MaxSpecValue
+                If readresult / M2001D_Comm_Scale >= FwdDeltaVoltage.Minimum Then FwdDeltaVoltage.Value = readresult / M2001D_Comm_Scale Else FwdDeltaVoltage.Value = 120.0
+                If readresult / M2001D_Comm_Scale >= RevDeltaVoltage.Minimum Then RevDeltaVoltage.Value = readresult / M2001D_Comm_Scale Else RevDeltaVoltage.Value = 120.0
         End Select
-    End Sub
-
-    Private Sub RVBHscrollLimits(sender As System.Object, e As System.EventArgs) Handles FwdRVBMin.ValueChanged, FwdRVBMax.ValueChanged, RevRVBMax.ValueChanged, RevRVBMin.ValueChanged
-        Select Case sender.name
-            Case "FwdRVBMax"
-                SetText(txtFwdRVBMax, FormatNumber(CDbl(sender.value / 10), 1))
-            Case "FwdRVBMin"
-                SetText(txtFwdRVBMin, FormatNumber(CDbl(sender.value / 10), 1))
-            Case "RevRVBMax"
-                SetText(txtRevRVBMax, FormatNumber(CDbl(sender.value / 10), 1))
-            Case "RevRVBMin"
-                SetText(txtRevRVBMin, FormatNumber(CDbl(sender.value / 10), 1))
-        End Select
-    End Sub
-
-    Private Sub RVBTextLimits(sender As System.Object, e As System.EventArgs) Handles txtFwdRVBMax.TextChanged, txtFwdRVBMin.TextChanged, txtRevRVBMax.TextChanged, txtRevRVBMin.TextChanged
-        Dim senderValue As Double = FormatNumber(CDbl(sender.text) * 10, 1)
-        Console.WriteLine("Value is {0}", senderValue)
     End Sub
 End Class
+
+Public Class ReadXmlFile
+
+    Public Sub read()
+        Dim xmlReader As Xml.XmlReader = Nothing
+        Dim i As Integer = 0
+        Try
+            Dim settings = New Xml.XmlReaderSettings
+            settings.IgnoreComments = True
+            settings.IgnoreWhitespace = True
+
+            xmlReader = Xml.XmlReader.Create(My.Computer.FileSystem.CombinePath(My.Application.Info.DirectoryPath, "TestPlan.xml"))
+
+            While xmlReader.Read
+                Select Case xmlReader.Name
+                    'Case "tapRange"
+                    '    Dim lowerTap As Integer = CInt(xmlReader.GetAttribute("lowestTap"))
+                    '    LowestTaps.Add(lowerTap)
+                    '    Dim higherTap As Integer = CInt(xmlReader.GetAttribute("highestTap"))
+                    '    HighestTaps.Add(higherTap)
+                    'Case "neutral"
+                    '    Dim neutralTap As Integer = CInt(xmlReader.GetAttribute("pos"))
+                    '    NeutralPositions.Add(neutralTap)
+                    'Case "neutralTapNumber"
+                    '    minNeutralTapNumber = CInt(xmlReader.GetAttribute("min"))
+                    '    maxNeutralTapNumber = CInt(xmlReader.GetAttribute("max"))
+                    'Case "restingTapNumber"
+                    '    minRestingTapNumber = CInt(xmlReader.GetAttribute("min"))
+                    '    maxRestingTapNumber = CInt(xmlReader.GetAttribute("max"))
+                    'Case "restingTapLocations"
+                    '    minRestingTapLocation = CInt(xmlReader.GetAttribute("min"))
+                    '    maxRestingTapLocation = CInt(xmlReader.GetAttribute("max"))
+                    'Case "neutralContacts"
+                    '    minNeutralContact = CInt(xmlReader.GetAttribute("min"))
+                    '    maxNeutralContact = CInt(xmlReader.GetAttribute("max"))
+                    'Case "operationsPerTest"
+                    '    OperationsPerTest = CInt(xmlReader.GetAttribute("min"))
+                End Select
+            End While
+        Catch ex As Exception
+            MsgBox(ex.ToString, , "XML Reader")
+        End Try
+    End Sub
+End Class
+

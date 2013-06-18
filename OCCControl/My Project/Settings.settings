@@ -2,62 +2,71 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
   <Profiles />
   <Settings>
-    <Setting Name="_location" Type="System.Drawing.Point" Scope="User">
+    <Setting Name="location" Type="System.Drawing.Point" Scope="User">
       <Value Profile="(Default)">20, 20</Value>
     </Setting>
-    <Setting Name="_dnphost" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="dnphost" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
-    <Setting Name="_dnpport" Type="System.UInt16" Scope="User">
+    <Setting Name="dnpport" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">20000</Value>
     </Setting>
-    <Setting Name="_md_host" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="mdhost" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
-    <Setting Name="_md_port" Type="System.UInt16" Scope="User">
+    <Setting Name="mdport" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">502</Value>
     </Setting>
-    <Setting Name="_source" Type="System.UInt16" Scope="User">
+    <Setting Name="source" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">3</Value>
     </Setting>
-    <Setting Name="_destination" Type="System.UInt16" Scope="User">
+    <Setting Name="destination" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="_md_localvoltage" Type="System.UInt16" Scope="User">
+    <Setting Name="mdLocalvoltage" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">1701</Value>
     </Setting>
-    <Setting Name="_md_FRVBvoltage" Type="System.UInt16" Scope="User">
+    <Setting Name="mdFRVBvoltage" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">1992</Value>
     </Setting>
-    <Setting Name="_protocol" Type="System.String" Scope="User">
-      <Value Profile="(Default)">dnp</Value>
+    <Setting Name="protocol" Type="System.String" Scope="User">
+      <Value Profile="(Default)">modbus</Value>
     </Setting>
-    <Setting Name="_heartbeat" Type="System.UInt16" Scope="User">
+    <Setting Name="heartbeat" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">2</Value>
     </Setting>
-    <Setting Name="_Fdeltavoltage" Type="System.Double" Scope="User">
+    <Setting Name="Fdeltavoltage" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="_Fmultiplier" Type="System.Double" Scope="User">
+    <Setting Name="Fmultiplier" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="IEC61850LocalVoltage" Type="System.String" Scope="User">
+    <Setting Name="IECLocalVoltage" Type="System.String" Scope="User">
       <Value Profile="(Default)">ATCC0$MX$LodCtrV$mag$i</Value>
     </Setting>
-    <Setting Name="IEC61850FRVBVoltage" Type="System.String" Scope="User">
+    <Setting Name="IECFwdRVBVoltage" Type="System.String" Scope="User">
       <Value Profile="(Default)">ATCC0$SP$FRemVVal$setMag$i</Value>
     </Setting>
     <Setting Name="iechost" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
     <Setting Name="iecport" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">102</Value>
     </Setting>
-    <Setting Name="_IPAddressToRead" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="IPAddressToRead" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
-    <Setting Name="_md_RRVBvoltage" Type="System.UInt16" Scope="User">
+    <Setting Name="mdRRVBvoltage" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">1996</Value>
+    </Setting>
+    <Setting Name="IECRevRVBVoltage" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ATCC0$SP$RRemVVal$setMag$i</Value>
+    </Setting>
+    <Setting Name="Rdeltavoltage" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Rmultiplier" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -10,7 +10,7 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("Remote Voltage Bias Simulator")> 
 <Assembly: AssemblyDescription("Reads from local voltage, modifies read local voltage, writes back to the remote voltage register")> 
-<Assembly: AssemblyCompany("Beckwith Electric Co. Inc.")> 
+<Assembly: AssemblyCompany("Programmed by Turgay Bircek")> 
 <Assembly: AssemblyProduct("RVB Simulator")> 
 <Assembly: AssemblyCopyright("Turgay Bircek")> 
 <Assembly: AssemblyTrademark("")> 
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.1.2.8")> 
-<Assembly: AssemblyFileVersion("1.1.2.8")> 
+<Assembly: AssemblyVersion("2.0.0.0")> 
+<Assembly: AssemblyFileVersion("2.0.0.0")> 
