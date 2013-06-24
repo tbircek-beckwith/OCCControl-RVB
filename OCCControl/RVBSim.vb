@@ -111,7 +111,7 @@ Public Class RVBSim
                 myControl.Text = itsText
             End If
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 
@@ -124,14 +124,14 @@ Public Class RVBSim
                 Case False
                     ActualLocalVoltage = readresult / M2001D_Comm_Scale
                     If Not ActualLocalVoltage = 0.0 Then
-                        Forward_RVBVoltage2OperateWith = (ActualLocalVoltage + CDbl(FwdDeltaVoltage.Value)) ' Else Forward_RVBVoltage2OperateWith = 0 ' * multiplier.Value   'using delta voltage
+                        Forward_RVBVoltage2OperateWith = (ActualLocalVoltage + CDbl(FwdDeltaVoltage.Value))
                         Reverse_RVBVoltage2OperateWith = (ActualLocalVoltage + CDbl(RevDeltaVoltage.Value))
                     Else
                         Forward_RVBVoltage2OperateWith = 0.0
                         Reverse_RVBVoltage2OperateWith = 0.0
                     End If
                 Case True
-                    Forward_RVBVoltage2OperateWith = CDbl(FwdDeltaVoltage.Value) ' * multiplier.Value      'using fixed voltage
+                    Forward_RVBVoltage2OperateWith = CDbl(FwdDeltaVoltage.Value)
                     Reverse_RVBVoltage2OperateWith = CDbl(RevDeltaVoltage.Value)
             End Select
             Forward_RVBVoltage2OperateWith *= CDbl(FwdRVBScaleFactor.Value)
@@ -140,7 +140,7 @@ Public Class RVBSim
             Forward_RVBVoltage2Write = Forward_RVBVoltage2OperateWith
             Reverse_RVBVoltage2Write = Reverse_RVBVoltage2OperateWith
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 
@@ -149,7 +149,7 @@ Public Class RVBSim
             GenerateRVBVoltage2Transfer()
 
             If Not ActualLocalVoltage <= OperatingVoltage Then
-                If dnpbutton.Checked Then
+dnp:            If dnpbutton.Checked Then
                     'transmit Forward RVB Voltage
                     dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _
                                         _dnpindex.write, 1, dnpSetting.FRVBValue, CUShort(Forward_RVBVoltage2Write), 0)
@@ -157,13 +157,13 @@ Public Class RVBSim
                     dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _
                                         _dnpindex.write, 1, dnpSetting.RRVBValue, CUShort(Reverse_RVBVoltage2Write), 0)
 
-                ElseIf modbusbox.Checked Then
+modbus:         ElseIf modbusbox.Checked Then
                     'transmit Forward RVB Voltage
                     modbus.CommunicateSingleUnit(mip, m_port, NumericUpDownModbusFwdRVBVoltageRegister.Value, _modbusfunc.write, CUShort(Forward_RVBVoltage2Write))
                     'transmit Reverse RVB Voltage
                     modbus.CommunicateSingleUnit(mip, m_port, NumericUpDownModbusRevRVBVoltageRegister.Value, _modbusfunc.write, CUShort(Reverse_RVBVoltage2Write))
 
-                ElseIf iec61850box.Checked Then
+iec61850:       ElseIf iec61850box.Checked Then
                     'transmit Forward RVB Voltage
                     iec.iec(mip, m_port, txtIECFwdRVBVoltage.Text, "Write", CUShort(Forward_RVBVoltage2Write), iecSetting.iedName)
                     'transmit Reverse RVB Voltage
@@ -172,11 +172,9 @@ Public Class RVBSim
                 RVBVisibilityTime = RVBVisibilityDelay
                 Console.WriteLine("Writing Fwd voltage: {0}", Forward_RVBVoltage2Write / M2001D_Comm_Scale)
                 Console.WriteLine("Writing Rev voltage: {0}", Reverse_RVBVoltage2Write / M2001D_Comm_Scale)
-                'Else
-                '    SetText(Label1, "Local Voltage is under 85V")
             End If
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 
@@ -221,7 +219,7 @@ Public Class RVBSim
             Console.WriteLine("Actual voltage is: {0}", readresult / M2001D_Comm_Scale)
 
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 
@@ -259,7 +257,7 @@ Public Class RVBSim
                 RevRVBScaleFactor.Enabled = .Enabled
             End With
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 
@@ -300,8 +298,8 @@ modbus:         modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBEna
                 modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RRVBScale, _modbusfunc.write, RevRVBScaleFactor.Value * M2001D_Comm_Scale)
 
             ElseIf testSetting.Protocol = "iec" Then
-iec61850:       'enable RVB using IEC61850
-                iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSetting.iedName, DataType.bool)
+                'enable RVB using IEC61850
+iec61850:       iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSetting.iedName, DataType.bool)
                 'set RVB heartbeat timer
                 iec.iec(mip, m_port, iecSetting.RVBHeartBeatTimer, "Write", heartbeattimer.Value, iecSetting.iedName)
                 'set RVB Max
@@ -318,7 +316,7 @@ iec61850:       'enable RVB using IEC61850
             End If
 
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 
@@ -361,7 +359,7 @@ iec61850:       'enable RVB using IEC61850
             OmicronBootupCompleted = False
             ReadLocalVoltage()
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 #End Region
@@ -377,7 +375,7 @@ iec61850:       'enable RVB using IEC61850
             ReadLocalVoltageTimer.Stop()
             ReadLocalVoltageTimer.Dispose()
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 
@@ -419,15 +417,10 @@ iec61850:       'enable RVB using IEC61850
                 .Fmultiplier = CDbl(FwdRVBScaleFactor.Value)
                 .Rdeltavoltage = CDbl(RevDeltaVoltage.Value)
                 .Rmultiplier = CDbl(RevRVBScaleFactor.Value)
-                'If Not txtRead.Text = Nothing Then
-                '    .IPAddressToRead = txtRead.Text
-                'Else
                 .IPAddressToRead = txtWrite.Text
-                'End If
-
             End With
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
 
     End Sub
@@ -453,11 +446,10 @@ iec61850:       'enable RVB using IEC61850
             If My.Application.CommandLineArgs.Count > 1 Then
                 checkcommandline()
             Else
-                'populatetheform()
                 txtRead.Focus()
             End If
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 
@@ -470,7 +462,7 @@ iec61850:       'enable RVB using IEC61850
                     txtPort.Text = dnpSetting.Port 
                 Case "Modbus"
                     AddressBox.Text = "Modbus registers"
-                    txtPort.Text = modbusRegister.Port  '"502"
+                    txtPort.Text = modbusRegister.Port
                 Case "IEC61850"
                     AddressBox.Text = "IEC61850 Datasets"
                     lblwarning.Text = "Don't forget to purchase IEC61850"
@@ -498,8 +490,6 @@ iec61850:       'enable RVB using IEC61850
             txtIECLocalVoltage.Visible = iec61850box.Checked
             txtIECFwdRVBVoltage.Visible = iec61850box.Checked
             txtIECRevRVBVoltage.Visible = iec61850box.Checked And support
-
-            'txthost.Select()
             txtRead.Select()
             'rev 15 items
             R_RVBScaleFactor_Label.Visible = support
@@ -508,7 +498,7 @@ iec61850:       'enable RVB using IEC61850
             RevDeltaVoltage.Visible = support
 
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 
@@ -541,16 +531,16 @@ iec61850:       'enable RVB using IEC61850
                             Case "pause"
                                 Pause()
                             Case "end"
+                                Pause()
                                 Me.Close()
                         End Select
-                        Console.WriteLine("Command Line item is: {0}, value is: {1}", item.ToLower, My.Application.CommandLineArgs.Item(i + 1))
                 End Select
                 i += 1
             Next
             If testSetting.FwdRVBVoltage < MinDeltaVoltage Or testSetting.FwdRVBVoltage > MaxDeltaVoltage Then FwdDeltaVoltage.Value = 0.0 Else FwdDeltaVoltage.Value = testSetting.FwdRVBVoltage
             If testSetting.RevRVBVoltage < MinDeltaVoltage Or testSetting.RevRVBVoltage > MaxDeltaVoltage Then RevDeltaVoltage.Value = 0.0 Else RevDeltaVoltage.Value = testSetting.RevRVBVoltage
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 
@@ -630,7 +620,7 @@ iec61850:       'enable RVB using IEC61850
             txtWrite.Text = testSetting.writeIpAddress
             '
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 
@@ -657,7 +647,7 @@ iec61850:       'enable RVB using IEC61850
                     If readresult / M2001D_Comm_Scale >= RevDeltaVoltage.Minimum Then RevDeltaVoltage.Value = readresult / M2001D_Comm_Scale Else RevDeltaVoltage.Value = RevDeltaVoltage.Minimum
             End Select
         Catch ex As Exception
-            Console.WriteLine(ex.ToString)
+            SetText(Label1, ex.ToString)
         End Try
     End Sub
 End Class
