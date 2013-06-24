@@ -8,7 +8,14 @@
     <ANAIN ID="Load Voltage (Secondary)" DEADBAND="50" MASK="CLASS_TWO" />
   </SS>
   <SS ID="ANALOGOUTPUTSLIST">
-    <ANAOUT ID="Forward Remote Voltage Value" MASK="CLASS_ZERO" />
+    <ANAOUT ID="Remote Voltage Bias Enable" MASK="CLASS_ZERO"/>
+    <ANAOUT ID="Forward Remote Voltage Value" MASK="CLASS_ZERO"/>
+    <ANAOUT ID="Forward Remote Voltage Bias Scale Factor" MASK="CLASS_ZERO"/>
+    <ANAOUT ID="Remote Voltage Bias HeartBeat Timer" MASK="CLASS_ZERO"/>
+    <ANAOUT ID="Reverse Remote Voltage Value" MASK="CLASS_ZERO"/>
+    <ANAOUT ID="Reverse Remote Voltage Bias Scale Factor" MASK="CLASS_ZERO"/>
+    <ANAOUT ID="Remote Voltage Maximum" MASK="CLASS_ZERO"/>
+    <ANAOUT ID="Remote Voltage Minimum" MASK="CLASS_ZERO"/>
   </SS>
   <SS ID="DEFAULTVARIATIONTYPE">
     <STR ID="ANAEVTVARIATION" V="2" />

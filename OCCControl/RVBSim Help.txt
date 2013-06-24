@@ -1,14 +1,14 @@
-     Remote Voltage Bias Simulator
+	 Remote Voltage Bias Simulator
 			 DOS Commands
  
 -p   is either dnp, modbus or iec
 -i   ipaddress
 -o   port number
 -m   if protocol is dnp than master address,
-     if protocol is modbus than Local Voltage register
+	 if protocol is modbus than Local Voltage register
 	 if protocol is iec than Local Voltage Attribute
 -d   if protocol is dnp than destination address,
-     if protocol is modbus than Forward RVB Voltage register
+	 if protocol is modbus than Forward RVB Voltage register
 	 if protocol is iec than Forward RVB Voltage Attribute
 -h   heartbeat refresh timer in seconds 
 -v   delta voltage value add to the local voltage 
@@ -17,8 +17,8 @@
 -r	 ipaddress of remote voltmeter. it doesn't work 
 	 for dnp or iec61850
 -s   start: starts broadcasting, 
-     end: end this program,
-     pause: waits until start or end command
+	 end: end this program,
+	 pause: waits until start or end command
  
 Examples:
 -p dnp -i 10.10.2.147 -o 20000 -m 3 -d 1 -h 2 -v 6 -s start

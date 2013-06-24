@@ -68,5 +68,8 @@
     <Setting Name="Rmultiplier" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="useRelative" Type="System.String" Scope="User">
+      <Value Profile="(Default)">yes</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
