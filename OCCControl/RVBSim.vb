@@ -436,16 +436,8 @@ iec61850:       iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSettin
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As System.EventArgs) Handles Me.Load
-        'Try
         AddHandler My.Application.UnhandledException, AddressOf MyApplication_UnhandledException
-        Dim i As Integer = 1
-        i /= 0
-        '    'AddHandler My.Application.UnhandledException, AddressOf MyHandler
         Main()
-        ' Catch ex As Exception
-        'MsgBox(ex.ToString + vbCrLf + ex.InnerException.ToString)
-        ' End Try
-
     End Sub
 
     Public Sub MyApplication_UnhandledException(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.ApplicationServices.UnhandledExceptionEventArgs)
