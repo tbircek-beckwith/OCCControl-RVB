@@ -8,12 +8,13 @@
     <ROW Property="ARPURLUPDATEINFO" Value="\\VOLTA\Eng_Lab\Software Updates\RVBSim"/>
     <ROW Property="CTRLS" Value="1"/>
     <ROW Property="Manufacturer" Value="Beckwith Electric Inc Co"/>
-    <ROW Property="ProductCode" Value="1033:{FD672EEF-31A3-4D44-A0ED-B769A47AA8EA} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{4DCCDFEF-72E0-4566-ABE4-449B1FEF3389} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
-    <ROW Property="ProductName" Value="RVBSim"/>
-    <ROW Property="ProductVersion" Value="1.0.0" Type="32"/>
+    <ROW Property="ProductName" Value="RVB Simulator"/>
+    <ROW Property="ProductVersion" Value="2.1" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{6C292D2D-BDB8-4092-9D5B-FADFF03F0875}"/>
+    <ROW Property="VIEWREADME" Value="1" Type="4"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
     <ROW Property="WindowsType9XDisplay" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
   </COMPONENT>
@@ -25,32 +26,31 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
     <ROW Component="ProductInformation" ComponentId="{02C7C8B5-8690-4C74-ABF5-5F0D58A706E7}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
-    <ROW Component="RVBSim.exe" ComponentId="{F30130B1-A188-4D75-A606-BC328EEE1457}" Directory_="APPDIR" Attributes="0" KeyPath="RVBSim.exe"/>
-    <ROW Component="RVBSimDNPFile.xml" ComponentId="{2DBDEBA0-8EC6-4351-AF8B-3C74557CCFF3}" Directory_="APPDIR" Attributes="0" KeyPath="RVBSimDNPFile.xml" Type="0"/>
-    <ROW Component="SHORTCUTDIR" ComponentId="{1343F193-E96E-4F5F-A9FF-BF617DA32637}" Directory_="SHORTCUTDIR" Attributes="0"/>
-    <ROW Component="crc.dll" ComponentId="{4FA66DF5-8526-46DF-91F3-1892B939D7C8}" Directory_="APPDIR" Attributes="0" KeyPath="crc.dll"/>
-    <ROW Component="iec.dll" ComponentId="{AE9BA05B-5A09-409D-803E-053B8B7CFF87}" Directory_="APPDIR" Attributes="0" KeyPath="iec.dll"/>
-    <ROW Component="tcpdnp.dll" ComponentId="{4B7B29DA-C343-431D-8490-342067CF40A2}" Directory_="APPDIR" Attributes="0" KeyPath="tcpdnp.dll"/>
-    <ROW Component="tcpmodbus.dll" ComponentId="{693D0D28-91C5-43CD-9198-328F83CBC2FC}" Directory_="APPDIR" Attributes="0" KeyPath="tcpmodbus.dll"/>
+    <ROW Component="RVBSim.exe" ComponentId="{F28A2B8F-2310-47DD-B459-AC6F5662CE37}" Directory_="APPDIR" Attributes="0" KeyPath="RVBSim.exe"/>
+    <ROW Component="RVBSimHelp.txt" ComponentId="{213F2711-202C-4209-A052-BA3768028204}" Directory_="APPDIR" Attributes="0" KeyPath="RVBSimHelp.txt" Type="0"/>
+    <ROW Component="SHORTCUTDIR" ComponentId="{5397D51B-4B91-4C66-A0FC-BCF50B9BA64D}" Directory_="SHORTCUTDIR" Attributes="0"/>
+    <ROW Component="crc.dll" ComponentId="{11CB2047-CBAD-4E3A-A066-1B59798DF93A}" Directory_="APPDIR" Attributes="0" KeyPath="crc.dll"/>
+    <ROW Component="iec.dll" ComponentId="{BE0B0BE2-A196-4A2D-A6B4-D68CCDBB5D75}" Directory_="APPDIR" Attributes="0" KeyPath="iec.dll"/>
+    <ROW Component="tcpdnp.dll" ComponentId="{F51BF342-96F7-4C00-81C1-5676A2CB63F1}" Directory_="APPDIR" Attributes="0" KeyPath="tcpdnp.dll"/>
+    <ROW Component="tcpmodbus.dll" ComponentId="{809ED1A3-4BFD-41C4-A8D5-8AF0CB699D40}" Directory_="APPDIR" Attributes="0" KeyPath="tcpmodbus.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
-    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="ProductInformation RVBSim.exe RVBSimDNPFile.xml SHORTCUTDIR crc.dll iec.dll tcpdnp.dll tcpmodbus.dll"/>
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="ProductInformation RVBSim.exe RVBSimHelp.txt SHORTCUTDIR crc.dll iec.dll tcpdnp.dll tcpmodbus.dll"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
     <ROW File="RVBSim.exe" Component_="RVBSim.exe" FileName="RVBSim.exe" Attributes="0" SourcePath="..\OCCControl\bin\Release\RVBSim.exe" SelfReg="false" NextFile="RVBSim.exe.config" DigSign="true"/>
-    <ROW File="RVBSim.exe.config" Component_="RVBSimDNPFile.xml" FileName="RVBSim~1.con|RVBSim.exe.config" Attributes="0" SourcePath="..\OCCControl\bin\Release\RVBSim.exe.config" SelfReg="false" NextFile="RVBSim.ico"/>
-    <ROW File="RVBSim.ico" Component_="RVBSimDNPFile.xml" FileName="RVBSim.ico" Attributes="0" SourcePath="..\OCCControl\bin\Release\RVBSim.ico" SelfReg="false" NextFile="Settings.xml"/>
-    <ROW File="RVBSimDNPFile.xml" Component_="RVBSimDNPFile.xml" FileName="RVBSim~1.xml|RVBSim DNP File.xml" Attributes="0" SourcePath="..\OCCControl\bin\Release\RVBSim DNP File.xml" SelfReg="false" NextFile="RVBSimHelp.txt"/>
-    <ROW File="RVBSimHelp.txt" Component_="RVBSimDNPFile.xml" FileName="RVBSim~1.txt|RVBSim Help.txt" Attributes="0" SourcePath="..\OCCControl\bin\Release\RVBSim Help.txt" SelfReg="false" NextFile="RVBSim.exe"/>
-    <ROW File="Settings.xml" Component_="RVBSimDNPFile.xml" FileName="Settings.xml" Attributes="0" SourcePath="..\OCCControl\bin\Release\Settings.xml" SelfReg="false" NextFile="tcpdnp.dll"/>
+    <ROW File="RVBSim.exe.config" Component_="RVBSimHelp.txt" FileName="RVBSim~1.con|RVBSim.exe.config" Attributes="0" SourcePath="..\OCCControl\bin\Release\RVBSim.exe.config" SelfReg="false" NextFile="RVBSim.ico"/>
+    <ROW File="RVBSim.ico" Component_="RVBSimHelp.txt" FileName="RVBSim.ico" Attributes="0" SourcePath="..\OCCControl\bin\Release\RVBSim.ico" SelfReg="false" NextFile="Settings.xml"/>
+    <ROW File="RVBSimHelp.txt" Component_="RVBSimHelp.txt" FileName="RVBSim~1.txt|RVBSim Help.txt" Attributes="0" SourcePath="..\OCCControl\bin\Release\RVBSim Help.txt" SelfReg="false" NextFile="RVBSim.exe"/>
+    <ROW File="Settings.xml" Component_="RVBSimHelp.txt" FileName="Settings.xml" Attributes="0" SourcePath="..\OCCControl\bin\Release\Settings.xml" SelfReg="false" NextFile="tcpdnp.dll"/>
     <ROW File="crc.dll" Component_="crc.dll" FileName="crc.dll" Attributes="0" SourcePath="..\OCCControl\bin\Release\crc.dll" SelfReg="false" NextFile="iec.dll"/>
-    <ROW File="iec.dll" Component_="iec.dll" FileName="iec.dll" Attributes="0" SourcePath="..\OCCControl\bin\Release\iec.dll" SelfReg="false" NextFile="RVBSimDNPFile.xml"/>
+    <ROW File="iec.dll" Component_="iec.dll" FileName="iec.dll" Attributes="0" SourcePath="..\OCCControl\bin\Release\iec.dll" SelfReg="false" NextFile="RVBSimHelp.txt"/>
     <ROW File="tcpdnp.dll" Component_="tcpdnp.dll" FileName="tcpdnp.dll" Attributes="0" SourcePath="..\OCCControl\bin\Release\tcpdnp.dll" SelfReg="false" NextFile="tcpmodbus.dll"/>
     <ROW File="tcpmodbus.dll" Component_="tcpmodbus.dll" FileName="tcpmod~1.dll|tcpmodbus.dll" Attributes="0" SourcePath="..\OCCControl\bin\Release\tcpmodbus.dll" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" Languages="en" InstallationType="4" UseLargeSchema="true"/>
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="." PackageFileName="RVBSim-[|ProductVersion]" Languages="en" InstallationType="4" UseLargeSchema="true"/>
     <ATTRIBUTE name="CurrentBuild" value="DefaultBuild"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
@@ -114,7 +114,7 @@
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
     <ROW Action="AI_ViewReadme" Type="1" Source="aicustact.dll" Target="[#RVBSimHelp.txt]"/>
-    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[ProgramFilesFolder][ProductName]"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[WindowsVolume][ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
   </COMPONENT>
