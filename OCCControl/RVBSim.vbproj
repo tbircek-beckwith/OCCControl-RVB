@@ -99,9 +99,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="tcpdnp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="tcpdnp, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\tcpdnp\tcpdnp\bin\Release\tcpdnp.dll</HintPath>
+      <HintPath>..\..\tcpdnp\tcpdnp\bin\Debug\tcpdnp.dll</HintPath>
     </Reference>
     <Reference Include="tcpmodbus, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
