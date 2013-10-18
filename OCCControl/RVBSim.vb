@@ -3,6 +3,7 @@ Imports tcpmodbus.modbus
 Imports tcpdnp.dnp
 Imports System.Net
 Imports System.Timers
+Imports System.Threading
 
 Public Class RVBSim
     Const SupportedRVBRevision As String = "15"         'Supported RVB feature document revision
@@ -17,25 +18,29 @@ Public Class RVBSim
     Const TDelay As Integer = 500                       'Heartbeat refresh time is off so it can refresh
     Const Interval As Integer = 50                      'timer interval
 
-    Dim ReadLocalVoltageTimer As System.Timers.Timer
-    Dim m_ip, mip As IPAddress
-    Dim m_port As UShort
-    Dim delayforOmicronPowerUp As Integer = 0
-    Dim Heart_Beat_Timer As Double = 0.0
-    Dim Heart_Beat_Set As Double = 0.0
-    Dim Forward_RVBVoltage2Write As Double = 0.0
-    Dim dnp As New tcpdnp.dnp
-    Dim modbus As New tcpmodbus.modbus
-    Dim iec As New iec.iec
-    Dim readresult As UShort = 0
-    Dim ActualLocalVoltage As Double = 0.0
-    Dim processID As Integer = 0
-    Dim RVBVisibilityTime As Double = 0.0
-    Dim support As Boolean      'True rev 15 or greater False rev 8
-    Dim Reverse_RVBVoltage2Write As Double = 0.0
-    Dim powerDirection As UInt16 = 0
-    Dim OmicronBootupCompleted As Boolean = False
-    
+    Private ReadLocalVoltageTimer As System.Timers.Timer
+    Private m_ip, mip As IPAddress
+    Private m_port As UShort
+    Private delayforOmicronPowerUp As Integer = 0
+    Private Heart_Beat_Timer As Double = 0.0
+    Private Heart_Beat_Set As Double = 0.0
+    Private Forward_RVBVoltage2Write As Double = 0.0
+    Private dnp As New tcpdnp.dnp
+    Private modbus As New tcpmodbus.modbus
+    Private modbus2 As New tcpmodbus.AsyncTcp4RVB
+    Private iec As New iec.iec
+    Private readresult As UShort = 0
+    Private ActualLocalVoltage As Double = 0.0
+    Private processID As Integer = 0
+    Private RVBVisibilityTime As Double = 0.0
+    Private support As Boolean      'True rev 15 or greater False rev 8
+    Private Reverse_RVBVoltage2Write As Double = 0.0
+    Private powerDirection As UInt16 = 0
+    Private OmicronBootupCompleted As Boolean = False
+
+    Private WriteEvent As New ManualResetEvent(False)
+    Private ReadEvent As New ManualResetEvent(False)
+
     Public visibility As Boolean = True
     Public testSetting As TestSettings
     Public modbusRegister As ModbusSettings
@@ -161,9 +166,16 @@ dnp:        If dnpbutton.Checked Then
 
 modbus:     ElseIf modbusbox.Checked Then
                 'transmit Forward RVB Voltage
-                modbus.CommunicateSingleUnit(mip, m_port, NumericUpDownModbusFwdRVBVoltageRegister.Value, _modbusfunc.write, CUShort(Forward_RVBVoltage2Write))
+                ' modbus.CommunicateSingleUnit(mip, m_port, NumericUpDownModbusFwdRVBVoltageRegister.Value, _modbusfunc.write, CUShort(Forward_RVBVoltage2Write))
+                WriteEvent.Reset()
+                modbus2.Send(tcpmodbus.AsyncTcp4RVB.f.write, NumericUpDownModbusFwdRVBVoltageRegister.Value, CUShort(Forward_RVBVoltage2Write), WriteEvent)
+                WriteEvent.WaitOne()
+
                 'transmit Reverse RVB Voltage
-                modbus.CommunicateSingleUnit(mip, m_port, NumericUpDownModbusRevRVBVoltageRegister.Value, _modbusfunc.write, CUShort(Reverse_RVBVoltage2Write))
+                'modbus.CommunicateSingleUnit(mip, m_port, NumericUpDownModbusRevRVBVoltageRegister.Value, _modbusfunc.write, CUShort(Reverse_RVBVoltage2Write))
+                WriteEvent.Reset()
+                modbus2.Send(tcpmodbus.AsyncTcp4RVB.f.write, NumericUpDownModbusRevRVBVoltageRegister.Value, CUShort(Reverse_RVBVoltage2Write), WriteEvent)
+                WriteEvent.WaitOne()
 
 iec61850:   ElseIf iec61850box.Checked Then
                 'transmit Forward RVB Voltage
@@ -191,7 +203,12 @@ iec61850:   ElseIf iec61850box.Checked Then
                 readresult = (dnp.tcpdnp(m_ip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.read, _dnpobj.AnalogInput, _dnpvar.varall, _dnpindex.read, 1, dnpSetting.LocalVoltage))
 
             ElseIf modbusbox.Checked Then
-                readresult = (modbus.CommunicateSingleUnit(m_ip, m_port, NumericUpDownModbusLocalVoltageRegister.Value, _modbusfunc.read, 1))
+                'readresult = (modbus.CommunicateSingleUnit(m_ip, m_port, NumericUpDownModbusLocalVoltageRegister.Value, _modbusfunc.read, 1))
+                ReadEvent.Reset()
+                modbus2.Send(tcpmodbus.AsyncTcp4RVB.f.read, NumericUpDownModbusLocalVoltageRegister.Value, 1, ReadEvent)
+                ReadEvent.WaitOne()
+                readresult = modbus2.result
+
             ElseIf iec61850box.Checked Then
                 readresult = (iec.iec(m_ip, m_port, txtIECLocalVoltage.Text, "Connect"))
             End If
@@ -295,17 +312,35 @@ dnp:            dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value
 
             ElseIf testSetting.Protocol = "modbus" Then
                 'Enable RVB using modbus
-modbus:         modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBEnable, _modbusfunc.write, 1)
+modbus:         ' modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBEnable, _modbusfunc.write, 1)
+                WriteEvent.Reset()
+                modbus2.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBEnable, 1, WriteEvent)
+                WriteEvent.WaitOne()
                 'set RVB heartbeat timer
-                modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBHeartBeatTimer, _modbusfunc.write, heartbeattimer.Value)
+                'modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBHeartBeatTimer, _modbusfunc.write, heartbeattimer.Value)
+                WriteEvent.Reset()
+                modbus2.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBHeartBeatTimer, heartbeattimer.Value, WriteEvent)
+                WriteEvent.WaitOne()
                 'set RVB Max
-                modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBMax, _modbusfunc.write, RVBMax.Value * M2001D_Comm_Scale)
+                'modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBMax, _modbusfunc.write, RVBMax.Value * M2001D_Comm_Scale)
+                WriteEvent.Reset()
+                modbus2.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBMax, RVBMax.Value * M2001D_Comm_Scale, WriteEvent)
+                WriteEvent.WaitOne()
                 'set RVB Min
-                modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBMin, _modbusfunc.write, RVBMin.Value * M2001D_Comm_Scale)
+                'modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBMin, _modbusfunc.write, RVBMin.Value * M2001D_Comm_Scale)
+                WriteEvent.Reset()
+                modbus2.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBMin, RVBMin.Value * M2001D_Comm_Scale, WriteEvent)
+                WriteEvent.WaitOne()
                 'set Fwd RVB Scale Factor
-                modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.FRVBScale, _modbusfunc.write, FwdRVBScaleFactor.Value * M2001D_Comm_Scale)
+                'modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.FRVBScale, _modbusfunc.write, FwdRVBScaleFactor.Value * M2001D_Comm_Scale)
+                WriteEvent.Reset()
+                modbus2.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBMin, RVBMin.Value * M2001D_Comm_Scale, WriteEvent)
+                WriteEvent.WaitOne()
                 'set Rev RVB Scale Factor 
-                modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RRVBScale, _modbusfunc.write, RevRVBScaleFactor.Value * M2001D_Comm_Scale)
+                'modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RRVBScale, _modbusfunc.write, RevRVBScaleFactor.Value * M2001D_Comm_Scale)
+                WriteEvent.Reset()
+                modbus2.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RRVBScale, RevRVBScaleFactor.Value * M2001D_Comm_Scale, WriteEvent)
+                WriteEvent.WaitOne()
 
             ElseIf testSetting.Protocol = "iec" Then
                 'enable RVB using IEC61850
@@ -354,7 +389,8 @@ iec61850:       iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSettin
             '    modbus.CommunicateSingleUnit(m_ip, modbusRegister.Port, modbusRegister.Factory, _modbusfunc.write, factoryOptions)
             'End If
             '''''''''''''''''''''''''''''''''''''
-
+            Dim IPs As String() = {txtRead.Text, txtWrite.Text}
+            modbus2.AsyncConnectTo(IPs, CUShort(txtPort.Text))
             'Send RVB settings everytime start pressed
             SendSettings()
             '''''''''''''''''''''''''''''''''''''
@@ -376,6 +412,7 @@ iec61850:       iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSettin
 
     Private Sub Pause()
         Try
+            modbus2.AsyncDisconnect()
             SetText(Label1, "Comm stopped ...")
             btnStop.Enabled = False
             btnStart.Enabled = True
