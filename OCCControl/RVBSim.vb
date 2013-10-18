@@ -26,6 +26,7 @@ Public Class RVBSim
     Private Heart_Beat_Set As Double = 0.0
     Private Forward_RVBVoltage2Write As Double = 0.0
     Private dnp As New tcpdnp.dnp
+    Private dnp2 As New tcpdnp.AsyncTcp4RVB
     Private modbus As New tcpmodbus.modbus
     Private modbus2 As New tcpmodbus.AsyncTcp4RVB
     Private iec As New iec.iec
@@ -292,8 +293,10 @@ iec61850:   ElseIf iec61850box.Checked Then
         Try
             If testSetting.Protocol = "dnp" Then
                 'Enable RVB using dnp
-dnp:            dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
-                                        _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBEnable, 1, 0)
+dnp:            ' dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
+                '                                        _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBEnable, 1, 0)
+                'WriteEvent.Reset()
+                'dnp2.Send(NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBEnable, 1, 0)
                 'set RVB heartbeat timer
                 dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
                                         _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBHeartBeatTimer, heartbeattimer.Value, 0)
@@ -390,11 +393,15 @@ iec61850:       iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSettin
             'End If
             '''''''''''''''''''''''''''''''''''''
             Dim IPs As String() = {txtRead.Text, txtWrite.Text}
-            modbus2.AsyncConnectTo(IPs, CUShort(txtPort.Text))
+            If modbusbox.Checked Then
+                modbus2.AsyncConnectTo(IPs, CUShort(txtPort.Text))
+            ElseIf dnpbutton.Checked Then
+                dnp2.AsyncConnectTo(IPs, CUShort(txtPort.Text))
+            End If
+
             'Send RVB settings everytime start pressed
             SendSettings()
             '''''''''''''''''''''''''''''''''''''
-
             ReadLocalVoltageTimer = New System.Timers.Timer
             With ReadLocalVoltageTimer
                 AddHandler .Elapsed, AddressOf ReadLocalVoltage
@@ -412,18 +419,24 @@ iec61850:       iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSettin
 
     Private Sub Pause()
         Try
-            modbus2.AsyncDisconnect()
-            SetText(Label1, "Comm stopped ...")
-            btnStop.Enabled = False
-            btnStart.Enabled = True
-            Disenable()
-            delayforOmicronPowerUp = 0
-            Heart_Beat_Timer = 0
             ReadLocalVoltageTimer.Stop()
             ReadLocalVoltageTimer.Dispose()
+            btnStop.Enabled = False
+            btnStart.Enabled = True
+            delayforOmicronPowerUp = 0
+            Heart_Beat_Timer = 0
+            Disenable()
+            If modbusbox.Checked Then
+                modbus2.AsyncDisconnect()
+            ElseIf dnpbutton.Checked Then
+                dnp2.AsyncDisconnect()
+            End If
+
+            Exit Try
         Catch ex As Exception
             SetText(Label1, ex.ToString)
         End Try
+        SetText(Label1, "Comm stopped ...")
     End Sub
 
     Private Sub btnStart_Click(sender As System.Object, e As System.EventArgs) Handles btnStart.Click
