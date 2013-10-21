@@ -13,29 +13,19 @@ Public Class RVBSim
     Const MinDeltaVoltage As Integer = -100
     Const DeltaMessage As String = "Local Voltage + "
     Const DirectMessage As String = "RVB Voltage is ="
-    Const RVBVisibilityDelay As Integer = 25            '* 100msec RVB voltage stays on the display
-    Const TDelay As Integer = 500                       'Heartbeat refresh time is off so it can refresh
-    Const Interval As Integer = 50                      'timer interval
+    Const ReadInterval As Integer = 200                      'timer interval
 
     Private ReadLocalVoltageTimer As System.Timers.Timer
-    Private m_ip, mip As IPAddress
-    Private m_port As UShort
+    Private WriteLocalVoltageTimer As System.Timers.Timer
+   
     Private delayforOmicronPowerUp As Integer = 0
-    'Private Heart_Beat_Timer As Double = 0.0
-    'Private Heart_Beat_Set As Double = 0.0
-    'Private Forward_RVBVoltage2Write As Double = 0.0
-    Private dnp As New tcpdnp.dnp
-    Private dnp2 As New tcpdnp.AsyncTcp4RVB
+    Private dnp As New tcpdnp.AsyncTcp4RVB
     Private modbus As New tcpmodbus.AsyncTcp4RVB
     Private iec As New iec.iec
-    'Private readresult As UShort = 0
-    'Private ActualLocalVoltage As Double = 0.0
-    Private processID As Integer = 0
-    Private RVBVisibilityTime As Double = 0.0
-    Private support As Boolean      'True rev 15 or greater False rev 8
-    'Private Reverse_RVBVoltage2Write As Double = 0.0
-    Private OmicronBootupCompleted As Boolean = False
 
+    Private processID As Integer = 0
+    Private support As Boolean      'True rev 15 or greater False rev 8
+    
     Private WriteEvent As New ManualResetEvent(False)
     Private ReadEvent As New ManualResetEvent(False)
     Private TimerEvent As New ManualResetEvent(False)
@@ -115,9 +105,8 @@ Public Class RVBSim
         End Set
     End Property
 
-    'Private Heart_Beat_Timer As Double
     Private _Heart_Beat_Timer As Double = 0.0
-    Private Property Heart_Beat_Timer() As Double
+    Public Property Heart_Beat_Timer() As Double
         Get
             Return _Heart_Beat_Timer
         End Get
@@ -126,9 +115,8 @@ Public Class RVBSim
         End Set
     End Property
 
-    'Private Heart_Beat_Set As Double 
     Private _Heart_Beat_Set As Double = 0.0
-    Private Property Heart_Beat_Set() As Double
+    Public Property Heart_Beat_Set() As Double
         Get
             Return _Heart_Beat_Set
         End Get
@@ -148,7 +136,6 @@ Public Class RVBSim
         End Set
     End Property
 
-    'Private Forward_RVBVoltage2Write As Double
     Private _Forward_RVBVoltage2Write As Double = 0.0
     Public Property Forward_RVBVoltage2Write() As Double
         Get
@@ -159,7 +146,6 @@ Public Class RVBSim
         End Set
     End Property
 
-    'Private Reverse_RVBVoltage2Write As Double
     Private _Reverse_RVBVoltage2Write As Double = 0.0
     Public Property Reverse_RVBVoltage2Write() As Double
         Get
@@ -170,7 +156,6 @@ Public Class RVBSim
         End Set
     End Property
 
-    'Private readresult As UShort
     Private _readresult As UShort = 0
     Public Property readresult() As UShort
         Get
@@ -225,57 +210,57 @@ Public Class RVBSim
         End Try
     End Sub
 
-    Private Sub ticker(ByVal mip As IPAddress, ByVal m_port As UShort)
+    Private Sub WriteLocalVoltage()
+        Heart_Beat_Timer = 0
+        ticker()
+    End Sub
+
+    Private Sub ticker() '(ByVal mip As IPAddress, ByVal m_port As UShort)
         Try
-            If Not btnStart.Enabled Then
-                GenerateRVBVoltage2Transfer()
+            Console.WriteLine("ticker{2} ----------------------------------- Start to write :{0}.{1} -----------------------------------", Now.Second, Now.Millisecond, vbCrLf)
+          
+dnp:        If ProtocolInUse() = "dnp" Then         ' dnpbutton.Checked Then
+                'transmit Forward RVB Voltage
+                WriteEvent.Reset()
+                dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _
+                                    _dnpindex.write, 1, dnpSetting.FRVBValue, CUShort(Forward_RVBVoltage2Write), 0)
+                WriteEvent.WaitOne()
 
-dnp:            If ProtocolInUse() = "dnp" Then         ' dnpbutton.Checked Then
-                    'transmit Forward RVB Voltage
-                    'dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _
-                    '                    _dnpindex.write, 1, dnpSetting.FRVBValue, CUShort(Forward_RVBVoltage2Write), 0)
-                    WriteEvent.Reset()
-                    dnp2.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _
-                                        _dnpindex.write, 1, dnpSetting.FRVBValue, CUShort(Forward_RVBVoltage2Write), 0)
-                    WriteEvent.WaitOne(100, True)
+                'transmit Reverse RVB Voltage
+                WriteEvent.Reset()
+                dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _
+                                    _dnpindex.write, 1, dnpSetting.RRVBValue, CUShort(Reverse_RVBVoltage2Write), 0)
+                WriteEvent.WaitOne()
+                Console.WriteLine("--------------------------- Writing RVB Voltage(DNP) ------------------------------")
 
-                    'transmit Reverse RVB Voltage
-                    'dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _
-                    '                    _dnpindex.write, 1, dnpSetting.RRVBValue, CUShort(Reverse_RVBVoltage2Write), 0)
-                    WriteEvent.Reset()
-                    dnp2.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _
-                                        _dnpindex.write, 1, dnpSetting.RRVBValue, CUShort(Reverse_RVBVoltage2Write), 0)
-                    WriteEvent.WaitOne(100, True)
-                    Console.WriteLine("--------------------------- Writing RVB Voltage(DNP) ------------------------------")
+modbus:     ElseIf ProtocolInUse() = "modbus" Then          ' modbusbox.Checked Then
+                'transmit Forward RVB Voltage
+                WriteEvent.Reset()
+                modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, NumericUpDownModbusFwdRVBVoltageRegister.Value, CUShort(Forward_RVBVoltage2Write), WriteEvent)
+                WriteEvent.WaitOne()
 
-modbus:         ElseIf ProtocolInUse() = "modbus" Then          ' modbusbox.Checked Then
-                    'transmit Forward RVB Voltage
-                    WriteEvent.Reset()
-                    modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, NumericUpDownModbusFwdRVBVoltageRegister.Value, CUShort(Forward_RVBVoltage2Write), WriteEvent)
-                    WriteEvent.WaitOne(100, True)
+                'transmit Reverse RVB Voltage
+                WriteEvent.Reset()
+                modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, NumericUpDownModbusRevRVBVoltageRegister.Value, CUShort(Reverse_RVBVoltage2Write), WriteEvent)
+                WriteEvent.WaitOne()
+                Console.WriteLine("--------------------------- Writing RVB Voltage(Modbus) ------------------------------")
 
-                    'transmit Reverse RVB Voltage
-                    WriteEvent.Reset()
-                    modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, NumericUpDownModbusRevRVBVoltageRegister.Value, CUShort(Reverse_RVBVoltage2Write), WriteEvent)
-                    WriteEvent.WaitOne(100, True)
-                    Console.WriteLine("--------------------------- Writing RVB Voltage(Modbus) ------------------------------")
-
-iec61850:       ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checked Then
-                    'transmit Forward RVB Voltage
-                    iec.iec(mip, m_port, txtIECFwdRVBVoltage.Text, "Write", CUShort(Forward_RVBVoltage2Write), iecSetting.iedName)
-                    'transmit Reverse RVB Voltage
-                    iec.iec(mip, m_port, txtIECRevRVBVoltage.Text, "Write", CUShort(Reverse_RVBVoltage2Write), iecSetting.iedName)
-                End If
-                RVBVisibilityTime = RVBVisibilityDelay
-
-                Console.WriteLine("Writing Fwd voltage: {0}", Forward_RVBVoltage2Write) ' / M2001D_Comm_Scale)
-                Console.WriteLine("Writing Rev voltage: {0}", Reverse_RVBVoltage2Write) ' / M2001D_Comm_Scale)
+iec61850:   ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checked Then
+                'transmit Forward RVB Voltage
+                'iec.iec(mip, m_port, txtIECFwdRVBVoltage.Text, "Write", CUShort(Forward_RVBVoltage2Write), iecSetting.iedName)
+                'transmit Reverse RVB Voltage
+                'iec.iec(mip, m_port, txtIECRevRVBVoltage.Text, "Write", CUShort(Reverse_RVBVoltage2Write), iecSetting.iedName)
             End If
+            ' RVBVisibilityTime = RVBVisibilityDelay
 
+            Console.WriteLine("Writing Fwd voltage: {0}", Forward_RVBVoltage2Write) ' / M2001D_Comm_Scale)
+            Console.WriteLine("Writing Rev voltage: {0}", Reverse_RVBVoltage2Write) ' / M2001D_Comm_Scale)
+            
             Console.WriteLine("{1}:{2}RVBSim - Memory used before collection: {0}", GC.GetTotalMemory(False), Now, vbTab)
             GC.Collect()
             Console.WriteLine("{1}:{2}RVBSim - Memory used after collection: {0}", GC.GetTotalMemory(False), Now, vbTab)
 
+            Console.WriteLine("ticker{2} ----------------------------------- end to write :{0}.{1} -----------------------------------------", Now.Second, Now.Millisecond, vbCrLf)
         Catch ex As Exception
             SetText(Label1, ex.ToString)
         End Try
@@ -284,45 +269,34 @@ iec61850:       ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checke
     Private Sub ReadLocalVoltage()
         'Reading Local voltage and transmitting back
         'done by apporiate protocol selected by the user
+        Console.WriteLine("----------------------------------- Start to read :{0}.{1} -----------------------------------", Now.Second, Now.Millisecond)
         Try
-            If Not btnStart.Enabled Then
-                'Local Voltage will read every 100ms but writing back will be done in 
-                ' the user speficied time frame
-                If ProtocolInUse() = "dnp" Then        ' dnpbutton.Checked Then
-                    'readresult = (dnp.tcpdnp(m_ip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.read, _dnpobj.AnalogInput, _dnpvar.varall, _dnpindex.read, 1, dnpSetting.LocalVoltage))
-                    ReadEvent.Reset()
-                    dnp2.Send(ReadEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.read, _dnpobj.AnalogInput, _dnpvar.varall, _dnpindex.read, 1, dnpSetting.LocalVoltage)
-                    ReadEvent.WaitOne()
-                    readresult = dnp2.result
+            If ProtocolInUse() = "dnp" Then
+                ReadEvent.Reset()
+                dnp.Send(ReadEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.read, _dnpobj.AnalogInput, _dnpvar.varall, _dnpindex.read, 1, dnpSetting.LocalVoltage)
+                ReadEvent.WaitOne()
+                readresult = dnp.result
 
-                ElseIf ProtocolInUse() = "modbus" Then     ' modbusbox.Checked Then
-                    ReadEvent.Reset()
-                    modbus.Send(tcpmodbus.AsyncTcp4RVB.f.read, NumericUpDownModbusLocalVoltageRegister.Value, 1, ReadEvent)
-                    ReadEvent.WaitOne()
-                    readresult = modbus.result
+            ElseIf ProtocolInUse() = "modbus" Then
+                ReadEvent.Reset()
+                modbus.Send(tcpmodbus.AsyncTcp4RVB.f.read, NumericUpDownModbusLocalVoltageRegister.Value, 1, ReadEvent)
+                ReadEvent.WaitOne()
+                readresult = modbus.result
 
-                ElseIf ProtocolInUse() = "iec" Then        ' iec61850box.Checked Then
-                    readresult = (iec.iec(m_ip, m_port, txtIECLocalVoltage.Text, "Connect"))
-                End If
-
-                Heart_Beat_Timer += Interval
-
-                If (Heart_Beat_Timer >= Heart_Beat_Set) Then
-                    'write to the unit using customer selected protocol
-                    Console.WriteLine("Heart_Beat_Timer: {0} msec", Heart_Beat_Timer)
-                    ticker(mip, m_port)
-                    Heart_Beat_Timer = 0
-
-                ElseIf readresult < OperatingVoltage Then
-                    Console.WriteLine("Operating Voltage is {0}", OperatingVoltage)
-                    ticker(mip, m_port)
-                    Heart_Beat_Timer = 0
-                End If
-
-                SetText(Label1, String.Format("     Reads: {0}" + vbCrLf + "Fwd RVB: {1}" + vbCrLf + "Rev RVB: {2}", FormatNumber(CDbl(readresult / M2001D_Comm_Scale), 1), FormatNumber((Forward_RVBVoltage2Write / M2001D_Comm_Scale), 1), FormatNumber((Reverse_RVBVoltage2Write / M2001D_Comm_Scale), 1)))
-
-                Console.WriteLine("Actual voltage is: {0}", readresult) '/ M2001D_Comm_Scale)
+            ElseIf ProtocolInUse() = "iec" Then
+                'readresult = (iec.iec(m_ip, m_port, txtIECLocalVoltage.Text, "Connect"))
             End If
+
+            Heart_Beat_Timer += ReadInterval
+            Console.WriteLine("--------------------- Heart_Beat_Timer: {0} msec -----------------------", Heart_Beat_Timer)
+
+            GenerateRVBVoltage2Transfer()
+
+            SetText(Label1, String.Format("     Reads: {0}" + vbCrLf + "Fwd RVB: {1}" + vbCrLf + "Rev RVB: {2}", FormatNumber(CDbl(readresult / M2001D_Comm_Scale), 1), FormatNumber((Forward_RVBVoltage2Write / M2001D_Comm_Scale), 1), FormatNumber((Reverse_RVBVoltage2Write / M2001D_Comm_Scale), 1)))
+
+            Console.WriteLine("Actual voltage is: {0}", readresult)
+            Console.WriteLine("----------------------------------- end to read :{0}.{1} -----------------------------------------", Now.Second, Now.Millisecond)
+
         Catch ex As Exception
             SetText(Label1, ex.ToString)
         End Try
@@ -334,34 +308,40 @@ iec61850:       ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checke
                 'dnp settings dis/enable
                 NumericUpDownDNPSourceAddress.Enabled = .Enabled
                 NumericUpDownDNPDestinationAddress.Enabled = .Enabled
+
                 'modbus settings dis/enable
                 NumericUpDownModbusLocalVoltageRegister.Enabled = .Enabled
                 NumericUpDownModbusFwdRVBVoltageRegister.Enabled = .Enabled
                 NumericUpDownModbusRevRVBVoltageRegister.Enabled = .Enabled
+
                 'iec61850 settings dis/enable
                 txtIECLocalVoltage.Enabled = .Enabled
                 txtIECFwdRVBVoltage.Enabled = .Enabled
                 txtIECRevRVBVoltage.Enabled = .Enabled
+
                 'communication settings dis/enable
                 txtWrite.Enabled = .Enabled
                 txtRead.Enabled = .Enabled
                 txtPort.Enabled = .Enabled
-                'If modbusbox.Checked Then txtRead.Enabled = .Enabled Else txtRead.Enabled = False
+
                 'protocol options dis/enable
                 dnpbutton.Enabled = .Enabled
                 modbusbox.Enabled = .Enabled
                 iec61850box.Enabled = .Enabled
+
                 'general rvb settings dis/enable
                 heartbeattimer.Enabled = .Enabled
                 radUseDeltaVoltage.Enabled = .Enabled
                 radUseFixedVoltage.Enabled = .Enabled
+
                 'forward rvb settings dis/enable
                 FwdRVBScaleFactor.Enabled = .Enabled
                 RVBMax.Enabled = .Enabled
                 RVBMin.Enabled = .Enabled
+
                 'reverse rvb settings dis/enable
                 RevRVBScaleFactor.Enabled = .Enabled
-                TimerEvent.Set()
+                '  TimerEvent.Set()
             End With
         Catch ex As Exception
             SetText(Label1, ex.ToString)
@@ -384,91 +364,83 @@ iec61850:       ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checke
             SetText(Label1, "Sending settings to the units ...")
             If ProtocolInUse() = "dnp" Then
                 'Enable RVB using dnp
-dnp:            ' dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
-                '                                        _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBEnable, 1, 0)
-                WriteEvent.Reset()
-                dnp2.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBEnable, 1, 0)
+dnp:            WriteEvent.Reset()
+                dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBEnable, 1, 0)
                 WriteEvent.WaitOne()
+
                 'set RVB heartbeat timer
-                'dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
-                '                        _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBHeartBeatTimer, heartbeattimer.Value, 0)
                 WriteEvent.Reset()
-                dnp2.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBHeartBeatTimer, heartbeattimer.Value, 0)
+                dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBHeartBeatTimer, heartbeattimer.Value, 0)
                 WriteEvent.WaitOne()
+
                 'set RVB Max
-                'dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
-                '                        _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBMax, RVBMax.Value * M2001D_Comm_Scale, 0)
                 WriteEvent.Reset()
-                dnp2.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
+                dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
                                         _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBMax, RVBMax.Value * M2001D_Comm_Scale, 0)
                 WriteEvent.WaitOne()
+
                 'set RVB Min
-                'dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
-                '                        _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBMin, RVBMin.Value * M2001D_Comm_Scale, 0)
                 WriteEvent.Reset()
-                dnp2.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
+                dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
                                         _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RVBMin, RVBMin.Value * M2001D_Comm_Scale, 0)
                 WriteEvent.WaitOne()
+
                 'set Fwd RVB Scale Factor
-                'dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
-                '                        _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.FRVBScale, FwdRVBScaleFactor.Value * M2001D_Comm_Scale, 0)
                 WriteEvent.Reset()
-                dnp2.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
+                dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
                                         _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.FRVBScale, FwdRVBScaleFactor.Value * M2001D_Comm_Scale, 0)
                 WriteEvent.WaitOne()
+
                 'set Rev RVB Scale Factor 
-                'dnp.tcpdnp(mip, m_port, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
-                '                        _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RRVBScale, RevRVBScaleFactor.Value * M2001D_Comm_Scale, 0)
                 WriteEvent.Reset()
-                dnp2.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
+                dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _
                                         _dnpobj.AnalogOutput, _dnpvar.var2, _dnpindex.write, 1, dnpSetting.RRVBScale, RevRVBScaleFactor.Value * M2001D_Comm_Scale, 0)
                 WriteEvent.WaitOne()
 
             ElseIf ProtocolInUse() = "modbus" Then
                 'Enable RVB using modbus
-modbus:         ' modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBEnable, _modbusfunc.write, 1)
-                WriteEvent.Reset()
+modbus:         WriteEvent.Reset()
                 modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBEnable, 1, WriteEvent)
                 WriteEvent.WaitOne()
+
                 'set RVB heartbeat timer
-                'modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBHeartBeatTimer, _modbusfunc.write, heartbeattimer.Value)
                 WriteEvent.Reset()
                 modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBHeartBeatTimer, heartbeattimer.Value, WriteEvent)
                 WriteEvent.WaitOne()
+
                 'set RVB Max
-                'modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBMax, _modbusfunc.write, RVBMax.Value * M2001D_Comm_Scale)
                 WriteEvent.Reset()
                 modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBMax, RVBMax.Value * M2001D_Comm_Scale, WriteEvent)
                 WriteEvent.WaitOne()
+
                 'set RVB Min
-                'modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RVBMin, _modbusfunc.write, RVBMin.Value * M2001D_Comm_Scale)
                 WriteEvent.Reset()
                 modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBMin, RVBMin.Value * M2001D_Comm_Scale, WriteEvent)
                 WriteEvent.WaitOne()
+
                 'set Fwd RVB Scale Factor
-                'modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.FRVBScale, _modbusfunc.write, FwdRVBScaleFactor.Value * M2001D_Comm_Scale)
                 WriteEvent.Reset()
                 modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBMin, RVBMin.Value * M2001D_Comm_Scale, WriteEvent)
                 WriteEvent.WaitOne()
+
                 'set Rev RVB Scale Factor 
-                'modbus.CommunicateSingleUnit(m_ip, m_port, modbusRegister.RRVBScale, _modbusfunc.write, RevRVBScaleFactor.Value * M2001D_Comm_Scale)
                 WriteEvent.Reset()
                 modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RRVBScale, RevRVBScaleFactor.Value * M2001D_Comm_Scale, WriteEvent)
                 WriteEvent.WaitOne()
 
             ElseIf ProtocolInUse() = "iec" Then
                 'enable RVB using IEC61850
-iec61850:       iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSetting.iedName, DataType.bool)
+iec61850:       'iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSetting.iedName, DataType.bool)
                 'set RVB heartbeat timer
-                iec.iec(mip, m_port, iecSetting.RVBHeartBeatTimer, "Write", heartbeattimer.Value, iecSetting.iedName)
+                'iec.iec(mip, m_port, iecSetting.RVBHeartBeatTimer, "Write", heartbeattimer.Value, iecSetting.iedName)
                 'set RVB Max
-                iec.iec(mip, m_port, iecSetting.RVBMax, "Write", RVBMax.Value * M2001D_Comm_Scale, iecSetting.iedName)
+                'iec.iec(mip, m_port, iecSetting.RVBMax, "Write", RVBMax.Value * M2001D_Comm_Scale, iecSetting.iedName)
                 'set RVB Min
-                iec.iec(mip, m_port, iecSetting.RVBMin, "Write", RVBMin.Value * M2001D_Comm_Scale, iecSetting.iedName)
+                'iec.iec(mip, m_port, iecSetting.RVBMin, "Write", RVBMin.Value * M2001D_Comm_Scale, iecSetting.iedName)
                 'set Fwd RVB Scale Factor
-                iec.iec(mip, m_port, iecSetting.FRVBScale, "Write", FwdRVBScaleFactor.Value * M2001D_Comm_Scale, iecSetting.iedName)
+                'iec.iec(mip, m_port, iecSetting.FRVBScale, "Write", FwdRVBScaleFactor.Value * M2001D_Comm_Scale, iecSetting.iedName)
                 'set Rev RVB Scale Factor
-                iec.iec(mip, m_port, iecSetting.RRVBScale, "Write", RevRVBScaleFactor.Value * M2001D_Comm_Scale, iecSetting.iedName)
+                'iec.iec(mip, m_port, iecSetting.RRVBScale, "Write", RevRVBScaleFactor.Value * M2001D_Comm_Scale, iecSetting.iedName)
             Else
                 MsgBox("Unsupported communication protocol")
                 Pause()
@@ -482,21 +454,25 @@ iec61850:       iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSettin
 #Region " Timers "
     Private Sub Start()
         Try
+            'Space holder for protocol delays
+            Dim TimeDelay As Integer = 0
+
             'Update protocol per user selection
             UpdateProtocol()
             SetText(Label1, "Establishing communication ...")
+
             btnStop.Enabled = True
             btnStart.Enabled = False
             Disenable()
 
-            mip = Net.IPAddress.Parse(txtWrite.Text)
-            If Not txtRead.Text = Nothing Then
-                m_ip = Net.IPAddress.Parse(txtRead.Text)
-            Else
-                m_ip = mip
-                txtRead.Text = mip.ToString
-            End If
-            m_port = CUShort(txtPort.Text)
+            'mip = Net.IPAddress.Parse(txtWrite.Text)
+            'If Not txtRead.Text = Nothing Then
+            '    m_ip = Net.IPAddress.Parse(txtRead.Text)
+            'Else
+            '    m_ip = mip
+            '    txtRead.Text = mip.ToString
+            'End If
+            'm_port = CUShort(txtPort.Text)
 
             'NO LONGER NEEDED
             'turn on rvb option in the factory if it is not enabled already
@@ -508,28 +484,43 @@ iec61850:       iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSettin
             '''''''''''''''''''''''''''''''''''''
             Dim IPs As String() = {txtRead.Text, txtWrite.Text}
             SetText(Label1, "Connecting to the units ...")
+            Dim Connection As New ManualResetEvent(False)
+            Dim success As Boolean = False
             If UpdateProtocol() = "modbus" Then
-                modbus.AsyncConnectTo(IPs, CUShort(txtPort.Text))
-            ElseIf UpdateProtocol() = "dnp" Then    'dnpbutton.Checked Then
-                dnp2.AsyncConnectTo(IPs, CUShort(txtPort.Text))
+                modbus.AsyncConnectTo(IPs, CUShort(txtPort.Text), Connection)
+                TimeDelay = 300
+            ElseIf UpdateProtocol() = "dnp" Then
+                dnp.AsyncConnectTo(IPs, CUShort(txtPort.Text), Connection)
+                TimeDelay = 700
             ElseIf UpdateProtocol() = "iec" Then
 
             End If
-            SetText(Label1, "Connection successful ...")
-            'Send RVB settings everytime start pressed
 
-            SendSettings()
-            SetText(Label1, "Send completed successfully ...")
-            '''''''''''''''''''''''''''''''''''''
-            ReadLocalVoltageTimer = New System.Timers.Timer
-            With ReadLocalVoltageTimer
-                AddHandler .Elapsed, AddressOf ReadLocalVoltage
-                .Interval = Interval
-                .Enabled = True
-            End With
-            Heart_Beat_Set = (heartbeattimer.Value * 1000) - TDelay
-            OmicronBootupCompleted = False
-            ReadLocalVoltage()
+            success = Connection.WaitOne(100, False)
+
+            If success Then
+                SetText(Label1, "Connection successful ...")
+                'Send RVB settings everytime start pressed
+                SendSettings()
+                SetText(Label1, "Send completed successfully ...")
+                '''''''''''''''''''''''''''''''''''''
+                ReadLocalVoltageTimer = New System.Timers.Timer
+                With ReadLocalVoltageTimer
+                    AddHandler .Elapsed, AddressOf ReadLocalVoltage
+                    .Interval = ReadInterval
+                    .Enabled = True
+                End With
+
+                WriteLocalVoltageTimer = New System.Timers.Timer
+                With WriteLocalVoltageTimer
+                    AddHandler .Elapsed, AddressOf WriteLocalVoltage
+                    .Interval = (heartbeattimer.Value * 1000) - TimeDelay
+                    .Enabled = True
+                End With
+            Else
+                SetText(Label1, "Connection failed ...")
+                Pause()
+            End If
         Catch ex As Exception
             SetText(Label1, ex.ToString)
         End Try
@@ -538,27 +529,27 @@ iec61850:       iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSettin
 
     Private Sub Pause()
         Try
-            'reset timermanualevent
-            TimerEvent.Reset()
+            'Stop timers
             ReadLocalVoltageTimer.Stop()
             ReadLocalVoltageTimer.Dispose()
+            WriteLocalVoltageTimer.Stop()
+            WriteLocalVoltageTimer.Dispose()
+
             btnStop.Enabled = False
             btnStart.Enabled = True
-            delayforOmicronPowerUp = 0
-            Heart_Beat_Timer = 0
             Disenable()
-            'wait until timermanualevent completed
-            'timer should stop by now
-            Dim signalled As Boolean = TimerEvent.WaitOne(5000, False)
-            If UpdateProtocol() = "modbus" Then     ' modbusbox.Checked Then
+
+            'Close communication ports
+            If UpdateProtocol() = "modbus" Then
                 modbus.AsyncDisconnect()
-            ElseIf UpdateProtocol() = "dnp" Then         ' dnpbutton.Checked Then
-                dnp2.AsyncDisconnect()
+            ElseIf UpdateProtocol() = "dnp" Then
+                dnp.AsyncDisconnect()
             ElseIf UpdateProtocol() = "iec" Then
 
             End If
 
             Exit Try
+
         Catch ex As Exception
             SetText(Label1, ex.ToString)
         End Try
@@ -661,8 +652,6 @@ iec61850:       iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSettin
                     txtPort.Text = iecSetting.Port
             End Select
 
-            'txtRead.Enabled = modbusbox.Checked      'dnp & iec61850 library is not supporting 2 different ip addresses
-            'blocking 2nd address
             lbldestination.Visible = dnpbutton.Checked
             lblsource.Visible = dnpbutton.Checked
             NumericUpDownDNPSourceAddress.Visible = dnpbutton.Checked
