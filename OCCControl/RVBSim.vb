@@ -13,7 +13,8 @@ Public Class RVBSim
     Const MinDeltaVoltage As Integer = -100
     Const DeltaMessage As String = "Local Voltage + "
     Const DirectMessage As String = "RVB Voltage is ="
-    Const ReadInterval As Integer = 200                      'timer interval
+    Const ReadInterval As Integer = 130                      'timer interval
+    Const TimeDelay As Integer = 200                    'Heartbeattimer - timedelay
 
     Private ReadLocalVoltageTimer As System.Timers.Timer
     Private WriteLocalVoltageTimer As System.Timers.Timer
@@ -28,7 +29,8 @@ Public Class RVBSim
     
     Private WriteEvent As New ManualResetEvent(False)
     Private ReadEvent As New ManualResetEvent(False)
-    Private TimerEvent As New ManualResetEvent(False)
+    Private TimersEvent As New ManualResetEvent(False)
+    Private CalculateRVBVoltageEvent As New ManualResetEvent(False)
 
     Public visibility As Boolean = True
     Public testSetting As TestSettings
@@ -205,20 +207,27 @@ Public Class RVBSim
 
             Forward_RVBVoltage2Write = Forward_RVBVoltage2OperateWith
             Reverse_RVBVoltage2Write = Reverse_RVBVoltage2OperateWith
+
+            CalculateRVBVoltageEvent.Set()
         Catch ex As Exception
             SetText(Label1, ex.ToString)
         End Try
     End Sub
 
     Private Sub WriteLocalVoltage()
+        TimersEvent.Reset()
         Heart_Beat_Timer = 0
         ticker()
+        TimersEvent.Set()
     End Sub
 
     Private Sub ticker() '(ByVal mip As IPAddress, ByVal m_port As UShort)
         Try
-            Console.WriteLine("ticker{2} ----------------------------------- Start to write :{0}.{1} -----------------------------------", Now.Second, Now.Millisecond, vbCrLf)
-          
+            'ReadLocalVoltageTimer.Stop()
+            'WriteLocalVoltageTimer.Stop()
+            'TimersEvent.Reset()
+            'Console.WriteLine("ticker{1} ----------------------------------- Start to write :{0} -----------------------------------", Now.Ticks, vbCrLf)
+
 dnp:        If ProtocolInUse() = "dnp" Then         ' dnpbutton.Checked Then
                 'transmit Forward RVB Voltage
                 WriteEvent.Reset()
@@ -231,7 +240,7 @@ dnp:        If ProtocolInUse() = "dnp" Then         ' dnpbutton.Checked Then
                 dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, _dnpfunc.directnoack, _dnpobj.AnalogOutput, _dnpvar.var2, _
                                     _dnpindex.write, 1, dnpSetting.RRVBValue, CUShort(Reverse_RVBVoltage2Write), 0)
                 WriteEvent.WaitOne()
-                Console.WriteLine("--------------------------- Writing RVB Voltage(DNP) ------------------------------")
+                'Console.WriteLine("--------------------------- Writing RVB Voltage(DNP) ------------------------------")
 
 modbus:     ElseIf ProtocolInUse() = "modbus" Then          ' modbusbox.Checked Then
                 'transmit Forward RVB Voltage
@@ -243,7 +252,7 @@ modbus:     ElseIf ProtocolInUse() = "modbus" Then          ' modbusbox.Checked 
                 WriteEvent.Reset()
                 modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, NumericUpDownModbusRevRVBVoltageRegister.Value, CUShort(Reverse_RVBVoltage2Write), WriteEvent)
                 WriteEvent.WaitOne()
-                Console.WriteLine("--------------------------- Writing RVB Voltage(Modbus) ------------------------------")
+                'Console.WriteLine("--------------------------- Writing RVB Voltage(Modbus) ------------------------------")
 
 iec61850:   ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checked Then
                 'transmit Forward RVB Voltage
@@ -253,14 +262,18 @@ iec61850:   ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checked Th
             End If
             ' RVBVisibilityTime = RVBVisibilityDelay
 
-            Console.WriteLine("Writing Fwd voltage: {0}", Forward_RVBVoltage2Write) ' / M2001D_Comm_Scale)
-            Console.WriteLine("Writing Rev voltage: {0}", Reverse_RVBVoltage2Write) ' / M2001D_Comm_Scale)
-            
-            Console.WriteLine("{1}:{2}RVBSim - Memory used before collection: {0}", GC.GetTotalMemory(False), Now, vbTab)
-            GC.Collect()
-            Console.WriteLine("{1}:{2}RVBSim - Memory used after collection: {0}", GC.GetTotalMemory(False), Now, vbTab)
+            'Console.WriteLine("Writing Fwd voltage: {0}", Forward_RVBVoltage2Write) ' / M2001D_Comm_Scale)
+            'Console.WriteLine("Writing Rev voltage: {0}", Reverse_RVBVoltage2Write) ' / M2001D_Comm_Scale)
 
-            Console.WriteLine("ticker{2} ----------------------------------- end to write :{0}.{1} -----------------------------------------", Now.Second, Now.Millisecond, vbCrLf)
+            'Console.WriteLine("{1}:{2}RVBSim - Memory used before collection: {0}", GC.GetTotalMemory(False), Now, vbTab)
+            'GC.Collect()
+            'Console.WriteLine("{1}:{2}RVBSim - Memory used after collection: {0}", GC.GetTotalMemory(False), Now, vbTab)
+
+            Console.WriteLine("----------------------------------- Write completed :{0} -----------------------------------------", Now.Ticks)
+            'WriteLocalVoltageTimer.Start()
+            'ReadLocalVoltageTimer.Start()
+            SetText(Label1, String.Format("     Reads: {0}" + vbCrLf + "Fwd RVB: {1}" + vbCrLf + "Rev RVB: {2}", FormatNumber(CDbl(readresult / M2001D_Comm_Scale), 1), FormatNumber((Forward_RVBVoltage2Write / M2001D_Comm_Scale), 1), FormatNumber((Reverse_RVBVoltage2Write / M2001D_Comm_Scale), 1)))
+
         Catch ex As Exception
             SetText(Label1, ex.ToString)
         End Try
@@ -269,7 +282,9 @@ iec61850:   ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checked Th
     Private Sub ReadLocalVoltage()
         'Reading Local voltage and transmitting back
         'done by apporiate protocol selected by the user
-        Console.WriteLine("----------------------------------- Start to read :{0}.{1} -----------------------------------", Now.Second, Now.Millisecond)
+        ReadLocalVoltageTimer.Stop()
+        TimersEvent.WaitOne()
+        'Console.WriteLine("----------------------------------- Start to read :{0} -----------------------------------", Now.Ticks)
         Try
             If ProtocolInUse() = "dnp" Then
                 ReadEvent.Reset()
@@ -288,15 +303,24 @@ iec61850:   ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checked Th
             End If
 
             Heart_Beat_Timer += ReadInterval
-            Console.WriteLine("--------------------- Heart_Beat_Timer: {0} msec -----------------------", Heart_Beat_Timer)
+            'Console.WriteLine("--------------------- Heart_Beat_Timer: {0} msec -----------------------", Heart_Beat_Timer)
 
+            'Console.WriteLine("----------------------------------- Start GenerateRVBVoltage2Transfer :{0} -----------------------------------", Now.Ticks)
+            CalculateRVBVoltageEvent.Reset()
             GenerateRVBVoltage2Transfer()
+            CalculateRVBVoltageEvent.WaitOne()
+            ' Console.WriteLine("----------------------------------- End GenerateRVBVoltage2Transfer :{0} -----------------------------------", Now.Ticks)
 
-            SetText(Label1, String.Format("     Reads: {0}" + vbCrLf + "Fwd RVB: {1}" + vbCrLf + "Rev RVB: {2}", FormatNumber(CDbl(readresult / M2001D_Comm_Scale), 1), FormatNumber((Forward_RVBVoltage2Write / M2001D_Comm_Scale), 1), FormatNumber((Reverse_RVBVoltage2Write / M2001D_Comm_Scale), 1)))
+            'SetText(Label1, String.Format("     Reads: {0}" + vbCrLf + "Fwd RVB: {1}" + vbCrLf + "Rev RVB: {2}", FormatNumber(CDbl(readresult / M2001D_Comm_Scale), 1), FormatNumber((Forward_RVBVoltage2Write / M2001D_Comm_Scale), 1), FormatNumber((Reverse_RVBVoltage2Write / M2001D_Comm_Scale), 1)))
 
-            Console.WriteLine("Actual voltage is: {0}", readresult)
-            Console.WriteLine("----------------------------------- end to read :{0}.{1} -----------------------------------------", Now.Second, Now.Millisecond)
+            Console.WriteLine("Reading local voltage: {0} -{1}", readresult, Heart_Beat_Timer)
+            'Console.WriteLine("----------------------------------- end to read :{0} -----------------------------------------", Now.Ticks)
 
+            'Console.WriteLine("{1}:{2}RVBSim - Memory used before collection: {0}", GC.GetTotalMemory(False), Now, vbTab)
+            GC.Collect()
+            'Console.WriteLine("{1}:{2}RVBSim - Memory used after collection: {0}", GC.GetTotalMemory(False), Now, vbTab)
+
+            ReadLocalVoltageTimer.Start()
         Catch ex As Exception
             SetText(Label1, ex.ToString)
         End Try
@@ -454,9 +478,6 @@ iec61850:       'iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSetti
 #Region " Timers "
     Private Sub Start()
         Try
-            'Space holder for protocol delays
-            Dim TimeDelay As Integer = 0
-
             'Update protocol per user selection
             UpdateProtocol()
             SetText(Label1, "Establishing communication ...")
@@ -488,10 +509,8 @@ iec61850:       'iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSetti
             Dim success As Boolean = False
             If UpdateProtocol() = "modbus" Then
                 modbus.AsyncConnectTo(IPs, CUShort(txtPort.Text), Connection)
-                TimeDelay = 300
             ElseIf UpdateProtocol() = "dnp" Then
                 dnp.AsyncConnectTo(IPs, CUShort(txtPort.Text), Connection)
-                TimeDelay = 700
             ElseIf UpdateProtocol() = "iec" Then
 
             End If
@@ -500,10 +519,8 @@ iec61850:       'iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSetti
 
             If success Then
                 SetText(Label1, "Connection successful ...")
-                'Send RVB settings everytime start pressed
                 SendSettings()
-                SetText(Label1, "Send completed successfully ...")
-                '''''''''''''''''''''''''''''''''''''
+                'SetText(Label1, "Send completed successfully ...")
                 ReadLocalVoltageTimer = New System.Timers.Timer
                 With ReadLocalVoltageTimer
                     AddHandler .Elapsed, AddressOf ReadLocalVoltage
