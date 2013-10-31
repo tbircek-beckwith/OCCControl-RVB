@@ -1,16 +1,16 @@
 ﻿<rvb>
   <communication>
-    <test protocol="modbus" read="10.10.2.146" write="10.10.2.32" heartbeattimer="2" userelative="true" fwdrvbvoltage="10" revrvbvoltage="-10" fwdscalefactor="10" revscalefactor="10" rvbmax="150" rvbmin="90" visible="true"/>
+    <test protocol="dnp" read="10.10.2.115" write="10.10.2.65" heartbeattimer="2" userelative="true" fwdrvbvoltage="10" revrvbvoltage="-10" fwdscalefactor="10" revscalefactor="10" rvbmax="150" rvbmin="90" visible="true"/>
     <dnp p="dnp" port="20000" source="3" dest="1">
       <sp id="LocalVoltage" name="Load Voltage (Secondary)" point="0"/>
-      <sp id="RVBEnable" name="Remote Voltage Bias Enable" point="284"/>
-      <sp id="FRVBValue" name="Forward Remote Voltage Value" point="285"/>
-      <sp id="FRVBScale" name="Forward Remote Voltage Bias Scale Factor" point="286"/>
-      <sp id="RVBHeartbeat" name="Remote Voltage Bias Heartbeat Timer" point="287"/>
-      <sp id="RRVBValue" name="Reverse Remote Voltage Value" point="288"/>
-      <sp id="RRVBScale" name="Reverse Remote Voltage Bias Scale Factor" point="289"/>
-      <sp id="RVBMax" name="Remote Voltage Maximum" point="290"/>
-      <sp id="RVBMin" name="Remote Voltage Minimum" point="291"/>
+      <sp id="RVBEnable" name="Remote Voltage Bias Enable" point="289"/>
+      <sp id="FRVBValue" name="Forward Remote Voltage Value" point="290"/>
+      <sp id="FRVBScale" name="Forward Remote Voltage Bias Scale Factor" point="291"/>
+      <sp id="RVBHeartbeat" name="Remote Voltage Bias Heartbeat Timer" point="292"/>
+      <sp id="RRVBValue" name="Reverse Remote Voltage Value" point="293"/>
+      <sp id="RRVBScale" name="Reverse Remote Voltage Bias Scale Factor" point="294"/>
+      <sp id="RVBMax" name="Remote Voltage Maximum" point="295"/>
+      <sp id="RVBMin" name="Remote Voltage Minimum" point="296"/>
     </dnp>
     <modbus p="modbus" port="502">
       <sp id="LocalVoltage" name="Local Voltage" reg="1701"/>
@@ -36,9 +36,6 @@
       <sp id="RRVBScale" name="RRemVSF" fc="SP" sdi="setMag" dai="i"/>
       <sp id="RVBMax" name="ReVMax" fc="SP" sdi="setMag" dai="i"/>
       <sp id="RVBMin" name="ReVMin" fc="SP" sdi="setMag" dai="i"/>
-      <!--<sp id="FwdBandCenter" name="BndCtr" fc="SG" sdi="setMag" dai="i"/>-->
-      <!--<sp id="RevBandCenter" name="RvBndCtr" fc="SG" sdi="setMag" dai="i"/>-->
-      <!--<sp id="PwrDirStatus" name="PwrDir" fc="ST" sdi="stVal" dai=""/>-->
     </iec>
   </communication>
 </rvb>
