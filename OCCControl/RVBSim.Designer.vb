@@ -28,7 +28,7 @@ Partial Class RVBSim
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.lblLocalVoltageValue = New System.Windows.Forms.Label()
         Me.txtWrite = New System.Windows.Forms.TextBox()
         Me.txtPort = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -55,27 +55,30 @@ Partial Class RVBSim
         Me.modbusbox = New System.Windows.Forms.RadioButton()
         Me.dnpbutton = New System.Windows.Forms.RadioButton()
         Me.ProtocolParameters = New System.Windows.Forms.GroupBox()
+        Me.lblRevRVBValue = New System.Windows.Forms.Label()
+        Me.lblMsgCenter = New System.Windows.Forms.Label()
+        Me.lblFwdRVBValue = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.RVBMin = New System.Windows.Forms.NumericUpDown()
         Me.radUseDeltaVoltage = New System.Windows.Forms.RadioButton()
-        Me.RVBMax = New System.Windows.Forms.NumericUpDown()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label7 = New System.Windows.Forms.Label()
         Me.heartbeattimer = New System.Windows.Forms.NumericUpDown()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.radUseFixedVoltage = New System.Windows.Forms.RadioButton()
-        Me.txtRead = New System.Windows.Forms.TextBox()
-        Me.grpRevSettings = New System.Windows.Forms.GroupBox()
-        Me.Reverse_Voltage_Label = New System.Windows.Forms.Label()
-        Me.RevDeltaVoltage = New System.Windows.Forms.NumericUpDown()
-        Me.R_RVBScaleFactor_Label = New System.Windows.Forms.Label()
-        Me.RevRVBScaleFactor = New System.Windows.Forms.NumericUpDown()
-        Me.SourceIPAddressLabel = New System.Windows.Forms.Label()
         Me.grpFwdSettings = New System.Windows.Forms.GroupBox()
         Me.FwdRVBScaleFactor = New System.Windows.Forms.NumericUpDown()
         Me.F_RVBScaleFactor_Label = New System.Windows.Forms.Label()
         Me.FwdDeltaVoltage = New System.Windows.Forms.NumericUpDown()
         Me.Forward_Voltage_Label = New System.Windows.Forms.Label()
+        Me.grpRevSettings = New System.Windows.Forms.GroupBox()
+        Me.Reverse_Voltage_Label = New System.Windows.Forms.Label()
+        Me.RevDeltaVoltage = New System.Windows.Forms.NumericUpDown()
+        Me.R_RVBScaleFactor_Label = New System.Windows.Forms.Label()
+        Me.RevRVBScaleFactor = New System.Windows.Forms.NumericUpDown()
+        Me.txtRead = New System.Windows.Forms.TextBox()
+        Me.SourceIPAddressLabel = New System.Windows.Forms.Label()
+        Me.RVBMin = New System.Windows.Forms.NumericUpDown()
+        Me.RVBMax = New System.Windows.Forms.NumericUpDown()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.ProtocolBox = New System.Windows.Forms.GroupBox()
         Me.AddressBox.SuspendLayout()
         CType(Me.NumericUpDownModbusRevRVBVoltageRegister, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,15 +88,15 @@ Partial Class RVBSim
         CType(Me.NumericUpDownDNPSourceAddress, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ProtocolParameters.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
-        CType(Me.RVBMin, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RVBMax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.heartbeattimer, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.grpRevSettings.SuspendLayout()
-        CType(Me.RevDeltaVoltage, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RevRVBScaleFactor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpFwdSettings.SuspendLayout()
         CType(Me.FwdRVBScaleFactor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FwdDeltaVoltage, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpRevSettings.SuspendLayout()
+        CType(Me.RevDeltaVoltage, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RevRVBScaleFactor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RVBMin, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RVBMax, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ProtocolBox.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -135,13 +138,13 @@ Partial Class RVBSim
         Me.ToolStripMenuItem3.Size = New System.Drawing.Size(121, 22)
         Me.ToolStripMenuItem3.Text = "Modbus"
         '
-        'Label1
+        'lblLocalVoltageValue
         '
-        Me.Label1.Location = New System.Drawing.Point(11, 97)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(232, 85)
-        Me.Label1.TabIndex = 3
-        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblLocalVoltageValue.Location = New System.Drawing.Point(9, 94)
+        Me.lblLocalVoltageValue.Name = "lblLocalVoltageValue"
+        Me.lblLocalVoltageValue.Size = New System.Drawing.Size(234, 20)
+        Me.lblLocalVoltageValue.TabIndex = 3
+        Me.lblLocalVoltageValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtWrite
         '
@@ -198,7 +201,7 @@ Partial Class RVBSim
         Me.AddressBox.Controls.Add(Me.lblsource)
         Me.AddressBox.Location = New System.Drawing.Point(5, 49)
         Me.AddressBox.Name = "AddressBox"
-        Me.AddressBox.Size = New System.Drawing.Size(610, 139)
+        Me.AddressBox.Size = New System.Drawing.Size(610, 138)
         Me.AddressBox.TabIndex = 2
         Me.AddressBox.TabStop = False
         '
@@ -330,7 +333,7 @@ Partial Class RVBSim
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblwarning.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblwarning.ForeColor = System.Drawing.Color.Red
-        Me.lblwarning.Location = New System.Drawing.Point(6, 110)
+        Me.lblwarning.Location = New System.Drawing.Point(6, 107)
         Me.lblwarning.Name = "lblwarning"
         Me.lblwarning.Size = New System.Drawing.Size(598, 23)
         Me.lblwarning.TabIndex = 7
@@ -416,55 +419,66 @@ Partial Class RVBSim
         '
         'ProtocolParameters
         '
+        Me.ProtocolParameters.Controls.Add(Me.lblRevRVBValue)
+        Me.ProtocolParameters.Controls.Add(Me.lblMsgCenter)
+        Me.ProtocolParameters.Controls.Add(Me.lblFwdRVBValue)
         Me.ProtocolParameters.Controls.Add(Me.GroupBox1)
         Me.ProtocolParameters.Controls.Add(Me.txtRead)
-        Me.ProtocolParameters.Controls.Add(Me.grpRevSettings)
         Me.ProtocolParameters.Controls.Add(Me.SourceIPAddressLabel)
         Me.ProtocolParameters.Controls.Add(Me.txtWrite)
-        Me.ProtocolParameters.Controls.Add(Me.grpFwdSettings)
         Me.ProtocolParameters.Controls.Add(Me.btnStart)
-        Me.ProtocolParameters.Controls.Add(Me.Label1)
+        Me.ProtocolParameters.Controls.Add(Me.lblLocalVoltageValue)
         Me.ProtocolParameters.Controls.Add(Me.Label3)
         Me.ProtocolParameters.Controls.Add(Me.btnStop)
         Me.ProtocolParameters.Controls.Add(Me.Label2)
         Me.ProtocolParameters.Controls.Add(Me.txtPort)
         Me.ProtocolParameters.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ProtocolParameters.Location = New System.Drawing.Point(5, 193)
+        Me.ProtocolParameters.Location = New System.Drawing.Point(5, 189)
         Me.ProtocolParameters.Name = "ProtocolParameters"
-        Me.ProtocolParameters.Size = New System.Drawing.Size(610, 190)
+        Me.ProtocolParameters.Size = New System.Drawing.Size(610, 198)
         Me.ProtocolParameters.TabIndex = 0
         Me.ProtocolParameters.TabStop = False
         Me.ProtocolParameters.Text = "Protocol Parameters"
         '
+        'lblRevRVBValue
+        '
+        Me.lblRevRVBValue.Location = New System.Drawing.Point(9, 134)
+        Me.lblRevRVBValue.Name = "lblRevRVBValue"
+        Me.lblRevRVBValue.Size = New System.Drawing.Size(234, 20)
+        Me.lblRevRVBValue.TabIndex = 37
+        Me.lblRevRVBValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblMsgCenter
+        '
+        Me.lblMsgCenter.ImageAlign = System.Drawing.ContentAlignment.TopLeft
+        Me.lblMsgCenter.Location = New System.Drawing.Point(9, 156)
+        Me.lblMsgCenter.Name = "lblMsgCenter"
+        Me.lblMsgCenter.Size = New System.Drawing.Size(594, 36)
+        Me.lblMsgCenter.TabIndex = 36
+        Me.lblMsgCenter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblFwdRVBValue
+        '
+        Me.lblFwdRVBValue.Location = New System.Drawing.Point(9, 114)
+        Me.lblFwdRVBValue.Name = "lblFwdRVBValue"
+        Me.lblFwdRVBValue.Size = New System.Drawing.Size(234, 20)
+        Me.lblFwdRVBValue.TabIndex = 35
+        Me.lblFwdRVBValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.RVBMin)
         Me.GroupBox1.Controls.Add(Me.radUseDeltaVoltage)
-        Me.GroupBox1.Controls.Add(Me.RVBMax)
         Me.GroupBox1.Controls.Add(Me.Label4)
-        Me.GroupBox1.Controls.Add(Me.Label7)
         Me.GroupBox1.Controls.Add(Me.heartbeattimer)
-        Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Controls.Add(Me.radUseFixedVoltage)
+        Me.GroupBox1.Controls.Add(Me.grpFwdSettings)
+        Me.GroupBox1.Controls.Add(Me.grpRevSettings)
         Me.GroupBox1.Location = New System.Drawing.Point(261, 17)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(342, 74)
+        Me.GroupBox1.Size = New System.Drawing.Size(342, 131)
         Me.GroupBox1.TabIndex = 34
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "RVB Settings"
-        '
-        'RVBMin
-        '
-        Me.RVBMin.DecimalPlaces = 1
-        Me.RVBMin.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.RVBMin.Location = New System.Drawing.Point(279, 45)
-        Me.RVBMin.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
-        Me.RVBMin.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
-        Me.RVBMin.Name = "RVBMin"
-        Me.RVBMin.Size = New System.Drawing.Size(52, 20)
-        Me.RVBMin.TabIndex = 32
-        Me.RVBMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.RVBMin.Value = New Decimal(New Integer() {90, 0, 0, 0})
         '
         'radUseDeltaVoltage
         '
@@ -478,19 +492,6 @@ Partial Class RVBSim
         Me.radUseDeltaVoltage.Text = "Use Relative"
         Me.radUseDeltaVoltage.UseVisualStyleBackColor = True
         '
-        'RVBMax
-        '
-        Me.RVBMax.DecimalPlaces = 1
-        Me.RVBMax.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.RVBMax.Location = New System.Drawing.Point(102, 45)
-        Me.RVBMax.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
-        Me.RVBMax.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
-        Me.RVBMax.Name = "RVBMax"
-        Me.RVBMax.Size = New System.Drawing.Size(52, 20)
-        Me.RVBMax.TabIndex = 31
-        Me.RVBMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.RVBMax.Value = New Decimal(New Integer() {150, 0, 0, 0})
-        '
         'Label4
         '
         Me.Label4.AutoSize = True
@@ -500,15 +501,6 @@ Partial Class RVBSim
         Me.Label4.TabIndex = 8
         Me.Label4.Text = "Write Interval (sec)"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label7
-        '
-        Me.Label7.Location = New System.Drawing.Point(194, 39)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(79, 33)
-        Me.Label7.TabIndex = 30
-        Me.Label7.Text = "Remote Voltage Min"
-        Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'heartbeattimer
         '
@@ -521,15 +513,6 @@ Partial Class RVBSim
         Me.heartbeattimer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.heartbeattimer.Value = New Decimal(New Integer() {2, 0, 0, 0})
         '
-        'Label5
-        '
-        Me.Label5.Location = New System.Drawing.Point(17, 39)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(79, 33)
-        Me.Label5.TabIndex = 27
-        Me.Label5.Text = "Remote Voltage Max"
-        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
         'radUseFixedVoltage
         '
         Me.radUseFixedVoltage.AutoSize = True
@@ -540,85 +523,13 @@ Partial Class RVBSim
         Me.radUseFixedVoltage.Text = "Use Absolute"
         Me.radUseFixedVoltage.UseVisualStyleBackColor = True
         '
-        'txtRead
-        '
-        Me.txtRead.Location = New System.Drawing.Point(51, 20)
-        Me.txtRead.Name = "txtRead"
-        Me.txtRead.Size = New System.Drawing.Size(110, 20)
-        Me.txtRead.TabIndex = 0
-        '
-        'grpRevSettings
-        '
-        Me.grpRevSettings.Controls.Add(Me.Reverse_Voltage_Label)
-        Me.grpRevSettings.Controls.Add(Me.RevDeltaVoltage)
-        Me.grpRevSettings.Controls.Add(Me.R_RVBScaleFactor_Label)
-        Me.grpRevSettings.Controls.Add(Me.RevRVBScaleFactor)
-        Me.grpRevSettings.Location = New System.Drawing.Point(435, 97)
-        Me.grpRevSettings.Name = "grpRevSettings"
-        Me.grpRevSettings.Size = New System.Drawing.Size(168, 85)
-        Me.grpRevSettings.TabIndex = 34
-        Me.grpRevSettings.TabStop = False
-        Me.grpRevSettings.Text = "Rev RVB Settings"
-        '
-        'Reverse_Voltage_Label
-        '
-        Me.Reverse_Voltage_Label.AutoSize = True
-        Me.Reverse_Voltage_Label.Location = New System.Drawing.Point(12, 58)
-        Me.Reverse_Voltage_Label.Name = "Reverse_Voltage_Label"
-        Me.Reverse_Voltage_Label.Size = New System.Drawing.Size(84, 13)
-        Me.Reverse_Voltage_Label.TabIndex = 30
-        Me.Reverse_Voltage_Label.Text = "Local Voltage + "
-        Me.Reverse_Voltage_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'RevDeltaVoltage
-        '
-        Me.RevDeltaVoltage.DecimalPlaces = 1
-        Me.RevDeltaVoltage.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.RevDeltaVoltage.Location = New System.Drawing.Point(102, 54)
-        Me.RevDeltaVoltage.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.RevDeltaVoltage.Name = "RevDeltaVoltage"
-        Me.RevDeltaVoltage.Size = New System.Drawing.Size(52, 20)
-        Me.RevDeltaVoltage.TabIndex = 11
-        Me.RevDeltaVoltage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'R_RVBScaleFactor_Label
-        '
-        Me.R_RVBScaleFactor_Label.Location = New System.Drawing.Point(7, 20)
-        Me.R_RVBScaleFactor_Label.Name = "R_RVBScaleFactor_Label"
-        Me.R_RVBScaleFactor_Label.Size = New System.Drawing.Size(95, 30)
-        Me.R_RVBScaleFactor_Label.TabIndex = 28
-        Me.R_RVBScaleFactor_Label.Text = "Reverse RVB Scale Factor"
-        Me.R_RVBScaleFactor_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'RevRVBScaleFactor
-        '
-        Me.RevRVBScaleFactor.DecimalPlaces = 1
-        Me.RevRVBScaleFactor.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.RevRVBScaleFactor.Location = New System.Drawing.Point(102, 25)
-        Me.RevRVBScaleFactor.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.RevRVBScaleFactor.Name = "RevRVBScaleFactor"
-        Me.RevRVBScaleFactor.Size = New System.Drawing.Size(52, 20)
-        Me.RevRVBScaleFactor.TabIndex = 10
-        Me.RevRVBScaleFactor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.RevRVBScaleFactor.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'SourceIPAddressLabel
-        '
-        Me.SourceIPAddressLabel.AutoSize = True
-        Me.SourceIPAddressLabel.Location = New System.Drawing.Point(9, 24)
-        Me.SourceIPAddressLabel.Name = "SourceIPAddressLabel"
-        Me.SourceIPAddressLabel.Size = New System.Drawing.Size(36, 13)
-        Me.SourceIPAddressLabel.TabIndex = 33
-        Me.SourceIPAddressLabel.Text = "Read:"
-        Me.SourceIPAddressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
         'grpFwdSettings
         '
         Me.grpFwdSettings.Controls.Add(Me.FwdRVBScaleFactor)
         Me.grpFwdSettings.Controls.Add(Me.F_RVBScaleFactor_Label)
         Me.grpFwdSettings.Controls.Add(Me.FwdDeltaVoltage)
         Me.grpFwdSettings.Controls.Add(Me.Forward_Voltage_Label)
-        Me.grpFwdSettings.Location = New System.Drawing.Point(261, 97)
+        Me.grpFwdSettings.Location = New System.Drawing.Point(4, 40)
         Me.grpFwdSettings.Name = "grpFwdSettings"
         Me.grpFwdSettings.Size = New System.Drawing.Size(168, 85)
         Me.grpFwdSettings.TabIndex = 26
@@ -667,6 +578,126 @@ Partial Class RVBSim
         Me.Forward_Voltage_Label.Text = "Local Voltage + "
         Me.Forward_Voltage_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'grpRevSettings
+        '
+        Me.grpRevSettings.Controls.Add(Me.Reverse_Voltage_Label)
+        Me.grpRevSettings.Controls.Add(Me.RevDeltaVoltage)
+        Me.grpRevSettings.Controls.Add(Me.R_RVBScaleFactor_Label)
+        Me.grpRevSettings.Controls.Add(Me.RevRVBScaleFactor)
+        Me.grpRevSettings.Location = New System.Drawing.Point(172, 40)
+        Me.grpRevSettings.Name = "grpRevSettings"
+        Me.grpRevSettings.Size = New System.Drawing.Size(168, 85)
+        Me.grpRevSettings.TabIndex = 34
+        Me.grpRevSettings.TabStop = False
+        Me.grpRevSettings.Text = "Rev RVB Settings"
+        '
+        'Reverse_Voltage_Label
+        '
+        Me.Reverse_Voltage_Label.AutoSize = True
+        Me.Reverse_Voltage_Label.Location = New System.Drawing.Point(12, 58)
+        Me.Reverse_Voltage_Label.Name = "Reverse_Voltage_Label"
+        Me.Reverse_Voltage_Label.Size = New System.Drawing.Size(84, 13)
+        Me.Reverse_Voltage_Label.TabIndex = 30
+        Me.Reverse_Voltage_Label.Text = "Local Voltage + "
+        Me.Reverse_Voltage_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'RevDeltaVoltage
+        '
+        Me.RevDeltaVoltage.DecimalPlaces = 1
+        Me.RevDeltaVoltage.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.RevDeltaVoltage.Location = New System.Drawing.Point(102, 54)
+        Me.RevDeltaVoltage.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
+        Me.RevDeltaVoltage.Name = "RevDeltaVoltage"
+        Me.RevDeltaVoltage.Size = New System.Drawing.Size(52, 20)
+        Me.RevDeltaVoltage.TabIndex = 11
+        Me.RevDeltaVoltage.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'R_RVBScaleFactor_Label
+        '
+        Me.R_RVBScaleFactor_Label.Location = New System.Drawing.Point(7, 20)
+        Me.R_RVBScaleFactor_Label.Name = "R_RVBScaleFactor_Label"
+        Me.R_RVBScaleFactor_Label.Size = New System.Drawing.Size(95, 30)
+        Me.R_RVBScaleFactor_Label.TabIndex = 28
+        Me.R_RVBScaleFactor_Label.Text = "Reverse RVB Scale Factor"
+        Me.R_RVBScaleFactor_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'RevRVBScaleFactor
+        '
+        Me.RevRVBScaleFactor.DecimalPlaces = 1
+        Me.RevRVBScaleFactor.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.RevRVBScaleFactor.Location = New System.Drawing.Point(102, 25)
+        Me.RevRVBScaleFactor.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.RevRVBScaleFactor.Name = "RevRVBScaleFactor"
+        Me.RevRVBScaleFactor.Size = New System.Drawing.Size(52, 20)
+        Me.RevRVBScaleFactor.TabIndex = 10
+        Me.RevRVBScaleFactor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.RevRVBScaleFactor.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'txtRead
+        '
+        Me.txtRead.Location = New System.Drawing.Point(51, 20)
+        Me.txtRead.Name = "txtRead"
+        Me.txtRead.Size = New System.Drawing.Size(110, 20)
+        Me.txtRead.TabIndex = 0
+        '
+        'SourceIPAddressLabel
+        '
+        Me.SourceIPAddressLabel.AutoSize = True
+        Me.SourceIPAddressLabel.Location = New System.Drawing.Point(9, 24)
+        Me.SourceIPAddressLabel.Name = "SourceIPAddressLabel"
+        Me.SourceIPAddressLabel.Size = New System.Drawing.Size(36, 13)
+        Me.SourceIPAddressLabel.TabIndex = 33
+        Me.SourceIPAddressLabel.Text = "Read:"
+        Me.SourceIPAddressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'RVBMin
+        '
+        Me.RVBMin.DecimalPlaces = 1
+        Me.RVBMin.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.RVBMin.Location = New System.Drawing.Point(845, 290)
+        Me.RVBMin.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
+        Me.RVBMin.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
+        Me.RVBMin.Name = "RVBMin"
+        Me.RVBMin.Size = New System.Drawing.Size(52, 20)
+        Me.RVBMin.TabIndex = 32
+        Me.RVBMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.RVBMin.Value = New Decimal(New Integer() {90, 0, 0, 0})
+        Me.RVBMin.Visible = False
+        '
+        'RVBMax
+        '
+        Me.RVBMax.DecimalPlaces = 1
+        Me.RVBMax.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.RVBMax.Location = New System.Drawing.Point(758, 290)
+        Me.RVBMax.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
+        Me.RVBMax.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
+        Me.RVBMax.Name = "RVBMax"
+        Me.RVBMax.Size = New System.Drawing.Size(52, 20)
+        Me.RVBMax.TabIndex = 31
+        Me.RVBMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.RVBMax.Value = New Decimal(New Integer() {150, 0, 0, 0})
+        Me.RVBMax.Visible = False
+        '
+        'Label7
+        '
+        Me.Label7.Location = New System.Drawing.Point(830, 247)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(79, 33)
+        Me.Label7.TabIndex = 30
+        Me.Label7.Text = "Remote Voltage Min"
+        Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label7.Visible = False
+        '
+        'Label5
+        '
+        Me.Label5.Location = New System.Drawing.Point(745, 247)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(79, 33)
+        Me.Label5.TabIndex = 27
+        Me.Label5.Text = "Remote Voltage Max"
+        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label5.Visible = False
+        '
         'ProtocolBox
         '
         Me.ProtocolBox.Controls.Add(Me.dnpbutton)
@@ -684,10 +715,14 @@ Partial Class RVBSim
         Me.AcceptButton = Me.btnStart
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(617, 384)
+        Me.ClientSize = New System.Drawing.Size(617, 388)
+        Me.Controls.Add(Me.RVBMin)
         Me.Controls.Add(Me.ProtocolBox)
         Me.Controls.Add(Me.ProtocolParameters)
+        Me.Controls.Add(Me.RVBMax)
+        Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.AddressBox)
+        Me.Controls.Add(Me.Label5)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximizeBox = False
@@ -705,17 +740,17 @@ Partial Class RVBSim
         Me.ProtocolParameters.PerformLayout()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        CType(Me.RVBMin, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RVBMax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.heartbeattimer, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.grpRevSettings.ResumeLayout(False)
-        Me.grpRevSettings.PerformLayout()
-        CType(Me.RevDeltaVoltage, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RevRVBScaleFactor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpFwdSettings.ResumeLayout(False)
         Me.grpFwdSettings.PerformLayout()
         CType(Me.FwdRVBScaleFactor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FwdDeltaVoltage, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpRevSettings.ResumeLayout(False)
+        Me.grpRevSettings.PerformLayout()
+        CType(Me.RevDeltaVoltage, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RevRVBScaleFactor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RVBMin, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RVBMax, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ProtocolBox.ResumeLayout(False)
         Me.ProtocolBox.PerformLayout()
         Me.ResumeLayout(False)
@@ -726,7 +761,7 @@ Partial Class RVBSim
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents lblLocalVoltageValue As System.Windows.Forms.Label
     Friend WithEvents txtWrite As System.Windows.Forms.TextBox
     Friend WithEvents txtPort As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
@@ -775,5 +810,8 @@ Partial Class RVBSim
     Friend WithEvents RVBMin As System.Windows.Forms.NumericUpDown
     Friend WithEvents RVBMax As System.Windows.Forms.NumericUpDown
     Friend WithEvents GroupBox1 As System.Windows.Forms.GroupBox
+    Friend WithEvents lblRevRVBValue As System.Windows.Forms.Label
+    Friend WithEvents lblMsgCenter As System.Windows.Forms.Label
+    Friend WithEvents lblFwdRVBValue As System.Windows.Forms.Label
 
 End Class

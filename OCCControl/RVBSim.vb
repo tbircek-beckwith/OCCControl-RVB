@@ -1,45 +1,52 @@
 ﻿Imports iec.iec
-Imports tcpmodbus.modbus
-Imports tcpdnp.AsyncTcp4RVB2
+Imports tcpmodbus.AsyncModbus
+Imports tcpdnp.AsyncDNP3_0
 Imports System.Net
-Imports System.Timers
 Imports System.Threading
 Imports System.Text
 Imports System.IO
 
 Public Class RVBSim
-    Const SupportedRVBRevision As String = "15"         'Supported RVB feature document revision
-    Const OperatingVoltage As Integer = 900
-    Const M2001D_Comm_Scale As Integer = 10
-    Const MaxDeltaVoltage As Integer = 100
-    Const MinDeltaVoltage As Integer = -100
-    Const DeltaMessage As String = "Local Voltage + "
-    Const DirectMessage As String = "RVB Voltage is ="
+    Friend Const ConsoleWriteEnable As Boolean = True
+    Private Const SupportedRVBRevision As String = "15"         'Supported RVB feature document revision
+    Private Const OperatingVoltage As Integer = 900
+    Private Const M2001D_Comm_Scale As Integer = 10
+    Private Const MaxDeltaVoltage As Integer = 100
+    Private Const MinDeltaVoltage As Integer = -100
+    Private Const DeltaMessage As String = "Local Voltage + "
+    Private Const DirectMessage As String = "RVB Voltage is ="
+    Private Const DNP_BufferSize As Integer = 29
+    Private Const Modbus_BufferSize As Integer = 12
+    Private Const IEC_BufferSize As Integer = 39
 
-    Public sb As New StringBuilder
+    Protected Friend sb As New StringBuilder
+    Protected Friend IPs As String() = New String(1) {}
 
-    Private dnp As New tcpdnp.AsyncTcp4RVB2
-    Private modbus As New tcpmodbus.AsyncTcp4RVB
+    Private dnp As tcpdnp.AsyncDNP3_0
+    Private modbus As tcpmodbus.AsyncModbus
+
     Private iec As New iec.iec
     ' Private iec2 As New iec.AsyncTcp4RVB
 
     Private processID As Integer = 0
     Private support As Boolean      'True rev 15 or greater False rev 8
+    Private errorCounter As Integer = 0
+    'Private commErrorCounter As Integer = 0
 
     Private WriteTickerDone As New ManualResetEvent(False)
     Private ReadTickerDone As New ManualResetEvent(False)
     Private TimersEvent As New ManualResetEvent(False)
-    
+
     Private WriteRegisterWait As RegisteredWaitHandle
     Private ReadRegisterWait As RegisteredWaitHandle
 
-    Public visibility As Boolean = True
-    Public testSetting As TestSettings
-    Public modbusRegister As ModbusSettings
-    Public dnpSetting As DnpSettings
-    Public iecSetting As IECSettings
+    Protected Friend visibility As Boolean = True
+    Protected Friend testSetting As TestSettings
+    Protected Friend modbusRegister As ModbusSettings
+    Protected Friend dnpSetting As DnpSettings
+    Protected Friend iecSetting As IECSettings
 
-    Public Structure TestSettings
+    Protected Friend Structure TestSettings
         Dim Protocol As String
         Dim readIpAddress As String
         Dim writeIpAddress As String
@@ -52,7 +59,7 @@ Public Class RVBSim
         Dim RVBMin As Double
     End Structure
 
-    Public Structure ModbusSettings
+    Protected Friend Structure ModbusSettings
         Dim Port As String
         Dim LocalVoltage As UShort
         Dim RVBEnable As UShort
@@ -67,7 +74,7 @@ Public Class RVBSim
         Dim Factory As UShort
     End Structure
 
-    Public Structure DnpSettings
+    Protected Friend Structure DnpSettings
         Dim Port As String
         Dim source As UShort
         Dim destination As UShort
@@ -83,7 +90,7 @@ Public Class RVBSim
         Dim RVBMin As UShort
     End Structure
 
-    Public Structure IECSettings
+    Protected Friend Structure IECSettings
         Dim Port As String
         Dim iedName As String
         Dim iedClass As String
@@ -99,7 +106,7 @@ Public Class RVBSim
     End Structure
 
     Private _WriteInterval As Integer
-    Public Property WriteInterval() As Integer
+    Private Property WriteInterval() As Integer
         Get
             Return _WriteInterval
         End Get
@@ -109,7 +116,7 @@ Public Class RVBSim
     End Property
 
     Private _ReadInterval As Integer
-    Public Property ReadInterval() As Integer
+    Private Property ReadInterval() As Integer
         Get
             Return _ReadInterval
         End Get
@@ -129,7 +136,7 @@ Public Class RVBSim
     End Property
 
     Private _Heart_Beat_Timer As Double = 0.0
-    Public Property Heart_Beat_Timer() As Double
+    Private Property Heart_Beat_Timer() As Double
         Get
             Return _Heart_Beat_Timer
         End Get
@@ -139,7 +146,7 @@ Public Class RVBSim
     End Property
 
     Private _ActualLocalVoltage As Double = 0.0
-    Public Property ActualLocalVoltage() As Double
+    Private Property ActualLocalVoltage() As Double
         Get
             Return _ActualLocalVoltage
         End Get
@@ -149,7 +156,7 @@ Public Class RVBSim
     End Property
 
     Private _Forward_RVBVoltage2Write As Double = 0.0
-    Public Property Forward_RVBVoltage2Write() As Double
+    Private Property Forward_RVBVoltage2Write() As Double
         Get
             Return _Forward_RVBVoltage2Write
         End Get
@@ -159,7 +166,7 @@ Public Class RVBSim
     End Property
 
     Private _Reverse_RVBVoltage2Write As Double = 0.0
-    Public Property Reverse_RVBVoltage2Write() As Double
+    Private Property Reverse_RVBVoltage2Write() As Double
         Get
             Return _Reverse_RVBVoltage2Write
         End Get
@@ -169,7 +176,7 @@ Public Class RVBSim
     End Property
 
     Private _readresult As UShort = 0
-    Public Property readresult() As UShort
+    Private Property readresult() As UShort
         Get
             Return _readresult
         End Get
@@ -179,7 +186,7 @@ Public Class RVBSim
     End Property
 
     Private _errorMsg As String = ""
-    Public Property ReceivedErrorMsg() As String
+    Private Property ReceivedErrorMsg() As String
         Get
             Return _errorMsg
         End Get
@@ -188,28 +195,41 @@ Public Class RVBSim
         End Set
     End Property
 
-    Private Delegate Sub SetTextDelegate(ByVal Label As Label, ByVal itsText As String)
+    Private Delegate Sub SetTextDelegate(ByVal [label] As Label, ByVal [text] As String)
+    Private Delegate Sub SetEnableDelegate(ByVal [control] As Control, ByVal [enable] As Boolean)
 
-    Public Sub SetText(ByVal Labele As Label, ByVal itsText As String)
-        Console.WriteLine("Current thread is # {0} SetText", Thread.CurrentThread.ManagedThreadId)
+    Protected Friend Sub SetText(ByVal [label] As Label, ByVal [text] As String)
+
         Try
-            If Label1.InvokeRequired Then
+            If [label].InvokeRequired Then
                 Dim del As New SetTextDelegate(AddressOf SetText)
-                Label1.Invoke(del, New Object() {New Label, itsText})
+                [label].Invoke(del, New Object() {[label], [text]})
             Else
-                Label1.Text = itsText
+                If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} SetText --- Text is {1}", Thread.CurrentThread.GetHashCode, [text])
+                [label].Text = [text]
             End If
         Catch ex As Exception
-            'SetText(Label1, ex.ToString)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
-        Finally
-            'Thread.CurrentThread.Join(10)
-            'GC.Collect(GC.MaxGeneration)
+        End Try
+    End Sub
+
+    Protected Friend Sub SetEnable(ByVal [control] As Control, ByVal [enable] As Boolean)
+
+        Try
+            If [control].InvokeRequired Then
+                Dim del As New SetEnableDelegate(AddressOf SetEnable)
+                [control].Invoke(del, New Object() {[control], [enable]})
+            Else
+                ' If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} SetEnable --- Text is {1}", Thread.CurrentThread.GetHashCode, [enable])
+                [control].Enabled = [enable]
+            End If
+        Catch ex As Exception
+            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
         End Try
     End Sub
 
     Private Sub GenerateRVBVoltage2Transfer() '(ByVal ManualEvent As ManualResetEvent)
-        Console.WriteLine("Current thread is # {0} GenerateRVBVoltage2Transfer", Thread.CurrentThread.ManagedThreadId)
+        If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} GenerateRVBVoltage2Transfer", Thread.CurrentThread.GetHashCode)
 
         Try
             Dim Forward_RVBVoltage2OperateWith As Double = 0.0
@@ -234,74 +254,79 @@ Public Class RVBSim
 
             Forward_RVBVoltage2Write = Forward_RVBVoltage2OperateWith
             Reverse_RVBVoltage2Write = Reverse_RVBVoltage2OperateWith
+
         Catch ex As Exception
-            SetText(Label1, ex.ToString)
+            SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
-        Finally
-            'Thread.CurrentThread.Join(10)
-            ' GC.Collect(GC.MaxGeneration)
         End Try
+    End Sub
+
+    Private Sub CheckErrors()
+        If Interlocked.Read(errorCounter) >= 10 Then
+            ResetTimers()
+        End If
     End Sub
 
     Private Sub ResetTimers()
-        Console.WriteLine("Current thread is # {0} ResetTimers", Thread.CurrentThread.ManagedThreadId)
 
         Try
-            'WriteRegisterWait.Unregister(Nothing)
-            ReadTickerDone.Reset()
-            ReadRegisterWait = ThreadPool.RegisterWaitForSingleObject(ReadTickerDone, New WaitOrTimerCallback(AddressOf PeriodicReadEvent), Nothing, ReadInterval, False)
-            WriteTickerDone.Reset()
-            WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(WriteTickerDone, New WaitOrTimerCallback(AddressOf PeriodicWriteEvent), Nothing, WriteInterval, False)
-            'Console.WriteLine("{0}Resetting timers{0}", vbCrLf)
-        Catch ex As Exception
-            SetText(Label1, ex.ToString)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
-        Finally
-            'Thread.CurrentThread.Join(100)
-            'GC.Collect(GC.MaxGeneration)
-        End Try
+            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} ResetTimers{1} ---------------------------- errorCounter: {2}", Thread.CurrentThread.GetHashCode, vbCrLf, Interlocked.Read(errorCounter))
 
+            If Not Interlocked.Read(errorCounter) >= 10 Then
+                WriteRegisterWait.Unregister(Nothing)
+                ReadRegisterWait.Unregister(Nothing)
+
+                ' ReadTickerDone.Reset()
+                ReadRegisterWait = ThreadPool.RegisterWaitForSingleObject(ReadTickerDone, New WaitOrTimerCallback(AddressOf PeriodicReadEvent), Nothing, ReadInterval, False)
+                ' WriteTickerDone.Reset()
+                WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(WriteTickerDone, New WaitOrTimerCallback(AddressOf PeriodicWriteEvent), Nothing, WriteInterval, False)
+            Else
+                Pause()
+                Throw New CustomExceptions("Too many errors")
+            End If
+
+        Catch ex As Exception
+            SetText(lblMsgCenter, ex.Message)
+            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+        End Try
     End Sub
 
     Private Sub PeriodicWriteEvent(ByVal state As Object, ByVal timeOut As Boolean) '(ByVal mip As IPAddress, ByVal m_port As UShort)
-        Console.WriteLine("Current thread is # {0} PeriodicWriteEvent", Thread.CurrentThread.ManagedThreadId)
 
         If timeOut Then
-            'Console.WriteLine("----------------------------------- Start to write -----------------------------------")
-            Heart_Beat_Timer = 0
+            If ConsoleWriteEnable Then
+                Console.WriteLine("Current thread is # {0} PeriodicWriteEvent", Thread.CurrentThread.GetHashCode)
+                Heart_Beat_Timer = 0
+            End If
+
             ReadRegisterWait.Unregister(Nothing)
             GenerateRVBVoltage2Transfer()
-            Dim WriteEvent As New ManualResetEvent(False)
-            Try
-                'Console.WriteLine("ticker{1} ----------------------------------- Start to write :{0} -----------------------------------", Now.Ticks, vbCrLf)
 
+            Try
+                Dim WriteEvent As New ManualResetEvent(False)
                 If ProtocolInUse() = "dnp" Then         ' dnpbutton.Checked Then
                     'transmit Forward RVB Voltage
-                    ' dnp = New tcpdnp.AsyncTcp4RVB
                     dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.FRVBValue, CUShort(Forward_RVBVoltage2Write), 0)
                     WriteEvent.WaitOne()
+                    ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
+
                     'transmit Reverse RVB Voltage
                     WriteEvent.Reset()
                     dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.RRVBValue, CUShort(Reverse_RVBVoltage2Write), 0)
                     WriteEvent.WaitOne()
-                    'Console.WriteLine("--------------------------- Writing RVB Voltage(DNP) ------------------------------")
-                    ReceivedErrorMsg = tcpdnp.AsyncTcp4RVB2.ErrorReceived
-                    ' dnp = Nothing
+                    ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
 
                 ElseIf ProtocolInUse() = "modbus" Then          ' modbusbox.Checked Then
                     'transmit Forward RVB Voltage
-                    modbus = New tcpmodbus.AsyncTcp4RVB
-                    modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, NumericUpDownModbusFwdRVBVoltageRegister.Value, CUShort(Forward_RVBVoltage2Write), WriteEvent)
+                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, NumericUpDownModbusFwdRVBVoltageRegister.Value, CUShort(Forward_RVBVoltage2Write))
                     WriteEvent.WaitOne()
+                    ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
 
                     'transmit Reverse RVB Voltage
                     WriteEvent.Reset()
-                    modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, NumericUpDownModbusRevRVBVoltageRegister.Value, CUShort(Reverse_RVBVoltage2Write), WriteEvent)
+                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, NumericUpDownModbusRevRVBVoltageRegister.Value, CUShort(Reverse_RVBVoltage2Write))
                     WriteEvent.WaitOne()
-                    'Console.WriteLine("--------------------------- Writing RVB Voltage(Modbus) ------------------------------")
-                    ReceivedErrorMsg = modbus.ErrorReceived
-
-                    modbus = Nothing
+                    ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
 
                     'ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checked Then
                     '    'transmit Forward RVB Voltage
@@ -315,22 +340,27 @@ Public Class RVBSim
                     '    'iec2.Send(txtIECRevRVBVoltage.Text, "Write", CUShort(Reverse_RVBVoltage2Write), iecSetting.iedName, WriteEvent)
                     '    'WriteEvent.WaitOne()
                 End If
+
+                SetText(lblFwdRVBValue, String.Format("Fwd RVB: {0}", FormatNumber((Forward_RVBVoltage2Write / M2001D_Comm_Scale), 1)))
+                SetText(lblRevRVBValue, String.Format("Rev RVB: {0}", FormatNumber((Reverse_RVBVoltage2Write / M2001D_Comm_Scale), 1)))
+
                 WriteEvent.SafeWaitHandle.Close()
 
+                If ConsoleWriteEnable Then
+                    Console.WriteLine(" ---------------------- Writing Fwd voltage: {0}", Forward_RVBVoltage2Write) ' / M2001D_Comm_Scale)
+                    Console.WriteLine(" ---------------------- Writing Rev voltage: {0}", Reverse_RVBVoltage2Write) ' / M2001D_Comm_Scale)
+                End If
 
-            Catch ex As Exception
-                SetText(Label1, ex.ToString)
-                sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
-            Finally
-                Console.WriteLine(" ---------------------- Writing Fwd voltage: {0}", Forward_RVBVoltage2Write) ' / M2001D_Comm_Scale)
-                Console.WriteLine(" ---------------------- Writing Rev voltage: {0}", Reverse_RVBVoltage2Write) ' / M2001D_Comm_Scale)
-                SetText(Label1, String.Format("     Reads: {0}{3}Fwd RVB: {1}{3}Rev RVB: {2}{3}Error: {4}", FormatNumber(CDbl(readresult / M2001D_Comm_Scale), 1), FormatNumber((Forward_RVBVoltage2Write / M2001D_Comm_Scale), 1), FormatNumber((Reverse_RVBVoltage2Write / M2001D_Comm_Scale), 1), vbCrLf, ReceivedErrorMsg))
                 If Not ReceivedErrorMsg = "None" Then sb.AppendLine(String.Format("{0} Received {1} error", Now, ReceivedErrorMsg))
+
                 WriteRegisterWait.Unregister(Nothing)
                 ResetTimers()
-                'Thread.CurrentThread.Join(100)
-                'Console.WriteLine("Current thread is # {0} --- PeriodicWriteEvent", Thread.CurrentThread.ManagedThreadId)
-                'GC.Collect(GC.MaxGeneration)
+
+            Catch ex As Exception
+                Interlocked.Increment(errorCounter)
+                CheckErrors()
+                SetText(lblMsgCenter, ex.Message)
+                sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
             End Try
         Else
             WriteRegisterWait.Unregister(Nothing)
@@ -338,50 +368,50 @@ Public Class RVBSim
     End Sub
 
     Private Sub PeriodicReadEvent(ByVal state As Object, ByVal timeOut As Boolean)
-        Console.WriteLine("Current thread is # {0} PeriodicReadEvent", Thread.CurrentThread.ManagedThreadId)
 
         If timeOut Then
-            ' Console.WriteLine("----------------------------------- Start to read -----------------------------------")
-            Dim ReadEvent As New ManualResetEvent(False)
-            'Console.WriteLine("----------------------------------- Start to read :{0} -----------------------------------", Now.Ticks)
+            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} PeriodicReadEvent", Thread.CurrentThread.GetHashCode)
+
             Try
+                Dim ReadEvent As New ManualResetEvent(False)
 
                 If ProtocolInUse() = "dnp" Then
-                    'ReadEvent.Reset()
-                    ' dnp = New tcpdnp.AsyncTcp4RVB
-                    tcpdnp.AsyncTcp4RVB2.result = 0
                     dnp.Send(ReadEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, Mode.Read, Objects.AnalogInput, Variations.AnaInput16bitVar4, QualifierField.AnaInput16bitStartStop, dnpSetting.LocalVoltage)
                     ReadEvent.WaitOne()
-                    readresult = tcpdnp.AsyncTcp4RVB2.result
-                    ReceivedErrorMsg = tcpdnp.AsyncTcp4RVB2.ErrorReceived
-                    'dnp = Nothing
-                    'ElseIf ProtocolInUse() = "modbus" Then
-                    '    modbus = New tcpmodbus.AsyncTcp4RVB
-                    '    modbus.Send(tcpmodbus.AsyncTcp4RVB.f.read, NumericUpDownModbusLocalVoltageRegister.Value, 1, ReadEvent)
-                    '    'ReadEvent.WaitOne()
-                    '    readresult = modbus.result
-                    '    modbus = Nothing
-                    'ElseIf ProtocolInUse() = "iec" Then
+                    readresult = tcpdnp.AsyncDNP3_0.result
+                    ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
+
+                ElseIf ProtocolInUse() = "modbus" Then
+                    modbus.Send(ReadEvent, tcpmodbus.AsyncModbus.functions.read, NumericUpDownModbusLocalVoltageRegister.Value, 1)
+                    ReadEvent.WaitOne()
+                    readresult = tcpmodbus.AsyncModbus.result
+                    ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
+
+                ElseIf ProtocolInUse() = "iec" Then
                     '    readresult = (iec.iec(m_ip, m_port, txtIECLocalVoltage.Text, "Connect", , iecSetting.iedName))
-                    '    '    ReadEvent.Reset()
-                    '    '    iec2.Send(txtIECLocalVoltage.Text, ReadEvent)
-                    '    '    ReadEvent.WaitOne()
-                    '    '    readresult = iec2.result
+                    '    ReadEvent.Reset()
+                    '    iec2.Send(txtIECLocalVoltage.Text, ReadEvent)
+                    '    ReadEvent.WaitOne()
+                    '    readresult = iec2.result
                 End If
 
-                Heart_Beat_Timer += ReadInterval
-                Console.WriteLine("Reading local voltage: {0} - {1}", readresult, Heart_Beat_Timer)
+                SetText(lblLocalVoltageValue, String.Format("Remote Voltage: {0}", FormatNumber(CDbl(readresult / M2001D_Comm_Scale), 1)))
+                SetText(lblMsgCenter, String.Format("Error: {0}", ReceivedErrorMsg))
+
+                If ConsoleWriteEnable Then
+                    Heart_Beat_Timer += ReadInterval
+                    Console.WriteLine("Reading local voltage: {0} - {1}", readresult, Heart_Beat_Timer)
+                    Console.WriteLine("Current thread is # {0} --- PeriodicReadEvent", Thread.CurrentThread.GetHashCode)
+                End If
+
+                If Not ReceivedErrorMsg = "None" Then sb.AppendLine(String.Format("{0} Received {1} error", Now, ReceivedErrorMsg))
 
                 ReadEvent.SafeWaitHandle.Close()
-                'GenerateRVBVoltage2Transfer()
+
             Catch ex As Exception
-                SetText(Label1, ex.ToString)
+                Interlocked.Increment(errorCounter)
+                SetText(lblMsgCenter, ex.Message)
                 sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
-            Finally
-                'Thread.CurrentThread.Join(100)
-                If Not ReceivedErrorMsg = "None" Then sb.AppendLine(String.Format("{0} Received {1} error", Now, ReceivedErrorMsg))
-                'Console.WriteLine("Current thread is # {0} --- PeriodicReadEvent", Thread.CurrentThread.ManagedThreadId)
-                'GC.Collect(GC.MaxGeneration)
             End Try
         Else
             ReadRegisterWait.Unregister(Nothing)
@@ -389,51 +419,51 @@ Public Class RVBSim
     End Sub
 
     Private Sub Disenable()
-        Console.WriteLine("Current thread is # {0} Disenable", Thread.CurrentThread.ManagedThreadId)
 
         Try
             With btnStart
+                If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} Disenable", Thread.CurrentThread.GetHashCode)
+
                 'dnp settings dis/enable
-                NumericUpDownDNPSourceAddress.Enabled = .Enabled
-                NumericUpDownDNPDestinationAddress.Enabled = .Enabled
+                SetEnable(NumericUpDownDNPSourceAddress, .Enabled)
+                SetEnable(NumericUpDownDNPDestinationAddress, .Enabled)
 
                 'modbus settings dis/enable
-                NumericUpDownModbusLocalVoltageRegister.Enabled = .Enabled
-                NumericUpDownModbusFwdRVBVoltageRegister.Enabled = .Enabled
-                NumericUpDownModbusRevRVBVoltageRegister.Enabled = .Enabled
+                SetEnable(NumericUpDownModbusLocalVoltageRegister, .Enabled)
+                SetEnable(NumericUpDownModbusFwdRVBVoltageRegister, .Enabled)
+                SetEnable(NumericUpDownModbusRevRVBVoltageRegister, .Enabled)
 
                 'iec61850 settings dis/enable
-                txtIECLocalVoltage.Enabled = .Enabled
-                txtIECFwdRVBVoltage.Enabled = .Enabled
-                txtIECRevRVBVoltage.Enabled = .Enabled
+                SetEnable(txtIECLocalVoltage, .Enabled)
+                SetEnable(txtIECFwdRVBVoltage, .Enabled)
+                SetEnable(txtIECRevRVBVoltage, .Enabled)
 
                 'communication settings dis/enable
-                txtWrite.Enabled = .Enabled
-                txtRead.Enabled = .Enabled
-                txtPort.Enabled = .Enabled
+                SetEnable(txtWrite, .Enabled)
+                SetEnable(txtRead, .Enabled)
+                SetEnable(txtPort, .Enabled)
 
                 'protocol options dis/enable
-                dnpbutton.Enabled = .Enabled
-                modbusbox.Enabled = .Enabled
-                iec61850box.Enabled = .Enabled
+                SetEnable(dnpbutton, .Enabled)
+                SetEnable(modbusbox, .Enabled)
+                SetEnable(iec61850box, .Enabled)
 
                 'general rvb settings dis/enable
-                heartbeattimer.Enabled = .Enabled
-                radUseDeltaVoltage.Enabled = .Enabled
-                radUseFixedVoltage.Enabled = .Enabled
-                FwdRVBScaleFactor.Enabled = .Enabled
-                RVBMax.Enabled = .Enabled
-                RVBMin.Enabled = .Enabled
-                RevRVBScaleFactor.Enabled = .Enabled
+                SetEnable(heartbeattimer, .Enabled)
+                SetEnable(radUseDeltaVoltage, .Enabled)
+                SetEnable(radUseFixedVoltage, .Enabled)
+                SetEnable(FwdRVBScaleFactor, .Enabled)
+                SetEnable(RVBMax, .Enabled)
+                SetEnable(RVBMin, .Enabled)
+                SetEnable(RevRVBScaleFactor, .Enabled)
+
+                If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- Disenable", Thread.CurrentThread.GetHashCode)
 
             End With
+
         Catch ex As Exception
-            SetText(Label1, ex.ToString)
+            SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
-        Finally
-            'Thread.CurrentThread.Join(100)
-            'Console.WriteLine("Current thread is # {0} --- Disenable", Thread.CurrentThread.GetHashCode)
-            'GC.Collect(GC.MaxGeneration)
         End Try
     End Sub
 
@@ -445,15 +475,15 @@ Public Class RVBSim
         ElseIf iec61850box.Checked Then
             ProtocolInUse = "iec"
         End If
-        Console.WriteLine("Current thread is # {0} --- UpdateProtocol", Thread.CurrentThread.ManagedThreadId)
+        If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- UpdateProtocol", Thread.CurrentThread.GetHashCode)
     End Sub
 
     Private Sub SendSettings()
 
-        Dim WriteEvent As New ManualResetEvent(False)
         Try
-            'ReadLocalVoltageTimer.Stop()
-            SetText(Label1, "Sending settings to the units ...")
+            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- SendSettings --- START", Thread.CurrentThread.GetHashCode)
+            Dim WriteEvent As New ManualResetEvent(False)
+            SetText(lblMsgCenter, "Sending settings to the units ...")
 
             If ProtocolInUse = "dnp" Then
                 'Enable RVB using dnp
@@ -486,36 +516,40 @@ Public Class RVBSim
                 dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.RRVBScale, RevRVBScaleFactor.Value * M2001D_Comm_Scale, 0)
                 WriteEvent.WaitOne()
 
+                ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
+
             ElseIf ProtocolInUse = "modbus" Then
                 'Enable RVB using modbus
                 WriteEvent.Reset()
-                modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBEnable, 1, WriteEvent)
+                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, modbusRegister.RVBEnable, 1)
                 WriteEvent.WaitOne()
 
                 'set RVB heartbeat timer
                 WriteEvent.Reset()
-                modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBHeartBeatTimer, heartbeattimer.Value, WriteEvent)
+                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, modbusRegister.RVBHeartBeatTimer, heartbeattimer.Value)
                 WriteEvent.WaitOne()
 
                 'set RVB Max
                 WriteEvent.Reset()
-                modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBMax, RVBMax.Value * M2001D_Comm_Scale, WriteEvent)
+                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, modbusRegister.RVBMax, RVBMax.Value * M2001D_Comm_Scale)
                 WriteEvent.WaitOne()
 
                 'set RVB Min
                 WriteEvent.Reset()
-                modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBMin, RVBMin.Value * M2001D_Comm_Scale, WriteEvent)
+                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, modbusRegister.RVBMin, RVBMin.Value * M2001D_Comm_Scale)
                 WriteEvent.WaitOne()
 
                 'set Fwd RVB Scale Factor
                 WriteEvent.Reset()
-                modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RVBMin, RVBMin.Value * M2001D_Comm_Scale, WriteEvent)
+                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, modbusRegister.FRVBScale, FwdRVBScaleFactor.Value * M2001D_Comm_Scale)
                 WriteEvent.WaitOne()
 
                 'set Rev RVB Scale Factor 
                 WriteEvent.Reset()
-                modbus.Send(tcpmodbus.AsyncTcp4RVB.f.write, modbusRegister.RRVBScale, RevRVBScaleFactor.Value * M2001D_Comm_Scale, WriteEvent)
+                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, modbusRegister.RRVBScale, RevRVBScaleFactor.Value * M2001D_Comm_Scale)
                 WriteEvent.WaitOne()
+
+                ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
 
                 'ElseIf ProtocolInUse = "iec" Then
                 '    'enable RVB using IEC61850
@@ -552,55 +586,63 @@ Public Class RVBSim
                 MsgBox("Unsupported communication protocol")
                 Pause()
             End If
-            SetText(Label1, "Sending completed ... reading Local Voltage")
+
+            SetText(lblMsgCenter, "Sending completed ... reading Local Voltage")
+            If Not ReceivedErrorMsg = "None" Then sb.AppendLine(String.Format("{0} Received {1} error", Now, ReceivedErrorMsg))
+            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- SendSettings --- END", Thread.CurrentThread.GetHashCode)
+
         Catch ex As Exception
-            SetText(Label1, ex.ToString)
+            SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
-        Finally
-            'WriteEvent.SafeWaitHandle.Close()
-            'Thread.CurrentThread.Join(100)
-            Console.WriteLine("Current thread is # {0} --- SendSettings", Thread.CurrentThread.ManagedThreadId)
-            'GC.Collect(GC.MaxGeneration)
         End Try
     End Sub
 
     Private Sub Start()
-        Dim Connection As New ManualResetEvent(False)
-        TimersEvent = New ManualResetEvent(False)
+
         Try
+            Dim Connection As New ManualResetEvent(False)
+            TimersEvent = New ManualResetEvent(False)
+            Interlocked.Exchange(errorCounter, 0)
+
             ReceivedErrorMsg = "None"
             'Update protocol per user selection
             UpdateProtocol()
-            SetText(Label1, "Establishing communication ...")
-
-            btnStop.Enabled = True
-            btnStart.Enabled = False
+            SetText(lblMsgCenter, "Establishing communication ...")
+            SetEnable(btnStop, True)
+            SetEnable(btnStart, False)
 
             Disenable()
 
-            Dim IPs As String() = {txtRead.Text, txtWrite.Text}
-            SetText(Label1, "Connecting to the units ...")
+            IPs = {txtRead.Text, txtWrite.Text}
+            SetText(lblMsgCenter, "Connecting to the units ...")
 
             Dim success As Boolean = False
 
             If PingIPAddresses(IPs) Then
 
                 If ProtocolInUse = "modbus" Then
-                    modbus = New tcpmodbus.AsyncTcp4RVB
+                    tcpmodbus.AsyncModbus.ConsoleWriteEnable = ConsoleWriteEnable
+                    modbus = New tcpmodbus.AsyncModbus(IPs.Length, Modbus_BufferSize)
                     modbus.AsyncConnectTo(IPs, CUShort(txtPort.Text), Connection)
+                    ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
+
                 ElseIf ProtocolInUse = "dnp" Then
-                    dnp = New tcpdnp.AsyncTcp4RVB2
+                    tcpdnp.AsyncDNP3_0.ConsoleWriteEnable = ConsoleWriteEnable
+                    dnp = New tcpdnp.AsyncDNP3_0(IPs.Length, DNP_BufferSize)
                     dnp.AsyncConnectTo(IPs, CUShort(txtPort.Text), Connection)
+                    ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
+
                 ElseIf ProtocolInUse = "iec" Then
                     'iec2.AsyncConnectTo(IPs, CUShort(txtPort.Text), Connection)
                     'SendSettings()
                     Connection.Set()
                 End If
 
-                success = Connection.WaitOne(30)
+                success = Connection.WaitOne(1000)
                 Thread.CurrentThread.Join(100)
+
                 If success Then
-                    SetText(Label1, "Connection successful ...")
+                    SetText(lblMsgCenter, "Connection successful ...")
                     sb.AppendLine(String.Format("{0} Successfully connected to read {1}", Now, IPs(0)))
                     sb.AppendLine(String.Format("{0} Successfully connected to write {1}", Now, IPs(1)))
                     SendSettings()
@@ -608,7 +650,7 @@ Public Class RVBSim
                     TimersEvent.Set()
 
                     ReadInterval = heartbeattimer.Value * 250
-                    WriteInterval = heartbeattimer.Value * 850
+                    WriteInterval = heartbeattimer.Value * 900
                     'initial read of local voltage
                     ReadTickerDone.Reset()
                     ReadRegisterWait = ThreadPool.RegisterWaitForSingleObject(ReadTickerDone, New WaitOrTimerCallback(AddressOf PeriodicReadEvent), Nothing, ReadInterval, True)
@@ -617,22 +659,21 @@ Public Class RVBSim
                     WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(WriteTickerDone, New WaitOrTimerCallback(AddressOf PeriodicWriteEvent), Nothing, WriteInterval, False)
 
                 Else
-                    SetText(Label1, "Connection failed ...")
-                    sb.AppendLine(String.Format("{0} Connection failed to {1}", Now, IPs(0)))
-                    sb.AppendLine(String.Format("{0} Connection failed to {1}", Now, IPs(1)))
-                    Pause()
+                    Throw New Sockets.SocketException(CInt(Sockets.SocketError.HostUnreachable))
                 End If
+
+                Connection.SafeWaitHandle.Close()
+                If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- Start", Thread.CurrentThread.GetHashCode)
+
             Else
-                SetText(Label1, "Please check IP addresses")
-                Pause()
+                Throw New CustomExceptions("Cannot connect to the unit(s)")
             End If
         Catch ex As Exception
-            SetText(Label1, ex.ToString)
+            SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
-        Finally
-            Connection.SafeWaitHandle.Close()
-            Console.WriteLine("Current thread is # {0} --- Start", Thread.CurrentThread.ManagedThreadId)
-            'GC.Collect(GC.MaxGeneration)
+            SetEnable(btnStart, True)
+            SetEnable(btnStop, False)
+            Disenable()
         End Try
     End Sub
 
@@ -644,55 +685,51 @@ Public Class RVBSim
             ReadRegisterWait.Unregister(Nothing)
 
             If ProtocolInUse = "modbus" Then
-                modbus.AsyncDisconnect()
+                modbus.Disconnect(Disconnect)
+                modbus.Dispose()
             ElseIf ProtocolInUse = "dnp" Then
-                'dnp = New tcpdnp.AsyncTcp4RVB2
                 dnp.Disconnect(Disconnect)
-                Disconnect.WaitOne(10)
                 dnp.Dispose()
-                'Thread.CurrentThread.Join(1000)
             ElseIf ProtocolInUse = "iec" Then
 
             End If
-        Catch ex As Exception
-            SetText(Label1, ex.ToString)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
-        Finally
-            TimersEvent.Reset()
-            Disconnect.SafeWaitHandle.Close()
+
+            TimersEvent.Dispose()
+            Disconnect.Dispose()
 
             Heart_Beat_Timer = 0
             readresult = 0
             Forward_RVBVoltage2Write = 0.0
             Reverse_RVBVoltage2Write = 0.0
-
-            btnStop.Enabled = False
-            btnStart.Enabled = True
+            SetEnable(btnStop, False)
+            SetEnable(btnStart, True)
 
             Disenable()
+
             'if no errors show comm stop msg
             If ReceivedErrorMsg = "None" Then
-                SetText(Label1, "Comm stopped ...")
+                SetText(lblMsgCenter, "Comm stopped ...")
                 sb.AppendLine(String.Format("{0} Successfully disconnected", Now))
             Else
                 sb.AppendLine(String.Format("{0} Disconnect failed {1}", Now, ReceivedErrorMsg))
             End If
-            Console.WriteLine("Current thread is # {0} --- Pause", Thread.CurrentThread.ManagedThreadId)
-            ' GC.Collect(GC.MaxGeneration)
+            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- Pause", Thread.CurrentThread.GetHashCode)
+            SetText(lblLocalVoltageValue, String.Format(""))
+            SetText(lblFwdRVBValue, String.Format(""))
+            SetText(lblRevRVBValue, String.Format(""))
+
+        Catch ex As Exception
+
         End Try
     End Sub
 
     Private Function PingIPAddresses(ByVal IPs As String()) As Boolean
         PingIPAddresses = False
-        Try
-            Dim siteResponds = My.Computer.Network.Ping(IPs(0), 5000)
-            PingIPAddresses = My.Computer.Network.Ping(IPs(1), 5000) And siteResponds
-        Catch ex As Exception
-            Console.WriteLine("Error: {0}", ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
-        Finally
-            Console.WriteLine("Current thread is # {0} --- PingIPAddress", Thread.CurrentThread.ManagedThreadId)
-        End Try
+        SetText(lblMsgCenter, ReceivedErrorMsg)
+
+        Dim siteResponds As Boolean = My.Computer.Network.Ping(IPs(0), 5000)
+        PingIPAddresses = My.Computer.Network.Ping(IPs(1), 5000) And siteResponds
+
         Return PingIPAddresses
     End Function
 
@@ -738,24 +775,18 @@ Public Class RVBSim
             End With
 
         Catch ex As Exception
-            SetText(Label1, ex.ToString)
+            SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
         Finally
             My.Computer.FileSystem.WriteAllText(My.Computer.FileSystem.CombinePath(My.Computer.FileSystem.CurrentDirectory, "Log.txt"), sb.ToString, False)
-            Console.WriteLine("Current thread is # {0} --- FormClosing", Thread.CurrentThread.ManagedThreadId)
+            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- FormClosing", Thread.CurrentThread.GetHashCode)
         End Try
 
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As System.EventArgs) Handles Me.Load
-        'AddHandler My.Application.UnhandledException, AddressOf MyApplication_UnhandledException
         Main()
     End Sub
-
-    'Public Sub MyApplication_UnhandledException(ByVal sender As Object, ByVal e As Microsoft.VisualBasic.ApplicationServices.UnhandledExceptionEventArgs)
-
-    '    MsgBox(e.Exception.ToString) '+ vbCrLf + e.ToString, , "Unhandled exception")
-    'End Sub
 
     Public Sub Main()
         Dim proc As Process
@@ -779,10 +810,10 @@ Public Class RVBSim
                 txtRead.Focus()
             End If
         Catch ex As Exception
-            SetText(Label1, ex.ToString)
+            SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
         Finally
-            Console.WriteLine("Current thread is # {0} --- Main", Thread.CurrentThread.ManagedThreadId)
+            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- Main", Thread.CurrentThread.GetHashCode)
         End Try
     End Sub
 
@@ -829,10 +860,10 @@ Public Class RVBSim
             RevDeltaVoltage.Visible = support
 
         Catch ex As Exception
-            SetText(Label1, ex.ToString)
+            SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
         Finally
-            Console.WriteLine("Current thread is # {0} --- checkHandler", Thread.CurrentThread.ManagedThreadId)
+            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- checkHandler", Thread.CurrentThread.GetHashCode)
         End Try
     End Sub
 
@@ -874,10 +905,10 @@ Public Class RVBSim
             If testSetting.FwdRVBVoltage < MinDeltaVoltage Or testSetting.FwdRVBVoltage > MaxDeltaVoltage Then FwdDeltaVoltage.Value = 0.0 Else FwdDeltaVoltage.Value = testSetting.FwdRVBVoltage
             If testSetting.RevRVBVoltage < MinDeltaVoltage Or testSetting.RevRVBVoltage > MaxDeltaVoltage Then RevDeltaVoltage.Value = 0.0 Else RevDeltaVoltage.Value = testSetting.RevRVBVoltage
         Catch ex As Exception
-            SetText(Label1, ex.ToString)
+            SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
         Finally
-            Console.WriteLine("Current thread is # {0} --- checkcommandline", Thread.CurrentThread.ManagedThreadId)
+            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- checkcommandline", Thread.CurrentThread.GetHashCode)
         End Try
     End Sub
 
@@ -936,20 +967,14 @@ Public Class RVBSim
             Select Case testSetting.Protocol    '.protocol
                 Case "dnp"
                     dnpbutton.Checked = True
-                    'txtRead.Text = .dnphost
-                    'txtWrite.Text = '.dnphost
                     txtPort.Text = dnpSetting.Port  '.dnpport
                     checkHandler(dnpbutton)
                 Case "modbus"
                     modbusbox.Checked = True
-                    'txtRead.Text = .mdhost
-                    'txtWrite.Text = .mdhost
                     txtPort.Text = modbusRegister.Port  '.mdport
                     checkHandler(modbusbox)
                 Case "iec"
                     iec61850box.Checked = True
-                    'txtRead.Text = .iechost
-                    'txtWrite.Text = .iechost
                     txtPort.Text = iecSetting.Port '.iecport
                     checkHandler(iec61850box)
             End Select
@@ -957,14 +982,14 @@ Public Class RVBSim
             txtWrite.Text = testSetting.writeIpAddress
             '
         Catch ex As Exception
-            SetText(Label1, ex.ToString)
+            SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
         Finally
-            Console.WriteLine("Current thread is # {0} --- populatetheform", Thread.CurrentThread.ManagedThreadId)
+            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- populatetheform", Thread.CurrentThread.GetHashCode)
         End Try
     End Sub
 
-    Public Sub Radio_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radUseDeltaVoltage.CheckedChanged, radUseFixedVoltage.CheckedChanged
+    Protected Friend Sub Radio_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radUseDeltaVoltage.CheckedChanged, radUseFixedVoltage.CheckedChanged
         Try
             Select Case sender.name
                 Case "radUseDeltaVoltage"
@@ -987,16 +1012,16 @@ Public Class RVBSim
                     If readresult / M2001D_Comm_Scale >= RevDeltaVoltage.Minimum Then RevDeltaVoltage.Value = readresult / M2001D_Comm_Scale Else RevDeltaVoltage.Value = RevDeltaVoltage.Minimum
             End Select
         Catch ex As Exception
-            SetText(Label1, ex.ToString)
+            SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
         Finally
-            Console.WriteLine("Current thread is # {0} --- Radio_checkedchanged", Thread.CurrentThread.ManagedThreadId)
+            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- Radio_checkedchanged", Thread.CurrentThread.GetHashCode)
         End Try
     End Sub
 End Class
 
-Public Class ReadXmlFile
-    Public Sub read()
+Friend Class ReadXmlFile
+    Protected Friend Sub read()
         Try
             Dim myAttributeName As String = ""
             Dim iedName As String = ""
@@ -1016,12 +1041,12 @@ Public Class ReadXmlFile
 
                 While xmlReader.Read
                     If xmlReader.HasAttributes Then
-                        ' Console.WriteLine("Attributes of <" + xmlReader.Name + "> Depth {0}", xmlReader.Depth)
+                        ' If ConsoleWrite Then Console.WriteLine("Attributes of <" + xmlReader.Name + "> Depth {0}", xmlReader.Depth)
                         If xmlReader.Depth = 2 Then myAttributeName = xmlReader.Name
 
 test:                   If myAttributeName = "test" Then
                             While xmlReader.MoveToNextAttribute()
-                                'Console.WriteLine("<{0}>  ""{1}"" add this to <{2}>", xmlReader.Name, xmlReader.Value, myAttributeName)
+                                'If ConsoleWrite Then Console.WriteLine("<{0}>  ""{1}"" add this to <{2}>", xmlReader.Name, xmlReader.Value, myAttributeName)
                                 Select Case xmlReader.Name
                                     Case "protocol"
                                         RVBSim.testSetting.Protocol = xmlReader.Value
@@ -1057,10 +1082,10 @@ test:                   If myAttributeName = "test" Then
 
 dnp:                    ElseIf myAttributeName = "dnp" Then
 
-                            'Console.WriteLine("Attributes of <" + xmlReader.Name + "> Depth {0}", xmlReader.Depth)
+                            'If ConsoleWrite Then Console.WriteLine("Attributes of <" + xmlReader.Name + "> Depth {0}", xmlReader.Depth)
 
                             While xmlReader.MoveToNextAttribute()
-                                'Console.WriteLine("<{0}>  ""{1}"" add this to <{2}>", xmlReader.Name, xmlReader.Value, myAttributeName)
+                                'If ConsoleWrite Then Console.WriteLine("<{0}>  ""{1}"" add this to <{2}>", xmlReader.Name, xmlReader.Value, myAttributeName)
                                 ' Move the reader back to the element node.
                                 Select Case xmlReader.Name
                                     Case "port"
@@ -1098,10 +1123,10 @@ dnp:                    ElseIf myAttributeName = "dnp" Then
 
 modbus:                 ElseIf myAttributeName = "modbus" Then
 
-                            'Console.WriteLine("Attributes of <" + xmlReader.Name + "> Depth {0}", xmlReader.Depth)
+                            'If ConsoleWrite Then Console.WriteLine("Attributes of <" + xmlReader.Name + "> Depth {0}", xmlReader.Depth)
 
                             While xmlReader.MoveToNextAttribute()
-                                'Console.WriteLine("<{0}>  ""{1}"" add this to <{2}>", xmlReader.Name, xmlReader.Value, myAttributeName)
+                                'If ConsoleWrite Then Console.WriteLine("<{0}>  ""{1}"" add this to <{2}>", xmlReader.Name, xmlReader.Value, myAttributeName)
                                 ' Move the reader back to the element node.
                                 Select Case xmlReader.Name
                                     Case "port"
@@ -1139,10 +1164,10 @@ modbus:                 ElseIf myAttributeName = "modbus" Then
 
 iec61850:               ElseIf myAttributeName = "iec" Then
 
-                            ' Console.WriteLine("Attributes of <" + xmlReader.Name + "> Depth {0}", xmlReader.Depth)
+                            ' If ConsoleWrite Then Console.WriteLine("Attributes of <" + xmlReader.Name + "> Depth {0}", xmlReader.Depth)
 
                             While xmlReader.MoveToNextAttribute()
-                                ' Console.WriteLine("<{0}>  ""{1}"" add this to <{2}>", xmlReader.Name, xmlReader.Value, myAttributeName)
+                                ' If ConsoleWrite Then Console.WriteLine("<{0}>  ""{1}"" add this to <{2}>", xmlReader.Name, xmlReader.Value, myAttributeName)
                                 ' Move the reader back to the element node.
                                 Select Case xmlReader.Name
                                     Case "port"
@@ -1202,11 +1227,26 @@ iec61850:               ElseIf myAttributeName = "iec" Then
                 End While
             End If
         Catch ex As Exception
-            RVBSim.SetText(RVBSim.Label1, ex.ToString)
+            RVBSim.SetText(RVBSim.lblMsgCenter, ex.Message)
             RVBSim.sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
         Finally
-            Console.WriteLine("Current thread is # {0} --- XML_read", Thread.CurrentThread.ManagedThreadId)
+            If RVBSim.ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- XML_read", Thread.CurrentThread.GetHashCode)
         End Try
     End Sub
 End Class
 
+Friend Class CustomExceptions
+    Inherits Exception
+
+    Protected Friend Sub New()
+
+    End Sub
+
+    Protected Friend Sub New(message As String)
+        MyBase.New(message)
+    End Sub
+
+    Protected Friend Sub New(message As String, inner As Exception)
+        MyBase.New(message, inner)
+    End Sub
+End Class
