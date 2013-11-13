@@ -31,8 +31,7 @@ Public Class RVBSim
     Private processID As Integer = 0
     Private support As Boolean      'True rev 15 or greater False rev 8
     Private errorCounter As Integer = 0
-    'Private commErrorCounter As Integer = 0
-
+    
     Private WriteTickerDone As New ManualResetEvent(False)
     Private ReadTickerDone As New ManualResetEvent(False)
     Private TimersEvent As New ManualResetEvent(False)
@@ -262,7 +261,8 @@ Public Class RVBSim
     End Sub
 
     Private Sub CheckErrors()
-        If Interlocked.Read(errorCounter) >= 10 Then
+        If Not Interlocked.Read(errorCounter) >= 10 Then
+            'If errorCounter >= 10 Then
             ResetTimers()
         End If
     End Sub
@@ -273,8 +273,9 @@ Public Class RVBSim
             If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} ResetTimers{1} ---------------------------- errorCounter: {2}", Thread.CurrentThread.GetHashCode, vbCrLf, Interlocked.Read(errorCounter))
 
             If Not Interlocked.Read(errorCounter) >= 10 Then
-                WriteRegisterWait.Unregister(Nothing)
+                ' If errorCounter >= 10 Then
                 ReadRegisterWait.Unregister(Nothing)
+                WriteRegisterWait.Unregister(Nothing)
 
                 ' ReadTickerDone.Reset()
                 ReadRegisterWait = ThreadPool.RegisterWaitForSingleObject(ReadTickerDone, New WaitOrTimerCallback(AddressOf PeriodicReadEvent), Nothing, ReadInterval, False)
@@ -304,7 +305,7 @@ Public Class RVBSim
 
             Try
                 Dim WriteEvent As New ManualResetEvent(False)
-                If ProtocolInUse() = "dnp" Then         ' dnpbutton.Checked Then
+                If ProtocolInUse() = "dnp" Then
                     'transmit Forward RVB Voltage
                     dnp.Send(WriteEvent, NumericUpDownDNPDestinationAddress.Value, NumericUpDownDNPSourceAddress.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.FRVBValue, CUShort(Forward_RVBVoltage2Write), 0)
                     WriteEvent.WaitOne()
@@ -316,15 +317,15 @@ Public Class RVBSim
                     WriteEvent.WaitOne()
                     ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
 
-                ElseIf ProtocolInUse() = "modbus" Then          ' modbusbox.Checked Then
+                ElseIf ProtocolInUse() = "modbus" Then
                     'transmit Forward RVB Voltage
-                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, NumericUpDownModbusFwdRVBVoltageRegister.Value, CUShort(Forward_RVBVoltage2Write))
+                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, NumericUpDownModbusFwdRVBVoltageRegister.Value, CUShort(Forward_RVBVoltage2Write))
                     WriteEvent.WaitOne()
                     ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
 
                     'transmit Reverse RVB Voltage
                     WriteEvent.Reset()
-                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, NumericUpDownModbusRevRVBVoltageRegister.Value, CUShort(Reverse_RVBVoltage2Write))
+                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, NumericUpDownModbusRevRVBVoltageRegister.Value, CUShort(Reverse_RVBVoltage2Write))
                     WriteEvent.WaitOne()
                     ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
 
@@ -602,15 +603,17 @@ Public Class RVBSim
         Try
             Dim Connection As New ManualResetEvent(False)
             TimersEvent = New ManualResetEvent(False)
-            Interlocked.Exchange(errorCounter, 0)
 
+            errorCounter = 0
             ReceivedErrorMsg = "None"
+
             'Update protocol per user selection
             UpdateProtocol()
+
+            'set texts and buttons
             SetText(lblMsgCenter, "Establishing communication ...")
             SetEnable(btnStop, True)
             SetEnable(btnStart, False)
-
             Disenable()
 
             IPs = {txtRead.Text, txtWrite.Text}
@@ -651,6 +654,7 @@ Public Class RVBSim
 
                     ReadInterval = heartbeattimer.Value * 250
                     WriteInterval = heartbeattimer.Value * 900
+
                     'initial read of local voltage
                     ReadTickerDone.Reset()
                     ReadRegisterWait = ThreadPool.RegisterWaitForSingleObject(ReadTickerDone, New WaitOrTimerCallback(AddressOf PeriodicReadEvent), Nothing, ReadInterval, True)
