@@ -98,7 +98,7 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="iec, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="iec, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\iec\iec\bin\Release\iec.dll</HintPath>
     </Reference>

@@ -1,10 +1,12 @@
-﻿Imports iec.iec
-Imports tcpmodbus.AsyncModbus
-Imports tcpdnp.AsyncDNP3_0
-Imports System.Net
+﻿Imports System.Net
 Imports System.Threading
 Imports System.Text
 Imports System.IO
+
+'custom libraries
+Imports tcpmodbus.AsyncModbus
+Imports tcpdnp.AsyncDNP3_0
+Imports iec.AsyncIEC61850
 
 Public Class RVBSim
     Friend Const ConsoleWriteEnable As Boolean = True
@@ -24,10 +26,8 @@ Public Class RVBSim
 
     Private dnp As tcpdnp.AsyncDNP3_0
     Private modbus As tcpmodbus.AsyncModbus
-
-    Private iec As New iec.iec
-    ' Private iec2 As New iec.AsyncTcp4RVB
-
+    Private iec61850 As iec.AsyncIEC61850
+   
     Private processID As Integer = 0
     Private support As Boolean      'True rev 15 or greater False rev 8
     Private errorCounter As Integer = 0
@@ -91,7 +91,8 @@ Public Class RVBSim
 
     Protected Friend Structure IECSettings
         Dim Port As String
-        Dim iedName As String
+        Dim ReadIEDName As String
+        Dim WriteIEDName As String
         Dim iedClass As String
         Dim LocalVoltage As String
         Dim RVBEnable As String
@@ -329,17 +330,18 @@ Public Class RVBSim
                     WriteEvent.WaitOne()
                     ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
 
-                    'ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checked Then
-                    '    'transmit Forward RVB Voltage
-                    '    iec.iec(mip, m_port, txtIECFwdRVBVoltage.Text, "Write", CUShort(Forward_RVBVoltage2Write), iecSetting.iedName)
-                    '    'WriteEvent.Reset()
-                    '    'iec2.Send(txtIECFwdRVBVoltage.Text, "Write", CUShort(Forward_RVBVoltage2Write), iecSetting.iedName, WriteEvent)
-                    '    'WriteEvent.WaitOne()
-                    '    'transmit Reverse RVB Voltage
-                    '    iec.iec(mip, m_port, txtIECRevRVBVoltage.Text, "Write", CUShort(Reverse_RVBVoltage2Write), iecSetting.iedName)
-                    '    'WriteEvent.Reset()
-                    '    'iec2.Send(txtIECRevRVBVoltage.Text, "Write", CUShort(Reverse_RVBVoltage2Write), iecSetting.iedName, WriteEvent)
-                    '    'WriteEvent.WaitOne()
+                ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checked Then
+                    'transmit Forward RVB Voltage
+                    iec61850.Send(WriteEvent, txtIECFwdRVBVoltage.Text, "Write", CUShort(Forward_RVBVoltage2Write))
+                    WriteEvent.WaitOne()
+                    ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
+
+                    'transmit Reverse RVB Voltage
+                    WriteEvent.Reset()
+                    iec61850.Send(WriteEvent, txtIECRevRVBVoltage.Text, "Write", CUShort(Reverse_RVBVoltage2Write))
+                    WriteEvent.WaitOne()
+                    ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
+
                 End If
 
                 SetText(lblFwdRVBValue, String.Format("Fwd RVB: {0}", FormatNumber((Forward_RVBVoltage2Write / M2001D_Comm_Scale), 1)))
@@ -389,11 +391,11 @@ Public Class RVBSim
                     ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
 
                 ElseIf ProtocolInUse() = "iec" Then
-                    '    readresult = (iec.iec(m_ip, m_port, txtIECLocalVoltage.Text, "Connect", , iecSetting.iedName))
-                    '    ReadEvent.Reset()
-                    '    iec2.Send(txtIECLocalVoltage.Text, ReadEvent)
-                    '    ReadEvent.WaitOne()
-                    '    readresult = iec2.result
+                    iec61850.Send(ReadEvent, txtIECLocalVoltage.Text, "Read")
+                    ReadEvent.WaitOne()
+                    readresult = iec.AsyncIEC61850.result
+                    ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
+
                 End If
 
                 SetText(lblLocalVoltageValue, String.Format("Remote Voltage: {0}", FormatNumber(CDbl(readresult / M2001D_Comm_Scale), 1)))
@@ -552,37 +554,37 @@ Public Class RVBSim
 
                 ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
 
-                'ElseIf ProtocolInUse = "iec" Then
-                '    'enable RVB using IEC61850
-                '    iec.iec(mip, m_port, iecSetting.RVBEnable, "Write", 1, iecSetting.iedName, DataType.bool)
-                '    'WriteEvent.Reset()
-                '    'iec2.Send(WriteEvent)
-                '    'WriteEvent.WaitOne()
-                '    'set RVB heartbeat timer
-                '    iec.iec(mip, m_port, iecSetting.RVBHeartBeatTimer, "Write", heartbeattimer.Value, iecSetting.iedName)
-                '    'WriteEvent.Reset()
-                '    'iec2.Send(WriteEvent)
-                '    'WriteEvent.WaitOne()
-                '    ''set RVB Max
-                '    iec.iec(mip, m_port, iecSetting.RVBMax, "Write", RVBMax.Value * M2001D_Comm_Scale, iecSetting.iedName)
-                '    'WriteEvent.Reset()
-                '    'iec2.Send(WriteEvent)
-                '    'WriteEvent.WaitOne()
-                '    ''set RVB Min
-                '    iec.iec(mip, m_port, iecSetting.RVBMin, "Write", RVBMin.Value * M2001D_Comm_Scale, iecSetting.iedName)
-                '    'WriteEvent.Reset()
-                '    'iec2.Send(WriteEvent)
-                '    'WriteEvent.WaitOne()
-                '    ''set Fwd RVB Scale Factor
-                '    iec.iec(mip, m_port, iecSetting.FRVBScale, "Write", FwdRVBScaleFactor.Value * M2001D_Comm_Scale, iecSetting.iedName)
-                '    'WriteEvent.Reset()
-                '    'iec2.Send(WriteEvent)
-                '    'WriteEvent.WaitOne()
-                '    ''set Rev RVB Scale Factor
-                '    iec.iec(mip, m_port, iecSetting.RRVBScale, "Write", RevRVBScaleFactor.Value * M2001D_Comm_Scale, iecSetting.iedName)
-                '    'WriteEvent.Reset()
-                '    'iec2.Send(WriteEvent)
-                '    'WriteEvent.WaitOne()
+            ElseIf ProtocolInUse = "iec" Then
+                'enable RVB using IEC61850
+                WriteEvent.Reset()
+                iec61850.Send(WriteEvent, iecSetting.RVBEnable, "Write", 1, DataType.bool)
+                WriteEvent.WaitOne()
+
+                'set RVB heartbeat timer
+                WriteEvent.Reset()
+                iec61850.Send(WriteEvent, iecSetting.RVBHeartBeatTimer, "Write", heartbeattimer.Value, DataType.int)
+                WriteEvent.WaitOne()
+
+                'set RVB Max
+                WriteEvent.Reset()
+                iec61850.Send(WriteEvent, iecSetting.RVBMax, "Write", RVBMax.Value * M2001D_Comm_Scale, DataType.int)
+                WriteEvent.WaitOne()
+
+                'set RVB Min
+                WriteEvent.Reset()
+                iec61850.Send(WriteEvent, iecSetting.RVBMin, "Write", RVBMin.Value * M2001D_Comm_Scale, DataType.int)
+                WriteEvent.WaitOne()
+
+                'set Fwd RVB Scale Factor
+                WriteEvent.Reset()
+                iec61850.Send(WriteEvent, iecSetting.FRVBScale, "Write", FwdRVBScaleFactor.Value * M2001D_Comm_Scale, DataType.int)
+                WriteEvent.WaitOne()
+
+                'set Rev RVB Scale Factor
+                WriteEvent.Reset()
+                iec61850.Send(WriteEvent, iecSetting.RRVBScale, "Write", RevRVBScaleFactor.Value * M2001D_Comm_Scale, DataType.int)
+                WriteEvent.WaitOne()
+
             Else
                 MsgBox("Unsupported communication protocol")
                 Pause()
@@ -636,9 +638,11 @@ Public Class RVBSim
                     ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
 
                 ElseIf ProtocolInUse = "iec" Then
-                    'iec2.AsyncConnectTo(IPs, CUShort(txtPort.Text), Connection)
-                    'SendSettings()
-                    Connection.Set()
+                    iec.AsyncIEC61850.ConsoleWriteEnable = ConsoleWriteEnable
+                    iec61850 = New iec.AsyncIEC61850(iecSetting.ReadIEDName, iecSetting.WriteIEDName, IPs.Length, IEC_BufferSize)
+                    iec61850.AsyncConnectTo(IPs, CUShort(txtPort.Text), Connection)
+                    ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
+
                 End If
 
                 success = Connection.WaitOne(1000)
@@ -648,6 +652,7 @@ Public Class RVBSim
                     SetText(lblMsgCenter, "Connection successful ...")
                     sb.AppendLine(String.Format("{0} Successfully connected to read {1}", Now, IPs(0)))
                     sb.AppendLine(String.Format("{0} Successfully connected to write {1}", Now, IPs(1)))
+
                     SendSettings()
 
                     TimersEvent.Set()
@@ -695,7 +700,8 @@ Public Class RVBSim
                 dnp.Disconnect(Disconnect)
                 dnp.Dispose()
             ElseIf ProtocolInUse = "iec" Then
-
+                iec61850.Disconnect(Disconnect)
+                iec61850.Dispose()
             End If
 
             TimersEvent.Dispose()
@@ -1176,9 +1182,12 @@ iec61850:               ElseIf myAttributeName = "iec" Then
                                 Select Case xmlReader.Name
                                     Case "port"
                                         RVBSim.iecSetting.Port = xmlReader.Value
-                                    Case "iedname"
+                                    Case "readiedname"
                                         iedName = xmlReader.Value
-                                        RVBSim.iecSetting.iedName = iedName
+                                        RVBSim.iecSetting.ReadIEDName = iedName
+                                    Case "writeiedname"
+                                        iedName = xmlReader.Value
+                                        RVBSim.iecSetting.WriteIEDName = iedName
                                     Case "class"
                                         iedClass = xmlReader.Value
                                         RVBSim.iecSetting.iedClass = iedClass

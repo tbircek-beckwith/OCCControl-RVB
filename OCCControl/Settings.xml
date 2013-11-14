@@ -1,6 +1,6 @@
 ﻿<rvb>
   <communication>
-    <test protocol="modbus" read="192.168.0.66" write="192.168.0.65" heartbeattimer="2" userelative="true" fwdrvbvoltage="10" revrvbvoltage="-10" fwdscalefactor="10" revscalefactor="10" rvbmax="150" rvbmin="90" visible="true"/>
+    <test protocol="iec" read="192.168.0.66" write="192.168.0.65" heartbeattimer="2" userelative="true" fwdrvbvoltage="10" revrvbvoltage="-10" fwdscalefactor="10" revscalefactor="10" rvbmax="150" rvbmin="90" visible="true"/>
     <dnp p="dnp" port="20000" source="3" dest="1">
       <sp id="LocalVoltage" name="Load Voltage (Secondary)" point="0"/>
       <sp id="RVBEnable" name="Remote Voltage Bias Enable" point="289"/>
@@ -25,7 +25,7 @@
       <sp id="RVBMin" name="Remote Voltage Minimum" reg="1999"/>
       <sp id="Factory" name="Factory Options" reg="4787"/>
     </modbus>
-    <iec p="iec" port="102" iedname="GE2011E" class="ATCC0">
+    <iec p="iec" port="102" readiedname="GE2011E" writeiedname="M2001D" class="ATCC0">
       <!--Available iednames: M2001D and GE2011E-->
       <sp id="LocalVoltage" name="LodCtrV" fc="MX" sdi="mag" dai="i"/>
       <sp id="RVBEnable" name="RemVBiaEn" fc="SP" sdi="setVal" dai=""/>
