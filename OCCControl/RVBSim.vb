@@ -9,7 +9,8 @@ Imports tcpdnp.AsyncDNP3_0
 Imports iec.AsyncIEC61850
 
 Public Class RVBSim
-    Friend Const ConsoleWriteEnable As Boolean = True
+
+    Friend Const ConsoleWriteEnable As Boolean = True       'False -> keep it True due to some timing issues it won't close correctly
     Private Const SupportedRVBRevision As String = "15"         'Supported RVB feature document revision
     Private Const OperatingVoltage As Integer = 900
     Private Const M2001D_Comm_Scale As Integer = 10
@@ -19,7 +20,7 @@ Public Class RVBSim
     Private Const DirectMessage As String = "RVB Voltage is ="
     Private Const DNP_BufferSize As Integer = 29
     Private Const Modbus_BufferSize As Integer = 12
-    Private Const IEC_BufferSize As Integer = 50
+    Private Const IEC_BufferSize As Integer = 100
 
     Protected Friend sb As New StringBuilder
     Protected Friend IPs As String() = New String(1) {}
@@ -27,11 +28,11 @@ Public Class RVBSim
     Private dnp As tcpdnp.AsyncDNP3_0
     Private modbus As tcpmodbus.AsyncModbus
     Private iec61850 As iec.AsyncIEC61850
-   
+
     Private processID As Integer = 0
     Private support As Boolean      'True rev 15 or greater False rev 8
     Private errorCounter As Integer = 0
-    
+
     Private WriteTickerDone As New ManualResetEvent(False)
     Private ReadTickerDone As New ManualResetEvent(False)
     Private TimersEvent As New ManualResetEvent(False)
@@ -220,7 +221,6 @@ Public Class RVBSim
                 Dim del As New SetEnableDelegate(AddressOf SetEnable)
                 [control].Invoke(del, New Object() {[control], [enable]})
             Else
-                ' If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} SetEnable --- Text is {1}", Thread.CurrentThread.GetHashCode, [enable])
                 [control].Enabled = [enable]
             End If
         Catch ex As Exception
@@ -228,7 +228,7 @@ Public Class RVBSim
         End Try
     End Sub
 
-    Private Sub GenerateRVBVoltage2Transfer() '(ByVal ManualEvent As ManualResetEvent)
+    Private Sub GenerateRVBVoltage2Transfer()
         If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} GenerateRVBVoltage2Transfer", Thread.CurrentThread.GetHashCode)
 
         Try
@@ -263,7 +263,6 @@ Public Class RVBSim
 
     Private Sub CheckErrors()
         If Not Interlocked.Read(errorCounter) >= 10 Then
-            'If errorCounter >= 10 Then
             ResetTimers()
         End If
     End Sub
@@ -274,17 +273,19 @@ Public Class RVBSim
             If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} ResetTimers{1} ---------------------------- errorCounter: {2}", Thread.CurrentThread.GetHashCode, vbCrLf, Interlocked.Read(errorCounter))
 
             If Not Interlocked.Read(errorCounter) >= 10 Then
-                ' If errorCounter >= 10 Then
+
                 ReadRegisterWait.Unregister(Nothing)
                 WriteRegisterWait.Unregister(Nothing)
 
-                ' ReadTickerDone.Reset()
                 ReadRegisterWait = ThreadPool.RegisterWaitForSingleObject(ReadTickerDone, New WaitOrTimerCallback(AddressOf PeriodicReadEvent), Nothing, ReadInterval, False)
-                ' WriteTickerDone.Reset()
+
                 WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(WriteTickerDone, New WaitOrTimerCallback(AddressOf PeriodicWriteEvent), Nothing, WriteInterval, False)
+
             Else
+
                 Pause()
                 Throw New CustomExceptions("Too many errors")
+
             End If
 
         Catch ex As Exception
@@ -330,7 +331,7 @@ Public Class RVBSim
                     WriteEvent.WaitOne()
                     ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
 
-                ElseIf ProtocolInUse() = "iec" Then         ' iec61850box.Checked Then
+                ElseIf ProtocolInUse() = "iec" Then
                     'transmit Forward RVB Voltage
                     iec61850.Send(WriteEvent, txtIECFwdRVBVoltage.Text, "Write", CUShort(Forward_RVBVoltage2Write))
                     WriteEvent.WaitOne()
@@ -350,8 +351,8 @@ Public Class RVBSim
                 WriteEvent.SafeWaitHandle.Close()
 
                 If ConsoleWriteEnable Then
-                    Console.WriteLine(" ---------------------- Writing Fwd voltage: {0}", Forward_RVBVoltage2Write) ' / M2001D_Comm_Scale)
-                    Console.WriteLine(" ---------------------- Writing Rev voltage: {0}", Reverse_RVBVoltage2Write) ' / M2001D_Comm_Scale)
+                    Console.WriteLine(" ---------------------- Writing Fwd voltage: {0}", Forward_RVBVoltage2Write)
+                    Console.WriteLine(" ---------------------- Writing Rev voltage: {0}", Reverse_RVBVoltage2Write)
                 End If
 
                 If Not ReceivedErrorMsg = "None" Then sb.AppendLine(String.Format("{0} Received {1} error", Now, ReceivedErrorMsg))
@@ -385,7 +386,7 @@ Public Class RVBSim
                     ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
 
                 ElseIf ProtocolInUse() = "modbus" Then
-                    modbus.Send(ReadEvent, tcpmodbus.AsyncModbus.functions.read, NumericUpDownModbusLocalVoltageRegister.Value, 1)
+                    modbus.Send(ReadEvent, tcpmodbus.AsyncModbus.Functions.Read, NumericUpDownModbusLocalVoltageRegister.Value, 1)
                     ReadEvent.WaitOne()
                     readresult = tcpmodbus.AsyncModbus.result
                     ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
@@ -525,32 +526,32 @@ Public Class RVBSim
             ElseIf ProtocolInUse = "modbus" Then
                 'Enable RVB using modbus
                 WriteEvent.Reset()
-                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, modbusRegister.RVBEnable, 1)
+                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, modbusRegister.RVBEnable, 1)
                 WriteEvent.WaitOne()
 
                 'set RVB heartbeat timer
                 WriteEvent.Reset()
-                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, modbusRegister.RVBHeartBeatTimer, heartbeattimer.Value)
+                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, modbusRegister.RVBHeartBeatTimer, heartbeattimer.Value)
                 WriteEvent.WaitOne()
 
                 'set RVB Max
                 WriteEvent.Reset()
-                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, modbusRegister.RVBMax, RVBMax.Value * M2001D_Comm_Scale)
+                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, modbusRegister.RVBMax, RVBMax.Value * M2001D_Comm_Scale)
                 WriteEvent.WaitOne()
 
                 'set RVB Min
                 WriteEvent.Reset()
-                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, modbusRegister.RVBMin, RVBMin.Value * M2001D_Comm_Scale)
+                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, modbusRegister.RVBMin, RVBMin.Value * M2001D_Comm_Scale)
                 WriteEvent.WaitOne()
 
                 'set Fwd RVB Scale Factor
                 WriteEvent.Reset()
-                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, modbusRegister.FRVBScale, FwdRVBScaleFactor.Value * M2001D_Comm_Scale)
+                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, modbusRegister.FRVBScale, FwdRVBScaleFactor.Value * M2001D_Comm_Scale)
                 WriteEvent.WaitOne()
 
                 'set Rev RVB Scale Factor 
                 WriteEvent.Reset()
-                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.functions.write, modbusRegister.RRVBScale, RevRVBScaleFactor.Value * M2001D_Comm_Scale)
+                modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, modbusRegister.RRVBScale, RevRVBScaleFactor.Value * M2001D_Comm_Scale)
                 WriteEvent.WaitOne()
 
                 ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
@@ -696,12 +697,15 @@ Public Class RVBSim
 
             If ProtocolInUse = "modbus" Then
                 modbus.Disconnect(Disconnect)
+                Disconnect.WaitOne()
                 modbus.Dispose()
             ElseIf ProtocolInUse = "dnp" Then
                 dnp.Disconnect(Disconnect)
+                Disconnect.WaitOne()
                 dnp.Dispose()
             ElseIf ProtocolInUse = "iec" Then
                 iec61850.Disconnect(Disconnect)
+                Disconnect.WaitOne()
                 iec61850.Dispose()
             End If
 
