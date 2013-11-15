@@ -19,7 +19,7 @@ Public Class RVBSim
     Private Const DirectMessage As String = "RVB Voltage is ="
     Private Const DNP_BufferSize As Integer = 29
     Private Const Modbus_BufferSize As Integer = 12
-    Private Const IEC_BufferSize As Integer = 39
+    Private Const IEC_BufferSize As Integer = 50
 
     Protected Friend sb As New StringBuilder
     Protected Friend IPs As String() = New String(1) {}
@@ -391,11 +391,12 @@ Public Class RVBSim
                     ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
 
                 ElseIf ProtocolInUse() = "iec" Then
+                    If ConsoleWriteEnable Then Console.WriteLine("{0}------------------- Reading Local Voltage -------------------", vbCrLf)
                     iec61850.Send(ReadEvent, txtIECLocalVoltage.Text, "Read")
                     ReadEvent.WaitOne()
                     readresult = iec.AsyncIEC61850.result
                     ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
-
+                    If ConsoleWriteEnable Then Console.WriteLine("{0}------------------- Reading Local Voltage Done -------------------", vbCrLf)
                 End If
 
                 SetText(lblLocalVoltageValue, String.Format("Remote Voltage: {0}", FormatNumber(CDbl(readresult / M2001D_Comm_Scale), 1)))
