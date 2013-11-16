@@ -100,7 +100,7 @@
   <ItemGroup>
     <Reference Include="iec, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\iec\iec\bin\Release\iec.dll</HintPath>
+      <HintPath>..\..\iec\iec\bin\Release\x86\iec.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -110,10 +110,11 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="tcpdnp, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\tcpdnp\tcpdnp\bin\Release\tcpdnp.dll</HintPath>
+      <HintPath>..\..\tcpdnp\tcpdnp\bin\Release\x86\tcpdnp.dll</HintPath>
     </Reference>
-    <Reference Include="tcpmodbus">
-      <HintPath>..\..\tcpmodbus\tcpmodbus\bin\Release\tcpmodbus.dll</HintPath>
+    <Reference Include="tcpmodbus, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\tcpmodbus\tcpmodbus\bin\Release\x86\tcpmodbus.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -217,7 +218,6 @@
   <Target Name="BeforeBuild">
   </Target> -->
   <Target Name="AfterBuild">
-		<MSBuild Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' " Projects="$(MSBuildProjectFile)" Properties="Platform=x64;PlatformTarget=x64;DebugType=none;DefineDebug=false;DefineTrace=true;Optimize=true;OutputPath=bin\release\x64;NoWarn=42016,41999,42017,42018,42019,42032,42036,42020,42021,42022" RunEachTargetSeparately="true"/>
+    <MSBuild Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' " Projects="$(MSBuildProjectFile)" Properties="Platform=x64;PlatformTarget=x64;DebugType=none;DefineDebug=false;DefineTrace=true;Optimize=true;OutputPath=bin\release\x64;NoWarn=42016,41999,42017,42018,42019,42032,42036,42020,42021,42022" RunEachTargetSeparately="true" />
   </Target>
- 
 </Project>
