@@ -759,7 +759,7 @@ Public Class RVBSim
     Private Sub Form_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Try
             'due to IEC61850 protocol we need to close communication certain way
-            btnStop_Click(sender, e)
+            If Not btnStart.Enabled Then btnStop_Click(sender, e)
             ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             With My.Settings
