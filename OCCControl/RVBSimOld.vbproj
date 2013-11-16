@@ -53,11 +53,11 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>bin\release\x86</OutputPath>
+    <OutputPath>bin\release\</OutputPath>
     <DocumentationFile>
     </DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
@@ -215,9 +215,8 @@
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
-  </Target> -->
-  <Target Name="AfterBuild">
-		<MSBuild Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' " Projects="$(MSBuildProjectFile)" Properties="Platform=x64;PlatformTarget=x64;DebugType=none;DefineDebug=false;DefineTrace=true;Optimize=true;OutputPath=bin\release\x64;NoWarn=42016,41999,42017,42018,42019,42032,42036,42020,42021,42022" RunEachTargetSeparately="true"/>
   </Target>
- 
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>
