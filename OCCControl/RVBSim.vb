@@ -10,7 +10,7 @@ Imports iec.AsyncIEC61850
 
 Public Class RVBSim
 
-    Friend Const ConsoleWriteEnable As Boolean = True       'False -> keep it True due to some timing issues it won't close correctly
+    Friend Const ConsoleWriteEnable As Boolean = False          ' True       '
     Private Const SupportedRVBRevision As String = "15"         'Supported RVB feature document revision
     Private Const OperatingVoltage As Integer = 900
     Private Const M2001D_Comm_Scale As Integer = 10
@@ -20,7 +20,7 @@ Public Class RVBSim
     Private Const DirectMessage As String = "RVB Voltage is ="
     Private Const DNP_BufferSize As Integer = 29
     Private Const Modbus_BufferSize As Integer = 12
-    Private Const IEC_BufferSize As Integer = 100
+    Private Const IEC_BufferSize As Integer = 200
 
     Protected Friend sb As New StringBuilder
     Protected Friend IPs As String() = New String(1) {}
@@ -758,6 +758,10 @@ Public Class RVBSim
 
     Private Sub Form_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         Try
+            'due to IEC61850 protocol we need to close communication certain way
+            btnStop_Click(sender, e)
+            ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
             With My.Settings
                 .location = Me.DesktopLocation
                 If dnpbutton.Checked Then
