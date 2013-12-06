@@ -797,7 +797,7 @@ Public Class RVBSim
             SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
         Finally
-            My.Computer.FileSystem.WriteAllText(My.Computer.FileSystem.CombinePath(My.Computer.FileSystem.CurrentDirectory, "Log.txt"), sb.ToString, False)
+            My.Computer.FileSystem.WriteAllText(My.Computer.FileSystem.CombinePath(My.Application.Info.DirectoryPath, "Log.txt"), sb.ToString, False)
             If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- FormClosing", Thread.CurrentThread.GetHashCode)
         End Try
 
