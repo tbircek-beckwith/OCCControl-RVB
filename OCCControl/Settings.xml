@@ -1,17 +1,34 @@
 ﻿<rvb>
   <communication>
     <test protocol="modbus" read="192.168.0.136" write="10.10.7.116" heartbeattimer="2" userelative="true" fwdrvbvoltage="10" revrvbvoltage="-10" fwdscalefactor="10" revscalefactor="10" rvbmax="150" rvbmin="90" visible="true"/>
+    <!-- M-6200B DNP points -->
     <dnp p="dnp" port="20000" source="3" dest="1">
+      <!-- Analog Inputs -->
       <sp id="LocalVoltage" name="Load Voltage (Secondary)" point="0"/>
-      <sp id="RVBEnable" name="Remote Voltage Bias Enable" point="289"/>
-      <sp id="FRVBValue" name="Forward Remote Voltage Value" point="290"/>
-      <sp id="FRVBScale" name="Forward Remote Voltage Bias Scale Factor" point="291"/>
-      <sp id="RVBHeartbeat" name="Remote Voltage Bias Heartbeat Timer" point="292"/>
-      <sp id="RRVBValue" name="Reverse Remote Voltage Value" point="293"/>
-      <sp id="RRVBScale" name="Reverse Remote Voltage Bias Scale Factor" point="294"/>
-      <sp id="RVBMax" name="Remote Voltage Maximum" point="295"/>
-      <sp id="RVBMin" name="Remote Voltage Minimum" point="296"/>
+      <!-- Analog Outputs -->
+      <sp id="RVBEnable" name="Remote Voltage Bias Enable" point="388"/>
+      <sp id="FRVBValue" name="Forward Remote Voltage Value" point="389"/>
+      <sp id="FRVBScale" name="Forward Remote Voltage Bias Scale Factor" point="390"/>
+      <sp id="RVBHeartbeat" name="Remote Voltage Bias Heartbeat Timer" point="391"/>
+      <sp id="RRVBValue" name="Reverse Remote Voltage Value" point="392"/>
+      <sp id="RRVBScale" name="Reverse Remote Voltage Bias Scale Factor" point="393"/>
+      <sp id="RVBMax" name="Remote Voltage Maximum" point="394"/>
+      <sp id="RVBMin" name="Remote Voltage Minimum" point="395"/>
     </dnp>
+    <!-- M-2001D DNP points -->
+    <!--<dnp p="dnp" port="20000" source="3" dest="1">-->
+      <!-- Analog Inputs -->
+      <!--<sp id="LocalVoltage" name="Load Voltage (Secondary)" point="0"/>-->
+      <!-- Analog Outputs -->
+      <!--<sp id="RVBEnable" name="Remote Voltage Bias Enable" point="289"/>-->
+      <!--<sp id="FRVBValue" name="Forward Remote Voltage Value" point="290"/>-->
+      <!--<sp id="FRVBScale" name="Forward Remote Voltage Bias Scale Factor" point="291"/>-->
+      <!--<sp id="RVBHeartbeat" name="Remote Voltage Bias Heartbeat Timer" point="292"/>-->
+      <!--<sp id="RRVBValue" name="Reverse Remote Voltage Value" point="293"/>-->
+      <!--<sp id="RRVBScale" name="Reverse Remote Voltage Bias Scale Factor" point="294"/>-->
+      <!--<sp id="RVBMax" name="Remote Voltage Maximum" point="295"/>-->
+      <!--<sp id="RVBMin" name="Remote Voltage Minimum" point="296"/>-->
+    <!--</dnp>-->
     <modbus p="modbus" port="502">
       <sp id="LocalVoltage" name="Local Voltage" reg="1701"/>
       <sp id="RVBEnable" name="RVB Enable" reg="1991"/>
