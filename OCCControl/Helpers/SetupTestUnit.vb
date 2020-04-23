@@ -1,7 +1,6 @@
 ﻿Imports System.Threading
 
 'custom libraries
-Imports tcpmodbus.AsyncModbus
 Imports tcpdnp.AsyncDNP3_0
 Imports iec.AsyncIEC61850
 
@@ -51,37 +50,24 @@ Module SetupTestUnit
                     ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
 
                 ElseIf ProtocolInUse = "modbus" Then
+
                     'Enable RVB using modbus
-                    WriteEvent.Reset()
-                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, modbusRegister.RVBEnable, 1)
-                    WriteEvent.WaitOne()
+                    modbusWrite.WriteSingleRegister(modbusRegister.RVBEnable, 1)
 
                     'set RVB heartbeat timer
-                    WriteEvent.Reset()
-                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, modbusRegister.RVBHeartBeatTimer, .heartbeattimer.Value)
-                    WriteEvent.WaitOne()
+                    modbusWrite.WriteSingleRegister(modbusRegister.RVBHeartBeatTimer, .heartbeattimer.Value)
 
                     'set RVB Max
-                    WriteEvent.Reset()
-                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, modbusRegister.RVBMax, .RVBMax.Value * M2001D_Comm_Scale)
-                    WriteEvent.WaitOne()
+                    modbusWrite.WriteSingleRegister(modbusRegister.RVBMax, .RVBMax.Value * M2001D_Comm_Scale)
 
                     'set RVB Min
-                    WriteEvent.Reset()
-                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, modbusRegister.RVBMin, .RVBMin.Value * M2001D_Comm_Scale)
-                    WriteEvent.WaitOne()
+                    modbusWrite.WriteSingleRegister(modbusRegister.RVBMin, .RVBMin.Value * M2001D_Comm_Scale)
 
                     'set Fwd RVB Scale Factor
-                    WriteEvent.Reset()
-                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, modbusRegister.FRVBScale, .FwdRVBScaleFactor.Value * M2001D_Comm_Scale)
-                    WriteEvent.WaitOne()
+                    modbusWrite.WriteSingleRegister(modbusRegister.FRVBScale, .FwdRVBScaleFactor.Value * M2001D_Comm_Scale)
 
                     'set Rev RVB Scale Factor 
-                    WriteEvent.Reset()
-                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, modbusRegister.RRVBScale, .RevRVBScaleFactor.Value * M2001D_Comm_Scale)
-                    WriteEvent.WaitOne()
-
-                    ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
+                    modbusWrite.WriteSingleRegister(modbusRegister.RRVBScale, .RevRVBScaleFactor.Value * M2001D_Comm_Scale)
 
                 ElseIf ProtocolInUse = "iec" Then
                     'enable RVB using IEC61850

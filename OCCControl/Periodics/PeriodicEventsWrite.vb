@@ -1,9 +1,8 @@
 ﻿Imports System.Threading
 
 'custom libraries
-Imports tcpmodbus.AsyncModbus
 Imports tcpdnp.AsyncDNP3_0
-Imports iec.AsyncIEC61850
+'Imports iec.AsyncIEC61850
 
 Namespace PeriodicOperations
 
@@ -28,16 +27,12 @@ Namespace PeriodicOperations
                     ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
 
                 ElseIf ProtocolInUse() = "modbus" Then
-                    'transmit Forward RVB Voltage
-                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, rvbForm.NumericUpDownModbusFwdRVBVoltageRegister.Value, CUShort(Forward_RVBVoltage2Write))
-                    WriteEvent.WaitOne()
-                    ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
+                    'TODO: if 3-phase requires more register to write it will be done here.
+                    'write back calculated Forward RVB Voltage to specified modbus register
+                    modbusWrite.WriteSingleRegister(rvbForm.NumericUpDownModbusFwdRVBVoltageRegister.Value, CUShort(Forward_RVBVoltage2Write))
 
-                    'transmit Reverse RVB Voltage
-                    WriteEvent.Reset()
-                    modbus.Send(WriteEvent, tcpmodbus.AsyncModbus.Functions.Write, rvbForm.NumericUpDownModbusRevRVBVoltageRegister.Value, CUShort(Reverse_RVBVoltage2Write))
-                    WriteEvent.WaitOne()
-                    ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
+                    'write back calculated Reverse RVB Voltage to specified modbus register
+                    modbusWrite.WriteSingleRegister(rvbForm.NumericUpDownModbusRevRVBVoltageRegister.Value, CUShort(Reverse_RVBVoltage2Write))
 
                 ElseIf ProtocolInUse() = "iec" Then
                     'transmit Forward RVB Voltage

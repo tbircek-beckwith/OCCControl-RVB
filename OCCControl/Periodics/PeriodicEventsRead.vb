@@ -1,9 +1,9 @@
 ﻿Imports System.Threading
 
 'custom libraries
-Imports tcpmodbus.AsyncModbus
+'Imports tcpmodbus.AsyncModbus
 Imports tcpdnp.AsyncDNP3_0
-Imports iec.AsyncIEC61850
+'Imports iec.AsyncIEC61850
 
 Namespace PeriodicOperations
     Public Class ReadEvents
@@ -19,10 +19,10 @@ Namespace PeriodicOperations
                     ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
 
                 ElseIf ProtocolInUse() = "modbus" Then
-                    modbus.Send(ReadEvent, tcpmodbus.AsyncModbus.Functions.Read, rvbForm.NumericUpDownModbusLocalVoltageRegister.Value, 1)
-                    ReadEvent.WaitOne()
-                    readresult = tcpmodbus.AsyncModbus.result
-                    ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
+                    Debug.WriteLine("------------------- Reading Local Voltage (MODBUS) -------------------")
+                    'read the user specified single modbus register.
+                    readresult = CUShort(modbusRead.ReadHoldingRegisters(CInt(rvbForm.NumericUpDownModbusLocalVoltageRegister.Value), 1).ElementAt(0))
+                    Debug.WriteLine("------------------- Reading Local Voltage (MODBUS) Done -------------------")
 
                 ElseIf ProtocolInUse() = "iec" Then
                     If ConsoleWriteEnable Then Console.WriteLine("{0}------------------- Reading Local Voltage -------------------", vbCrLf)

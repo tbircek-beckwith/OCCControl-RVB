@@ -34,26 +34,44 @@ Namespace Communication.Operations
                     If PingIPAddresses(IPs) Then
 
                         If ProtocolInUse = "modbus" Then
-                            tcpmodbus.AsyncModbus.ConsoleWriteEnable = ConsoleWriteEnable
-                            modbus = New tcpmodbus.AsyncModbus(IPs.Length, Modbus_BufferSize)
-                            modbus.AsyncConnectTo(IPs, CUShort(.txtPort.Text), Connection)
-                            ReceivedErrorMsg = tcpmodbus.AsyncModbus.ErrorReceived
+                            'modbus read communication channel
+                            modbusRead = New EasyModbus.ModbusClient With
+                                         {
+                                             .IPAddress = RVBSim.txtRead.Text,
+                                             .Port = CUShort(RVBSim.txtPort.Text),
+                                             .ConnectionTimeout = 10000
+                                         }
+
+                            'modbus write communication channel
+                            modbusWrite = New EasyModbus.ModbusClient With
+                                         {
+                                             .IPAddress = RVBSim.txtWrite.Text,
+                                             .Port = CUShort(RVBSim.txtPort.Text),
+                                             .ConnectionTimeout = 10000
+                                         }
+                            'connect the channels
+                            modbusRead.Connect()
+                            modbusWrite.Connect()
+
+                            'is both channel successfully connected?
+                            success = modbusRead.Connected And modbusWrite.Connected
 
                         ElseIf ProtocolInUse = "dnp" Then
                             tcpdnp.AsyncDNP3_0.ConsoleWriteEnable = ConsoleWriteEnable
                             dnp = New tcpdnp.AsyncDNP3_0(IPs.Length, DNP_BufferSize)
                             dnp.AsyncConnectTo(IPs, CUShort(.txtPort.Text), Connection)
                             ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
+                            success = Connection.WaitOne(1000)
 
                         ElseIf ProtocolInUse = "iec" Then
                             iec.AsyncIEC61850.ConsoleWriteEnable = ConsoleWriteEnable
                             iec61850 = New iec.AsyncIEC61850(iecSetting.ReadIEDName, iecSetting.WriteIEDName, IPs.Length, IEC_BufferSize)
                             iec61850.AsyncConnectTo(IPs, CUShort(.txtPort.Text), Connection)
                             ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
+                            success = Connection.WaitOne(1000)
 
                         End If
 
-                        success = Connection.WaitOne(1000)
                         Thread.CurrentThread.Join(100)
 
                         If success Then

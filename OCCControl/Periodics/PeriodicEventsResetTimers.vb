@@ -1,12 +1,8 @@
 ﻿Imports System.Threading
 
-'custom libraries
-Imports tcpmodbus.AsyncModbus
-Imports tcpdnp.AsyncDNP3_0
-Imports iec.AsyncIEC61850
-
 Namespace PeriodicOperations
 
+    ''' <summary>generates periodic reset events</summary>
     Public Class ResetEvents
 
         Protected Friend Sub Timers(ByRef rvbForm As RVBSim)

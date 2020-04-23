@@ -13,9 +13,10 @@ Namespace Communication.Operations
                 ReadRegisterWait.Unregister(Nothing)
 
                 If ProtocolInUse = "modbus" Then
-                    modbus.Disconnect(Disconnect)
-                    Disconnect.WaitOne()
-                    modbus.Dispose()
+                    'disconnect modbus
+                    modbusRead.Disconnect()
+                    modbusWrite.Disconnect()
+
                 ElseIf ProtocolInUse = "dnp" Then
                     dnp.Disconnect(Disconnect)
                     Disconnect.WaitOne()

@@ -21,6 +21,10 @@ Module Declarations
     Friend sb As New StringBuilder
     Friend IPs As String() = New String(1) {}
 
+    '''<summary>new modbus communication libraries</summary>
+    Friend modbusRead As EasyModbus.ModbusClient
+    Friend modbusWrite As EasyModbus.ModbusClient
+
     Friend start As New StartOperation
     Friend pause As New PauseOperation
 
@@ -29,7 +33,7 @@ Module Declarations
     Friend periodicReset As New ResetEvents
 
     Friend dnp As tcpdnp.AsyncDNP3_0
-    Friend modbus As tcpmodbus.AsyncModbus
+    'Friend modbus As tcpmodbus.AsyncModbus
     Friend iec61850 As iec.AsyncIEC61850
 
     Friend processID As Integer = 0
