@@ -35,6 +35,8 @@
     <BootstrapperEnabled>false</BootstrapperEnabled>
     <BootstrapperComponentsLocation>Absolute</BootstrapperComponentsLocation>
     <BootstrapperComponentsUrl>\\newton\Applications\dotNet4\</BootstrapperComponentsUrl>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -118,9 +120,8 @@
       <HintPath>..\packages\EasyModbusTCP.5.5.0\lib\EasyModbus.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="iec, Version=2.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\iec\iec\bin\Release\x86\iec.dll</HintPath>
+    <Reference Include="iec">
+      <HintPath>..\..\..\..\..\Win7\Documents\Visual Studio 2010\Projects\iec\iec\bin\Release\x86\iec.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -128,13 +129,8 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="tcpdnp, Version=3.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\tcpdnp\tcpdnp\bin\Release\x86\tcpdnp.dll</HintPath>
-    </Reference>
-    <Reference Include="tcpmodbus, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\tcpmodbus\tcpmodbus\bin\Release\x86\tcpmodbus.dll</HintPath>
+    <Reference Include="tcpdnp">
+      <HintPath>..\..\..\..\..\Win7\Documents\Visual Studio 2010\Projects\tcpdnp\tcpdnp\bin\Release\x86\tcpdnp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -251,6 +247,13 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
