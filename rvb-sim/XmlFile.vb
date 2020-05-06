@@ -1,7 +1,7 @@
 ﻿Imports System.Threading
 
 Friend Class ReadXmlFile
-    Public Sub read()
+    Public Sub Read()
         Try
             Dim myAttributeName As String = ""
             Dim iedName As String = ""
@@ -12,9 +12,10 @@ Friend Class ReadXmlFile
             Dim iecDai As String = ""
             Dim id As String = ""
             Dim xmlReader As Xml.XmlReader = Nothing
-            Dim settings = New Xml.XmlReaderSettings
-            settings.IgnoreComments = True
-            settings.IgnoreWhitespace = True
+            Dim settings = New Xml.XmlReaderSettings With {
+                .IgnoreComments = True,
+                .IgnoreWhitespace = True
+            }
 
             If My.Computer.FileSystem.FileExists(My.Computer.FileSystem.CombinePath(My.Application.Info.DirectoryPath, "Settings.xml")) Then
                 xmlReader = Xml.XmlReader.Create(My.Computer.FileSystem.CombinePath(My.Application.Info.DirectoryPath, "Settings.xml"), settings)

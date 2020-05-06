@@ -5,7 +5,7 @@ Module Populate
     Friend Sub Populatetheform()
         Try
             Dim xmlRead As New ReadXmlFile
-            xmlRead.read()
+            xmlRead.Read()
             RVBSim.Text = String.Format("RVB Simulator v-{0}.{1}", My.Application.Info.Version.Major, My.Application.Info.Version.Minor)
 
             If CInt(SupportedRVBRevision) >= 15 Then

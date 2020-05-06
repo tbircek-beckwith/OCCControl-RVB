@@ -9,7 +9,7 @@ Namespace PeriodicOperations
     Public Class WriteEvents
 
         '''<summary>Writes periodically writes to write IP Address.</summary>
-        '''<param name='RVBSim'>Reference to the main window</param>
+        '''<param name='rvbForm'>Reference to the main window</param>
         Protected Friend Sub Write(ByRef rvbForm As RVBSim)
 
             Try

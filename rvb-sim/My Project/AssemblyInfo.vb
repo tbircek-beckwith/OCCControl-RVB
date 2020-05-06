@@ -1,4 +1,5 @@
-﻿Imports System
+﻿Imports System.Resources
+Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
@@ -8,17 +9,17 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Remote Voltage Bias Simulator")> 
-<Assembly: AssemblyDescription("Reads from local voltage, modifies read local voltage, writes back to the remote voltage register")> 
-<Assembly: AssemblyCompany("Programmed by Turgay Bircek")> 
-<Assembly: AssemblyProduct("RVB Simulator")> 
-<Assembly: AssemblyCopyright("Turgay Bircek")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("Remote Voltage Bias Simulator")>
+<Assembly: AssemblyDescription("Reads from local voltage, modifies read local voltage, writes back to the remote voltage register")>
+<Assembly: AssemblyCompany("Beckwith Electric Co. Inc.")>
+<Assembly: AssemblyProduct("RVB Simulator")>
+<Assembly: AssemblyCopyright("2013 © Turgay Bircek")>
+<Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("2cf58bee-4bd7-490e-8bfa-53850cffe747")> 
+<Assembly: Guid("2cf58bee-4bd7-490e-8bfa-53850cffe747")>
 
 ' Version information for an assembly consists of the following four values:
 '
@@ -31,5 +32,6 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("3.1.0.0")> 
-<Assembly: AssemblyFileVersion("3.1.0.0")> 
+<Assembly: AssemblyVersion("4.0.0.0")>
+<Assembly: AssemblyFileVersion("4.0.0.0")>
+<Assembly: NeutralResourcesLanguage("en-US")>

@@ -1,4 +1,5 @@
-﻿Friend Class CustomExceptions
+﻿<Serializable()>
+Friend Class CustomExceptions
     Inherits Exception
 
     Public Sub New()
