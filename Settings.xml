@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<rvb>
+  <test protocol="modbus" read="127.0.0.1" write="127.0.0.1" heartbeattimer="5" userelative="yes" fwdrvbvoltage="10.0" revrvbvoltage="10.0" fwdscalefactor="10.0" revscalefactor="10.0" gui="on"/>
+  <communication>
+    <dnp p="dnp" port="20000" source="3" dest="1">
+      <anain id="Load Voltage (Secondary)" point="0"/>
+      <anaout id="Remote Voltage Bias Enable" point="0"/>
+      <anaout id="Forward Remote Voltage Value" point="1"/>
+      <anaout id="Forward Remote Voltage Bias Scale Factor" point="2"/>
+      <anaout id="Remote Voltage Bias Heartbeat timer" point="3"/>
+      <anaout id="Reverse Remote Voltage Value" point="4"/>
+      <anaout id="Reverse Remote Voltage Bias Scale Factor" point="5"/>
+      <anaout id="Remote Voltage Maximum" point="6"/>
+      <anaout id="Remote Voltage Minimum" point="7"/>
+    </dnp>
+    <modbus p="modbus" port="502">
+      <sp id="Local Voltage" reg="1701"/>
+      <sp id="RVB Enable" reg="1991"/>
+      <sp id="Fwd RVB Voltage" reg="1992"/>
+      <sp id="Fwd RVB Scale" reg="1993"/>
+      <sp id="RVB Heartbeat Timer" reg="1994"/>
+      <sp id="RVB Active" reg="1995"/>
+      <sp id="Rev RVB Voltage" reg="1996"/>
+      <sp id="Rev RVB Scale" reg="1997"/>
+      <sp id="Remote Voltage Maximum" reg="1998"/>
+      <sp id="Remote Voltage Minimum" reg="1999"/>
+      <sp id="Factory Options" reg="4787"/><!-- to purchase RVB-->
+    </modbus>
+    <iec p="iec" port="102">
+      <do iedname="M2001D" class="ATCC0"/>
+      <do name="LodCtrV" fc="MX" sdi="mag" dai="i"/>
+      <do name="RemVBiaEn" fc="SP" sdi="setVal" dai=""/>
+      <do name="FRemVVal" fc="SP" sdi="setMag" dai="i"/>
+      <do name="FRemVSF" fc="SP" sdi="setMag" dai="i"/>
+      <do name="RemVBiaHbT" fc="SP" sdi="setVal" dai=""/>
+      <do name="RRemVVal" fc="SP" sdi="setMag" dai="i"/>
+      <do name="RRemVSF" fc="SP" sdi="setMag" dai="i"/>
+      <do name="ReVMax" fc="SP" sdi="setMag" dai="i"/>
+      <do name="ReVMin" fc="SP" sdi="setMag" dai="i"/>
+    </iec>
+  </communication>
+</rvb>
