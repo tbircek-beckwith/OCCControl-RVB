@@ -7,7 +7,7 @@ Imports RVBSim.PeriodicOperations
 Module Declarations
 
     Friend Const ConsoleWriteEnable As Boolean = True       'False          ' 
-    Friend Const SupportedRVBRevision As String = "15"         'Supported RVB feature document revision
+    Friend Const SupportedRVBRevision As String = "15"      'Supported RVB feature document revision
     Friend Const OperatingVoltage As Integer = 900
     Friend Const M2001D_Comm_Scale As Integer = 10
     Friend Const MaxDeltaVoltage As Integer = 100
@@ -21,12 +21,17 @@ Module Declarations
     Friend sb As New StringBuilder
     Friend IPs As String() = New String(1) {}
 
-    '''<summary>new modbus communication libraries</summary>
+    ''' <summary>
+    ''' new modbus communication libraries
+    ''' </summary>
     Friend modbusRead As EasyModbus.ModbusClient
     Friend modbusWrite As EasyModbus.ModbusClient
 
+    ''' <summary>
+    ''' new dnp3.0 communication library
+    ''' </summary>
     Friend dnpReadManager As IDNP3Manager
-    Friend dnpPollingData As IEnumerable(Of IndexedValue(Of Analog))
+    'Friend dnpPollingData As IEnumerable(Of IndexedValue(Of Analog))
 
     Friend start As New StartOperation
     Friend pause As New PauseOperation

@@ -38,9 +38,9 @@ Module CommandLineHandler
 
         Catch ex As Exception
             SetText(RVBSim.lblMsgCenter, ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         Finally
-            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- checkcommandline", Thread.CurrentThread.GetHashCode)
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(CheckCommandLine)}")
         End Try
     End Sub
 

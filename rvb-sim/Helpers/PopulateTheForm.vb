@@ -1,4 +1,5 @@
-﻿Imports System.Threading
+﻿Imports System.Reflection
+Imports System.Threading
 
 Module Populate
 
@@ -6,7 +7,7 @@ Module Populate
         Try
             Dim xmlRead As New ReadXmlFile
             xmlRead.Read()
-            RVBSim.Text = String.Format("RVB Simulator v-{0}.{1}", My.Application.Info.Version.Major, My.Application.Info.Version.Minor)
+            RVBSim.Text = $"RVB Simulator({Assembly.GetEntryAssembly().GetName().Version.ToString(3)})"
 
             If CInt(SupportedRVBRevision) >= 15 Then
                 support = True
@@ -58,15 +59,15 @@ Module Populate
                 Case "dnp"
                     RVBSim.dnpbutton.Checked = True
                     RVBSim.txtPort.Text = dnpSetting.Port  '.dnpport
-                    RVBSim.checkHandler(RVBSim.dnpbutton)
+                    RVBSim.CheckHandler(RVBSim.dnpbutton)
                 Case "modbus"
                     RVBSim.modbusbox.Checked = True
                     RVBSim.txtPort.Text = modbusRegister.Port  '.mdport
-                    RVBSim.checkHandler(RVBSim.modbusbox)
+                    RVBSim.CheckHandler(RVBSim.modbusbox)
                 Case "iec"
                     RVBSim.iec61850box.Checked = True
                     RVBSim.txtPort.Text = iecSetting.Port '.iecport
-                    RVBSim.checkHandler(RVBSim.iec61850box)
+                    RVBSim.CheckHandler(RVBSim.iec61850box)
             End Select
             RVBSim.txtRead.Text = testSetting.readIpAddress  '.IPAddressToRead
             RVBSim.txtWrite.Text = testSetting.writeIpAddress
