@@ -19,7 +19,7 @@ Module SetupTestUnit
                 If ProtocolInUse = "dnp" Then
                     'Enable RVB using dnp
                     WriteEvent.Reset()
-                    dnp.Send(WriteEvent, .NumericUpDownDNPDestinationAddress.Value, .NumericUpDownDNPSourceAddress.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.RVBEnable, 1, 0)
+                    dnp.Send(ManualEvent:=WriteEvent, Destination:= .NumericUpDownDNPDestinationAddress.Value, Source:= .NumericUpDownDNPSourceAddress.Value, FunctionCode:=Mode.DirectOp, ObjectX:=Objects.AnalogOutput, Variation:=Variations.AnaOutBlockShort, Qualifier:=QualifierField.AnaOutBlock16bitIndex, Start16Bit:=1, Stop16Bit:=dnpSetting.RVBEnable, Value:=1, Status:=0)
                     WriteEvent.WaitOne()
 
                     'set RVB heartbeat timer

@@ -1,6 +1,6 @@
-﻿Imports System.Threading
-Imports System.Text
-
+﻿Imports System.Text
+Imports System.Threading
+Imports Automatak.DNP3.Interface
 Imports RVBSim.Communication.Operations
 Imports RVBSim.PeriodicOperations
 
@@ -24,6 +24,9 @@ Module Declarations
     '''<summary>new modbus communication libraries</summary>
     Friend modbusRead As EasyModbus.ModbusClient
     Friend modbusWrite As EasyModbus.ModbusClient
+
+    Friend dnpReadManager As IDNP3Manager
+    Friend dnpPollingData As IEnumerable(Of IndexedValue(Of Analog))
 
     Friend start As New StartOperation
     Friend pause As New PauseOperation
@@ -113,6 +116,33 @@ Module Declarations
         Dim RVBMin As String
     End Structure
 
+    ''' <summary>
+    ''' Holds supported dnp3.0 data variations
+    ''' </summary>
+    Friend Enum Variations As Byte
+        AnaOutBlockShort = 2
+        AnaInput16bitVar4 = 4
+    End Enum
+
+    ''' <summary>
+    ''' Holds supported dnp3.0 qualifier fields
+    ''' </summary>
+    Friend Enum QualifierField As Byte
+        AnaInput8bitStartStop = 0
+        AnaInput16bitStartStop = 1
+        AnaOutBlock8bitIndex = 23
+        AnaOutBlock16bitIndex = 40
+    End Enum
+
+    ''' <summary>
+    ''' Holds supported dnp3.0 objects types
+    ''' </summary>
+    Friend Enum Objects As Byte
+        AnalogInput = 30
+        AnalogOutputStatus = 40
+        AnalogOutput = 41
+    End Enum
+
     Private _WriteInterval As Integer
     Friend Property WriteInterval() As Integer
         Get
@@ -193,14 +223,6 @@ Module Declarations
         End Set
     End Property
 
-    Private _errorMsg As String = ""
-    Friend Property ReceivedErrorMsg() As String
-        Get
-            Return _errorMsg
-        End Get
-        Set(ByVal value As String)
-            _errorMsg = value
-        End Set
-    End Property
+    Friend Property ReceivedErrorMsg() As String = ""
 
 End Module

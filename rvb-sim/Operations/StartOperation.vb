@@ -1,5 +1,7 @@
-﻿Imports System.Threading
-Imports System.Net
+﻿'Imports System.Net
+Imports System.Threading
+Imports Automatak.DNP3.Adapter
+Imports Automatak.DNP3.Interface
 
 Namespace Communication.Operations
 
@@ -26,7 +28,7 @@ Namespace Communication.Operations
                     SetEnable(.btnStart, False)
                     Disenable()
 
-                    IPs = {.txtRead.Text, .txtWrite.Text}
+                    IPs = { .txtRead.Text, .txtWrite.Text}
                     SetText(.lblMsgCenter, "Connecting to the units ...")
 
                     Dim success As Boolean = False
@@ -57,16 +59,26 @@ Namespace Communication.Operations
                             success = modbusRead.Connected And modbusWrite.Connected
 
                         ElseIf ProtocolInUse = "dnp" Then
-                            tcpdnp.AsyncDNP3_0.ConsoleWriteEnable = ConsoleWriteEnable
-                            dnp = New tcpdnp.AsyncDNP3_0(IPs.Length, DNP_BufferSize)
-                            dnp.AsyncConnectTo(IPs, CUShort(.txtPort.Text), Connection)
-                            ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
-                            success = Connection.WaitOne(1000)
+                            'tcpdnp.AsyncDNP3_0.ConsoleWriteEnable = ConsoleWriteEnable
+                            'dnp = New tcpdnp.AsyncDNP3_0(IPs.Length, DNP_BufferSize)
+                            'dnp.AsyncConnectTo(IPs, .txtPort.Text, Connection)
+                            'ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
+                            'success = Connection.WaitOne(1000)
+
+
+                            'dnpReadManager = DNP3ManagerFactory.CreateManager(1, New PrintingLogAdapter())
+
+                            'Dim channel As IChannel = dnpReadManager.AddTCPClient(id:="dnpReadingChannel",
+                            '                                                      filters:=LogLevels.NORMAL,
+                            '                                                      retry:=New ChannelRetry(minRetryDelay:=TimeSpan.FromSeconds(1), maxRetryDelay:=TimeSpan.FromSeconds(10), reconnectDelay:=TimeSpan.FromSeconds(5)),
+                            '                                                      remotes:=New List(Of IPEndpoint) From {New IPEndpoint(RVBSim.txtRead.Text, RVBSim.txtPort.Text)},
+                            '                                                      listener:=ChannelListener.Print())
+                            Dim newDnpRead = New Dnp30().DNPFunctionsAsync(RVBSim.txtRead.Text, RVBSim.txtPort.Text)
 
                         ElseIf ProtocolInUse = "iec" Then
                             iec.AsyncIEC61850.ConsoleWriteEnable = ConsoleWriteEnable
                             iec61850 = New iec.AsyncIEC61850(iecSetting.ReadIEDName, iecSetting.WriteIEDName, IPs.Length, IEC_BufferSize)
-                            iec61850.AsyncConnectTo(IPs, CUShort(.txtPort.Text), Connection)
+                            iec61850.AsyncConnectTo(IPs, .txtPort.Text, Connection)
                             ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
                             success = Connection.WaitOne(1000)
 
@@ -94,7 +106,8 @@ Namespace Communication.Operations
                             WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(WriteTickerDone, New WaitOrTimerCallback(AddressOf .PeriodicWriteEvent), Nothing, WriteInterval, False)
 
                         Else
-                            Throw New Sockets.SocketException(CInt(Sockets.SocketError.HostUnreachable))
+                            'Throw New Sockets.SocketException(CInt(Sockets.SocketError.HostUnreachable))
+                            Throw New CustomExceptions("Host(s) is(are) unreachable")
                         End If
 
                         Connection.SafeWaitHandle.Close()
