@@ -11,7 +11,7 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("Remote Voltage Bias Simulator")>
 <Assembly: AssemblyDescription("Reads from local voltage, modifies read local voltage, writes back to the remote voltage register")>
-<Assembly: AssemblyCompany("Beckwith Electric Co. Inc.")>
+<Assembly: AssemblyCompany("Beckwith Electric Co. Inc")>
 <Assembly: AssemblyProduct("RVB Simulator")>
 <Assembly: AssemblyCopyright("Copyright © 2013-2020 Turgay Bircek")>
 <Assembly: AssemblyTrademark("")>
