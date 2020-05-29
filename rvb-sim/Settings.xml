@@ -1,8 +1,8 @@
 ﻿<rvb>
   <communication>
-    <test protocol="modbus" read="10.10.7.115" write="192.168.0.101" heartbeattimer="2" userelative="true" fwdrvbvoltage="10" revrvbvoltage="-10" fwdscalefactor="10" revscalefactor="10" rvbmax="150" rvbmin="90" visible="true"/>
+    <test protocol="dnp" read="10.10.4.108" write="192.168.0.101" heartbeattimer="2" userelative="true" fwdrvbvoltage="10" revrvbvoltage="-10" fwdscalefactor="10" revscalefactor="10" rvbmax="150" rvbmin="90" visible="true"/>
     <!-- M-6200B DNP points -->
-    <dnp p="dnp" port="20000" source="3" dest="1">
+    <dnp p="dnp" port="20000" source="1" dest="3">
       <!-- Analog Inputs -->
       <sp id="LocalVoltage" name="Load Voltage (Secondary)" point="0"/>
       <!-- Analog Outputs -->
