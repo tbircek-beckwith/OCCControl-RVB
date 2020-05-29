@@ -9,17 +9,19 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{CAD21B49-A38B-49E8-836C-BAC14479A26B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>RVBSim.My.MyApplication</StartupObject>
-    <RootNamespace>RVBSim</RootNamespace>
-    <AssemblyName>RVBSim</AssemblyName>
+    <StartupObject>rvbSim.My.MyApplication</StartupObject>
+    <RootNamespace>rvbSim</RootNamespace>
+    <AssemblyName>rvbSim</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>c:\RVB Simulator\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -38,8 +40,6 @@
     <BootstrapperEnabled>false</BootstrapperEnabled>
     <BootstrapperComponentsLocation>Absolute</BootstrapperComponentsLocation>
     <BootstrapperComponentsUrl>\\newton\Applications\dotNet4\</BootstrapperComponentsUrl>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -48,8 +48,8 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>RVBSim.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DocumentationFile>rvbSim.xml</DocumentationFile>
+    <NoWarn>41999,42016</NoWarn>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <WarningsAsErrors>
     </WarningsAsErrors>
@@ -66,8 +66,8 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\release\</OutputPath>
-    <DocumentationFile>RVBSim.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DocumentationFile>rvbSim.xml</DocumentationFile>
+    <NoWarn>41999,42016</NoWarn>
     <WarningsAsErrors>
     </WarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -88,7 +88,7 @@
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>RVBSim.ico</ApplicationIcon>
+    <ApplicationIcon>resources\images\RVBSim.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>32A82557E237FA8837C42EED0132ECDEF3351700</ManifestCertificateThumbprint>
@@ -109,33 +109,39 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputPath>bin\Debug\</OutputPath>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>RVBSim.xml</DocumentationFile>
+    <DocumentationFile>rvbSim.xml</DocumentationFile>
+    <NoWarn>41999,42016</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputPath>bin\Release\</OutputPath>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>RVBSim.xml</DocumentationFile>
+    <DocumentationFile>rvbSim.xml</DocumentationFile>
+    <NoWarn>41999,42016</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'X86|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputPath>bin\X86\</OutputPath>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>RVBSim.xml</DocumentationFile>
+    <DocumentationFile>rvbSim.xml</DocumentationFile>
+    <NoWarn>41999,42016</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'X64|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputPath>bin\X64\</OutputPath>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>RVBSim.xml</DocumentationFile>
+    <DocumentationFile>rvbSim.xml</DocumentationFile>
+    <NoWarn>41999,42016</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'X64|x86'">
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>RVBSim.xml</DocumentationFile>
+    <DocumentationFile>rvbSim.xml</DocumentationFile>
+    <NoWarn>41999,42016</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'X86|x86'">
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>RVBSim.xml</DocumentationFile>
+    <DocumentationFile>rvbSim.xml</DocumentationFile>
+    <NoWarn>41999,42016</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EasyModbus, Version=5.5.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -256,17 +262,17 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="RVBSim Help.txt">
+    <None Include="resources\RVBSim Help.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="RVBSim.ico">
+    <None Include="resources\images\RVBSim.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Settings.xml">
+    <Content Include="resources\Settings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
