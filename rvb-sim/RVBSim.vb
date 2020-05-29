@@ -90,9 +90,9 @@ Public Class RVBSim
         End Try
     End Sub
 
-    Protected Friend Sub checkHandler(sender As System.Object)
+    Protected Friend Sub CheckHandler(sender As RadioButton)
         Try
-            Select Case sender.text
+            Select Case sender.Text
                 Case "DNP3.0"
                     AddressBox.Text = "DNP3.0 Addresses"
                     lblwarning.Text = "Don't forget to download DNP default file"
@@ -136,25 +136,25 @@ Public Class RVBSim
             SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
         Finally
-            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- checkHandler", Thread.CurrentThread.GetHashCode)
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(CheckHandler)}")
         End Try
     End Sub
 
-    Private Sub dnpbutton_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles dnpbutton.CheckedChanged
-        checkHandler(sender)
+    Private Sub Dnpbutton_CheckedChanged(sender As Object, e As EventArgs) Handles dnpbutton.CheckedChanged
+        CheckHandler(sender)
     End Sub
 
-    Private Sub modbusbox_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles modbusbox.CheckedChanged
-        checkHandler(sender)
+    Private Sub Modbusbox_CheckedChanged(sender As Object, e As EventArgs) Handles modbusbox.CheckedChanged
+        CheckHandler(sender)
     End Sub
 
-    Private Sub iec61850box_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles iec61850box.CheckedChanged
-        checkHandler(sender)
+    Private Sub Iec61850box_CheckedChanged(sender As Object, e As EventArgs) Handles iec61850box.CheckedChanged
+        CheckHandler(sender)
     End Sub
 
-    Public Sub Radio_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radUseDeltaVoltage.CheckedChanged, radUseFixedVoltage.CheckedChanged
+    Public Sub Radio_CheckedChanged(sender As RadioButton, e As EventArgs) Handles radUseDeltaVoltage.CheckedChanged, radUseFixedVoltage.CheckedChanged
         Try
-            Select Case sender.name
+            Select Case sender.Name
                 Case "radUseDeltaVoltage"
                     Forward_Voltage_Label.Text = DeltaMessage
                     Reverse_Voltage_Label.Text = DeltaMessage
@@ -178,7 +178,7 @@ Public Class RVBSim
             SetText(lblMsgCenter, ex.Message)
             sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
         Finally
-            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- Radio_checkedchanged", Thread.CurrentThread.GetHashCode)
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Radio_CheckedChanged)}")
         End Try
     End Sub
 End Class
