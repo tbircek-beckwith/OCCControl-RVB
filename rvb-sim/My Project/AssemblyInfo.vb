@@ -13,7 +13,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Reads from local voltage, modifies read local voltage, writes back to the remote voltage register")>
 <Assembly: AssemblyCompany("Beckwith Electric Co. Inc.")>
 <Assembly: AssemblyProduct("RVB Simulator")>
-<Assembly: AssemblyCopyright("2013 © Turgay Bircek")>
+<Assembly: AssemblyCopyright("Copyright © 2013-2020 Turgay Bircek")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
@@ -32,6 +32,6 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("4.0.0.0")>
-<Assembly: AssemblyFileVersion("4.0.0.0")>
+<Assembly: AssemblyVersion("5.0.0.0")>
+<Assembly: AssemblyFileVersion("5.0.0.0")>
 <Assembly: NeutralResourcesLanguage("en-US")>
