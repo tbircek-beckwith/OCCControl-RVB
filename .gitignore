@@ -359,5 +359,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-#VB.Net Designer File
+#Visual Studio Designer Files
 *.Designer.*
