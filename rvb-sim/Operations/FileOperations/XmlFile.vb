@@ -180,35 +180,35 @@ iec61850:                   ElseIf myAttributeName = "iec" Then
                                             Select Case id
                                                 Case "RVBEnable"
                                                     'RVBSim.iecSetting.RVBEnable = String.Format("{0}${1}${2}${3}${4}", iedName, iedClass, iecFC, iecName, iecSdi)
-                                                    iecSetting.RVBEnable = String.Format("{0}${1}${2}${3}", iedClass, iecFC, iecName, iecSdi) 'see iec library
+                                                    iecSetting.RVBEnable = String.Format($"{iedClass}${iecFC}${iecName}${iecSdi}") 'see iec library
                                                 Case "RVBHeartbeat"
                                                     'RVBSim.iecSetting.RVBHeartBeatTimer = String.Format("{0}${1}${2}${3}${4}", iedName, iedClass, iecFC, iecName, iecSdi)
-                                                    iecSetting.RVBHeartBeatTimer = String.Format("{0}${1}${2}${3}", iedClass, iecFC, iecName, iecSdi) 'see iec library
+                                                    iecSetting.RVBHeartBeatTimer = String.Format($"{iedClass}${iecFC}${iecName}${iecSdi}") 'see iec library
                                             End Select
                                         Case "dai"
                                             iecDai = reader.Value
                                             Select Case id
                                                 Case "LocalVoltage"
                                                     'RVBSim.iecSetting.LocalVoltage = String.Format("{0}${1}${2}${3}${4}${5}", iedName, iedClass, iecFC, iecName, iecSdi, iecDai)
-                                                    iecSetting.LocalVoltage = String.Format("{0}${1}${2}${3}${4}", iedClass, iecFC, iecName, iecSdi, iecDai)
+                                                    iecSetting.LocalVoltage = String.Format($"{iedClass}${iecFC}${iecName}${iecSdi}${iecDai}")
                                                 Case "FRVBValue"
                                                     'RVBSim.iecSetting.FRVBValue = String.Format("{0}${1}${2}${3}${4}${5}", iedName, iedClass, iecFC, iecName, iecSdi, iecDai)
-                                                    iecSetting.FRVBValue = String.Format("{0}${1}${2}${3}${4}", iedClass, iecFC, iecName, iecSdi, iecDai)
+                                                    iecSetting.FRVBValue = String.Format($"{iedClass}${iecFC}${iecName}${iecSdi}${iecDai}")
                                                 Case "FRVBScale"
                                                     ' RVBSim.iecSetting.FRVBScale = String.Format("{0}${1}${2}${3}${4}${5}", iedName, iedClass, iecFC, iecName, iecSdi, iecDai)
-                                                    iecSetting.FRVBScale = String.Format("{0}${1}${2}${3}${4}", iedClass, iecFC, iecName, iecSdi, iecDai)
+                                                    iecSetting.FRVBScale = String.Format($"{iedClass}${iecFC}${iecName}${iecSdi}${iecDai}")
                                                 Case "RRVBValue"
                                                     'RVBSim.iecSetting.RRVBValue = String.Format("{0}${1}${2}${3}${4}${5}", iedName, iedClass, iecFC, iecName, iecSdi, iecDai)
-                                                    iecSetting.RRVBValue = String.Format("{0}${1}${2}${3}${4}", iedClass, iecFC, iecName, iecSdi, iecDai)
+                                                    iecSetting.RRVBValue = String.Format($"{iedClass}${iecFC}${iecName}${iecSdi}${iecDai}")
                                                 Case "RRVBScale"
                                                     'RVBSim.iecSetting.RRVBScale = String.Format("{0}${1}${2}${3}${4}${5}", iedName, iedClass, iecFC, iecName, iecSdi, iecDai)
-                                                    iecSetting.RRVBScale = String.Format("{0}${1}${2}${3}${4}", iedClass, iecFC, iecName, iecSdi, iecDai)
+                                                    iecSetting.RRVBScale = String.Format($"{iedClass}${iecFC}${iecName}${iecSdi}${iecDai}")
                                                 Case "RVBMax"
                                                     ' RVBSim.iecSetting.RVBMax = String.Format("{0}${1}${2}${3}${4}${5}", iedName, iedClass, iecFC, iecName, iecSdi, iecDai)
-                                                    iecSetting.RVBMax = String.Format("{0}${1}${2}${3}${4}", iedClass, iecFC, iecName, iecSdi, iecDai)
+                                                    iecSetting.RVBMax = String.Format($"{iedClass}${iecFC}${iecName}${iecSdi}${iecDai}")
                                                 Case "RVBMin"
                                                     ' RVBSim.iecSetting.RVBMin = String.Format("{0}${1}${2}${3}${4}${5}", iedName, iedClass, iecFC, iecName, iecSdi, iecDai)
-                                                    iecSetting.RVBMin = String.Format("{0}${1}${2}${3}${4}", iedClass, iecFC, iecName, iecSdi, iecDai)
+                                                    iecSetting.RVBMin = String.Format($"{iedClass}${iecFC}${iecName}${iecSdi}${iecDai}")
                                             End Select
                                     End Select
                                 End While
@@ -222,9 +222,9 @@ iec61850:                   ElseIf myAttributeName = "iec" Then
             End If
         Catch ex As Exception
             SetText(RVBSim.lblMsgCenter, ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         Finally
-            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- XML_read", Thread.CurrentThread.GetHashCode)
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(ReadXmlFile)}")
         End Try
     End Sub
 End Class

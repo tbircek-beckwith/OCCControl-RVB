@@ -6,7 +6,7 @@ Imports RVBSim.PeriodicOperations
 
 Module Declarations
 
-    Friend Const ConsoleWriteEnable As Boolean = True       'False          ' 
+    ' Friend Const ConsoleWriteEnable As Boolean = True       'False          ' 
     Friend Const SupportedRVBRevision As String = "15"      'Supported RVB feature document revision
     Friend Const OperatingVoltage As Integer = 900
     Friend Const M2001D_Comm_Scale As Integer = 10
@@ -15,7 +15,7 @@ Module Declarations
     Friend Const DeltaMessage As String = "Local Voltage + "
     Friend Const DirectMessage As String = "RVB Voltage is ="
     Friend Const DNP_BufferSize As Integer = 29
-    Friend Const Modbus_BufferSize As Integer = 12
+    ' Friend Const Modbus_BufferSize As Integer = 12
     Friend Const IEC_BufferSize As Integer = 200
 
     Friend sb As New StringBuilder
@@ -148,86 +148,22 @@ Module Declarations
         AnalogOutput = 41
     End Enum
 
-    Private _WriteInterval As Integer
     Friend Property WriteInterval() As Integer
-        Get
-            Return _WriteInterval
-        End Get
-        Set(ByVal value As Integer)
-            _WriteInterval = value
-        End Set
-    End Property
 
-    Private _ReadInterval As Integer
     Friend Property ReadInterval() As Integer
-        Get
-            Return _ReadInterval
-        End Get
-        Set(ByVal value As Integer)
-            _ReadInterval = value
-        End Set
-    End Property
 
-    Private _protocolinuse As String
     Friend Property ProtocolInUse() As String
-        Get
-            Return _protocolinuse
-        End Get
-        Set(ByVal value As String)
-            _protocolinuse = value
-        End Set
-    End Property
 
-    Private _Heart_Beat_Timer As Double = 0.0
-    Friend Property Heart_Beat_Timer() As Double
-        Get
-            Return _Heart_Beat_Timer
-        End Get
-        Set(ByVal value As Double)
-            _Heart_Beat_Timer = value
-        End Set
-    End Property
+    Friend Property Heart_Beat_Timer() As Integer
 
-    Private _ActualLocalVoltage As Double = 0.0
-    Friend Property ActualLocalVoltage() As Double
-        Get
-            Return _ActualLocalVoltage
-        End Get
-        Set(ByVal value As Double)
-            _ActualLocalVoltage = value
-        End Set
-    End Property
+    Friend Property ActualLocalVoltage() As Double = 0.0
 
-    Private _Forward_RVBVoltage2Write As Double = 0.0
-    Friend Property Forward_RVBVoltage2Write() As Double
-        Get
-            Return _Forward_RVBVoltage2Write
-        End Get
-        Set(ByVal value As Double)
-            _Forward_RVBVoltage2Write = value
-        End Set
-    End Property
+    Friend Property Forward_RVBVoltage2Write() As Double = 0.0
 
-    Private _Reverse_RVBVoltage2Write As Double = 0.0
-    Friend Property Reverse_RVBVoltage2Write() As Double
-        Get
-            Return _Reverse_RVBVoltage2Write
-        End Get
-        Set(ByVal value As Double)
-            _Reverse_RVBVoltage2Write = value
-        End Set
-    End Property
+    Friend Property Reverse_RVBVoltage2Write() As Double = 0.0
 
-    Private _readresult As UShort = 0
-    Friend Property readresult() As UShort
-        Get
-            Return _readresult
-        End Get
-        Set(ByVal value As UShort)
-            _readresult = value
-        End Set
-    End Property
+    Friend Property Readresult() As UShort = 0
 
-    Friend Property ReceivedErrorMsg() As String = ""
+    Friend Property ReceivedErrorMsg() As String = String.Empty
 
 End Module

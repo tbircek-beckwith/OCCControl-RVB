@@ -3,29 +3,39 @@ Imports System.Threading
 
 Public Class RVBSim
 
-    '''<summary>Writes periodically writes to write IP Address.</summary>
-    Protected Friend Sub PeriodicWriteEvent(ByVal state As Object, ByVal timeOut As Boolean) '(ByVal mip As IPAddress, ByVal m_port As UShort)
+    ''' <summary>
+    ''' Writes periodically writes to write IP Address.
+    ''' </summary>
+    ''' <param name="state"></param>
+    ''' <param name="timeOut"></param>
+    Protected Friend Sub PeriodicWriteEvent(ByVal state As Object, ByVal timeOut As Boolean)
 
         If timeOut Then
-            If ConsoleWriteEnable Then
-                Console.WriteLine("Current thread is # {0} PeriodicWriteEvent", Thread.CurrentThread.GetHashCode)
-                Heart_Beat_Timer = 0
-            End If
 
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicWriteEvent)}")
+
+            ' Heart_Beat_Timer = 0
+            Interlocked.Exchange(Heart_Beat_Timer, 0)
             ReadRegisterWait.Unregister(Nothing)
             GenerateRVBVoltage2Transfer(rvbForm:=Me)
 
             periodicWrite.Write(rvbForm:=Me)
-            
+
         Else
             WriteRegisterWait.Unregister(Nothing)
         End If
     End Sub
 
+    ''' <summary>
+    ''' Reads periodically
+    ''' </summary>
+    ''' <param name="state"></param>
+    ''' <param name="timeOut"></param>
     Protected Friend Sub PeriodicReadEvent(ByVal state As Object, ByVal timeOut As Boolean)
 
         If timeOut Then
-            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} PeriodicReadEvent", Thread.CurrentThread.GetHashCode)
+
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicReadEvent)}")
 
             periodicRead.Read(rvbForm:=Me)
 
@@ -34,6 +44,9 @@ Public Class RVBSim
         End If
     End Sub
 
+    ''' <summary>
+    ''' Updates Protocol
+    ''' </summary>
     Protected Friend Sub UpdateProtocol()
         If modbusbox.Checked Then
             ProtocolInUse = "modbus"
@@ -42,18 +55,19 @@ Public Class RVBSim
         ElseIf iec61850box.Checked Then
             ProtocolInUse = "iec"
         End If
-        If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- UpdateProtocol", Thread.CurrentThread.GetHashCode)
+
+        Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(UpdateProtocol)}")
     End Sub
 
-    Private Sub btnStart_Click(sender As System.Object, e As System.EventArgs) Handles btnStart.Click
+    Private Sub BtnStart_Click(sender As Object, e As EventArgs) Handles btnStart.Click
         start.Start()
     End Sub
 
-    Private Sub btnStop_Click(sender As System.Object, e As System.EventArgs) Handles btnStop.Click
+    Private Sub BtnStop_Click(sender As Object, e As EventArgs) Handles btnStop.Click
         pause.Pause()
     End Sub
 
-    Private Sub Form_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub Form_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         CloseForm()
     End Sub
 
@@ -84,12 +98,16 @@ Public Class RVBSim
             End If
         Catch ex As Exception
             SetText(lblMsgCenter, ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         Finally
-            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- Main", Thread.CurrentThread.GetHashCode)
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Main)}")
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Handles <see cref="RadioButton"/> check events
+    ''' </summary>
+    ''' <param name="sender"></param>
     Protected Friend Sub CheckHandler(sender As RadioButton)
         Try
             Select Case sender.Text
@@ -134,7 +152,7 @@ Public Class RVBSim
 
         Catch ex As Exception
             SetText(lblMsgCenter, ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(CheckHandler)}")
         End Try
@@ -152,6 +170,11 @@ Public Class RVBSim
         CheckHandler(sender)
     End Sub
 
+    ''' <summary>
+    ''' Handles <see cref="RadioButton.CheckedChanged"/> events
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Public Sub Radio_CheckedChanged(sender As RadioButton, e As EventArgs) Handles radUseDeltaVoltage.CheckedChanged, radUseFixedVoltage.CheckedChanged
         Try
             Select Case sender.Name
@@ -171,12 +194,12 @@ Public Class RVBSim
                     FwdDeltaVoltage.Maximum = RVBMax.Value 'MaxSpecValue
                     RevDeltaVoltage.Minimum = RVBMin.Value 'MinSpecValue
                     RevDeltaVoltage.Maximum = RVBMax.Value 'MaxSpecValue
-                    If readresult / M2001D_Comm_Scale >= FwdDeltaVoltage.Minimum Then FwdDeltaVoltage.Value = readresult / M2001D_Comm_Scale Else FwdDeltaVoltage.Value = FwdDeltaVoltage.Maximum
-                    If readresult / M2001D_Comm_Scale >= RevDeltaVoltage.Minimum Then RevDeltaVoltage.Value = readresult / M2001D_Comm_Scale Else RevDeltaVoltage.Value = RevDeltaVoltage.Minimum
+                    If Readresult / M2001D_Comm_Scale >= FwdDeltaVoltage.Minimum Then FwdDeltaVoltage.Value = Readresult / M2001D_Comm_Scale Else FwdDeltaVoltage.Value = FwdDeltaVoltage.Maximum
+                    If Readresult / M2001D_Comm_Scale >= RevDeltaVoltage.Minimum Then RevDeltaVoltage.Value = Readresult / M2001D_Comm_Scale Else RevDeltaVoltage.Value = RevDeltaVoltage.Minimum
             End Select
         Catch ex As Exception
             SetText(lblMsgCenter, ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Radio_CheckedChanged)}")
         End Try

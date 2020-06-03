@@ -6,13 +6,16 @@ Imports iec.AsyncIEC61850
 
 Module SetupTestUnit
 
+    ''' <summary>
+    ''' Sets factory of options for the unit under test.
+    ''' </summary>
     Friend Sub SendSettings()
 
         Try
 
             With RVBSim
 
-                If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- SendSettings --- START", Thread.CurrentThread.GetHashCode)
+                Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(SendSettings)} --- START")
                 Dim WriteEvent As New ManualResetEvent(False)
                 SetText(.lblMsgCenter, "Sending settings to the units ...")
 
@@ -106,14 +109,14 @@ Module SetupTestUnit
                 End If
 
                 SetText(.lblMsgCenter, "Sending completed ... reading Local Voltage")
-                If Not ReceivedErrorMsg = "None" Then sb.AppendLine(String.Format("{0} Received {1} error", Now, ReceivedErrorMsg))
-                If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- SendSettings --- END", Thread.CurrentThread.GetHashCode)
+                If Not String.Equals(ReceivedErrorMsg, "None") Then sb.AppendLine($"{Now} Received {ReceivedErrorMsg} error")
+                Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(SendSettings)} --- END")
 
             End With
 
         Catch ex As Exception
             SetText(RVBSim.lblMsgCenter, ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         End Try
     End Sub
 

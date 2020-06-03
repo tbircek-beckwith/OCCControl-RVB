@@ -1,4 +1,5 @@
-﻿Imports System.Threading
+﻿Imports System.IO
+Imports System.Threading
 
 Module FormOperations
 
@@ -41,10 +42,13 @@ Module FormOperations
 
         Catch ex As Exception
             SetText(RVBSim.lblMsgCenter, ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         Finally
-            My.Computer.FileSystem.WriteAllText(My.Computer.FileSystem.CombinePath(My.Application.Info.DirectoryPath, "Log.txt"), sb.ToString, False)
-            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- FormClosing", Thread.CurrentThread.GetHashCode)
+
+            Dim logFilePath = Path.Combine(path1:=My.Application.Info.DirectoryPath, path2:="Log.txt")
+
+            My.Computer.FileSystem.WriteAllText(logFilePath, sb.ToString, False)
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(CloseForm)}")
         End Try
 
     End Sub

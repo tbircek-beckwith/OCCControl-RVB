@@ -7,7 +7,7 @@ Module DisEnableCheckBoxes
 
         Try
             With RVBSim.btnStart
-                If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} Disenable", Thread.CurrentThread.GetHashCode)
+                Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Disenable)}")
 
                 'dnp settings dis/enable
                 SetEnable(RVBSim.NumericUpDownDNPSourceAddress, .Enabled)
@@ -42,13 +42,11 @@ Module DisEnableCheckBoxes
                 SetEnable(RVBSim.RVBMin, .Enabled)
                 SetEnable(RVBSim.RevRVBScaleFactor, .Enabled)
 
-                If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- Disenable", Thread.CurrentThread.GetHashCode)
-
             End With
 
         Catch ex As Exception
             SetText(RVBSim.lblMsgCenter, ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         End Try
     End Sub
 

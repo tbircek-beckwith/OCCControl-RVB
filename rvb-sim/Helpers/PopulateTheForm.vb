@@ -45,12 +45,12 @@ Module Populate
                     Dim x As Integer = My.Computer.Screen.WorkingArea.Left
                     Dim y As Integer = My.Computer.Screen.WorkingArea.Right
                     If .location.X < x Or .location.X > y Then
-                        RVBSim.DesktopLocation = New System.Drawing.Point(20, 20)
+                        RVBSim.DesktopLocation = New Point(20, 20)
                     Else
                         RVBSim.DesktopLocation = .location
                     End If
                 Else
-                    RVBSim.DesktopLocation = New System.Drawing.Point(32000, 32000)
+                    RVBSim.DesktopLocation = New Point(32000, 32000)
                     ' Me.DesktopLocation = New System.Drawing.Point(20, 20)
                 End If
                 '************************************************************
@@ -74,9 +74,10 @@ Module Populate
             '
         Catch ex As Exception
             SetText(RVBSim.lblMsgCenter, ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         Finally
-            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- populatetheform", Thread.CurrentThread.GetHashCode)
+
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Populatetheform)}")
         End Try
     End Sub
 

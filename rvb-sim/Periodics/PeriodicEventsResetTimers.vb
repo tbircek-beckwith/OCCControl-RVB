@@ -2,13 +2,15 @@
 
 Namespace PeriodicOperations
 
-    ''' <summary>generates periodic reset events</summary>
+    ''' <summary>
+    ''' generates periodic reset events
+    ''' </summary>
     Public Class ResetEvents
 
         Protected Friend Sub Timers(ByRef rvbForm As RVBSim)
 
             Try
-                If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} ResetTimers{1} ---------------------------- errorCounter: {2}", Thread.CurrentThread.GetHashCode, vbCrLf, Interlocked.Read(errorCounter))
+                Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} ResetTimers.ErrorCounter(old): {Interlocked.Read(errorCounter)}")
 
                 If Not Interlocked.Read(errorCounter) >= 10 Then
 
@@ -19,7 +21,7 @@ Namespace PeriodicOperations
 
                     WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(WriteTickerDone, New WaitOrTimerCallback(AddressOf rvbForm.PeriodicWriteEvent), Nothing, WriteInterval, False)
 
-                    Debug.WriteLine("Current thread is # {0} ResetTimers{1} ---------------------------- errorCounter: {2}", Thread.CurrentThread.GetHashCode, vbCrLf, Interlocked.Read(errorCounter))
+                    Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} ResetTimers.ErrorCounter(new): {Interlocked.Read(errorCounter)}")
                 Else
 
                     pause.Pause()
@@ -29,7 +31,7 @@ Namespace PeriodicOperations
 
             Catch ex As Exception
                 SetText(rvbForm.lblMsgCenter, ex.Message)
-                sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+                sb.AppendLine($"{Now} {ex.Message}")
             End Try
         End Sub
     End Class
