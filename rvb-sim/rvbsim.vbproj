@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\opendnp3.3.0.2\build\opendnp3.props" Condition="Exists('..\packages\opendnp3.3.0.2\build\opendnp3.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -172,8 +171,6 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="dnp3\DataSOEHandler.vb" />
-    <Compile Include="dnp3\Dnp30.vb" />
     <Compile Include="Helpers\CommandLineHandler.vb" />
     <Compile Include="Periodics\PeriodicEventsResetTimers.vb" />
     <Compile Include="Periodics\PeriodicEventsWrite.vb" />
@@ -277,6 +274,12 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\rvb-sim.dnp\rvb-sim.dnp.csproj">
+      <Project>{451fdca5-6d07-4114-8214-daffb30d3108}</Project>
+      <Name>rvb-sim.dnp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -284,10 +287,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\packages\opendnp3.3.0.2\build\opendnp3.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\opendnp3.3.0.2\build\opendnp3.props'))" />
-    <Error Condition="!Exists('..\packages\opendnp3.3.0.2\build\opendnp3.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\opendnp3.3.0.2\build\opendnp3.targets'))" />
   </Target>
-  <Import Project="..\packages\opendnp3.3.0.2\build\opendnp3.targets" Condition="Exists('..\packages\opendnp3.3.0.2\build\opendnp3.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
