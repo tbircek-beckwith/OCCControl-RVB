@@ -172,6 +172,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\CommandLineHandler.vb" />
+    <Compile Include="Helpers\ExtensionMethods.vb" />
+    <Compile Include="Operations\Communication\IECCommunicationModel.vb" />
+    <Compile Include="Operations\Communication\ModbusModel.vb" />
+    <Compile Include="Operations\Communication\DnpModel.vb" />
+    <Compile Include="Operations\Communication\Base\CommunicationBaseModel.vb" />
+    <Compile Include="Operations\Communication\Regulator.vb" />
     <Compile Include="Periodics\PeriodicEventsResetTimers.vb" />
     <Compile Include="Periodics\PeriodicEventsWrite.vb" />
     <Compile Include="Helpers\Helpers.vb" />
