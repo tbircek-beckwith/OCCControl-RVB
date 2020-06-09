@@ -14,7 +14,7 @@ Namespace PeriodicOperations
                 Dim ReadEvent As New ManualResetEvent(False)
 
                 If ProtocolInUse() = "dnp" Then
-                    dnp.Send(ReadEvent, rvbForm.NumericUpDownDNPDestinationAddress.Value, rvbForm.NumericUpDownDNPSourceAddress.Value, Mode.Read, Objects.AnalogInput, Variations.AnaInput16bitVar4, QualifierField.AnaInput16bitStartStop, dnpSetting.LocalVoltage)
+                    dnp.Send(ReadEvent, rvbForm.DNPDestinationReg1.Value, rvbForm.DNPSourceReg1.Value, Mode.Read, Objects.AnalogInput, Variations.AnaInput16bitVar4, QualifierField.AnaInput16bitStartStop, dnpSetting.LocalVoltage)
                     ReadEvent.WaitOne()
                     Readresult = tcpdnp.AsyncDNP3_0.result
                     ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
@@ -22,12 +22,12 @@ Namespace PeriodicOperations
                 ElseIf ProtocolInUse() = "modbus" Then
                     Debug.WriteLine("------------------- Reading Local Voltage (MODBUS) -------------------")
                     'read the user specified single modbus register.
-                    Readresult = CUShort(modbusRead.ReadHoldingRegisters(CInt(rvbForm.NumericUpDownModbusLocalVoltageRegister.Value), 1).ElementAt(0))
+                    Readresult = CUShort(modbusRead.ReadHoldingRegisters(CInt(rvbForm.ModbusLocalVoltageReg1.Value), 1).ElementAt(0))
                     Debug.WriteLine("------------------- Reading Local Voltage (MODBUS) Done -------------------")
 
                 ElseIf ProtocolInUse() = "iec" Then
                     Debug.WriteLine("------------------- Reading Local Voltage -------------------")
-                    iec61850.Send(ReadEvent, rvbForm.txtIECLocalVoltage.Text, "Read")
+                    iec61850.Send(ReadEvent, rvbForm.IecLocalVoltageReg1.Text, "Read")
                     ReadEvent.WaitOne()
                     Readresult = iec.AsyncIEC61850.result
                     ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived

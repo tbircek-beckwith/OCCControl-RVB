@@ -14,22 +14,22 @@ Module GenerateRVBVoltage
             Dim Forward_RVBVoltage2OperateWith As Double = 0.0
             Dim Reverse_RVBVoltage2OperateWith As Double = 0.0
 
-            Select Case rvbForm.radUseFixedVoltage.Checked
+            Select Case rvbForm.useFixedVoltage.Checked
                 Case False
                     ActualLocalVoltage = Readresult / M2001D_Comm_Scale
                     If Not ActualLocalVoltage = 0.0 Then
-                        Forward_RVBVoltage2OperateWith = (ActualLocalVoltage + CDbl(rvbForm.FwdDeltaVoltage.Value))
-                        Reverse_RVBVoltage2OperateWith = (ActualLocalVoltage + CDbl(rvbForm.RevDeltaVoltage.Value))
+                        Forward_RVBVoltage2OperateWith = (ActualLocalVoltage + CDbl(rvbForm.FwdDeltaVoltageReg1.Value))
+                        Reverse_RVBVoltage2OperateWith = (ActualLocalVoltage + CDbl(rvbForm.RevDeltaVoltageReg1.Value))
                     Else
                         Forward_RVBVoltage2OperateWith = 0.0
                         Reverse_RVBVoltage2OperateWith = 0.0
                     End If
                 Case True
-                    Forward_RVBVoltage2OperateWith = CDbl(rvbForm.FwdDeltaVoltage.Value)
-                    Reverse_RVBVoltage2OperateWith = CDbl(rvbForm.RevDeltaVoltage.Value)
+                    Forward_RVBVoltage2OperateWith = CDbl(rvbForm.FwdDeltaVoltageReg1.Value)
+                    Reverse_RVBVoltage2OperateWith = CDbl(rvbForm.RevDeltaVoltageReg1.Value)
             End Select
-            Forward_RVBVoltage2OperateWith *= CDbl(rvbForm.FwdRVBScaleFactor.Value)
-            Reverse_RVBVoltage2OperateWith *= CDbl(rvbForm.RevRVBScaleFactor.Value)
+            Forward_RVBVoltage2OperateWith *= CDbl(rvbForm.FRVBScaleReg1.Value)
+            Reverse_RVBVoltage2OperateWith *= CDbl(rvbForm.RevRVBScaleFactorReg1.Value)
 
             Forward_RVBVoltage2Write = Forward_RVBVoltage2OperateWith
             Reverse_RVBVoltage2Write = Reverse_RVBVoltage2OperateWith

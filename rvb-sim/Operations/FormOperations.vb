@@ -6,38 +6,38 @@ Module FormOperations
     Friend Sub CloseForm()    'sender As Object, e As System.Windows.Forms.FormClosingEventArgs)
         Try
             'due to IEC61850 protocol we need to close communication certain way
-            If Not RVBSim.btnStart.Enabled Then pause.Pause()
+            If Not RVBSim.StartButton.Enabled Then pause.Pause()
             ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
             With My.Settings
                 .location = RVBSim.DesktopLocation
                 If RVBSim.dnpbutton.Checked Then
-                    .dnphost = RVBSim.txtWrite.Text
-                    .dnpport = CUShort(RVBSim.txtPort.Text)
+                    .dnphost = RVBSim.WriteIpAddr.Text
+                    .dnpport = CUShort(RVBSim.PortReg1.Text)
                     .protocol = "dnp"
-                    .source = CUShort(RVBSim.NumericUpDownDNPSourceAddress.Value)
-                    .destination = CUShort(RVBSim.NumericUpDownDNPDestinationAddress.Value)
+                    .source = CUShort(RVBSim.DNPSourceReg1.Value)
+                    .destination = CUShort(RVBSim.DNPDestinationReg1.Value)
                 ElseIf RVBSim.modbusbox.Checked Then
-                    .mdhost = RVBSim.txtWrite.Text
-                    .mdport = CUShort(RVBSim.txtPort.Text)
+                    .mdhost = RVBSim.WriteIpAddr.Text
+                    .mdport = CUShort(RVBSim.PortReg1.Text)
                     .protocol = "modbus"
-                    .mdLocalvoltage = CUShort(RVBSim.NumericUpDownModbusLocalVoltageRegister.Value)
-                    .mdFRVBvoltage = CUShort(RVBSim.NumericUpDownModbusFwdRVBVoltageRegister.Value)
-                    .mdRRVBvoltage = CUShort(RVBSim.NumericUpDownModbusRevRVBVoltageRegister.Value)
+                    .mdLocalvoltage = CUShort(RVBSim.ModbusLocalVoltageReg1.Value)
+                    .mdFRVBvoltage = CUShort(RVBSim.ModbusFRVBValueReg1.Value)
+                    .mdRRVBvoltage = CUShort(RVBSim.ModbusRRVBValueReg1.Value)
                 ElseIf RVBSim.iec61850box.Checked Then
-                    .iechost = RVBSim.txtWrite.Text
-                    .iecport = CUShort(RVBSim.txtPort.Text)
+                    .iechost = RVBSim.WriteIpAddr.Text
+                    .iecport = CUShort(RVBSim.PortReg1.Text)
                     .protocol = "iec"
-                    .IECLocalVoltage = RVBSim.txtIECLocalVoltage.Text
-                    .IECFwdRVBVoltage = RVBSim.txtIECFwdRVBVoltage.Text
-                    .IECRevRVBVoltage = RVBSim.txtIECRevRVBVoltage.Text
+                    .IECLocalVoltage = RVBSim.IecLocalVoltageReg1.Text
+                    .IECFwdRVBVoltage = RVBSim.IecFRVBValueReg1.Text
+                    .IECRevRVBVoltage = RVBSim.IecRRVBValueReg1.Text
                 End If
-                .heartbeat = CUShort(RVBSim.heartbeattimer.Value)
-                .Fdeltavoltage = CDbl(RVBSim.FwdDeltaVoltage.Value)
-                .Fmultiplier = CDbl(RVBSim.FwdRVBScaleFactor.Value)
-                .Rdeltavoltage = CDbl(RVBSim.RevDeltaVoltage.Value)
-                .Rmultiplier = CDbl(RVBSim.RevRVBScaleFactor.Value)
-                .IPAddressToRead = RVBSim.txtWrite.Text
+                .heartbeat = CUShort(RVBSim.heartBeatTimer.Value)
+                .Fdeltavoltage = CDbl(RVBSim.FwdDeltaVoltageReg1.Value)
+                .Fmultiplier = CDbl(RVBSim.FRVBScaleReg1.Value)
+                .Rdeltavoltage = CDbl(RVBSim.RevDeltaVoltageReg1.Value)
+                .Rmultiplier = CDbl(RVBSim.RevRVBScaleFactorReg1.Value)
+                .IPAddressToRead = RVBSim.WriteIpAddr.Text
             End With
 
         Catch ex As Exception

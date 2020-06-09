@@ -6,27 +6,27 @@ Module DisEnableCheckBoxes
     Friend Sub Disenable()
 
         Try
-            With RVBSim.btnStart
+            With RVBSim.StartButton
                 Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Disenable)}")
 
                 'dnp settings dis/enable
-                SetEnable(RVBSim.NumericUpDownDNPSourceAddress, .Enabled)
-                SetEnable(RVBSim.NumericUpDownDNPDestinationAddress, .Enabled)
+                SetEnable(RVBSim.DNPSourceReg1, .Enabled)
+                SetEnable(RVBSim.DNPDestinationReg1, .Enabled)
 
                 'modbus settings dis/enable
-                SetEnable(RVBSim.NumericUpDownModbusLocalVoltageRegister, .Enabled)
-                SetEnable(RVBSim.NumericUpDownModbusFwdRVBVoltageRegister, .Enabled)
-                SetEnable(RVBSim.NumericUpDownModbusRevRVBVoltageRegister, .Enabled)
+                SetEnable(RVBSim.ModbusLocalVoltageReg1, .Enabled)
+                SetEnable(RVBSim.ModbusFRVBValueReg1, .Enabled)
+                SetEnable(RVBSim.ModbusRRVBValueReg1, .Enabled)
 
                 'iec61850 settings dis/enable
-                SetEnable(RVBSim.txtIECLocalVoltage, .Enabled)
-                SetEnable(RVBSim.txtIECFwdRVBVoltage, .Enabled)
-                SetEnable(RVBSim.txtIECRevRVBVoltage, .Enabled)
+                SetEnable(RVBSim.IecLocalVoltageReg1, .Enabled)
+                SetEnable(RVBSim.IecFRVBValueReg1, .Enabled)
+                SetEnable(RVBSim.IecRRVBValueReg1, .Enabled)
 
                 'communication settings dis/enable
-                SetEnable(RVBSim.txtWrite, .Enabled)
-                SetEnable(RVBSim.txtRead, .Enabled)
-                SetEnable(RVBSim.txtPort, .Enabled)
+                SetEnable(RVBSim.WriteIpAddr, .Enabled)
+                SetEnable(RVBSim.ReadIpAddr, .Enabled)
+                SetEnable(RVBSim.PortReg1, .Enabled)
 
                 'protocol options dis/enable
                 SetEnable(RVBSim.dnpbutton, .Enabled)
@@ -34,13 +34,13 @@ Module DisEnableCheckBoxes
                 SetEnable(RVBSim.iec61850box, .Enabled)
 
                 'general rvb settings dis/enable
-                SetEnable(RVBSim.heartbeattimer, .Enabled)
-                SetEnable(RVBSim.radUseDeltaVoltage, .Enabled)
-                SetEnable(RVBSim.radUseFixedVoltage, .Enabled)
-                SetEnable(RVBSim.FwdRVBScaleFactor, .Enabled)
+                SetEnable(RVBSim.heartBeatTimer, .Enabled)
+                SetEnable(RVBSim.useDeltaVoltage, .Enabled)
+                SetEnable(RVBSim.useFixedVoltage, .Enabled)
+                SetEnable(RVBSim.FRVBScaleReg1, .Enabled)
                 SetEnable(RVBSim.RVBMax, .Enabled)
                 SetEnable(RVBSim.RVBMin, .Enabled)
-                SetEnable(RVBSim.RevRVBScaleFactor, .Enabled)
+                SetEnable(RVBSim.RevRVBScaleFactorReg1, .Enabled)
 
             End With
 

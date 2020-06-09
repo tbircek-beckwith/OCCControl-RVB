@@ -1,6 +1,6 @@
 ﻿Imports System.Text
 Imports System.Threading
-Imports Automatak.DNP3.Interface
+'Imports Automatak.DNP3.Interface
 Imports RVBSim.Communication.Operations
 Imports RVBSim.PeriodicOperations
 
@@ -21,16 +21,18 @@ Module Declarations
     Friend sb As New StringBuilder
     Friend IPs As String() = New String(1) {}
 
+    Friend Regulators As List(Of Regulator) = New List(Of Regulator)()
+
     ''' <summary>
     ''' new modbus communication libraries
     ''' </summary>
     Friend modbusRead As EasyModbus.ModbusClient
     Friend modbusWrite As EasyModbus.ModbusClient
 
-    ''' <summary>
-    ''' new dnp3.0 communication library
-    ''' </summary>
-    Friend dnpReadManager As IDNP3Manager
+    '''' <summary>
+    '''' new dnp3.0 communication library
+    '''' </summary>
+    ' Friend dnpReadManager As IDNP3Manager
     'Friend dnpPollingData As IEnumerable(Of IndexedValue(Of Analog))
 
     Friend start As New StartOperation
@@ -75,7 +77,7 @@ Module Declarations
     End Structure
 
     Friend Structure ModbusSettings
-        Dim Port As String
+        ' Dim Port As String
         Dim LocalVoltage As UShort
         Dim RVBEnable As UShort
         Dim FRVBValue As UShort
@@ -90,7 +92,7 @@ Module Declarations
     End Structure
 
     Friend Structure DnpSettings
-        Dim Port As String
+        ' Dim Port As String
         Dim source As UShort
         Dim destination As UShort
         'just get value of point, DNP only cares about the point values
@@ -106,7 +108,7 @@ Module Declarations
     End Structure
 
     Friend Structure IECSettings
-        Dim Port As String
+        ' Dim Port As String
         Dim ReadIEDName As String
         Dim WriteIEDName As String
         Dim iedClass As String

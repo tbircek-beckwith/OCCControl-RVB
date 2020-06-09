@@ -37,8 +37,8 @@ Namespace Communication.Operations
                 Readresult = 0
                 Forward_RVBVoltage2Write = 0.0
                 Reverse_RVBVoltage2Write = 0.0
-                SetEnable(RVBSim.btnStop, False)
-                SetEnable(RVBSim.btnStart, True)
+                SetEnable(RVBSim.StopButton, False)
+                SetEnable(RVBSim.StartButton, True)
 
                 Disenable()
 

@@ -59,11 +59,11 @@ Public Class RVBSim
         Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(UpdateProtocol)}")
     End Sub
 
-    Private Sub BtnStart_Click(sender As Object, e As EventArgs) Handles btnStart.Click
+    Private Sub BtnStart_Click(sender As Object, e As EventArgs) Handles StartButton.Click
         start.Start()
     End Sub
 
-    Private Sub BtnStop_Click(sender As Object, e As EventArgs) Handles btnStop.Click
+    Private Sub BtnStop_Click(sender As Object, e As EventArgs) Handles StopButton.Click
         pause.Pause()
     End Sub
 
@@ -94,7 +94,7 @@ Public Class RVBSim
             If My.Application.CommandLineArgs.Count > 1 Then
                 CheckCommandLine()
             Else
-                txtRead.Focus()
+                ReadIpAddr.Focus()
             End If
         Catch ex As Exception
             SetText(lblMsgCenter, ex.Message)
@@ -114,41 +114,32 @@ Public Class RVBSim
                 Case "DNP3.0"
                     AddressBox.Text = "DNP3.0 Addresses"
                     lblwarning.Text = "Don't forget to download DNP default file"
-                    txtPort.Text = dnpSetting.Port
+                    PortReg1.Text = Regulators(0).DnpCommunication(0).Port ' first regulator dnpSetting.Port
                 Case "Modbus"
                     AddressBox.Text = "Modbus registers"
-                    txtPort.Text = modbusRegister.Port
+                    PortReg1.Text = Regulators(0).ModbusCommunication(0).Port ' first regulator modbusRegister.Port
                 Case "IEC61850"
                     AddressBox.Text = "IEC61850 Datasets"
                     lblwarning.Text = "Don't forget to purchase IEC61850"
-                    txtPort.Text = iecSetting.Port
+                    PortReg1.Text = Regulators(0).IECCommunication(0).Port ' first regulator iecSetting.Port
             End Select
 
+            ' dnp3.0 stuff.
             lbldestination.Visible = dnpbutton.Checked
             lblsource.Visible = dnpbutton.Checked
-            NumericUpDownDNPSourceAddress.Visible = dnpbutton.Checked
-            NumericUpDownDNPDestinationAddress.Visible = dnpbutton.Checked
+            DNPSourceReg1.Visible = dnpbutton.Checked
+            DNPDestinationReg1.Visible = dnpbutton.Checked
+
+            ' warn the user about communication file uploads
             lblwarning.Visible = dnpbutton.Checked Or iec61850box.Checked
 
-            lbllocalvoltage.Visible = modbusbox.Checked
-            Modbus_F_RVBVoltage_Label.Visible = modbusbox.Checked
-            Modbus_R_RVBVoltage_Label.Visible = modbusbox.Checked And support
-            NumericUpDownModbusLocalVoltageRegister.Visible = modbusbox.Checked
-            NumericUpDownModbusFwdRVBVoltageRegister.Visible = modbusbox.Checked
-            NumericUpDownModbusRevRVBVoltageRegister.Visible = modbusbox.Checked And support
+            ' set visibility per the user selection
+            ModbusSettingsGroup.Visible = modbusbox.Checked
+            DnpSettingsGroup.Visible = dnpbutton.Checked
+            IecSettingsGroup.Visible = iec61850box.Checked
 
-            IEC_LocalVoltage_Label.Visible = iec61850box.Checked
-            IEC_F_RVBVoltage_Label.Visible = iec61850box.Checked
-            IEC_R_RVBVoltage_Label.Visible = iec61850box.Checked And support
-            txtIECLocalVoltage.Visible = iec61850box.Checked
-            txtIECFwdRVBVoltage.Visible = iec61850box.Checked
-            txtIECRevRVBVoltage.Visible = iec61850box.Checked And support
-            txtRead.Select()
-            'rev 15 items
-            R_RVBScaleFactor_Label.Visible = support
-            RevRVBScaleFactor.Visible = support
-            Reverse_Voltage_Label.Visible = support
-            RevDeltaVoltage.Visible = support
+            ' set focus on read ip address text box.
+            ReadIpAddr.Select()
 
         Catch ex As Exception
             SetText(lblMsgCenter, ex.Message)
@@ -175,27 +166,27 @@ Public Class RVBSim
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Public Sub Radio_CheckedChanged(sender As RadioButton, e As EventArgs) Handles radUseDeltaVoltage.CheckedChanged, radUseFixedVoltage.CheckedChanged
+    Public Sub Radio_CheckedChanged(sender As RadioButton, e As EventArgs) Handles useDeltaVoltage.CheckedChanged, useFixedVoltage.CheckedChanged
         Try
             Select Case sender.Name
                 Case "radUseDeltaVoltage"
                     Forward_Voltage_Label.Text = DeltaMessage
                     Reverse_Voltage_Label.Text = DeltaMessage
-                    FwdDeltaVoltage.Minimum = MinDeltaVoltage
-                    FwdDeltaVoltage.Maximum = MaxDeltaVoltage
-                    RevDeltaVoltage.Minimum = MinDeltaVoltage
-                    RevDeltaVoltage.Maximum = MaxDeltaVoltage
-                    FwdDeltaVoltage.Value = 0.0
-                    RevDeltaVoltage.Value = 0.0
+                    FwdDeltaVoltageReg1.Minimum = MinDeltaVoltage
+                    FwdDeltaVoltageReg1.Maximum = MaxDeltaVoltage
+                    RevDeltaVoltageReg1.Minimum = MinDeltaVoltage
+                    RevDeltaVoltageReg1.Maximum = MaxDeltaVoltage
+                    FwdDeltaVoltageReg1.Value = 0.0
+                    RevDeltaVoltageReg1.Value = 0.0
                 Case "radUseFixedVoltage"
                     Forward_Voltage_Label.Text = DirectMessage
                     Reverse_Voltage_Label.Text = DirectMessage
-                    FwdDeltaVoltage.Minimum = RVBMin.Value 'MinSpecValue
-                    FwdDeltaVoltage.Maximum = RVBMax.Value 'MaxSpecValue
-                    RevDeltaVoltage.Minimum = RVBMin.Value 'MinSpecValue
-                    RevDeltaVoltage.Maximum = RVBMax.Value 'MaxSpecValue
-                    If Readresult / M2001D_Comm_Scale >= FwdDeltaVoltage.Minimum Then FwdDeltaVoltage.Value = Readresult / M2001D_Comm_Scale Else FwdDeltaVoltage.Value = FwdDeltaVoltage.Maximum
-                    If Readresult / M2001D_Comm_Scale >= RevDeltaVoltage.Minimum Then RevDeltaVoltage.Value = Readresult / M2001D_Comm_Scale Else RevDeltaVoltage.Value = RevDeltaVoltage.Minimum
+                    FwdDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
+                    FwdDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
+                    RevDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
+                    RevDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
+                    If Readresult / M2001D_Comm_Scale >= FwdDeltaVoltageReg1.Minimum Then FwdDeltaVoltageReg1.Value = Readresult / M2001D_Comm_Scale Else FwdDeltaVoltageReg1.Value = FwdDeltaVoltageReg1.Maximum
+                    If Readresult / M2001D_Comm_Scale >= RevDeltaVoltageReg1.Minimum Then RevDeltaVoltageReg1.Value = Readresult / M2001D_Comm_Scale Else RevDeltaVoltageReg1.Value = RevDeltaVoltageReg1.Minimum
             End Select
         Catch ex As Exception
             SetText(lblMsgCenter, ex.Message)
@@ -204,5 +195,6 @@ Public Class RVBSim
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Radio_CheckedChanged)}")
         End Try
     End Sub
+
 End Class
 

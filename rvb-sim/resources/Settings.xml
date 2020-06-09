@@ -1,58 +1,173 @@
 ﻿<rvb>
   <communication>
-    <test protocol="dnp" read="10.10.4.108" write="192.168.0.101" heartbeattimer="2" userelative="true" fwdrvbvoltage="10" revrvbvoltage="-10" fwdscalefactor="10" revscalefactor="10" rvbmax="150" rvbmin="90" visible="true"/>
+    <test protocol="iec" read="192.168.0.101" write="192.168.0.101" heartbeattimer="2" userelative="true" fwdrvbvoltage="10" revrvbvoltage="-10" fwdscalefactor="10" revscalefactor="10" rvbmax="150" rvbmin="90" visible="true"/>
     <!-- M-6200B DNP points -->
-    <dnp p="dnp" port="20000" source="1" dest="3">
-      <!-- Analog Inputs -->
-      <sp id="LocalVoltage" name="Load Voltage (Secondary)" point="0"/>
-      <!-- Analog Outputs -->
-      <sp id="RVBEnable" name="Remote Voltage Bias Enable" point="388"/>
-      <sp id="FRVBValue" name="Forward Remote Voltage Value" point="389"/>
-      <sp id="FRVBScale" name="Forward Remote Voltage Bias Scale Factor" point="390"/>
-      <sp id="RVBHeartbeat" name="Remote Voltage Bias Heartbeat Timer" point="391"/>
-      <sp id="RRVBValue" name="Reverse Remote Voltage Value" point="392"/>
-      <sp id="RRVBScale" name="Reverse Remote Voltage Bias Scale Factor" point="393"/>
-      <sp id="RVBMax" name="Remote Voltage Maximum" point="394"/>
-      <sp id="RVBMin" name="Remote Voltage Minimum" point="395"/>
+    <dnp p="dnp">
+      <!-- Regulator 1 -->
+      <!-- General settings -->
+      <sps regulator="1" port="20000" source="1" destination="3">
+        <!-- Analog Inputs -->
+        <sp id="LocalVoltage" name="Load Voltage (Secondary)" point="0"/>
+        <sp id="SourceVoltage" name="Source Voltage (Secondary)" point="1"/>
+        <!-- Analog Outputs -->
+        <sp id="RVBEnable" name="Remote Voltage Bias Enable" point="388"/>
+        <sp id="FRVBValue" name="Forward Remote Voltage Value" point="389"/>
+        <sp id="FRVBScale" name="Forward Remote Voltage Bias Scale Factor" point="390"/>
+        <sp id="RVBHeartbeat" name="Remote Voltage Bias Heartbeat Timer" point="391"/>
+        <sp id="RRVBValue" name="Reverse Remote Voltage Value" point="392"/>
+        <sp id="RRVBScale" name="Reverse Remote Voltage Bias Scale Factor" point="393"/>
+        <sp id="RVBMax" name="Remote Voltage Maximum" point="394"/>
+        <sp id="RVBMin" name="Remote Voltage Minimum" point="395"/>
+      </sps>
+      <!-- Regulator 2 -->
+      <!-- General settings -->
+      <sps regulator="2" port="20000" source="1" destination="3">
+        <!-- Analog Inputs -->
+        <sp id="LocalVoltage" name="Load Voltage (Secondary)" point="2000"/>
+        <sp id="SourceVoltage" name="Source Voltage (Secondary)" point="2001"/>
+        <!-- Analog Outputs -->
+        <sp id="RVBEnable" name="Remote Voltage Bias Enable" point="2388"/>
+        <sp id="FRVBValue" name="Forward Remote Voltage Value" point="2389"/>
+        <sp id="FRVBScale" name="Forward Remote Voltage Bias Scale Factor" point="2390"/>
+        <sp id="RVBHeartbeat" name="Remote Voltage Bias Heartbeat Timer" point="2391"/>
+        <sp id="RRVBValue" name="Reverse Remote Voltage Value" point="2392"/>
+        <sp id="RRVBScale" name="Reverse Remote Voltage Bias Scale Factor" point="2393"/>
+        <sp id="RVBMax" name="Remote Voltage Maximum" point="2394"/>
+        <sp id="RVBMin" name="Remote Voltage Minimum" point="2395"/>
+      </sps>
+      <!-- Regulator 3 -->
+      <!-- General settings -->
+      <sps regulator="3" port="20000" source="1" destination="3">
+        <!-- Analog Inputs -->
+        <sp id="LocalVoltage" name="Load Voltage (Secondary)" point="3000"/>
+        <sp id="SourceVoltage" name="Source Voltage (Secondary)" point="3001"/>
+        <!-- Analog Outputs -->
+        <sp id="RVBEnable" name="Remote Voltage Bias Enable" point="3388"/>
+        <sp id="FRVBValue" name="Forward Remote Voltage Value" point="3389"/>
+        <sp id="FRVBScale" name="Forward Remote Voltage Bias Scale Factor" point="3390"/>
+        <sp id="RVBHeartbeat" name="Remote Voltage Bias Heartbeat Timer" point="3391"/>
+        <sp id="RRVBValue" name="Reverse Remote Voltage Value" point="3392"/>
+        <sp id="RRVBScale" name="Reverse Remote Voltage Bias Scale Factor" point="3393"/>
+        <sp id="RVBMax" name="Remote Voltage Maximum" point="3394"/>
+        <sp id="RVBMin" name="Remote Voltage Minimum" point="3395"/>
+      </sps>
     </dnp>
     <!-- M-2001D DNP points -->
     <!--<dnp p="dnp" port="20000" source="3" dest="1">-->
-      <!-- Analog Inputs -->
-      <!--<sp id="LocalVoltage" name="Load Voltage (Secondary)" point="0"/>-->
-      <!-- Analog Outputs -->
-      <!--<sp id="RVBEnable" name="Remote Voltage Bias Enable" point="289"/>-->
-      <!--<sp id="FRVBValue" name="Forward Remote Voltage Value" point="290"/>-->
-      <!--<sp id="FRVBScale" name="Forward Remote Voltage Bias Scale Factor" point="291"/>-->
-      <!--<sp id="RVBHeartbeat" name="Remote Voltage Bias Heartbeat Timer" point="292"/>-->
-      <!--<sp id="RRVBValue" name="Reverse Remote Voltage Value" point="293"/>-->
-      <!--<sp id="RRVBScale" name="Reverse Remote Voltage Bias Scale Factor" point="294"/>-->
-      <!--<sp id="RVBMax" name="Remote Voltage Maximum" point="295"/>-->
-      <!--<sp id="RVBMin" name="Remote Voltage Minimum" point="296"/>-->
+    <!-- Analog Inputs -->
+    <!--<sp id="LocalVoltage" name="Load Voltage (Secondary)" point="0"/>-->
+    <!-- Analog Outputs -->
+    <!--<sp id="RVBEnable" name="Remote Voltage Bias Enable" point="289"/>-->
+    <!--<sp id="FRVBValue" name="Forward Remote Voltage Value" point="290"/>-->
+    <!--<sp id="FRVBScale" name="Forward Remote Voltage Bias Scale Factor" point="291"/>-->
+    <!--<sp id="RVBHeartbeat" name="Remote Voltage Bias Heartbeat Timer" point="292"/>-->
+    <!--<sp id="RRVBValue" name="Reverse Remote Voltage Value" point="293"/>-->
+    <!--<sp id="RRVBScale" name="Reverse Remote Voltage Bias Scale Factor" point="294"/>-->
+    <!--<sp id="RVBMax" name="Remote Voltage Maximum" point="295"/>-->
+    <!--<sp id="RVBMin" name="Remote Voltage Minimum" point="296"/>-->
     <!--</dnp>-->
-    <modbus p="modbus" port="502">
-      <sp id="LocalVoltage" name="Local Voltage" reg="1701"/>
-      <sp id="RVBEnable" name="RVB Enable" reg="1991"/>
-      <sp id="FRVBValue" name="Fwd RVB Voltage" reg="1992"/>
-      <sp id="FRVBScale" name="Fwd RVB Scale" reg="1993"/>
-      <sp id="RVBHeartbeat" name="RVB Heartbeat Timer" reg="1994"/>
-      <sp id="RVBActive" name="RVB Active" reg="1995"/>
-      <sp id="RRVBValue" name="Rev RVB Voltage" reg="1996"/>
-      <sp id="RRVBScale" name="Rev RVB Scale" reg="1997"/>
-      <sp id="RVBMax" name="Remote Voltage Maximum" reg="1998"/>
-      <sp id="RVBMin" name="Remote Voltage Minimum" reg="1999"/>
-      <sp id="Factory" name="Factory Options" reg="4787"/>
+    <modbus p="modbus">
+      <!-- Regulator 1 -->
+      <!-- General settings -->
+      <sps regulator="1" port="502" factory="4787">
+        <!-- RVB Settings -->
+        <sp id="LocalVoltage" name="Local Voltage" reg="1701"/>
+        <sp id="SourceVoltage" name="Source Voltage" reg="1702"/>
+        <sp id="RVBEnable" name="RVB Enable" reg="1991"/>
+        <sp id="FRVBValue" name="Fwd RVB Voltage" reg="1992"/>
+        <sp id="FRVBScale" name="Fwd RVB Scale" reg="1993"/>
+        <sp id="RVBHeartbeat" name="RVB Heartbeat Timer" reg="1994"/>
+        <sp id="RVBActive" name="RVB Active" reg="1995"/>
+        <sp id="RRVBValue" name="Rev RVB Voltage" reg="1996"/>
+        <sp id="RRVBScale" name="Rev RVB Scale" reg="1997"/>
+        <sp id="RVBMax" name="Remote Voltage Maximum" reg="1998"/>
+        <sp id="RVBMin" name="Remote Voltage Minimum" reg="1999"/>
+        <!--<sp id="Factory" name="Factory Options" reg="4787"/>-->
+      </sps>
+      <!-- Regulator 2 -->
+      <!-- General settings -->
+      <sps regulator="2" port="502" factory="4787">
+        <!-- RVB Settings -->
+        <sp id="LocalVoltage" name="Local Voltage" reg="21701"/>
+        <sp id="SourceVoltage" name="Source Voltage" reg="21702"/>
+        <sp id="RVBEnable" name="RVB Enable" reg="21991"/>
+        <sp id="FRVBValue" name="Fwd RVB Voltage" reg="21992"/>
+        <sp id="FRVBScale" name="Fwd RVB Scale" reg="21993"/>
+        <sp id="RVBHeartbeat" name="RVB Heartbeat Timer" reg="21994"/>
+        <sp id="RVBActive" name="RVB Active" reg="21995"/>
+        <sp id="RRVBValue" name="Rev RVB Voltage" reg="21996"/>
+        <sp id="RRVBScale" name="Rev RVB Scale" reg="21997"/>
+        <sp id="RVBMax" name="Remote Voltage Maximum" reg="21998"/>
+        <sp id="RVBMin" name="Remote Voltage Minimum" reg="21999"/>
+        <!--<sp id="Factory" name="Factory Options" reg="24787"/>-->
+      </sps>
+      <!-- Regulator 3 -->
+      <!-- General settings -->
+      <sps regulator="3" port="502" factory="4787">
+        <!-- RVB Settings -->
+        <sp id="LocalVoltage" name="Local Voltage" reg="31701"/>
+        <sp id="SourceVoltage" name="Source Voltage" reg="31702"/>
+        <sp id="RVBEnable" name="RVB Enable" reg="31991"/>
+        <sp id="FRVBValue" name="Fwd RVB Voltage" reg="31992"/>
+        <sp id="FRVBScale" name="Fwd RVB Scale" reg="31993"/>
+        <sp id="RVBHeartbeat" name="RVB Heartbeat Timer" reg="31994"/>
+        <sp id="RVBActive" name="RVB Active" reg="31995"/>
+        <sp id="RRVBValue" name="Rev RVB Voltage" reg="31996"/>
+        <sp id="RRVBScale" name="Rev RVB Scale" reg="31997"/>
+        <sp id="RVBMax" name="Remote Voltage Maximum" reg="31998"/>
+        <sp id="RVBMin" name="Remote Voltage Minimum" reg="31999"/>
+        <!--<sp id="Factory" name="Factory Options" reg="34787"/>-->
+      </sps>
     </modbus>
-    <iec p="iec" port="102" readiedname="GE2011E" writeiedname="M2001D" class="ATCC0">
+    <iec p="iec">
       <!--Available iednames: M2001D and GE2011E-->
-      <sp id="LocalVoltage" name="LodCtrV" fc="MX" sdi="mag" dai="i"/>
-      <sp id="RVBEnable" name="RemVBiaEn" fc="SP" sdi="setVal" dai=""/>
-      <sp id="FRVBValue" name="FRemVVal" fc="SP" sdi="setMag" dai="i"/>
-      <sp id="FRVBScale" name="FRemVSF" fc="SP" sdi="setMag" dai="i"/>
-      <sp id="RVBHeartbeat" name="RemVBiaHbT" fc="SP" sdi="setVal" dai=""/>
-      <sp id="RRVBValue" name="RRemVVal" fc="SP" sdi="setMag" dai="i"/>
-      <sp id="RRVBScale" name="RRemVSF" fc="SP" sdi="setMag" dai="i"/>
-      <sp id="RVBMax" name="ReVMax" fc="SP" sdi="setMag" dai="i"/>
-      <sp id="RVBMin" name="ReVMin" fc="SP" sdi="setMag" dai="i"/>
+      <!-- Regulator 1 -->
+      <!-- General settings -->
+      <sps regulator="1" port="102" readiedname="GE2011E" writeiedname="M2001D" class="ATCC0">
+        <!-- RVB Settings -->
+        <sp id="LocalVoltage" name="LodCtrV" fc="MX" sdi="mag" dai="i"/>
+        <sp id="SourceVoltage" name="SrcCtrV" fc="MX" sdi="mag" dai="i"/>
+        <sp id="RVBEnable" name="RemVBiaEn" fc="SP" sdi="setVal" dai=""/>
+        <sp id="FRVBValue" name="FRemVVal" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="FRVBScale" name="FRemVSF" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="RVBHeartbeat" name="RemVBiaHbT" fc="SP" sdi="setVal" dai=""/>
+        <sp id="RRVBValue" name="RRemVVal" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="RRVBScale" name="RRemVSF" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="RVBMax" name="ReVMax" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="RVBMin" name="ReVMin" fc="SP" sdi="setMag" dai="i"/>
+      </sps>
+      <!--Available iednames: M2001D and GE2011E-->
+      <!-- Regulator 2 -->
+      <!-- General settings -->
+      <sps regulator="2" port="102" readiedname="GE2011E" writeiedname="M2001D" class="ATCC1">
+        <!-- RVB Settings -->
+        <sp id="LocalVoltage" name="LodCtrV" fc="MX" sdi="mag" dai="i"/>
+        <sp id="SourceVoltage" name="SrcCtrV" fc="MX" sdi="mag" dai="i"/>
+        <sp id="RVBEnable" name="RemVBiaEn" fc="SP" sdi="setVal" dai=""/>
+        <sp id="FRVBValue" name="FRemVVal" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="FRVBScale" name="FRemVSF" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="RVBHeartbeat" name="RemVBiaHbT" fc="SP" sdi="setVal" dai=""/>
+        <sp id="RRVBValue" name="RRemVVal" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="RRVBScale" name="RRemVSF" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="RVBMax" name="ReVMax" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="RVBMin" name="ReVMin" fc="SP" sdi="setMag" dai="i"/>
+      </sps>
+      <!--Available iednames: M2001D and GE2011E-->
+      <!-- Regulator 3 -->
+      <!-- General settings -->
+      <sps regulator="3" port="102" readiedname="GE2011E" writeiedname="M2001D" class="ATCC2">
+        <!-- RVB Settings -->
+        <sp id="LocalVoltage" name="LodCtrV" fc="MX" sdi="mag" dai="i"/>
+        <sp id="SourceVoltage" name="SrcCtrV" fc="MX" sdi="mag" dai="i"/>
+        <sp id="RVBEnable" name="RemVBiaEn" fc="SP" sdi="setVal" dai=""/>
+        <sp id="FRVBValue" name="FRemVVal" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="FRVBScale" name="FRemVSF" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="RVBHeartbeat" name="RemVBiaHbT" fc="SP" sdi="setVal" dai=""/>
+        <sp id="RRVBValue" name="RRemVVal" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="RRVBScale" name="RRemVSF" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="RVBMax" name="ReVMax" fc="SP" sdi="setMag" dai="i"/>
+        <sp id="RVBMin" name="ReVMin" fc="SP" sdi="setMag" dai="i"/>
+      </sps>
     </iec>
   </communication>
 </rvb>
