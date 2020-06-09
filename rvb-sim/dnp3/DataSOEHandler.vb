@@ -171,7 +171,11 @@ Public Class DataSOEHandler
     End Sub
 
     Public Sub BeginFragment(info As ResponseInfo) Implements ISOEHandler.BeginFragment
-        Debug.WriteLine($"----> BeginFragement: {info}")
+
+        'For Each response In info
+        ' PrintHeaderInfo(info)
+        'Next
+        Debug.WriteLine($"----> BeginFragement.First {info}")
     End Sub
 
     Public Sub EndFragment(info As ResponseInfo) Implements ISOEHandler.EndFragment
