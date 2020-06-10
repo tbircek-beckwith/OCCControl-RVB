@@ -9,19 +9,21 @@ Module DisEnableCheckBoxes
             With RVBSim.StartButton
                 Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Disenable)}")
 
-                'dnp settings dis/enable
-                SetEnable(RVBSim.DNPSourceReg1, .Enabled)
-                SetEnable(RVBSim.DNPDestinationReg1, .Enabled)
+                SetValues(.Enabled)
 
-                'modbus settings dis/enable
-                SetEnable(RVBSim.ModbusLocalVoltageReg1, .Enabled)
-                SetEnable(RVBSim.ModbusFRVBValueReg1, .Enabled)
-                SetEnable(RVBSim.ModbusRRVBValueReg1, .Enabled)
+                ''dnp settings dis/enable
+                'SetEnable(RVBSim.DNPSourceReg1, .Enabled)
+                'SetEnable(RVBSim.DNPDestinationReg1, .Enabled)
 
-                'iec61850 settings dis/enable
-                SetEnable(RVBSim.IecLocalVoltageReg1, .Enabled)
-                SetEnable(RVBSim.IecFRVBValueReg1, .Enabled)
-                SetEnable(RVBSim.IecRRVBValueReg1, .Enabled)
+                ''modbus settings dis/enable
+                'SetEnable(RVBSim.ModbusLocalVoltageReg1, .Enabled)
+                'SetEnable(RVBSim.ModbusFRVBValueReg1, .Enabled)
+                'SetEnable(RVBSim.ModbusRRVBValueReg1, .Enabled)
+
+                ''iec61850 settings dis/enable
+                'SetEnable(RVBSim.IecLocalVoltageReg1, .Enabled)
+                'SetEnable(RVBSim.IecFRVBValueReg1, .Enabled)
+                'SetEnable(RVBSim.IecRRVBValueReg1, .Enabled)
 
                 'communication settings dis/enable
                 SetEnable(RVBSim.WriteIpAddr, .Enabled)

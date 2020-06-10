@@ -173,6 +173,7 @@
   <ItemGroup>
     <Compile Include="Helpers\CommandLineHandler.vb" />
     <Compile Include="Helpers\ExtensionMethods.vb" />
+    <Compile Include="Helpers\SetControls.vb" />
     <Compile Include="Operations\Communication\IECCommunicationModel.vb" />
     <Compile Include="Operations\Communication\ModbusModel.vb" />
     <Compile Include="Operations\Communication\DnpModel.vb" />
@@ -212,7 +213,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Helpers\SetControls.vb" />
     <Compile Include="Helpers\SetupTestUnit.vb" />
     <Compile Include="Operations\TextOperations.vb" />
     <Compile Include="Operations\FileOperations\XmlFile.vb" />
