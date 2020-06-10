@@ -110,18 +110,26 @@ Public Class RVBSim
     ''' <param name="sender"></param>
     Protected Friend Sub CheckHandler(sender As RadioButton)
         Try
-            Select Case sender.Text
-                Case "DNP3.0"
-                    CommunicationDetails.Text = "DNP3.0 Addresses"
-                    lblwarning.Text = "Don't forget to download DNP default file"
-                    PortReg1.Text = Regulators(0).DnpCommunication(0).Port ' first regulator dnpSetting.Port
-                Case "Modbus"
-                    CommunicationDetails.Text = "Modbus registers"
-                    PortReg1.Text = Regulators(0).ModbusCommunication(0).Port ' first regulator modbusRegister.Port
-                Case "IEC61850"
-                    CommunicationDetails.Text = "IEC61850 Datasets"
-                    lblwarning.Text = "Don't forget to purchase IEC61850"
-                    PortReg1.Text = Regulators(0).IECCommunication(0).Port ' first regulator iecSetting.Port
+            Select Case sender.Name
+                Case $"{NameOf(dnpbutton)}"
+                    If sender.Checked Then
+                        CommunicationDetails.Text = "DNP3.0 Addresses"
+                        lblwarning.Text = "Don't forget to download DNP default file"
+                        PortReg1.Text = Regulators(0).DnpCommunication(0).Port ' first regulator dnpSetting.Port
+                    End If
+
+                Case $"{NameOf(modbusbox)}"
+                    If sender.Checked Then
+                        CommunicationDetails.Text = "Modbus registers"
+                        PortReg1.Text = Regulators(0).ModbusCommunication(0).Port ' first regulator modbusRegister.Port
+                    End If
+
+                Case $"{NameOf(iec61850box)}"
+                    If sender.Checked Then
+                        CommunicationDetails.Text = "IEC61850 Datasets"
+                        lblwarning.Text = "Don't forget to purchase IEC61850"
+                        PortReg1.Text = Regulators(0).IECCommunication(0).Port ' first regulator iecSetting.Port
+                    End If
             End Select
 
             ' dnp3.0 stuff.
@@ -169,24 +177,29 @@ Public Class RVBSim
     Public Sub Radio_CheckedChanged(sender As RadioButton, e As EventArgs) Handles useDeltaVoltage.CheckedChanged, useFixedVoltage.CheckedChanged
         Try
             Select Case sender.Name
-                Case "radUseDeltaVoltage"
-                    Forward_Voltage_Label.Text = DeltaMessage
-                    Reverse_Voltage_Label.Text = DeltaMessage
-                    FwdDeltaVoltageReg1.Minimum = MinDeltaVoltage
-                    FwdDeltaVoltageReg1.Maximum = MaxDeltaVoltage
-                    RevDeltaVoltageReg1.Minimum = MinDeltaVoltage
-                    RevDeltaVoltageReg1.Maximum = MaxDeltaVoltage
-                    FwdDeltaVoltageReg1.Value = 0.0
-                    RevDeltaVoltageReg1.Value = 0.0
-                Case "radUseFixedVoltage"
-                    Forward_Voltage_Label.Text = DirectMessage
-                    Reverse_Voltage_Label.Text = DirectMessage
-                    FwdDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
-                    FwdDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
-                    RevDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
-                    RevDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
-                    If Readresult / M2001D_Comm_Scale >= FwdDeltaVoltageReg1.Minimum Then FwdDeltaVoltageReg1.Value = Readresult / M2001D_Comm_Scale Else FwdDeltaVoltageReg1.Value = FwdDeltaVoltageReg1.Maximum
-                    If Readresult / M2001D_Comm_Scale >= RevDeltaVoltageReg1.Minimum Then RevDeltaVoltageReg1.Value = Readresult / M2001D_Comm_Scale Else RevDeltaVoltageReg1.Value = RevDeltaVoltageReg1.Minimum
+                Case $"{NameOf(useDeltaVoltage)}"
+                    If sender.Checked Then
+                        Forward_Voltage_Label.Text = DeltaMessage
+                        Reverse_Voltage_Label.Text = DeltaMessage
+                        FwdDeltaVoltageReg1.Minimum = MinDeltaVoltage
+                        FwdDeltaVoltageReg1.Maximum = MaxDeltaVoltage
+                        RevDeltaVoltageReg1.Minimum = MinDeltaVoltage
+                        RevDeltaVoltageReg1.Maximum = MaxDeltaVoltage
+                        FwdDeltaVoltageReg1.Value = 0.0
+                        RevDeltaVoltageReg1.Value = 0.0
+                    End If
+
+                Case $"{NameOf(useFixedVoltage)}"
+                    If sender.Checked Then
+                        Forward_Voltage_Label.Text = DirectMessage
+                        Reverse_Voltage_Label.Text = DirectMessage
+                        FwdDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
+                        FwdDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
+                        RevDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
+                        RevDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
+                        If Readresult / M2001D_Comm_Scale >= FwdDeltaVoltageReg1.Minimum Then FwdDeltaVoltageReg1.Value = Readresult / M2001D_Comm_Scale Else FwdDeltaVoltageReg1.Value = FwdDeltaVoltageReg1.Maximum
+                        If Readresult / M2001D_Comm_Scale >= RevDeltaVoltageReg1.Minimum Then RevDeltaVoltageReg1.Value = Readresult / M2001D_Comm_Scale Else RevDeltaVoltageReg1.Value = RevDeltaVoltageReg1.Minimum
+                    End If
             End Select
         Catch ex As Exception
             SetText(lblMsgCenter, ex.Message)
