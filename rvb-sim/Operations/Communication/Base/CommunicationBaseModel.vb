@@ -12,7 +12,7 @@ Public MustInherit Class CommunicationBaseModel(Of T)
     Public Property Id() As UShort = 0
 
     ''' <summary>
-    ''' Holds "Id" of the regulator for the model
+    ''' Holds "Name" of the regulator for the model
     ''' </summary>
     ''' <returns></returns>
     Public Property Name() As String = String.Empty
