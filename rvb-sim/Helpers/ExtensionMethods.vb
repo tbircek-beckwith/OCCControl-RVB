@@ -65,6 +65,7 @@ Public Module ExtensionMethods
     <Extension()>
     Public Sub SetValues(ByRef enable As Boolean)
 
+        ' TODO: Try to avoid late bounding
         ' flatten the Regulator object
         Dim modelList As List(Of Object) = New List(Of Object)
         For Each communicationModel As Regulator In Regulators
