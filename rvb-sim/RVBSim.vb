@@ -112,14 +112,14 @@ Public Class RVBSim
         Try
             Select Case sender.Text
                 Case "DNP3.0"
-                    AddressBox.Text = "DNP3.0 Addresses"
+                    CommunicationDetails.Text = "DNP3.0 Addresses"
                     lblwarning.Text = "Don't forget to download DNP default file"
                     PortReg1.Text = Regulators(0).DnpCommunication(0).Port ' first regulator dnpSetting.Port
                 Case "Modbus"
-                    AddressBox.Text = "Modbus registers"
+                    CommunicationDetails.Text = "Modbus registers"
                     PortReg1.Text = Regulators(0).ModbusCommunication(0).Port ' first regulator modbusRegister.Port
                 Case "IEC61850"
-                    AddressBox.Text = "IEC61850 Datasets"
+                    CommunicationDetails.Text = "IEC61850 Datasets"
                     lblwarning.Text = "Don't forget to purchase IEC61850"
                     PortReg1.Text = Regulators(0).IECCommunication(0).Port ' first regulator iecSetting.Port
             End Select

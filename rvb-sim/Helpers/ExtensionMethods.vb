@@ -31,7 +31,7 @@ Public Module ExtensionMethods
     Friend Function GetControls() As List(Of Control)
 
         ' returns every control
-        Dim controls = RVBSim.AddressBox.GetChildControls(Of Control)
+        Dim controls = RVBSim.CommunicationDetails.GetChildControls(Of Control)
 
         For Each control As Control In controls
             Debug.WriteLine($"control.name ={control.Name}, control.text = {control.Text}, control.type = {control.GetType()}")
