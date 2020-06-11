@@ -12,62 +12,79 @@ Namespace PeriodicOperations
         '''<param name='rvbForm'>Reference to the main window</param>
         Protected Friend Sub Write(ByRef rvbForm As RVBSim)
 
+            'TODO: if 3-phase requires more register to write it will be done here.
+
             Try
-                Dim WriteEvent As New ManualResetEvent(False)
-                If ProtocolInUse() = "dnp" Then
-                    'transmit Forward RVB Voltage
-                    dnp.Send(WriteEvent, rvbForm.NumericUpDownDNPDestinationAddress.Value, rvbForm.NumericUpDownDNPSourceAddress.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.FRVBValue, CUShort(Forward_RVBVoltage2Write), 0)
-                    WriteEvent.WaitOne()
-                    ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
 
-                    'transmit Reverse RVB Voltage
-                    WriteEvent.Reset()
-                    dnp.Send(WriteEvent, rvbForm.NumericUpDownDNPDestinationAddress.Value, rvbForm.NumericUpDownDNPSourceAddress.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.RRVBValue, CUShort(Reverse_RVBVoltage2Write), 0)
-                    WriteEvent.WaitOne()
-                    ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
+                For Each regulator As Regulator In Regulators
 
-                ElseIf ProtocolInUse() = "modbus" Then
-                    'TODO: if 3-phase requires more register to write it will be done here.
-                    'write back calculated Forward RVB Voltage to specified modbus register
-                    modbusWrite.WriteSingleRegister(rvbForm.NumericUpDownModbusFwdRVBVoltageRegister.Value, CUShort(Forward_RVBVoltage2Write))
+                    Dim WriteEvent As New ManualResetEvent(False)
+                    If ProtocolInUse() = "dnp" Then
+                        For Each dnpRegister As DnpCommunicationModel In regulator.DnpCommunication
+                            'transmit Forward RVB Voltage
+                            'dnp.Send(WriteEvent, rvbForm.DNPDestinationReg1.Value, rvbForm.DNPSourceReg1.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.FRVBValue, CUShort(Forward_RVBVoltage2Write), 0)
+                            dnp.Send(WriteEvent, dnpRegister.DestinationAddress, dnpRegister.SourceAddress, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpRegister.FRVBValue, CUShort(Forward_RVBVoltage2Write), 0)
+                            WriteEvent.WaitOne()
+                            ReceivedErrorMsg = ErrorReceived
 
-                    'write back calculated Reverse RVB Voltage to specified modbus register
-                    modbusWrite.WriteSingleRegister(rvbForm.NumericUpDownModbusRevRVBVoltageRegister.Value, CUShort(Reverse_RVBVoltage2Write))
+                            'transmit Reverse RVB Voltage
+                            WriteEvent.Reset()
+                            ' dnp.Send(WriteEvent, rvbForm.DNPDestinationReg1.Value, rvbForm.DNPSourceReg1.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.RRVBValue, CUShort(Reverse_RVBVoltage2Write), 0)
+                            dnp.Send(WriteEvent, dnpRegister.DestinationAddress, rvbForm.DNPSourceReg1.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.RRVBValue, CUShort(Reverse_RVBVoltage2Write), 0)
+                            WriteEvent.WaitOne()
+                            ReceivedErrorMsg = ErrorReceived
+                        Next
 
-                ElseIf ProtocolInUse() = "iec" Then
-                    'transmit Forward RVB Voltage
-                    iec61850.Send(WriteEvent, rvbForm.txtIECFwdRVBVoltage.Text, "Write", CUShort(Forward_RVBVoltage2Write))
-                    WriteEvent.WaitOne()
-                    ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
+                    ElseIf ProtocolInUse() = "modbus" Then
+                        For Each modbusRegister As ModbusCommunicationModel In regulator.ModbusCommunication
 
-                    'transmit Reverse RVB Voltage
-                    WriteEvent.Reset()
-                    iec61850.Send(WriteEvent, rvbForm.txtIECRevRVBVoltage.Text, "Write", CUShort(Reverse_RVBVoltage2Write))
-                    WriteEvent.WaitOne()
-                    ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
+                            ' TODO: Replace Reg1 in fRVBVoltage & rRVBVoltage with Reg{modbusRegister.Id}
+                            Debug.WriteLine("------------------- Writing RVB Voltage (MODBUS) -------------------")
 
-                End If
+                            'write back calculated Forward RVB Voltage to specified modbus register
+                            Dim fRVBVoltage = rvbForm.ModbusSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{modbusRegister.Name}{NameOf(modbusRegister.FRVBValue)}Reg1"))(0)       '{modbusRegister.Id}"))
+                            modbusWrite.WriteSingleRegister(fRVBVoltage.Value, CUShort(Forward_RVBVoltage2Write))
 
-                SetText(rvbForm.lblFwdRVBValue, String.Format("Fwd RVB: {0}", FormatNumber((Forward_RVBVoltage2Write / M2001D_Comm_Scale), 1)))
-                SetText(rvbForm.lblRevRVBValue, String.Format("Rev RVB: {0}", FormatNumber((Reverse_RVBVoltage2Write / M2001D_Comm_Scale), 1)))
+                            'write back calculated Reverse RVB Voltage to specified modbus register
+                            Dim rRVBVoltage = rvbForm.ModbusSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{modbusRegister.Name}{NameOf(modbusRegister.RRVBValue)}Reg1"))(0)     '{modbusRegister.Id}"))
+                            modbusWrite.WriteSingleRegister(rRVBVoltage.Value, CUShort(Reverse_RVBVoltage2Write))
 
-                WriteEvent.SafeWaitHandle.Close()
+                            Debug.WriteLine("------------------- Writing RVB Voltage (MODBUS) Done -------------------")
 
-                If ConsoleWriteEnable Then
-                    Console.WriteLine(" ---------------------- Writing Fwd voltage: {0}", Forward_RVBVoltage2Write)
-                    Console.WriteLine(" ---------------------- Writing Rev voltage: {0}", Reverse_RVBVoltage2Write)
-                End If
+                        Next
 
-                If Not ReceivedErrorMsg = "None" Then sb.AppendLine(String.Format("{0} Received {1} error", Now, ReceivedErrorMsg))
+                    ElseIf ProtocolInUse() = "iec" Then
+                        'transmit Forward RVB Voltage
+                        iec61850.Send(WriteEvent, rvbForm.IecFRVBValueReg1.Text, "Write", CUShort(Forward_RVBVoltage2Write))
+                        WriteEvent.WaitOne()
+                        ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
 
-                WriteRegisterWait.Unregister(Nothing)
-                periodicReset.Timers(rvbForm:=rvbForm)
+                        'transmit Reverse RVB Voltage
+                        WriteEvent.Reset()
+                        iec61850.Send(WriteEvent, rvbForm.IecRRVBValueReg1.Text, "Write", CUShort(Reverse_RVBVoltage2Write))
+                        WriteEvent.WaitOne()
+                        ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
+
+                    End If
+
+                    SetText(rvbForm.lblFwdRVBValue, $"Fwd RVB: {FormatNumber(Forward_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}")
+                    SetText(rvbForm.lblRevRVBValue, $"Rev RVB: {FormatNumber(Reverse_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}")
+
+                    WriteEvent.SafeWaitHandle.Close()
+
+                    Debug.WriteLine($" ---------------------- Writing Fwd voltage: {Forward_RVBVoltage2Write}, Writing Rev voltage: {Reverse_RVBVoltage2Write}")
+
+                    If Not ReceivedErrorMsg = "None" Then sb.AppendLine($"{Now} Error: {ReceivedErrorMsg}")
+
+                    WriteRegisterWait.Unregister(Nothing)
+                    periodicReset.Timers(rvbForm:=rvbForm)
+                Next
 
             Catch ex As Exception
                 Interlocked.Increment(errorCounter)
                 CheckErrors()
                 SetText(rvbForm.lblMsgCenter, ex.Message)
-                sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+                sb.AppendLine($"{Now} {ex.Message}")
             End Try
         End Sub
     End Class

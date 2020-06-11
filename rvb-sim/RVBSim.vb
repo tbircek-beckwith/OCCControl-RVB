@@ -3,29 +3,43 @@ Imports System.Threading
 
 Public Class RVBSim
 
-    '''<summary>Writes periodically writes to write IP Address.</summary>
-    Protected Friend Sub PeriodicWriteEvent(ByVal state As Object, ByVal timeOut As Boolean) '(ByVal mip As IPAddress, ByVal m_port As UShort)
+    ''' <summary>
+    ''' Writes periodically writes to write IP Address.
+    ''' </summary>
+    ''' <param name="state"></param>
+    ''' <param name="timeOut"></param>
+    Protected Friend Sub PeriodicWriteEvent(ByVal state As Object, ByVal timeOut As Boolean)
 
         If timeOut Then
-            If ConsoleWriteEnable Then
-                Console.WriteLine("Current thread is # {0} PeriodicWriteEvent", Thread.CurrentThread.GetHashCode)
-                Heart_Beat_Timer = 0
-            End If
 
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicWriteEvent)}")
+
+            ' Heart_Beat_Timer = 0
+            Interlocked.Exchange(Heart_Beat_Timer, 0)
             ReadRegisterWait.Unregister(Nothing)
             GenerateRVBVoltage2Transfer(rvbForm:=Me)
 
+            ' TODO: uncomment following DEBUG
             periodicWrite.Write(rvbForm:=Me)
-            
+
+            ' TODO: delete me and following DEBUG
+            'periodicReset.Timers(rvbForm:=Me)
+
         Else
             WriteRegisterWait.Unregister(Nothing)
         End If
     End Sub
 
+    ''' <summary>
+    ''' Reads periodically
+    ''' </summary>
+    ''' <param name="state"></param>
+    ''' <param name="timeOut"></param>
     Protected Friend Sub PeriodicReadEvent(ByVal state As Object, ByVal timeOut As Boolean)
 
         If timeOut Then
-            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} PeriodicReadEvent", Thread.CurrentThread.GetHashCode)
+
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicReadEvent)}")
 
             periodicRead.Read(rvbForm:=Me)
 
@@ -34,6 +48,9 @@ Public Class RVBSim
         End If
     End Sub
 
+    ''' <summary>
+    ''' Updates Protocol
+    ''' </summary>
     Protected Friend Sub UpdateProtocol()
         If modbusbox.Checked Then
             ProtocolInUse = "modbus"
@@ -42,18 +59,19 @@ Public Class RVBSim
         ElseIf iec61850box.Checked Then
             ProtocolInUse = "iec"
         End If
-        If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- UpdateProtocol", Thread.CurrentThread.GetHashCode)
+
+        Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(UpdateProtocol)}")
     End Sub
 
-    Private Sub btnStart_Click(sender As System.Object, e As System.EventArgs) Handles btnStart.Click
+    Private Sub BtnStart_Click(sender As Object, e As EventArgs) Handles StartButton.Click
         start.Start()
     End Sub
 
-    Private Sub btnStop_Click(sender As System.Object, e As System.EventArgs) Handles btnStop.Click
+    Private Sub BtnStop_Click(sender As Object, e As EventArgs) Handles StopButton.Click
         pause.Pause()
     End Sub
 
-    Private Sub Form_FormClosing(sender As Object, e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub Form_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         CloseForm()
     End Sub
 
@@ -80,106 +98,120 @@ Public Class RVBSim
             If My.Application.CommandLineArgs.Count > 1 Then
                 CheckCommandLine()
             Else
-                txtRead.Focus()
+                ReadIpAddr.Focus()
             End If
         Catch ex As Exception
             SetText(lblMsgCenter, ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         Finally
-            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- Main", Thread.CurrentThread.GetHashCode)
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Main)}")
         End Try
     End Sub
 
-    Protected Friend Sub checkHandler(sender As System.Object)
+    ''' <summary>
+    ''' Handles <see cref="RadioButton"/> check events
+    ''' </summary>
+    ''' <param name="sender"></param>
+    Protected Friend Sub CheckHandler(sender As RadioButton)
         Try
-            Select Case sender.text
-                Case "DNP3.0"
-                    AddressBox.Text = "DNP3.0 Addresses"
-                    lblwarning.Text = "Don't forget to download DNP default file"
-                    txtPort.Text = dnpSetting.Port
-                Case "Modbus"
-                    AddressBox.Text = "Modbus registers"
-                    txtPort.Text = modbusRegister.Port
-                Case "IEC61850"
-                    AddressBox.Text = "IEC61850 Datasets"
-                    lblwarning.Text = "Don't forget to purchase IEC61850"
-                    txtPort.Text = iecSetting.Port
+            Select Case sender.Name
+                Case $"{NameOf(dnpbutton)}"
+                    If sender.Checked Then
+                        CommunicationDetails.Text = "DNP3.0 Addresses"
+                        lblwarning.Text = "Don't forget to download DNP default file"
+                        PortReg1.Text = Regulators(0).DnpCommunication(0).Port ' first regulator dnpSetting.Port
+                    End If
+
+                Case $"{NameOf(modbusbox)}"
+                    If sender.Checked Then
+                        CommunicationDetails.Text = "Modbus registers"
+                        PortReg1.Text = Regulators(0).ModbusCommunication(0).Port ' first regulator modbusRegister.Port
+                    End If
+
+                Case $"{NameOf(iec61850box)}"
+                    If sender.Checked Then
+                        CommunicationDetails.Text = "IEC61850 Datasets"
+                        lblwarning.Text = "Don't forget to purchase IEC61850"
+                        PortReg1.Text = Regulators(0).IECCommunication(0).Port ' first regulator iecSetting.Port
+                    End If
             End Select
 
+            ' dnp3.0 stuff.
             lbldestination.Visible = dnpbutton.Checked
             lblsource.Visible = dnpbutton.Checked
-            NumericUpDownDNPSourceAddress.Visible = dnpbutton.Checked
-            NumericUpDownDNPDestinationAddress.Visible = dnpbutton.Checked
+            DNPSourceReg1.Visible = dnpbutton.Checked
+            DNPDestinationReg1.Visible = dnpbutton.Checked
+
+            ' warn the user about communication file uploads
             lblwarning.Visible = dnpbutton.Checked Or iec61850box.Checked
 
-            lbllocalvoltage.Visible = modbusbox.Checked
-            Modbus_F_RVBVoltage_Label.Visible = modbusbox.Checked
-            Modbus_R_RVBVoltage_Label.Visible = modbusbox.Checked And support
-            NumericUpDownModbusLocalVoltageRegister.Visible = modbusbox.Checked
-            NumericUpDownModbusFwdRVBVoltageRegister.Visible = modbusbox.Checked
-            NumericUpDownModbusRevRVBVoltageRegister.Visible = modbusbox.Checked And support
+            ' set visibility per the user selection
+            ModbusSettingsGroup.Visible = modbusbox.Checked
+            DnpSettingsGroup.Visible = dnpbutton.Checked
+            IecSettingsGroup.Visible = iec61850box.Checked
 
-            IEC_LocalVoltage_Label.Visible = iec61850box.Checked
-            IEC_F_RVBVoltage_Label.Visible = iec61850box.Checked
-            IEC_R_RVBVoltage_Label.Visible = iec61850box.Checked And support
-            txtIECLocalVoltage.Visible = iec61850box.Checked
-            txtIECFwdRVBVoltage.Visible = iec61850box.Checked
-            txtIECRevRVBVoltage.Visible = iec61850box.Checked And support
-            txtRead.Select()
-            'rev 15 items
-            R_RVBScaleFactor_Label.Visible = support
-            RevRVBScaleFactor.Visible = support
-            Reverse_Voltage_Label.Visible = support
-            RevDeltaVoltage.Visible = support
+            ' set focus on read ip address text box.
+            ReadIpAddr.Select()
 
         Catch ex As Exception
             SetText(lblMsgCenter, ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         Finally
-            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- checkHandler", Thread.CurrentThread.GetHashCode)
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(CheckHandler)}")
         End Try
     End Sub
 
-    Private Sub dnpbutton_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles dnpbutton.CheckedChanged
-        checkHandler(sender)
+    Private Sub Dnpbutton_CheckedChanged(sender As Object, e As EventArgs) Handles dnpbutton.CheckedChanged
+        CheckHandler(sender)
     End Sub
 
-    Private Sub modbusbox_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles modbusbox.CheckedChanged
-        checkHandler(sender)
+    Private Sub Modbusbox_CheckedChanged(sender As Object, e As EventArgs) Handles modbusbox.CheckedChanged
+        CheckHandler(sender)
     End Sub
 
-    Private Sub iec61850box_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles iec61850box.CheckedChanged
-        checkHandler(sender)
+    Private Sub Iec61850box_CheckedChanged(sender As Object, e As EventArgs) Handles iec61850box.CheckedChanged
+        CheckHandler(sender)
     End Sub
 
-    Public Sub Radio_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles radUseDeltaVoltage.CheckedChanged, radUseFixedVoltage.CheckedChanged
+    ''' <summary>
+    ''' Handles <see cref="RadioButton.CheckedChanged"/> events
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Public Sub Radio_CheckedChanged(sender As RadioButton, e As EventArgs) Handles useDeltaVoltage.CheckedChanged, useFixedVoltage.CheckedChanged
         Try
-            Select Case sender.name
-                Case "radUseDeltaVoltage"
-                    Forward_Voltage_Label.Text = DeltaMessage
-                    Reverse_Voltage_Label.Text = DeltaMessage
-                    FwdDeltaVoltage.Minimum = MinDeltaVoltage
-                    FwdDeltaVoltage.Maximum = MaxDeltaVoltage
-                    RevDeltaVoltage.Minimum = MinDeltaVoltage
-                    RevDeltaVoltage.Maximum = MaxDeltaVoltage
-                    FwdDeltaVoltage.Value = 0.0
-                    RevDeltaVoltage.Value = 0.0
-                Case "radUseFixedVoltage"
-                    Forward_Voltage_Label.Text = DirectMessage
-                    Reverse_Voltage_Label.Text = DirectMessage
-                    FwdDeltaVoltage.Minimum = RVBMin.Value 'MinSpecValue
-                    FwdDeltaVoltage.Maximum = RVBMax.Value 'MaxSpecValue
-                    RevDeltaVoltage.Minimum = RVBMin.Value 'MinSpecValue
-                    RevDeltaVoltage.Maximum = RVBMax.Value 'MaxSpecValue
-                    If readresult / M2001D_Comm_Scale >= FwdDeltaVoltage.Minimum Then FwdDeltaVoltage.Value = readresult / M2001D_Comm_Scale Else FwdDeltaVoltage.Value = FwdDeltaVoltage.Maximum
-                    If readresult / M2001D_Comm_Scale >= RevDeltaVoltage.Minimum Then RevDeltaVoltage.Value = readresult / M2001D_Comm_Scale Else RevDeltaVoltage.Value = RevDeltaVoltage.Minimum
+            Select Case sender.Name
+                Case $"{NameOf(useDeltaVoltage)}"
+                    If sender.Checked Then
+                        Forward_Voltage_Label.Text = DeltaMessage
+                        Reverse_Voltage_Label.Text = DeltaMessage
+                        FwdDeltaVoltageReg1.Minimum = MinDeltaVoltage
+                        FwdDeltaVoltageReg1.Maximum = MaxDeltaVoltage
+                        RevDeltaVoltageReg1.Minimum = MinDeltaVoltage
+                        RevDeltaVoltageReg1.Maximum = MaxDeltaVoltage
+                        FwdDeltaVoltageReg1.Value = 0.0
+                        RevDeltaVoltageReg1.Value = 0.0
+                    End If
+
+                Case $"{NameOf(useFixedVoltage)}"
+                    If sender.Checked Then
+                        Forward_Voltage_Label.Text = DirectMessage
+                        Reverse_Voltage_Label.Text = DirectMessage
+                        FwdDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
+                        FwdDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
+                        RevDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
+                        RevDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
+                        If LocalVoltageReadresult / BecoCommunicationScaleFactor >= FwdDeltaVoltageReg1.Minimum Then FwdDeltaVoltageReg1.Value = LocalVoltageReadresult / BecoCommunicationScaleFactor Else FwdDeltaVoltageReg1.Value = FwdDeltaVoltageReg1.Maximum
+                        If SourceVoltageReadresult / BecoCommunicationScaleFactor >= RevDeltaVoltageReg1.Minimum Then RevDeltaVoltageReg1.Value = SourceVoltageReadresult / BecoCommunicationScaleFactor Else RevDeltaVoltageReg1.Value = RevDeltaVoltageReg1.Minimum
+                    End If
             End Select
         Catch ex As Exception
             SetText(lblMsgCenter, ex.Message)
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         Finally
-            If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- Radio_checkedchanged", Thread.CurrentThread.GetHashCode)
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Radio_CheckedChanged)}")
         End Try
     End Sub
+
 End Class
 

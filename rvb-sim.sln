@@ -1,7 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "RVBSim", "rvb-sim\RVBSim.vbproj", "{CAD21B49-A38B-49E8-836C-BAC14479A26B}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "rvbsim", "rvb-sim\rvbsim.vbproj", "{CAD21B49-A38B-49E8-836C-BAC14479A26B}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "rvbsim.package", "rvbsim.package\rvbsim.package.vbproj", "{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rvb-sim.dnp", "rvb-sim.dnp\rvb-sim.dnp.csproj", "{451FDCA5-6D07-4114-8214-DAFFB30D3108}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,8 +31,35 @@ Global
 		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.Release|Any CPU.Build.0 = Release|x86
 		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.Release|x86.ActiveCfg = Release|x86
 		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.Release|x86.Build.0 = Release|x86
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.All|Any CPU.Build.0 = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.All|x86.ActiveCfg = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.All|x86.Build.0 = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Debug|x86.Build.0 = Debug|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Release|x86.ActiveCfg = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Release|x86.Build.0 = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.All|Any CPU.Build.0 = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.All|x86.ActiveCfg = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.All|x86.Build.0 = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Debug|x86.Build.0 = Debug|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Release|Any CPU.Build.0 = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Release|x86.ActiveCfg = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E9595C9-1BCD-4C8A-BC81-1C14E6753451}
 	EndGlobalSection
 EndGlobal

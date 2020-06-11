@@ -1,9 +1,16 @@
-﻿Imports System.Threading
-Imports System.Net
+﻿'Imports System.Net
+Imports System.Threading
+'Imports Automatak.DNP3.Adapter
+'Imports Automatak.DNP3.Interface
+Imports rvb_sim.dnp
 
 Namespace Communication.Operations
 
     Public Class StartOperation
+
+        Friend Sub ReceiveData()
+            Debug.WriteLine("we receive something...")
+        End Sub
 
         Protected Friend Sub Start()
 
@@ -22,11 +29,11 @@ Namespace Communication.Operations
 
                     'set texts and buttons
                     SetText(.lblMsgCenter, "Establishing communication ...")
-                    SetEnable(.btnStop, True)
-                    SetEnable(.btnStart, False)
+                    SetEnable(.StopButton, True)
+                    SetEnable(.StartButton, False)
                     Disenable()
 
-                    IPs = {.txtRead.Text, .txtWrite.Text}
+                    IPs = { .ReadIpAddr.Text, .WriteIpAddr.Text}
                     SetText(.lblMsgCenter, "Connecting to the units ...")
 
                     Dim success As Boolean = False
@@ -37,36 +44,57 @@ Namespace Communication.Operations
                             'modbus read communication channel
                             modbusRead = New EasyModbus.ModbusClient With
                                          {
-                                             .IPAddress = RVBSim.txtRead.Text,
-                                             .Port = CUShort(RVBSim.txtPort.Text),
-                                             .ConnectionTimeout = 10000
+                                             .IPAddress = RVBSim.ReadIpAddr.Text,
+                                             .Port = CUShort(RVBSim.PortReg1.Text),
+                                             .ConnectionTimeout = 10000,
+                                             .UnitIdentifier = 255                      ' to prevent any trouble if the unit set to different address
                                          }
 
                             'modbus write communication channel
                             modbusWrite = New EasyModbus.ModbusClient With
                                          {
-                                             .IPAddress = RVBSim.txtWrite.Text,
-                                             .Port = CUShort(RVBSim.txtPort.Text),
-                                             .ConnectionTimeout = 10000
+                                             .IPAddress = RVBSim.WriteIpAddr.Text,
+                                             .Port = CUShort(RVBSim.PortReg1.Text),
+                                             .ConnectionTimeout = 10000,
+                                             .UnitIdentifier = 255                      ' to prevent any trouble if the unit set to different address
                                          }
                             'connect the channels
                             modbusRead.Connect()
                             modbusWrite.Connect()
 
+                            ' AddHandler modbusRead.ReceiveDataChanged, AddressOf ReceiveData
+
                             'is both channel successfully connected?
                             success = modbusRead.Connected And modbusWrite.Connected
 
                         ElseIf ProtocolInUse = "dnp" Then
-                            tcpdnp.AsyncDNP3_0.ConsoleWriteEnable = ConsoleWriteEnable
+                            tcpdnp.AsyncDNP3_0.ConsoleWriteEnable = True
                             dnp = New tcpdnp.AsyncDNP3_0(IPs.Length, DNP_BufferSize)
-                            dnp.AsyncConnectTo(IPs, CUShort(.txtPort.Text), Connection)
+                            dnp.AsyncConnectTo(IPs, .PortReg1.Text, Connection)
                             ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
                             success = Connection.WaitOne(1000)
 
+
+                            'dnpReadManager = DNP3ManagerFactory.CreateManager(1, New PrintingLogAdapter())
+
+                            'Dim channel As IChannel = dnpReadManager.AddTCPClient(id:="dnpReadingChannel",
+                            '                                                      filters:=LogLevels.NORMAL,
+                            '                                                      retry:=New ChannelRetry(minRetryDelay:=TimeSpan.FromSeconds(1), maxRetryDelay:=TimeSpan.FromSeconds(10), reconnectDelay:=TimeSpan.FromSeconds(5)),
+                            '                                                      remotes:=New List(Of IPEndpoint) From {New IPEndpoint(RVBSim.txtRead.Text, RVBSim.txtPort.Text)},
+                            '                                                      listener:=ChannelListener.Print())
+                            ' Dim newDnpRead = New Dnp30().OpenConnection(RVBSim.txtRead.Text, RVBSim.txtPort.Text)
+
+                            'Dim newDnp = New Dnp30
+
+                            'newDnp.OpenConnection(RVBSim.txtRead.Text, RVBSim.txtPort.Text)
+
+
+                            ' Debug.WriteLine($"dnp reads: {newDnpRead}")
+
                         ElseIf ProtocolInUse = "iec" Then
-                            iec.AsyncIEC61850.ConsoleWriteEnable = ConsoleWriteEnable
+                            ' iec.AsyncIEC61850.ConsoleWriteEnable = ConsoleWriteEnable
                             iec61850 = New iec.AsyncIEC61850(iecSetting.ReadIEDName, iecSetting.WriteIEDName, IPs.Length, IEC_BufferSize)
-                            iec61850.AsyncConnectTo(IPs, CUShort(.txtPort.Text), Connection)
+                            iec61850.AsyncConnectTo(IPs, .PortReg1.Text, Connection)
                             ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
                             success = Connection.WaitOne(1000)
 
@@ -76,15 +104,18 @@ Namespace Communication.Operations
 
                         If success Then
                             SetText(.lblMsgCenter, "Connection successful ...")
-                            sb.AppendLine(String.Format("{0} Successfully connected to read {1}", Now, IPs(0)))
-                            sb.AppendLine(String.Format("{0} Successfully connected to write {1}", Now, IPs(1)))
 
+                            For Each ip As String In IPs
+                                sb.AppendLine($"{Now} Successfully connected to read {ip}")
+                            Next
+
+                            ' set factory option and etc.
                             SendSettings()
 
                             TimersEvent.Set()
 
-                            ReadInterval = .heartbeattimer.Value * 250
-                            WriteInterval = .heartbeattimer.Value * 900
+                            ReadInterval = .heartBeatTimer.Value * 250
+                            WriteInterval = .heartBeatTimer.Value * 900
 
                             'initial read of local voltage
                             ReadTickerDone.Reset()
@@ -94,11 +125,12 @@ Namespace Communication.Operations
                             WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(WriteTickerDone, New WaitOrTimerCallback(AddressOf .PeriodicWriteEvent), Nothing, WriteInterval, False)
 
                         Else
-                            Throw New Sockets.SocketException(CInt(Sockets.SocketError.HostUnreachable))
+                            'Throw New Sockets.SocketException(CInt(Sockets.SocketError.HostUnreachable))
+                            Throw New CustomExceptions("Host(s) is(are) unreachable")
                         End If
 
                         Connection.SafeWaitHandle.Close()
-                        If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- Start", Thread.CurrentThread.GetHashCode)
+                        Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Start)}")
 
                     Else
                         Throw New CustomExceptions("Cannot connect to the unit(s)")
@@ -107,9 +139,9 @@ Namespace Communication.Operations
 
             Catch ex As Exception
                 SetText(RVBSim.lblMsgCenter, ex.Message)
-                sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
-                SetEnable(RVBSim.btnStart, True)
-                SetEnable(RVBSim.btnStop, False)
+                sb.AppendLine($"{Now} {ex.Message}")
+                SetEnable(RVBSim.StartButton, True)
+                SetEnable(RVBSim.StopButton, False)
                 Disenable()
             End Try
         End Sub

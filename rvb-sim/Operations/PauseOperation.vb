@@ -2,6 +2,9 @@
 
 Namespace Communication.Operations
 
+    ''' <summary>
+    ''' Pauses communication before stopping it completely
+    ''' </summary>
     Public Class PauseOperation
 
         Protected Friend Sub Pause()
@@ -30,23 +33,25 @@ Namespace Communication.Operations
                 TimersEvent.Dispose()
                 Disconnect.Dispose()
 
-                Heart_Beat_Timer = 0
-                readresult = 0
+                Interlocked.Exchange(Heart_Beat_Timer, 0)
+                LocalVoltageReadresult = 0
+                SourceVoltageReadresult = 0
                 Forward_RVBVoltage2Write = 0.0
                 Reverse_RVBVoltage2Write = 0.0
-                SetEnable(RVBSim.btnStop, False)
-                SetEnable(RVBSim.btnStart, True)
+                SetEnable(RVBSim.StopButton, False)
+                SetEnable(RVBSim.StartButton, True)
 
                 Disenable()
 
                 'if no errors show comm stop msg
                 If ReceivedErrorMsg = "None" Then
                     SetText(RVBSim.lblMsgCenter, "Comm stopped ...")
-                    sb.AppendLine(String.Format("{0} Successfully disconnected", Now))
+                    sb.AppendLine($"{Now} Successfully disconnected")
                 Else
-                    sb.AppendLine(String.Format("{0} Disconnect failed {1}", Now, ReceivedErrorMsg))
+                    sb.AppendLine($"{Now} Disconnect failed {ReceivedErrorMsg}")
                 End If
-                If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} --- Pause", Thread.CurrentThread.GetHashCode)
+
+                Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Pause)}")
                 SetText(RVBSim.lblLocalVoltageValue, String.Format(""))
                 SetText(RVBSim.lblFwdRVBValue, String.Format(""))
                 SetText(RVBSim.lblRevRVBValue, String.Format(""))

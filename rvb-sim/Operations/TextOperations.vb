@@ -11,11 +11,11 @@ Module TextOperations
                 Dim del As New SetTextDelegate(AddressOf SetText)
                 [label].Invoke(del, New Object() {[label], [text]})
             Else
-                If ConsoleWriteEnable Then Console.WriteLine("Current thread is # {0} SetText --- Text is {1}", Thread.CurrentThread.GetHashCode, [text])
+                Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(SetText)} --- Text is {[text]}")
                 [label].Text = [text]
             End If
         Catch ex As Exception
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         End Try
     End Sub
 

@@ -2,7 +2,11 @@
 
     Private Delegate Sub SetEnableDelegate(ByVal [control] As Control, ByVal [enable] As Boolean)
 
+    ''' <summary>
     ''' Set control enable or disable with thread safe
+    ''' </summary>
+    ''' <param name="[control]"></param>
+    ''' <param name="[enable]"></param>
     Friend Sub SetEnable(ByVal [control] As Control, ByVal [enable] As Boolean)
 
         Try
@@ -13,7 +17,7 @@
                 [control].Enabled = [enable]
             End If
         Catch ex As Exception
-            sb.AppendLine(String.Format("{0} {1}", Now, ex.Message))
+            sb.AppendLine($"{Now} {ex.Message}")
         End Try
     End Sub
 
