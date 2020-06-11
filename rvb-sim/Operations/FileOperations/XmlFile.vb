@@ -170,44 +170,44 @@ modbus:                             Select Case reader.Name
                                             ' modbusRegister.Port = CUShort(reader.Value)
                                         Case "factory"
                                             modbusModel.Factory = CUShort(reader.Value)
-                                            modbusRegister.Factory = CUShort(reader.Value)
+                                            'modbusRegister.Factory = CUShort(reader.Value)
                                         Case "id"
                                             id = reader.Value
                                         Case "reg"
                                             Select Case id
                                                 Case "LocalVoltage"
                                                     modbusModel.LocalVoltage = CUShort(reader.Value)
-                                                    modbusRegister.LocalVoltage = CUShort(reader.Value)
+                                                   ' modbusRegister.LocalVoltage = CUShort(reader.Value)
                                                 Case "SourceVoltage"
                                                     modbusModel.SourceVoltage = CUShort(reader.Value)
-                                                    modbusRegister.LocalVoltage = CUShort(reader.Value)
+                                                    'modbusRegister.LocalVoltage = CUShort(reader.Value)
                                                 Case "RVBEnable"
                                                     modbusModel.RVBEnable = CUShort(reader.Value)
-                                                    modbusRegister.RVBEnable = CUShort(reader.Value)
+                                                   ' modbusRegister.RVBEnable = CUShort(reader.Value)
                                                 Case "FRVBValue"
                                                     modbusModel.FRVBValue = CUShort(reader.Value)
-                                                    modbusRegister.FRVBValue = CUShort(reader.Value)
+                                                   ' modbusRegister.FRVBValue = CUShort(reader.Value)
                                                 Case "FRVBScale"
                                                     modbusModel.FRVBScale = CUShort(reader.Value)
-                                                    modbusRegister.FRVBScale = CUShort(reader.Value)
+                                                    'modbusRegister.FRVBScale = CUShort(reader.Value)
                                                 Case "RVBHeartbeat"
                                                     modbusModel.RVBHeartBeatTimer = CUShort(reader.Value)
-                                                    modbusRegister.RVBHeartBeatTimer = CUShort(reader.Value)
+                                                   ' modbusRegister.RVBHeartBeatTimer = CUShort(reader.Value)
                                                 Case "RVBActive"
                                                     modbusModel.RVBActive = CUShort(reader.Value)
-                                                    modbusRegister.RVBActive = CUShort(reader.Value)
+                                                   ' modbusRegister.RVBActive = CUShort(reader.Value)
                                                 Case "RRVBValue"
                                                     modbusModel.RRVBValue = CUShort(reader.Value)
-                                                    modbusRegister.RRVBValue = CUShort(reader.Value)
+                                                   ' modbusRegister.RRVBValue = CUShort(reader.Value)
                                                 Case "RRVBScale"
                                                     modbusModel.RRVBScale = CUShort(reader.Value)
-                                                    modbusRegister.RRVBScale = CUShort(reader.Value)
+                                                   ' modbusRegister.RRVBScale = CUShort(reader.Value)
                                                 Case "RVBMax"
                                                     modbusModel.RVBMax = CUShort(reader.Value)
-                                                    modbusRegister.RVBMax = CUShort(reader.Value)
+                                                   ' modbusRegister.RVBMax = CUShort(reader.Value)
                                                 Case "RVBMin"
                                                     modbusModel.RVBMin = CUShort(reader.Value)
-                                                    modbusRegister.RVBMin = CUShort(reader.Value)
+                                                    'modbusRegister.RVBMin = CUShort(reader.Value)
                                                     newRegulator.ModbusCommunication.Add(modbusModel)
                                             End Select
                                     End Select

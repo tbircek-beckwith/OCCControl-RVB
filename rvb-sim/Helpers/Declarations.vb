@@ -59,7 +59,7 @@ Module Declarations
 
     Friend visibility As Boolean = True
     Friend testSetting As TestSettings
-    Friend modbusRegister As ModbusSettings
+    'Friend modbusRegister As ModbusSettings
     Friend dnpSetting As DnpSettings
     Friend iecSetting As IECSettings
 
@@ -76,20 +76,20 @@ Module Declarations
         Dim RVBMin As Double
     End Structure
 
-    Friend Structure ModbusSettings
-        ' Dim Port As String
-        Dim LocalVoltage As UShort
-        Dim RVBEnable As UShort
-        Dim FRVBValue As UShort
-        Dim FRVBScale As UShort
-        Dim RVBHeartBeatTimer As UShort
-        Dim RVBActive As UShort
-        Dim RRVBValue As UShort
-        Dim RRVBScale As UShort
-        Dim RVBMax As UShort
-        Dim RVBMin As UShort
-        Dim Factory As UShort
-    End Structure
+    'Friend Structure ModbusSettings
+    '    ' Dim Port As String
+    '    Dim LocalVoltage As UShort
+    '    Dim RVBEnable As UShort
+    '    Dim FRVBValue As UShort
+    '    Dim FRVBScale As UShort
+    '    Dim RVBHeartBeatTimer As UShort
+    '    Dim RVBActive As UShort
+    '    Dim RRVBValue As UShort
+    '    Dim RRVBScale As UShort
+    '    Dim RVBMax As UShort
+    '    Dim RVBMin As UShort
+    '    Dim Factory As UShort
+    'End Structure
 
     Friend Structure DnpSettings
         ' Dim Port As String
@@ -160,11 +160,15 @@ Module Declarations
 
     Friend Property ActualLocalVoltage() As Double = 0.0
 
+    Friend Property ActualSourceVoltage() As Double = 0.0
+
     Friend Property Forward_RVBVoltage2Write() As Double = 0.0
 
     Friend Property Reverse_RVBVoltage2Write() As Double = 0.0
 
-    Friend Property Readresult() As UShort = 0
+    Friend Property LocalVoltageReadresult() As UShort = 0
+
+    Friend Property SourceVoltageReadresult() As UShort = 0
 
     Friend Property ReceivedErrorMsg() As String = String.Empty
 

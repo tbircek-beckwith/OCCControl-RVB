@@ -46,10 +46,10 @@ Public Class Regulator '(Of CommunicationModels)
         Implements IEnumerator
 
         ' Private _regulator As List(Of T)
-        Private _dnpCommunication As ObservableCollection(Of DnpCommunicationModel)
-        Private _modbusCommunication() As ObservableCollection(Of ModbusCommunicationModel)
-        Private _iecCommunication As ObservableCollection(Of IECCommunicationModel)
-        Private _position As Integer = -1
+        Private ReadOnly _dnpCommunication As ObservableCollection(Of DnpCommunicationModel)
+        Private ReadOnly _modbusCommunication() As ObservableCollection(Of ModbusCommunicationModel)
+        Private ReadOnly _iecCommunication As ObservableCollection(Of IECCommunicationModel)
+        ' Private ReadOnly _position As Integer = -1
 
         Public Sub New(ByVal modbusCommunication() As ObservableCollection(Of ModbusCommunicationModel), ByVal iecCommunication As ObservableCollection(Of IECCommunicationModel), ByVal dnpCommunication As ObservableCollection(Of DnpCommunicationModel))
             _modbusCommunication = modbusCommunication

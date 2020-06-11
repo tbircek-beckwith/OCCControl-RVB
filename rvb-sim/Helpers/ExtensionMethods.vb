@@ -42,16 +42,18 @@ Public Module ExtensionMethods
 
     ''' <summary>
     ''' Gets the specified <see cref="Control"/>
-    ''' <para>protocol: the name protocol in use. <see cref="CommunicationBaseModel(Of T).Name"/></para>
-    ''' <para>settingName: the name of the setting value to use. ex: <see cref="DnpCommunicationModel.LocalVoltage"/></para>
-    ''' <para>regulatorNumber: the regulator <see cref="CommunicationBaseModel(Of T).Id"/></para>
-    ''' <para>searchAllChildren: whether search child <see cref="Control"/> or not</para>
     ''' </summary>
     ''' <param name="protocol">the name protocol in use. <see cref="CommunicationBaseModel(Of T).Name"/></param>
     ''' <param name="settingName">the name of the setting value to use. ex: <see cref="DnpCommunicationModel.LocalVoltage"/></param>
     ''' <param name="regulatorNumber">the regulator <see cref="CommunicationBaseModel(Of T).Id"/></param>
     ''' <param name="searchAllChildren">whether search children <see cref="Control"/> or not</param>
     ''' <returns>returns the specified controls</returns>
+    ''' <example>
+    ''' <code>
+    ''' control = GetControls(protocol:=modbusRegister.Name, settingName:=NameOf(modbusRegister.RVBMax), regulatorNumber:=modbusRegister.Id, searchAllChildren:=True)(0)
+    ''' modbusWrite.WriteSingleRegister(CType(control, NumericUpDown).Value, .RVBMax.Value * M2001D_Comm_Scale)
+    ''' </code>
+    ''' </example>
     <Extension()>
     Public Function GetControls(ByVal protocol As String, ByVal settingName As String, ByVal regulatorNumber As Integer, Optional ByVal searchAllChildren As Boolean = True) As Control()
         Dim t() As Control = RVBSim.Controls.Find($"{protocol}{settingName}Reg{regulatorNumber}", searchAllChildren)

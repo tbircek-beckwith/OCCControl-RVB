@@ -11,8 +11,8 @@ Module DisEnableCheckBoxes
             With RVBSim.StartButton
                 Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Disenable)}")
 
-                ' Set values and dis/enable of controls in Regulator List
-                SetValues(.Enabled)
+                ' Set dis/enable of controls in Communication Details
+                SetEnable(RVBSim.CommunicationDetails, .Enabled)
 
                 ' Set Protocol options
                 SetEnable(RVBSim.ProtocolBox, .Enabled)
