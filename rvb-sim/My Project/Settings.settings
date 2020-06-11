@@ -71,5 +71,8 @@
     <Setting Name="useRelative" Type="System.String" Scope="User">
       <Value Profile="(Default)">yes</Value>
     </Setting>
+    <Setting Name="mdSrcVoltage" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">1700</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
