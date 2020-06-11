@@ -33,8 +33,9 @@ Namespace Communication.Operations
                 TimersEvent.Dispose()
                 Disconnect.Dispose()
 
-                Heart_Beat_Timer = 0
-                Readresult = 0
+                Interlocked.Exchange(Heart_Beat_Timer, 0)
+                LocalVoltageReadresult = 0
+                SourceVoltageReadresult = 0
                 Forward_RVBVoltage2Write = 0.0
                 Reverse_RVBVoltage2Write = 0.0
                 SetEnable(RVBSim.StopButton, False)

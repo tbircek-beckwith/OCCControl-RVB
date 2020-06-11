@@ -19,7 +19,11 @@ Public Class RVBSim
             ReadRegisterWait.Unregister(Nothing)
             GenerateRVBVoltage2Transfer(rvbForm:=Me)
 
+            ' TODO: uncomment following DEBUG
             periodicWrite.Write(rvbForm:=Me)
+
+            ' TODO: delete me and following DEBUG
+            'periodicReset.Timers(rvbForm:=Me)
 
         Else
             WriteRegisterWait.Unregister(Nothing)
@@ -197,8 +201,8 @@ Public Class RVBSim
                         FwdDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
                         RevDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
                         RevDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
-                        If Readresult / M2001D_Comm_Scale >= FwdDeltaVoltageReg1.Minimum Then FwdDeltaVoltageReg1.Value = Readresult / M2001D_Comm_Scale Else FwdDeltaVoltageReg1.Value = FwdDeltaVoltageReg1.Maximum
-                        If Readresult / M2001D_Comm_Scale >= RevDeltaVoltageReg1.Minimum Then RevDeltaVoltageReg1.Value = Readresult / M2001D_Comm_Scale Else RevDeltaVoltageReg1.Value = RevDeltaVoltageReg1.Minimum
+                        If LocalVoltageReadresult / BecoCommunicationScaleFactor >= FwdDeltaVoltageReg1.Minimum Then FwdDeltaVoltageReg1.Value = LocalVoltageReadresult / BecoCommunicationScaleFactor Else FwdDeltaVoltageReg1.Value = FwdDeltaVoltageReg1.Maximum
+                        If SourceVoltageReadresult / BecoCommunicationScaleFactor >= RevDeltaVoltageReg1.Minimum Then RevDeltaVoltageReg1.Value = SourceVoltageReadresult / BecoCommunicationScaleFactor Else RevDeltaVoltageReg1.Value = RevDeltaVoltageReg1.Minimum
                     End If
             End Select
         Catch ex As Exception

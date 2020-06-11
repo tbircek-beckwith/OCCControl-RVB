@@ -9,7 +9,7 @@ Module Declarations
     ' Friend Const ConsoleWriteEnable As Boolean = True       'False          ' 
     Friend Const SupportedRVBRevision As String = "15"      'Supported RVB feature document revision
     Friend Const OperatingVoltage As Integer = 900
-    Friend Const M2001D_Comm_Scale As Integer = 10
+    Friend Const BecoCommunicationScaleFactor As Integer = 10   ' all products
     Friend Const MaxDeltaVoltage As Integer = 100
     Friend Const MinDeltaVoltage As Integer = -100
     Friend Const DeltaMessage As String = "Local Voltage + "
