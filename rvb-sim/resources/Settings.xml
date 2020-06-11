@@ -1,6 +1,6 @@
 ﻿<rvb>
   <communication>
-    <test protocol="iec" read="192.168.0.101" write="192.168.0.101" heartbeattimer="2" userelative="true" fwdrvbvoltage="10" revrvbvoltage="-10" fwdscalefactor="10" revscalefactor="10" rvbmax="150" rvbmin="90" visible="true"/>
+    <test protocol="modbus" read="192.168.0.101" write="192.168.0.101" heartbeattimer="2" userelative="true" fwdrvbvoltage="10" revrvbvoltage="-10" fwdscalefactor="10" revscalefactor="10" rvbmax="150" rvbmin="90" visible="true"/>
     <!-- M-6200B DNP points -->
     <dnp p="dnp">
       <!-- Regulator 1 -->
@@ -72,7 +72,7 @@
       <sps regulator="1" port="502" factory="4787">
         <!-- RVB Settings -->
         <sp id="LocalVoltage" name="Local Voltage" reg="1701"/>
-        <sp id="SourceVoltage" name="Source Voltage" reg="1702"/>
+        <sp id="SourceVoltage" name="Source Voltage" reg="1700"/>
         <sp id="RVBEnable" name="RVB Enable" reg="1991"/>
         <sp id="FRVBValue" name="Fwd RVB Voltage" reg="1992"/>
         <sp id="FRVBScale" name="Fwd RVB Scale" reg="1993"/>
@@ -89,7 +89,7 @@
       <sps regulator="2" port="502" factory="4787">
         <!-- RVB Settings -->
         <sp id="LocalVoltage" name="Local Voltage" reg="21701"/>
-        <sp id="SourceVoltage" name="Source Voltage" reg="21702"/>
+        <sp id="SourceVoltage" name="Source Voltage" reg="21700"/>
         <sp id="RVBEnable" name="RVB Enable" reg="21991"/>
         <sp id="FRVBValue" name="Fwd RVB Voltage" reg="21992"/>
         <sp id="FRVBScale" name="Fwd RVB Scale" reg="21993"/>
@@ -106,7 +106,7 @@
       <sps regulator="3" port="502" factory="4787">
         <!-- RVB Settings -->
         <sp id="LocalVoltage" name="Local Voltage" reg="31701"/>
-        <sp id="SourceVoltage" name="Source Voltage" reg="31702"/>
+        <sp id="SourceVoltage" name="Source Voltage" reg="31700"/>
         <sp id="RVBEnable" name="RVB Enable" reg="31991"/>
         <sp id="FRVBValue" name="Fwd RVB Voltage" reg="31992"/>
         <sp id="FRVBScale" name="Fwd RVB Scale" reg="31993"/>

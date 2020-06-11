@@ -38,7 +38,7 @@ Module GenerateRVBVoltage
             End Select
 
             Forward_RVBVoltage2OperateWith *= CDbl(rvbForm.FRVBScaleReg1.Value)
-            Reverse_RVBVoltage2OperateWith *= CDbl(rvbForm.RevRVBScaleFactorReg1.Value)
+            Reverse_RVBVoltage2OperateWith *= CDbl(rvbForm.RRVBScaleReg1.Value)
 
             Forward_RVBVoltage2Write = Forward_RVBVoltage2OperateWith
             Reverse_RVBVoltage2Write = Reverse_RVBVoltage2OperateWith

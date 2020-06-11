@@ -22,6 +22,7 @@ Module FormOperations
                     .mdport = CUShort(RVBSim.PortReg1.Text)
                     .protocol = "modbus"
                     .mdLocalvoltage = CUShort(RVBSim.ModbusLocalVoltageReg1.Value)
+                    .mdSrcVoltage = CUShort(RVBSim.ModbusSourceVoltageReg1.Value)
                     .mdFRVBvoltage = CUShort(RVBSim.ModbusFRVBValueReg1.Value)
                     .mdRRVBvoltage = CUShort(RVBSim.ModbusRRVBValueReg1.Value)
                 ElseIf RVBSim.iec61850box.Checked Then
@@ -36,7 +37,7 @@ Module FormOperations
                 .Fdeltavoltage = CDbl(RVBSim.FwdDeltaVoltageReg1.Value)
                 .Fmultiplier = CDbl(RVBSim.FRVBScaleReg1.Value)
                 .Rdeltavoltage = CDbl(RVBSim.RevDeltaVoltageReg1.Value)
-                .Rmultiplier = CDbl(RVBSim.RevRVBScaleFactorReg1.Value)
+                .Rmultiplier = CDbl(RVBSim.RRVBScaleReg1.Value)
                 .IPAddressToRead = RVBSim.WriteIpAddr.Text
             End With
 

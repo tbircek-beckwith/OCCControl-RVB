@@ -48,7 +48,7 @@ Module SetupTestUnit
 
                         'set Rev RVB Scale Factor 
                         WriteEvent.Reset()
-                        dnp.Send(WriteEvent, .DNPDestinationReg1.Value, .DNPSourceReg1.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.RRVBScale, .RevRVBScaleFactorReg1.Value * BecoCommunicationScaleFactor, 0)
+                        dnp.Send(WriteEvent, .DNPDestinationReg1.Value, .DNPSourceReg1.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.RRVBScale, .RRVBScaleReg1.Value * BecoCommunicationScaleFactor, 0)
                         WriteEvent.WaitOne()
 
                         ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
@@ -75,7 +75,7 @@ Module SetupTestUnit
                             modbusWrite.WriteSingleRegister(modbusRegister.FRVBScale, .FRVBScaleReg1.Value * BecoCommunicationScaleFactor)
 
                             'set Rev RVB Scale Factor 
-                            modbusWrite.WriteSingleRegister(modbusRegister.RRVBScale, .RevRVBScaleFactorReg1.Value * BecoCommunicationScaleFactor)
+                            modbusWrite.WriteSingleRegister(modbusRegister.RRVBScale, .RRVBScaleReg1.Value * BecoCommunicationScaleFactor)
 
                         Next
 
@@ -107,7 +107,7 @@ Module SetupTestUnit
 
                         'set Rev RVB Scale Factor
                         WriteEvent.Reset()
-                        iec61850.Send(WriteEvent, iecSetting.RRVBScale, "Write", .RevRVBScaleFactorReg1.Value * BecoCommunicationScaleFactor, DataType.int)
+                        iec61850.Send(WriteEvent, iecSetting.RRVBScale, "Write", .RRVBScaleReg1.Value * BecoCommunicationScaleFactor, DataType.int)
                         WriteEvent.WaitOne()
 
                     Else
