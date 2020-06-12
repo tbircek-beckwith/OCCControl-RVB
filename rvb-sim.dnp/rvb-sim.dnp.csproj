@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\opendnp3.3.0.2\build\opendnp3.props" Condition="Exists('..\packages\opendnp3.3.0.2\build\opendnp3.props')" />
+  <Import Project="..\packages\opendnp3.3.0.3\build\opendnp3.props" Condition="Exists('..\packages\opendnp3.3.0.3\build\opendnp3.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -34,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -62,8 +63,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\opendnp3.3.0.2\build\opendnp3.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\opendnp3.3.0.2\build\opendnp3.props'))" />
-    <Error Condition="!Exists('..\packages\opendnp3.3.0.2\build\opendnp3.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\opendnp3.3.0.2\build\opendnp3.targets'))" />
+    <Error Condition="!Exists('..\packages\opendnp3.3.0.3\build\opendnp3.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\opendnp3.3.0.3\build\opendnp3.props'))" />
+    <Error Condition="!Exists('..\packages\opendnp3.3.0.3\build\opendnp3.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\opendnp3.3.0.3\build\opendnp3.targets'))" />
   </Target>
-  <Import Project="..\packages\opendnp3.3.0.2\build\opendnp3.targets" Condition="Exists('..\packages\opendnp3.3.0.2\build\opendnp3.targets')" />
+  <Import Project="..\packages\opendnp3.3.0.3\build\opendnp3.targets" Condition="Exists('..\packages\opendnp3.3.0.3\build\opendnp3.targets')" />
 </Project>

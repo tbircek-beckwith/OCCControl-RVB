@@ -58,6 +58,9 @@ Module Populate
             End Select
             RVBSim.ReadIpAddr.Text = testSetting.readIpAddress  '.IPAddressToRead
             RVBSim.WriteIpAddr.Text = testSetting.writeIpAddress
+            RVBSim.RRVBScaleReg1.Value = testSetting.RevRVBVoltageScale
+            RVBSim.FRVBScaleReg1.Value = testSetting.FwdRVBVoltageScale
+
             '
         Catch ex As Exception
             SetText(RVBSim.lblMsgCenter, ex.Message)
