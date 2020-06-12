@@ -3,9 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.852
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "rvbsim", "rvb-sim\rvbsim.vbproj", "{CAD21B49-A38B-49E8-836C-BAC14479A26B}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "rvb-sim", "rvb-sim\rvb-sim.vbproj", "{CAD21B49-A38B-49E8-836C-BAC14479A26B}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "rvbsim.package", "rvbsim.package\rvbsim.package.vbproj", "{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "rvb-sim.package", "rvb-sim.package\rvb-sim.package.vbproj", "{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B} = {CAD21B49-A38B-49E8-836C-BAC14479A26B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rvb-sim.dnp", "rvb-sim.dnp\rvb-sim.dnp.csproj", "{451FDCA5-6D07-4114-8214-DAFFB30D3108}"
 EndProject
