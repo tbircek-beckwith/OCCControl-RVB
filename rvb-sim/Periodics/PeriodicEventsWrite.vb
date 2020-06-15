@@ -83,8 +83,9 @@ Namespace PeriodicOperations
             Catch ex As Exception
                 Interlocked.Increment(errorCounter)
                 CheckErrors()
-                SetText(rvbForm.lblMsgCenter, ex.Message)
-                sb.AppendLine($"{Now} {ex.Message}")
+                Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+                SetText(rvbForm.lblMsgCenter, message)
+                sb.AppendLine(message)
             End Try
         End Sub
     End Class

@@ -29,8 +29,9 @@ Module DisEnableCheckBoxes
             End With
 
         Catch ex As Exception
-            SetText(RVBSim.lblMsgCenter, ex.Message)
-            sb.AppendLine($"{Now} {ex.Message}")
+            Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+            SetText(RVBSim.lblMsgCenter, message)
+            sb.AppendLine(message)
         End Try
     End Sub
 

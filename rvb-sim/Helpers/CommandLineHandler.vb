@@ -37,8 +37,9 @@ Module CommandLineHandler
             If testSetting.RevRVBVoltage < MinDeltaVoltage Or testSetting.RevRVBVoltage > MaxDeltaVoltage Then RVBSim.RevDeltaVoltageReg1.Value = 0.0 Else RVBSim.RevDeltaVoltageReg1.Value = testSetting.RevRVBVoltage
 
         Catch ex As Exception
-            SetText(RVBSim.lblMsgCenter, ex.Message)
-            sb.AppendLine($"{Now} {ex.Message}")
+            Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+            SetText(RVBSim.lblMsgCenter, message)
+            sb.AppendLine(message)
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(CheckCommandLine)}")
         End Try

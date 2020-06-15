@@ -63,8 +63,9 @@ Module Populate
 
             '
         Catch ex As Exception
-            SetText(RVBSim.lblMsgCenter, ex.Message)
-            sb.AppendLine($"{Now} {ex.Message}")
+            Dim message As String = $"{Now}: ({NameOf(Populatetheform)}) {vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+            SetText(RVBSim.lblMsgCenter, message)
+            sb.AppendLine(message)
         Finally
 
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Populatetheform)}")

@@ -57,7 +57,9 @@ Namespace Communication.Operations
                 SetText(RVBSim.lblRevRVBValue, String.Format(""))
 
             Catch ex As Exception
-
+                Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+                SetText(RVBSim.lblMsgCenter, message)
+                sb.AppendLine(message)
             End Try
         End Sub
 

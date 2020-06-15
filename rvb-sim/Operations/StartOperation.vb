@@ -138,8 +138,9 @@ Namespace Communication.Operations
                 End With
 
             Catch ex As Exception
-                SetText(RVBSim.lblMsgCenter, ex.Message)
-                sb.AppendLine($"{Now} {ex.Message}")
+                Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+                SetText(RVBSim.lblMsgCenter, message)
+                sb.AppendLine(message)
                 SetEnable(RVBSim.StartButton, True)
                 SetEnable(RVBSim.StopButton, False)
                 Disenable()

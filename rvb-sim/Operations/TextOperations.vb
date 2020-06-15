@@ -15,7 +15,9 @@ Module TextOperations
                 [label].Text = [text]
             End If
         Catch ex As Exception
-            sb.AppendLine($"{Now} {ex.Message}")
+            Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+            SetText(RVBSim.lblMsgCenter, message)
+            sb.AppendLine(message)
         End Try
     End Sub
 
