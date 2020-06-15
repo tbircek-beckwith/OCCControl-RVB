@@ -75,11 +75,12 @@ Public Class RVBSim
         CloseForm()
     End Sub
 
-    Private Sub Form1_Load(sender As Object, e As System.EventArgs) Handles Me.Load
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
         Main()
     End Sub
 
-    Public Sub Main()
+    Public Async Sub Main()
+
         Dim proc As Process
         Try
             processID = 0
@@ -94,15 +95,22 @@ Public Class RVBSim
                 End If
                 proc = Nothing
             Next
+
+            ' check for updates
+            Dim update = New AppStartup()
+            Await update.CheckForUpdates()
+
             Populatetheform()
             If My.Application.CommandLineArgs.Count > 1 Then
                 CheckCommandLine()
             Else
                 ReadIpAddr.Focus()
             End If
+
         Catch ex As Exception
-            SetText(lblMsgCenter, ex.Message)
-            sb.AppendLine($"{Now} {ex.Message}")
+            Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+            SetText(lblMsgCenter, message)
+            sb.AppendLine(message)
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Main)}")
         End Try
@@ -154,8 +162,9 @@ Public Class RVBSim
             ReadIpAddr.Select()
 
         Catch ex As Exception
-            SetText(lblMsgCenter, ex.Message)
-            sb.AppendLine($"{Now} {ex.Message}")
+            Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+            SetText(lblMsgCenter, message)
+            sb.AppendLine(message)
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(CheckHandler)}")
         End Try
@@ -206,8 +215,9 @@ Public Class RVBSim
                     End If
             End Select
         Catch ex As Exception
-            SetText(lblMsgCenter, ex.Message)
-            sb.AppendLine($"{Now} {ex.Message}")
+            Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+            SetText(lblMsgCenter, message)
+            sb.AppendLine(message)
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Radio_CheckedChanged)}")
         End Try
