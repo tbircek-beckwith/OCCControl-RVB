@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>RVB Simulator</title>
+    <authors>Turgay Bircek</authors>
+    <owners>Beckwith Electric Co. Inc.</owners>
+    <projectUrl>https://github.com/tbircek-beckwith/rvb-sim</projectUrl>
+    <iconUrl>file:///C:/Users/TBircek/source/repos/rvb-sim/rvb-sim/resources/images/RVBSim.ico"</iconUrl>
+    <license type="expression">MIT</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Reads specified local and source voltages, modifies and writes back to specified remote voltage registers.</description>
+    <releaseNotes>adds 3-phase regulator feature for modbus only.</releaseNotes>
+    <copyright>Copyright © 2013-2020 Beckwith Electric Co. Inc.</copyright>
+    <tags>metering modbus dnp3.0 iec61850 beckwith electric remote voltage control turgay bircek</tags>
+    <dependencies/>
+  </metadata>
+  <files>
+    <file src="C:\Users\TBircek\source\repos\rvbsim\rvbsim\bin\$configuration$\*.exe"
+          target="lib\net472\" />
+    <file src="C:\Users\TBircek\source\repos\rvbsim\rvbsim\bin\$configuration$\*.dll"
+          target="lib\net472\" />
+    <file src="C:\Users\TBircek\source\repos\rvbsim\rvbsim\bin\$configuration$\rvbsim.exe.config"
+          target="lib\net472\" />
+    <file src="C:\Users\TBircek\source\repos\rvbsim\rvbsim\bin\$configuration$\resources\*.*"
+          target="lib\net472\resources\" />
+  </files>
+</package>
