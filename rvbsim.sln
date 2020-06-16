@@ -1,0 +1,74 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "rvbsim", "rvbsim\rvbsim.vbproj", "{CAD21B49-A38B-49E8-836C-BAC14479A26B}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "rvbsim.package", "rvbsim.package\rvbsim.package.vbproj", "{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B} = {CAD21B49-A38B-49E8-836C-BAC14479A26B}
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108} = {451FDCA5-6D07-4114-8214-DAFFB30D3108}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rvbsim.dnp", "rvbsim.dnp\rvbsim.dnp.csproj", "{451FDCA5-6D07-4114-8214-DAFFB30D3108}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A71576C5-ADDF-4115-8ADE-9DC09886B70C}"
+	ProjectSection(SolutionItems) = preProject
+		packages.config = packages.config
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		All|Any CPU = All|Any CPU
+		All|x86 = All|x86
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.All|Any CPU.ActiveCfg = Release|x86
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.All|Any CPU.Build.0 = Release|x86
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.All|x86.ActiveCfg = Release|x86
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.All|x86.Build.0 = Release|x86
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.Debug|Any CPU.Build.0 = Debug|x86
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.Debug|x86.ActiveCfg = Debug|x86
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.Debug|x86.Build.0 = Debug|x86
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.Release|Any CPU.ActiveCfg = Release|x86
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.Release|Any CPU.Build.0 = Release|x86
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.Release|x86.ActiveCfg = Release|x86
+		{CAD21B49-A38B-49E8-836C-BAC14479A26B}.Release|x86.Build.0 = Release|x86
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.All|Any CPU.Build.0 = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.All|x86.ActiveCfg = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.All|x86.Build.0 = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Debug|x86.Build.0 = Debug|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Release|x86.ActiveCfg = Release|Any CPU
+		{6C57DA3E-183E-41C6-ADB2-F93ABBDAD820}.Release|x86.Build.0 = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.All|Any CPU.ActiveCfg = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.All|Any CPU.Build.0 = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.All|x86.ActiveCfg = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.All|x86.Build.0 = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Debug|x86.Build.0 = Debug|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Release|Any CPU.Build.0 = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Release|x86.ActiveCfg = Release|Any CPU
+		{451FDCA5-6D07-4114-8214-DAFFB30D3108}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8E9595C9-1BCD-4C8A-BC81-1C14E6753451}
+	EndGlobalSection
+EndGlobal
