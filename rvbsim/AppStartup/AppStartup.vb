@@ -1,4 +1,5 @@
-﻿Imports System.Threading.Tasks
+﻿Imports System.IO
+Imports System.Threading.Tasks
 Imports Squirrel
 
 Public Class AppStartup
@@ -8,7 +9,13 @@ Public Class AppStartup
     ''' </summary>
     ''' <returns>AsyncStateMachine of Squirrel</returns>
     Public Async Function CheckForUpdates() As Task
-        Using updateManager As UpdateManager = New UpdateManager("\\volta\Eng_Lab\Software Updates\RVBSim")
+
+#If DEBUG Then
+        Dim urlOrPath As String = "C:\Users\TBircek\source\repos\rvbsim\rvbsim.package\profiles.package\Debug"
+#Else
+        Dim urlOrPath As String = "\\volta\Eng_Lab\Software Updates\RVBSim"
+#End If
+        Using updateManager As UpdateManager = New UpdateManager(urlOrPath:=urlOrPath)
 
             Try
                 Dim updateInfo As UpdateInfo = Await updateManager.CheckForUpdate()

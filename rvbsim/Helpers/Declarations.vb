@@ -2,7 +2,8 @@
 Imports System.Threading
 'Imports Automatak.DNP3.Interface
 Imports RVBSim.Communication.Operations
-Imports RVBSim.PeriodicOperations
+Imports rvbSim.PeriodicOperations
+Imports rvb_sim.dnp
 
 Module Declarations
 
@@ -43,6 +44,8 @@ Module Declarations
     Friend periodicReset As New ResetEvents
 
     Friend dnp As tcpdnp.AsyncDNP3_0
+    Friend dnpTCP As AnalogOutputControl
+
     'Friend modbus As tcpmodbus.AsyncModbus
     Friend iec61850 As iec.AsyncIEC61850
 

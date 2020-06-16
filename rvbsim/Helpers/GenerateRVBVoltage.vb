@@ -43,6 +43,8 @@ Module GenerateRVBVoltage
             Forward_RVBVoltage2Write = Forward_RVBVoltage2OperateWith
             Reverse_RVBVoltage2Write = Reverse_RVBVoltage2OperateWith
 
+            Debug.WriteLine("wait here.")
+
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
             SetText(RVBSim.lblMsgCenter, message)

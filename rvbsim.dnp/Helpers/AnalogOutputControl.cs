@@ -28,6 +28,11 @@ namespace rvb_sim.dnp
             Type = type;
         }
 
+        //public void DirectOperateAction()
+        //{
+
+        //}
+
         public Func<ICommandProcessor, Task<CommandTaskResult>> DirectOperateAction
         {
             get

@@ -3,6 +3,7 @@
 'custom libraries
 Imports tcpdnp.AsyncDNP3_0
 Imports iec.AsyncIEC61850
+Imports rvb_sim.dnp
 
 Module SetupTestUnit
 
@@ -26,9 +27,22 @@ Module SetupTestUnit
                         dnp.Send(ManualEvent:=WriteEvent, Destination:= .DNPDestinationReg1.Value, Source:= .DNPSourceReg1.Value, FunctionCode:=Mode.DirectOp, ObjectX:=Objects.AnalogOutput, Variation:=Variations.AnaOutBlockShort, Qualifier:=QualifierField.AnaOutBlock16bitIndex, Start16Bit:=1, Stop16Bit:=dnpSetting.RVBEnable, Value:=1, Status:=0)
                         WriteEvent.WaitOne()
 
+                        Debug.WriteLine("new code...")
+
+                        Dim newdnp = New AnalogOutputControl(dnpSetting.RVBEnable, value:=1, type:=AnalogOutputControl.AOType.Float32).DirectOperateAction
+
+                        Debug.WriteLine("end of new code...")
+
+
+
+
+
+
+
+
                         'set RVB heartbeat timer
                         WriteEvent.Reset()
-                        dnp.Send(WriteEvent, .DNPDestinationReg1.Value, .DNPSourceReg1.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.RVBHeartBeatTimer, .heartBeatTimer.Value, 0)
+                        dnp.Send(WriteEvent, .DNPDestinationReg1.Value, .DNPSourceReg1.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.RVBHeartBeatTimer, .heartbeattimer.Value, 0)
                         WriteEvent.WaitOne()
 
                         'set RVB Max
@@ -63,7 +77,7 @@ Module SetupTestUnit
                             modbusWrite.WriteSingleRegister(modbusRegister.RVBEnable, 1)
 
                             'set RVB heartbeat timer
-                            modbusWrite.WriteSingleRegister(modbusRegister.RVBHeartBeatTimer, .heartBeatTimer.Value)
+                            modbusWrite.WriteSingleRegister(modbusRegister.RVBHeartBeatTimer, .heartbeattimer.Value)
 
                             'set RVB Max
                             modbusWrite.WriteSingleRegister(modbusRegister.RVBMax, .RVBMax.Value * BecoCommunicationScaleFactor)
@@ -87,7 +101,7 @@ Module SetupTestUnit
 
                         'set RVB heartbeat timer
                         WriteEvent.Reset()
-                        iec61850.Send(WriteEvent, iecSetting.RVBHeartBeatTimer, "Write", .heartBeatTimer.Value, DataType.int)
+                        iec61850.Send(WriteEvent, iecSetting.RVBHeartBeatTimer, "Write", .heartbeattimer.Value, DataType.int)
                         WriteEvent.WaitOne()
 
                         'set RVB Max
