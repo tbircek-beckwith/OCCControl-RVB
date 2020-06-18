@@ -11,7 +11,7 @@
     <license type="expression">MIT</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Reads specified local and source voltages, modifies and writes back to specified remote voltage registers.</description>
-    <releaseNotes>adds 3-phase regulator feature for dnp3.0.</releaseNotes>
+    <releaseNotes>adds 3-phase regulator feature for iec61850.</releaseNotes>
     <copyright>Copyright © 2013-2020 Beckwith Electric Co. Inc.</copyright>
     <tags>metering modbus dnp3.0 iec61850 beckwith electric remote voltage control turgay bircek</tags>
     <dependencies/>
