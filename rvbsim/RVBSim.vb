@@ -193,7 +193,7 @@ Public Class RVBSim
                 Case $"{NameOf(useDeltaVoltage)}"
                     If sender.Checked Then
                         Forward_Voltage_Label.Text = DeltaMessage
-                        Reverse_Voltage_Label.Text = DeltaMessage
+                        Reverse_Voltage_Label.Text = DeltaMessageSource
                         FwdDeltaVoltageReg1.Minimum = MinDeltaVoltage
                         FwdDeltaVoltageReg1.Maximum = MaxDeltaVoltage
                         RevDeltaVoltageReg1.Minimum = MinDeltaVoltage
@@ -205,7 +205,7 @@ Public Class RVBSim
                 Case $"{NameOf(useFixedVoltage)}"
                     If sender.Checked Then
                         Forward_Voltage_Label.Text = DirectMessage
-                        Reverse_Voltage_Label.Text = DirectMessage
+                        Reverse_Voltage_Label.Text = DirectMessageSource
                         FwdDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
                         FwdDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
                         RevDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
