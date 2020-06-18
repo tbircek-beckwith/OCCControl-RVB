@@ -14,7 +14,9 @@ Module Declarations
     Friend Const MaxDeltaVoltage As Integer = 100
     Friend Const MinDeltaVoltage As Integer = -100
     Friend Const DeltaMessage As String = "Local Voltage + "
+    Friend Const DeltaMessageSource As String = "Src Voltage + "
     Friend Const DirectMessage As String = "RVB Voltage is ="
+    Friend Const DirectMessageSource As String = "Src RVB Voltage is ="
     Friend Const DNP_BufferSize As Integer = 29
     ' Friend Const Modbus_BufferSize As Integer = 12
     Friend Const IEC_BufferSize As Integer = 200
