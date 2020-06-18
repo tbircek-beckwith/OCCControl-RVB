@@ -96,8 +96,55 @@ Partial Class RVBSim
         Me.Label8 = New System.Windows.Forms.Label()
         Me.ModbusRRVBValueReg1 = New System.Windows.Forms.NumericUpDown()
         Me.ModbusFRVBValueReg1 = New System.Windows.Forms.NumericUpDown()
-        Me.IecRRVBValueReg1 = New System.Windows.Forms.TextBox()
+        Me.RVBSettings = New System.Windows.Forms.GroupBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.useDeltaVoltage = New System.Windows.Forms.RadioButton()
+        Me.useFixedVoltage = New System.Windows.Forms.RadioButton()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.grpFwdSettings = New System.Windows.Forms.GroupBox()
+        Me.FRVBScaleReg1 = New System.Windows.Forms.NumericUpDown()
+        Me.F_RVBScaleFactor_Label = New System.Windows.Forms.Label()
+        Me.FwdDeltaVoltageReg1 = New System.Windows.Forms.NumericUpDown()
+        Me.Forward_Voltage_Label = New System.Windows.Forms.Label()
+        Me.grpRevSettings = New System.Windows.Forms.GroupBox()
+        Me.Reverse_Voltage_Label = New System.Windows.Forms.Label()
+        Me.RevDeltaVoltageReg1 = New System.Windows.Forms.NumericUpDown()
+        Me.R_RVBScaleFactor_Label = New System.Windows.Forms.Label()
+        Me.RRVBScaleReg1 = New System.Windows.Forms.NumericUpDown()
+        Me.RVBMax = New System.Windows.Forms.NumericUpDown()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.heartbeattimer = New System.Windows.Forms.NumericUpDown()
+        Me.RVBMin = New System.Windows.Forms.NumericUpDown()
+        Me.IecSettingsGroup = New System.Windows.Forms.GroupBox()
+        Me.IecReg3 = New System.Windows.Forms.GroupBox()
+        Me.SplitContainer8 = New System.Windows.Forms.SplitContainer()
+        Me.IecSourceVoltageReg3 = New System.Windows.Forms.TextBox()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.Label35 = New System.Windows.Forms.Label()
+        Me.IecLocalVoltageReg3 = New System.Windows.Forms.TextBox()
+        Me.Label36 = New System.Windows.Forms.Label()
+        Me.IecRRVBValueReg3 = New System.Windows.Forms.TextBox()
+        Me.Label37 = New System.Windows.Forms.Label()
+        Me.IecFRVBValueReg3 = New System.Windows.Forms.TextBox()
+        Me.IecReg2 = New System.Windows.Forms.GroupBox()
+        Me.SplitContainer7 = New System.Windows.Forms.SplitContainer()
+        Me.IecSourceVoltageReg2 = New System.Windows.Forms.TextBox()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.Label31 = New System.Windows.Forms.Label()
+        Me.IecLocalVoltageReg2 = New System.Windows.Forms.TextBox()
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.IecRRVBValueReg2 = New System.Windows.Forms.TextBox()
+        Me.Label33 = New System.Windows.Forms.Label()
+        Me.IecFRVBValueReg2 = New System.Windows.Forms.TextBox()
+        Me.IecReg1 = New System.Windows.Forms.GroupBox()
+        Me.SplitContainer9 = New System.Windows.Forms.SplitContainer()
+        Me.IecSourceVoltageReg1 = New System.Windows.Forms.TextBox()
+        Me.Label38 = New System.Windows.Forms.Label()
+        Me.Label39 = New System.Windows.Forms.Label()
         Me.IecLocalVoltageReg1 = New System.Windows.Forms.TextBox()
+        Me.Label40 = New System.Windows.Forms.Label()
+        Me.IecRRVBValueReg1 = New System.Windows.Forms.TextBox()
+        Me.Label41 = New System.Windows.Forms.Label()
         Me.IecFRVBValueReg1 = New System.Windows.Forms.TextBox()
         Me.lblwarning = New System.Windows.Forms.Label()
         Me.DNPDestinationReg1 = New System.Windows.Forms.NumericUpDown()
@@ -111,56 +158,9 @@ Partial Class RVBSim
         Me.lblRevRVBValue = New System.Windows.Forms.Label()
         Me.lblMsgCenter = New System.Windows.Forms.Label()
         Me.lblFwdRVBValue = New System.Windows.Forms.Label()
-        Me.RVBSettings = New System.Windows.Forms.GroupBox()
-        Me.useDeltaVoltage = New System.Windows.Forms.RadioButton()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.heartbeattimer = New System.Windows.Forms.NumericUpDown()
-        Me.useFixedVoltage = New System.Windows.Forms.RadioButton()
-        Me.grpFwdSettings = New System.Windows.Forms.GroupBox()
-        Me.FRVBScaleReg1 = New System.Windows.Forms.NumericUpDown()
-        Me.F_RVBScaleFactor_Label = New System.Windows.Forms.Label()
-        Me.FwdDeltaVoltageReg1 = New System.Windows.Forms.NumericUpDown()
-        Me.Forward_Voltage_Label = New System.Windows.Forms.Label()
-        Me.grpRevSettings = New System.Windows.Forms.GroupBox()
-        Me.Reverse_Voltage_Label = New System.Windows.Forms.Label()
-        Me.RevDeltaVoltageReg1 = New System.Windows.Forms.NumericUpDown()
-        Me.R_RVBScaleFactor_Label = New System.Windows.Forms.Label()
-        Me.RRVBScaleReg1 = New System.Windows.Forms.NumericUpDown()
         Me.ReadIpAddr = New System.Windows.Forms.TextBox()
         Me.SourceIPAddressLabel = New System.Windows.Forms.Label()
-        Me.RVBMin = New System.Windows.Forms.NumericUpDown()
-        Me.RVBMax = New System.Windows.Forms.NumericUpDown()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.ProtocolBox = New System.Windows.Forms.GroupBox()
-        Me.IecSettingsGroup = New System.Windows.Forms.GroupBox()
-        Me.IecReg1 = New System.Windows.Forms.GroupBox()
-        Me.SplitContainer9 = New System.Windows.Forms.SplitContainer()
-        Me.Label38 = New System.Windows.Forms.Label()
-        Me.Label39 = New System.Windows.Forms.Label()
-        Me.Label40 = New System.Windows.Forms.Label()
-        Me.Label41 = New System.Windows.Forms.Label()
-        Me.IecSourceVoltageReg1 = New System.Windows.Forms.TextBox()
-        Me.IecReg2 = New System.Windows.Forms.GroupBox()
-        Me.SplitContainer7 = New System.Windows.Forms.SplitContainer()
-        Me.IecSourceVoltageReg2 = New System.Windows.Forms.TextBox()
-        Me.Label30 = New System.Windows.Forms.Label()
-        Me.Label31 = New System.Windows.Forms.Label()
-        Me.IecLocalVoltageReg2 = New System.Windows.Forms.TextBox()
-        Me.Label32 = New System.Windows.Forms.Label()
-        Me.IecRRVBValueReg2 = New System.Windows.Forms.TextBox()
-        Me.Label33 = New System.Windows.Forms.Label()
-        Me.IecFRVBValueReg2 = New System.Windows.Forms.TextBox()
-        Me.IecReg3 = New System.Windows.Forms.GroupBox()
-        Me.SplitContainer8 = New System.Windows.Forms.SplitContainer()
-        Me.IecSourceVoltageReg3 = New System.Windows.Forms.TextBox()
-        Me.Label34 = New System.Windows.Forms.Label()
-        Me.Label35 = New System.Windows.Forms.Label()
-        Me.IecLocalVoltageReg3 = New System.Windows.Forms.TextBox()
-        Me.Label36 = New System.Windows.Forms.Label()
-        Me.IecRRVBValueReg3 = New System.Windows.Forms.TextBox()
-        Me.Label37 = New System.Windows.Forms.Label()
-        Me.IecFRVBValueReg3 = New System.Windows.Forms.TextBox()
         Me.CommunicationDetails.SuspendLayout()
         Me.DnpSettingsGroup.SuspendLayout()
         Me.DnpReg3.SuspendLayout()
@@ -218,36 +218,36 @@ Partial Class RVBSim
         CType(Me.ModbusLocalVoltageReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ModbusRRVBValueReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ModbusFRVBValueReg1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DNPDestinationReg1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DNPSourceReg1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ProtocolParameters.SuspendLayout()
         Me.RVBSettings.SuspendLayout()
-        CType(Me.heartbeattimer, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpFwdSettings.SuspendLayout()
         CType(Me.FRVBScaleReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.FwdDeltaVoltageReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpRevSettings.SuspendLayout()
         CType(Me.RevDeltaVoltageReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RRVBScaleReg1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RVBMin, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RVBMax, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.ProtocolBox.SuspendLayout()
+        CType(Me.heartbeattimer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RVBMin, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.IecSettingsGroup.SuspendLayout()
-        Me.IecReg1.SuspendLayout()
-        CType(Me.SplitContainer9, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer9.Panel1.SuspendLayout()
-        Me.SplitContainer9.Panel2.SuspendLayout()
-        Me.SplitContainer9.SuspendLayout()
-        Me.IecReg2.SuspendLayout()
-        CType(Me.SplitContainer7, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer7.Panel1.SuspendLayout()
-        Me.SplitContainer7.Panel2.SuspendLayout()
-        Me.SplitContainer7.SuspendLayout()
         Me.IecReg3.SuspendLayout()
         CType(Me.SplitContainer8, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer8.Panel1.SuspendLayout()
         Me.SplitContainer8.Panel2.SuspendLayout()
         Me.SplitContainer8.SuspendLayout()
+        Me.IecReg2.SuspendLayout()
+        CType(Me.SplitContainer7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer7.Panel1.SuspendLayout()
+        Me.SplitContainer7.Panel2.SuspendLayout()
+        Me.SplitContainer7.SuspendLayout()
+        Me.IecReg1.SuspendLayout()
+        CType(Me.SplitContainer9, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer9.Panel1.SuspendLayout()
+        Me.SplitContainer9.Panel2.SuspendLayout()
+        Me.SplitContainer9.SuspendLayout()
+        CType(Me.DNPDestinationReg1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DNPSourceReg1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ProtocolParameters.SuspendLayout()
+        Me.ProtocolBox.SuspendLayout()
         Me.SuspendLayout()
         '
         'StartButton
@@ -1051,14 +1051,518 @@ Partial Class RVBSim
         Me.ModbusFRVBValueReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.ModbusFRVBValueReg1.Value = New Decimal(New Integer() {1992, 0, 0, 0})
         '
-        'IecRRVBValueReg1
+        'RVBSettings
         '
-        Me.IecRRVBValueReg1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.IecRRVBValueReg1.Location = New System.Drawing.Point(108, 6)
-        Me.IecRRVBValueReg1.Name = "IecRRVBValueReg1"
-        Me.IecRRVBValueReg1.Size = New System.Drawing.Size(180, 20)
-        Me.IecRRVBValueReg1.TabIndex = 15
-        Me.IecRRVBValueReg1.Text = "ATCC0$SP$RRemVVal$setMag$i"
+        Me.RVBSettings.Controls.Add(Me.Label7)
+        Me.RVBSettings.Controls.Add(Me.useDeltaVoltage)
+        Me.RVBSettings.Controls.Add(Me.useFixedVoltage)
+        Me.RVBSettings.Controls.Add(Me.Label5)
+        Me.RVBSettings.Controls.Add(Me.grpFwdSettings)
+        Me.RVBSettings.Controls.Add(Me.grpRevSettings)
+        Me.RVBSettings.Controls.Add(Me.RVBMax)
+        Me.RVBSettings.Controls.Add(Me.Label4)
+        Me.RVBSettings.Controls.Add(Me.heartbeattimer)
+        Me.RVBSettings.Controls.Add(Me.RVBMin)
+        Me.RVBSettings.Location = New System.Drawing.Point(7, 361)
+        Me.RVBSettings.Name = "RVBSettings"
+        Me.RVBSettings.Size = New System.Drawing.Size(651, 132)
+        Me.RVBSettings.TabIndex = 34
+        Me.RVBSettings.TabStop = False
+        Me.RVBSettings.Text = "RVB Settings"
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(540, 23)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(49, 13)
+        Me.Label7.TabIndex = 30
+        Me.Label7.Text = "RVB Min"
+        Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'useDeltaVoltage
+        '
+        Me.useDeltaVoltage.AutoSize = True
+        Me.useDeltaVoltage.Checked = True
+        Me.useDeltaVoltage.Location = New System.Drawing.Point(362, 28)
+        Me.useDeltaVoltage.Name = "useDeltaVoltage"
+        Me.useDeltaVoltage.Size = New System.Drawing.Size(86, 17)
+        Me.useDeltaVoltage.TabIndex = 8
+        Me.useDeltaVoltage.TabStop = True
+        Me.useDeltaVoltage.Text = "Use Relative"
+        Me.useDeltaVoltage.UseVisualStyleBackColor = True
+        '
+        'useFixedVoltage
+        '
+        Me.useFixedVoltage.AutoSize = True
+        Me.useFixedVoltage.Location = New System.Drawing.Point(362, 54)
+        Me.useFixedVoltage.Name = "useFixedVoltage"
+        Me.useFixedVoltage.Size = New System.Drawing.Size(88, 17)
+        Me.useFixedVoltage.TabIndex = 9
+        Me.useFixedVoltage.Text = "Use Absolute"
+        Me.useFixedVoltage.UseVisualStyleBackColor = True
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(536, 48)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(52, 13)
+        Me.Label5.TabIndex = 27
+        Me.Label5.Text = "RVB Max"
+        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'grpFwdSettings
+        '
+        Me.grpFwdSettings.Controls.Add(Me.FRVBScaleReg1)
+        Me.grpFwdSettings.Controls.Add(Me.F_RVBScaleFactor_Label)
+        Me.grpFwdSettings.Controls.Add(Me.FwdDeltaVoltageReg1)
+        Me.grpFwdSettings.Controls.Add(Me.Forward_Voltage_Label)
+        Me.grpFwdSettings.Location = New System.Drawing.Point(4, 24)
+        Me.grpFwdSettings.Name = "grpFwdSettings"
+        Me.grpFwdSettings.Size = New System.Drawing.Size(168, 101)
+        Me.grpFwdSettings.TabIndex = 26
+        Me.grpFwdSettings.TabStop = False
+        Me.grpFwdSettings.Text = "Fwd RVB Settings"
+        '
+        'FRVBScaleReg1
+        '
+        Me.FRVBScaleReg1.DecimalPlaces = 1
+        Me.FRVBScaleReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.FRVBScaleReg1.Location = New System.Drawing.Point(102, 25)
+        Me.FRVBScaleReg1.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.FRVBScaleReg1.Name = "FRVBScaleReg1"
+        Me.FRVBScaleReg1.Size = New System.Drawing.Size(52, 20)
+        Me.FRVBScaleReg1.TabIndex = 6
+        Me.FRVBScaleReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.FRVBScaleReg1.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'F_RVBScaleFactor_Label
+        '
+        Me.F_RVBScaleFactor_Label.Location = New System.Drawing.Point(6, 20)
+        Me.F_RVBScaleFactor_Label.Name = "F_RVBScaleFactor_Label"
+        Me.F_RVBScaleFactor_Label.Size = New System.Drawing.Size(95, 30)
+        Me.F_RVBScaleFactor_Label.TabIndex = 13
+        Me.F_RVBScaleFactor_Label.Text = "Forward RVB Scale Factor"
+        Me.F_RVBScaleFactor_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'FwdDeltaVoltageReg1
+        '
+        Me.FwdDeltaVoltageReg1.DecimalPlaces = 1
+        Me.FwdDeltaVoltageReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.FwdDeltaVoltageReg1.Location = New System.Drawing.Point(102, 57)
+        Me.FwdDeltaVoltageReg1.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
+        Me.FwdDeltaVoltageReg1.Name = "FwdDeltaVoltageReg1"
+        Me.FwdDeltaVoltageReg1.Size = New System.Drawing.Size(52, 20)
+        Me.FwdDeltaVoltageReg1.TabIndex = 7
+        Me.FwdDeltaVoltageReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Forward_Voltage_Label
+        '
+        Me.Forward_Voltage_Label.AutoSize = True
+        Me.Forward_Voltage_Label.Location = New System.Drawing.Point(11, 61)
+        Me.Forward_Voltage_Label.Name = "Forward_Voltage_Label"
+        Me.Forward_Voltage_Label.Size = New System.Drawing.Size(84, 13)
+        Me.Forward_Voltage_Label.TabIndex = 17
+        Me.Forward_Voltage_Label.Text = "Local Voltage + "
+        Me.Forward_Voltage_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'grpRevSettings
+        '
+        Me.grpRevSettings.Controls.Add(Me.Reverse_Voltage_Label)
+        Me.grpRevSettings.Controls.Add(Me.RevDeltaVoltageReg1)
+        Me.grpRevSettings.Controls.Add(Me.R_RVBScaleFactor_Label)
+        Me.grpRevSettings.Controls.Add(Me.RRVBScaleReg1)
+        Me.grpRevSettings.Location = New System.Drawing.Point(172, 24)
+        Me.grpRevSettings.Name = "grpRevSettings"
+        Me.grpRevSettings.Size = New System.Drawing.Size(168, 101)
+        Me.grpRevSettings.TabIndex = 34
+        Me.grpRevSettings.TabStop = False
+        Me.grpRevSettings.Text = "Rev RVB Settings"
+        '
+        'Reverse_Voltage_Label
+        '
+        Me.Reverse_Voltage_Label.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Reverse_Voltage_Label.Location = New System.Drawing.Point(10, 52)
+        Me.Reverse_Voltage_Label.Name = "Reverse_Voltage_Label"
+        Me.Reverse_Voltage_Label.Size = New System.Drawing.Size(92, 30)
+        Me.Reverse_Voltage_Label.TabIndex = 30
+        Me.Reverse_Voltage_Label.Text = "Src RVB Voltage is ="
+        Me.Reverse_Voltage_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'RevDeltaVoltageReg1
+        '
+        Me.RevDeltaVoltageReg1.DecimalPlaces = 1
+        Me.RevDeltaVoltageReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.RevDeltaVoltageReg1.Location = New System.Drawing.Point(102, 57)
+        Me.RevDeltaVoltageReg1.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
+        Me.RevDeltaVoltageReg1.Name = "RevDeltaVoltageReg1"
+        Me.RevDeltaVoltageReg1.Size = New System.Drawing.Size(52, 20)
+        Me.RevDeltaVoltageReg1.TabIndex = 11
+        Me.RevDeltaVoltageReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'R_RVBScaleFactor_Label
+        '
+        Me.R_RVBScaleFactor_Label.Location = New System.Drawing.Point(7, 20)
+        Me.R_RVBScaleFactor_Label.Name = "R_RVBScaleFactor_Label"
+        Me.R_RVBScaleFactor_Label.Size = New System.Drawing.Size(95, 30)
+        Me.R_RVBScaleFactor_Label.TabIndex = 28
+        Me.R_RVBScaleFactor_Label.Text = "Reverse RVB Scale Factor"
+        Me.R_RVBScaleFactor_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'RRVBScaleReg1
+        '
+        Me.RRVBScaleReg1.DecimalPlaces = 1
+        Me.RRVBScaleReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.RRVBScaleReg1.Location = New System.Drawing.Point(102, 25)
+        Me.RRVBScaleReg1.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.RRVBScaleReg1.Name = "RRVBScaleReg1"
+        Me.RRVBScaleReg1.Size = New System.Drawing.Size(52, 20)
+        Me.RRVBScaleReg1.TabIndex = 10
+        Me.RRVBScaleReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.RRVBScaleReg1.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'RVBMax
+        '
+        Me.RVBMax.DecimalPlaces = 1
+        Me.RVBMax.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.RVBMax.Location = New System.Drawing.Point(589, 44)
+        Me.RVBMax.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
+        Me.RVBMax.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
+        Me.RVBMax.Name = "RVBMax"
+        Me.RVBMax.Size = New System.Drawing.Size(52, 20)
+        Me.RVBMax.TabIndex = 31
+        Me.RVBMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.RVBMax.Value = New Decimal(New Integer() {150, 0, 0, 0})
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(451, 80)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(80, 13)
+        Me.Label4.TabIndex = 8
+        Me.Label4.Text = "Heartbeat (sec)"
+        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'heartbeattimer
+        '
+        Me.heartbeattimer.Location = New System.Drawing.Point(456, 98)
+        Me.heartbeattimer.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
+        Me.heartbeattimer.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.heartbeattimer.Name = "heartbeattimer"
+        Me.heartbeattimer.Size = New System.Drawing.Size(52, 20)
+        Me.heartbeattimer.TabIndex = 5
+        Me.heartbeattimer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.heartbeattimer.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        '
+        'RVBMin
+        '
+        Me.RVBMin.DecimalPlaces = 1
+        Me.RVBMin.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.RVBMin.Location = New System.Drawing.Point(589, 21)
+        Me.RVBMin.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
+        Me.RVBMin.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
+        Me.RVBMin.Name = "RVBMin"
+        Me.RVBMin.Size = New System.Drawing.Size(52, 20)
+        Me.RVBMin.TabIndex = 32
+        Me.RVBMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.RVBMin.Value = New Decimal(New Integer() {90, 0, 0, 0})
+        '
+        'IecSettingsGroup
+        '
+        Me.IecSettingsGroup.Controls.Add(Me.IecReg3)
+        Me.IecSettingsGroup.Controls.Add(Me.IecReg2)
+        Me.IecSettingsGroup.Controls.Add(Me.IecReg1)
+        Me.IecSettingsGroup.Location = New System.Drawing.Point(664, 19)
+        Me.IecSettingsGroup.Name = "IecSettingsGroup"
+        Me.IecSettingsGroup.Size = New System.Drawing.Size(313, 467)
+        Me.IecSettingsGroup.TabIndex = 38
+        Me.IecSettingsGroup.TabStop = False
+        Me.IecSettingsGroup.Text = "IEC 61850 Data Points"
+        '
+        'IecReg3
+        '
+        Me.IecReg3.Controls.Add(Me.SplitContainer8)
+        Me.IecReg3.Location = New System.Drawing.Point(6, 319)
+        Me.IecReg3.Name = "IecReg3"
+        Me.IecReg3.Size = New System.Drawing.Size(298, 144)
+        Me.IecReg3.TabIndex = 37
+        Me.IecReg3.TabStop = False
+        Me.IecReg3.Text = "Regulator 3"
+        '
+        'SplitContainer8
+        '
+        Me.SplitContainer8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer8.Location = New System.Drawing.Point(3, 16)
+        Me.SplitContainer8.Name = "SplitContainer8"
+        Me.SplitContainer8.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer8.Panel1
+        '
+        Me.SplitContainer8.Panel1.Controls.Add(Me.IecSourceVoltageReg3)
+        Me.SplitContainer8.Panel1.Controls.Add(Me.Label34)
+        Me.SplitContainer8.Panel1.Controls.Add(Me.Label35)
+        Me.SplitContainer8.Panel1.Controls.Add(Me.IecLocalVoltageReg3)
+        '
+        'SplitContainer8.Panel2
+        '
+        Me.SplitContainer8.Panel2.Controls.Add(Me.Label36)
+        Me.SplitContainer8.Panel2.Controls.Add(Me.IecRRVBValueReg3)
+        Me.SplitContainer8.Panel2.Controls.Add(Me.Label37)
+        Me.SplitContainer8.Panel2.Controls.Add(Me.IecFRVBValueReg3)
+        Me.SplitContainer8.Size = New System.Drawing.Size(292, 125)
+        Me.SplitContainer8.SplitterDistance = 61
+        Me.SplitContainer8.TabIndex = 0
+        '
+        'IecSourceVoltageReg3
+        '
+        Me.IecSourceVoltageReg3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.IecSourceVoltageReg3.Location = New System.Drawing.Point(108, 7)
+        Me.IecSourceVoltageReg3.Name = "IecSourceVoltageReg3"
+        Me.IecSourceVoltageReg3.Size = New System.Drawing.Size(180, 20)
+        Me.IecSourceVoltageReg3.TabIndex = 24
+        Me.IecSourceVoltageReg3.Text = "ATCC0$MX$SrcCtrV$mag$i"
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Location = New System.Drawing.Point(3, 11)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(83, 13)
+        Me.Label34.TabIndex = 23
+        Me.Label34.Text = "Source Voltage:"
+        Me.Label34.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label35
+        '
+        Me.Label35.AutoSize = True
+        Me.Label35.Location = New System.Drawing.Point(3, 35)
+        Me.Label35.Name = "Label35"
+        Me.Label35.Size = New System.Drawing.Size(75, 13)
+        Me.Label35.TabIndex = 21
+        Me.Label35.Text = "Local Voltage:"
+        Me.Label35.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'IecLocalVoltageReg3
+        '
+        Me.IecLocalVoltageReg3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.IecLocalVoltageReg3.Location = New System.Drawing.Point(108, 31)
+        Me.IecLocalVoltageReg3.Name = "IecLocalVoltageReg3"
+        Me.IecLocalVoltageReg3.Size = New System.Drawing.Size(180, 20)
+        Me.IecLocalVoltageReg3.TabIndex = 4
+        Me.IecLocalVoltageReg3.Text = "ATCC0$MX$LodCtrV$mag$i"
+        '
+        'Label36
+        '
+        Me.Label36.AutoSize = True
+        Me.Label36.Location = New System.Drawing.Point(3, 10)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(105, 13)
+        Me.Label36.TabIndex = 25
+        Me.Label36.Text = "Source RVB Voltage"
+        Me.Label36.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'IecRRVBValueReg3
+        '
+        Me.IecRRVBValueReg3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.IecRRVBValueReg3.Location = New System.Drawing.Point(108, 6)
+        Me.IecRRVBValueReg3.Name = "IecRRVBValueReg3"
+        Me.IecRRVBValueReg3.Size = New System.Drawing.Size(180, 20)
+        Me.IecRRVBValueReg3.TabIndex = 15
+        Me.IecRRVBValueReg3.Text = "ATCC0$SP$RRemVVal$setMag$i"
+        '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.Location = New System.Drawing.Point(3, 32)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(91, 13)
+        Me.Label37.TabIndex = 24
+        Me.Label37.Text = "Fwd RVB Voltage"
+        Me.Label37.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'IecFRVBValueReg3
+        '
+        Me.IecFRVBValueReg3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.IecFRVBValueReg3.Location = New System.Drawing.Point(108, 28)
+        Me.IecFRVBValueReg3.Name = "IecFRVBValueReg3"
+        Me.IecFRVBValueReg3.Size = New System.Drawing.Size(180, 20)
+        Me.IecFRVBValueReg3.TabIndex = 5
+        Me.IecFRVBValueReg3.Text = "ATCC0$SP$FRemVVal$setMag$i"
+        '
+        'IecReg2
+        '
+        Me.IecReg2.Controls.Add(Me.SplitContainer7)
+        Me.IecReg2.Location = New System.Drawing.Point(6, 169)
+        Me.IecReg2.Name = "IecReg2"
+        Me.IecReg2.Size = New System.Drawing.Size(298, 144)
+        Me.IecReg2.TabIndex = 36
+        Me.IecReg2.TabStop = False
+        Me.IecReg2.Text = "Regulator 2"
+        '
+        'SplitContainer7
+        '
+        Me.SplitContainer7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer7.Location = New System.Drawing.Point(3, 16)
+        Me.SplitContainer7.Name = "SplitContainer7"
+        Me.SplitContainer7.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer7.Panel1
+        '
+        Me.SplitContainer7.Panel1.Controls.Add(Me.IecSourceVoltageReg2)
+        Me.SplitContainer7.Panel1.Controls.Add(Me.Label30)
+        Me.SplitContainer7.Panel1.Controls.Add(Me.Label31)
+        Me.SplitContainer7.Panel1.Controls.Add(Me.IecLocalVoltageReg2)
+        '
+        'SplitContainer7.Panel2
+        '
+        Me.SplitContainer7.Panel2.Controls.Add(Me.Label32)
+        Me.SplitContainer7.Panel2.Controls.Add(Me.IecRRVBValueReg2)
+        Me.SplitContainer7.Panel2.Controls.Add(Me.Label33)
+        Me.SplitContainer7.Panel2.Controls.Add(Me.IecFRVBValueReg2)
+        Me.SplitContainer7.Size = New System.Drawing.Size(292, 125)
+        Me.SplitContainer7.SplitterDistance = 61
+        Me.SplitContainer7.TabIndex = 0
+        '
+        'IecSourceVoltageReg2
+        '
+        Me.IecSourceVoltageReg2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.IecSourceVoltageReg2.Location = New System.Drawing.Point(108, 7)
+        Me.IecSourceVoltageReg2.Name = "IecSourceVoltageReg2"
+        Me.IecSourceVoltageReg2.Size = New System.Drawing.Size(180, 20)
+        Me.IecSourceVoltageReg2.TabIndex = 24
+        Me.IecSourceVoltageReg2.Text = "ATCC0$MX$SrcCtrV$mag$i"
+        '
+        'Label30
+        '
+        Me.Label30.AutoSize = True
+        Me.Label30.Location = New System.Drawing.Point(3, 11)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(83, 13)
+        Me.Label30.TabIndex = 23
+        Me.Label30.Text = "Source Voltage:"
+        Me.Label30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.Location = New System.Drawing.Point(3, 35)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(75, 13)
+        Me.Label31.TabIndex = 21
+        Me.Label31.Text = "Local Voltage:"
+        Me.Label31.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'IecLocalVoltageReg2
+        '
+        Me.IecLocalVoltageReg2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.IecLocalVoltageReg2.Location = New System.Drawing.Point(108, 31)
+        Me.IecLocalVoltageReg2.Name = "IecLocalVoltageReg2"
+        Me.IecLocalVoltageReg2.Size = New System.Drawing.Size(180, 20)
+        Me.IecLocalVoltageReg2.TabIndex = 4
+        Me.IecLocalVoltageReg2.Text = "ATCC0$MX$LodCtrV$mag$i"
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Location = New System.Drawing.Point(3, 10)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(105, 13)
+        Me.Label32.TabIndex = 25
+        Me.Label32.Text = "Source RVB Voltage"
+        Me.Label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'IecRRVBValueReg2
+        '
+        Me.IecRRVBValueReg2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.IecRRVBValueReg2.Location = New System.Drawing.Point(108, 6)
+        Me.IecRRVBValueReg2.Name = "IecRRVBValueReg2"
+        Me.IecRRVBValueReg2.Size = New System.Drawing.Size(180, 20)
+        Me.IecRRVBValueReg2.TabIndex = 15
+        Me.IecRRVBValueReg2.Text = "ATCC0$SP$RRemVVal$setMag$i"
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.Location = New System.Drawing.Point(3, 32)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(91, 13)
+        Me.Label33.TabIndex = 24
+        Me.Label33.Text = "Fwd RVB Voltage"
+        Me.Label33.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'IecFRVBValueReg2
+        '
+        Me.IecFRVBValueReg2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.IecFRVBValueReg2.Location = New System.Drawing.Point(108, 28)
+        Me.IecFRVBValueReg2.Name = "IecFRVBValueReg2"
+        Me.IecFRVBValueReg2.Size = New System.Drawing.Size(180, 20)
+        Me.IecFRVBValueReg2.TabIndex = 5
+        Me.IecFRVBValueReg2.Text = "ATCC0$SP$FRemVVal$setMag$i"
+        '
+        'IecReg1
+        '
+        Me.IecReg1.Controls.Add(Me.SplitContainer9)
+        Me.IecReg1.Location = New System.Drawing.Point(6, 19)
+        Me.IecReg1.Name = "IecReg1"
+        Me.IecReg1.Size = New System.Drawing.Size(298, 144)
+        Me.IecReg1.TabIndex = 35
+        Me.IecReg1.TabStop = False
+        Me.IecReg1.Text = "Regulator 1"
+        '
+        'SplitContainer9
+        '
+        Me.SplitContainer9.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer9.Location = New System.Drawing.Point(3, 16)
+        Me.SplitContainer9.Name = "SplitContainer9"
+        Me.SplitContainer9.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer9.Panel1
+        '
+        Me.SplitContainer9.Panel1.Controls.Add(Me.IecSourceVoltageReg1)
+        Me.SplitContainer9.Panel1.Controls.Add(Me.Label38)
+        Me.SplitContainer9.Panel1.Controls.Add(Me.Label39)
+        Me.SplitContainer9.Panel1.Controls.Add(Me.IecLocalVoltageReg1)
+        '
+        'SplitContainer9.Panel2
+        '
+        Me.SplitContainer9.Panel2.Controls.Add(Me.Label40)
+        Me.SplitContainer9.Panel2.Controls.Add(Me.IecRRVBValueReg1)
+        Me.SplitContainer9.Panel2.Controls.Add(Me.Label41)
+        Me.SplitContainer9.Panel2.Controls.Add(Me.IecFRVBValueReg1)
+        Me.SplitContainer9.Size = New System.Drawing.Size(292, 125)
+        Me.SplitContainer9.SplitterDistance = 61
+        Me.SplitContainer9.TabIndex = 0
+        '
+        'IecSourceVoltageReg1
+        '
+        Me.IecSourceVoltageReg1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.IecSourceVoltageReg1.Location = New System.Drawing.Point(108, 7)
+        Me.IecSourceVoltageReg1.Name = "IecSourceVoltageReg1"
+        Me.IecSourceVoltageReg1.Size = New System.Drawing.Size(180, 20)
+        Me.IecSourceVoltageReg1.TabIndex = 24
+        Me.IecSourceVoltageReg1.Text = "ATCC0$MX$SrcCtrV$mag$i"
+        '
+        'Label38
+        '
+        Me.Label38.AutoSize = True
+        Me.Label38.Location = New System.Drawing.Point(3, 11)
+        Me.Label38.Name = "Label38"
+        Me.Label38.Size = New System.Drawing.Size(83, 13)
+        Me.Label38.TabIndex = 23
+        Me.Label38.Text = "Source Voltage:"
+        Me.Label38.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label39
+        '
+        Me.Label39.AutoSize = True
+        Me.Label39.Location = New System.Drawing.Point(3, 35)
+        Me.Label39.Name = "Label39"
+        Me.Label39.Size = New System.Drawing.Size(75, 13)
+        Me.Label39.TabIndex = 21
+        Me.Label39.Text = "Local Voltage:"
+        Me.Label39.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'IecLocalVoltageReg1
         '
@@ -1068,6 +1572,35 @@ Partial Class RVBSim
         Me.IecLocalVoltageReg1.Size = New System.Drawing.Size(180, 20)
         Me.IecLocalVoltageReg1.TabIndex = 4
         Me.IecLocalVoltageReg1.Text = "ATCC0$MX$LodCtrV$mag$i"
+        '
+        'Label40
+        '
+        Me.Label40.AutoSize = True
+        Me.Label40.Location = New System.Drawing.Point(3, 10)
+        Me.Label40.Name = "Label40"
+        Me.Label40.Size = New System.Drawing.Size(105, 13)
+        Me.Label40.TabIndex = 25
+        Me.Label40.Text = "Source RVB Voltage"
+        Me.Label40.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'IecRRVBValueReg1
+        '
+        Me.IecRRVBValueReg1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.IecRRVBValueReg1.Location = New System.Drawing.Point(108, 6)
+        Me.IecRRVBValueReg1.Name = "IecRRVBValueReg1"
+        Me.IecRRVBValueReg1.Size = New System.Drawing.Size(180, 20)
+        Me.IecRRVBValueReg1.TabIndex = 15
+        Me.IecRRVBValueReg1.Text = "ATCC0$SP$RRemVVal$setMag$i"
+        '
+        'Label41
+        '
+        Me.Label41.AutoSize = True
+        Me.Label41.Location = New System.Drawing.Point(3, 32)
+        Me.Label41.Name = "Label41"
+        Me.Label41.Size = New System.Drawing.Size(91, 13)
+        Me.Label41.TabIndex = 24
+        Me.Label41.Text = "Fwd RVB Voltage"
+        Me.Label41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'IecFRVBValueReg1
         '
@@ -1214,178 +1747,6 @@ Partial Class RVBSim
         Me.lblFwdRVBValue.TabIndex = 35
         Me.lblFwdRVBValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'RVBSettings
-        '
-        Me.RVBSettings.Controls.Add(Me.Label7)
-        Me.RVBSettings.Controls.Add(Me.useDeltaVoltage)
-        Me.RVBSettings.Controls.Add(Me.useFixedVoltage)
-        Me.RVBSettings.Controls.Add(Me.Label5)
-        Me.RVBSettings.Controls.Add(Me.grpFwdSettings)
-        Me.RVBSettings.Controls.Add(Me.grpRevSettings)
-        Me.RVBSettings.Controls.Add(Me.RVBMax)
-        Me.RVBSettings.Controls.Add(Me.Label4)
-        Me.RVBSettings.Controls.Add(Me.heartbeattimer)
-        Me.RVBSettings.Controls.Add(Me.RVBMin)
-        Me.RVBSettings.Location = New System.Drawing.Point(7, 361)
-        Me.RVBSettings.Name = "RVBSettings"
-        Me.RVBSettings.Size = New System.Drawing.Size(651, 132)
-        Me.RVBSettings.TabIndex = 34
-        Me.RVBSettings.TabStop = False
-        Me.RVBSettings.Text = "RVB Settings"
-        '
-        'useDeltaVoltage
-        '
-        Me.useDeltaVoltage.AutoSize = True
-        Me.useDeltaVoltage.Checked = True
-        Me.useDeltaVoltage.Location = New System.Drawing.Point(362, 28)
-        Me.useDeltaVoltage.Name = "useDeltaVoltage"
-        Me.useDeltaVoltage.Size = New System.Drawing.Size(86, 17)
-        Me.useDeltaVoltage.TabIndex = 8
-        Me.useDeltaVoltage.TabStop = True
-        Me.useDeltaVoltage.Text = "Use Relative"
-        Me.useDeltaVoltage.UseVisualStyleBackColor = True
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(451, 80)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(80, 13)
-        Me.Label4.TabIndex = 8
-        Me.Label4.Text = "Heartbeat (sec)"
-        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'heartbeattimer
-        '
-        Me.heartbeattimer.Location = New System.Drawing.Point(456, 98)
-        Me.heartbeattimer.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
-        Me.heartbeattimer.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
-        Me.heartbeattimer.Name = "heartbeattimer"
-        Me.heartbeattimer.Size = New System.Drawing.Size(52, 20)
-        Me.heartbeattimer.TabIndex = 5
-        Me.heartbeattimer.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.heartbeattimer.Value = New Decimal(New Integer() {2, 0, 0, 0})
-        '
-        'useFixedVoltage
-        '
-        Me.useFixedVoltage.AutoSize = True
-        Me.useFixedVoltage.Location = New System.Drawing.Point(362, 54)
-        Me.useFixedVoltage.Name = "useFixedVoltage"
-        Me.useFixedVoltage.Size = New System.Drawing.Size(88, 17)
-        Me.useFixedVoltage.TabIndex = 9
-        Me.useFixedVoltage.Text = "Use Absolute"
-        Me.useFixedVoltage.UseVisualStyleBackColor = True
-        '
-        'grpFwdSettings
-        '
-        Me.grpFwdSettings.Controls.Add(Me.FRVBScaleReg1)
-        Me.grpFwdSettings.Controls.Add(Me.F_RVBScaleFactor_Label)
-        Me.grpFwdSettings.Controls.Add(Me.FwdDeltaVoltageReg1)
-        Me.grpFwdSettings.Controls.Add(Me.Forward_Voltage_Label)
-        Me.grpFwdSettings.Location = New System.Drawing.Point(4, 24)
-        Me.grpFwdSettings.Name = "grpFwdSettings"
-        Me.grpFwdSettings.Size = New System.Drawing.Size(168, 101)
-        Me.grpFwdSettings.TabIndex = 26
-        Me.grpFwdSettings.TabStop = False
-        Me.grpFwdSettings.Text = "Fwd RVB Settings"
-        '
-        'FRVBScaleReg1
-        '
-        Me.FRVBScaleReg1.DecimalPlaces = 1
-        Me.FRVBScaleReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.FRVBScaleReg1.Location = New System.Drawing.Point(102, 25)
-        Me.FRVBScaleReg1.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.FRVBScaleReg1.Name = "FRVBScaleReg1"
-        Me.FRVBScaleReg1.Size = New System.Drawing.Size(52, 20)
-        Me.FRVBScaleReg1.TabIndex = 6
-        Me.FRVBScaleReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.FRVBScaleReg1.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
-        'F_RVBScaleFactor_Label
-        '
-        Me.F_RVBScaleFactor_Label.Location = New System.Drawing.Point(6, 20)
-        Me.F_RVBScaleFactor_Label.Name = "F_RVBScaleFactor_Label"
-        Me.F_RVBScaleFactor_Label.Size = New System.Drawing.Size(95, 30)
-        Me.F_RVBScaleFactor_Label.TabIndex = 13
-        Me.F_RVBScaleFactor_Label.Text = "Forward RVB Scale Factor"
-        Me.F_RVBScaleFactor_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'FwdDeltaVoltageReg1
-        '
-        Me.FwdDeltaVoltageReg1.DecimalPlaces = 1
-        Me.FwdDeltaVoltageReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.FwdDeltaVoltageReg1.Location = New System.Drawing.Point(102, 54)
-        Me.FwdDeltaVoltageReg1.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.FwdDeltaVoltageReg1.Name = "FwdDeltaVoltageReg1"
-        Me.FwdDeltaVoltageReg1.Size = New System.Drawing.Size(52, 20)
-        Me.FwdDeltaVoltageReg1.TabIndex = 7
-        Me.FwdDeltaVoltageReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'Forward_Voltage_Label
-        '
-        Me.Forward_Voltage_Label.AutoSize = True
-        Me.Forward_Voltage_Label.Location = New System.Drawing.Point(11, 58)
-        Me.Forward_Voltage_Label.Name = "Forward_Voltage_Label"
-        Me.Forward_Voltage_Label.Size = New System.Drawing.Size(84, 13)
-        Me.Forward_Voltage_Label.TabIndex = 17
-        Me.Forward_Voltage_Label.Text = "Local Voltage + "
-        Me.Forward_Voltage_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'grpRevSettings
-        '
-        Me.grpRevSettings.Controls.Add(Me.Reverse_Voltage_Label)
-        Me.grpRevSettings.Controls.Add(Me.RevDeltaVoltageReg1)
-        Me.grpRevSettings.Controls.Add(Me.R_RVBScaleFactor_Label)
-        Me.grpRevSettings.Controls.Add(Me.RRVBScaleReg1)
-        Me.grpRevSettings.Location = New System.Drawing.Point(172, 24)
-        Me.grpRevSettings.Name = "grpRevSettings"
-        Me.grpRevSettings.Size = New System.Drawing.Size(168, 101)
-        Me.grpRevSettings.TabIndex = 34
-        Me.grpRevSettings.TabStop = False
-        Me.grpRevSettings.Text = "Rev RVB Settings"
-        '
-        'Reverse_Voltage_Label
-        '
-        Me.Reverse_Voltage_Label.AutoSize = True
-        Me.Reverse_Voltage_Label.Location = New System.Drawing.Point(12, 58)
-        Me.Reverse_Voltage_Label.Name = "Reverse_Voltage_Label"
-        Me.Reverse_Voltage_Label.Size = New System.Drawing.Size(84, 13)
-        Me.Reverse_Voltage_Label.TabIndex = 30
-        Me.Reverse_Voltage_Label.Text = "Local Voltage + "
-        Me.Reverse_Voltage_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'RevDeltaVoltageReg1
-        '
-        Me.RevDeltaVoltageReg1.DecimalPlaces = 1
-        Me.RevDeltaVoltageReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.RevDeltaVoltageReg1.Location = New System.Drawing.Point(102, 54)
-        Me.RevDeltaVoltageReg1.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.RevDeltaVoltageReg1.Name = "RevDeltaVoltageReg1"
-        Me.RevDeltaVoltageReg1.Size = New System.Drawing.Size(52, 20)
-        Me.RevDeltaVoltageReg1.TabIndex = 11
-        Me.RevDeltaVoltageReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'R_RVBScaleFactor_Label
-        '
-        Me.R_RVBScaleFactor_Label.Location = New System.Drawing.Point(7, 20)
-        Me.R_RVBScaleFactor_Label.Name = "R_RVBScaleFactor_Label"
-        Me.R_RVBScaleFactor_Label.Size = New System.Drawing.Size(95, 30)
-        Me.R_RVBScaleFactor_Label.TabIndex = 28
-        Me.R_RVBScaleFactor_Label.Text = "Reverse RVB Scale Factor"
-        Me.R_RVBScaleFactor_Label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'RRVBScaleReg1
-        '
-        Me.RRVBScaleReg1.DecimalPlaces = 1
-        Me.RRVBScaleReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.RRVBScaleReg1.Location = New System.Drawing.Point(102, 25)
-        Me.RRVBScaleReg1.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.RRVBScaleReg1.Name = "RRVBScaleReg1"
-        Me.RRVBScaleReg1.Size = New System.Drawing.Size(52, 20)
-        Me.RRVBScaleReg1.TabIndex = 10
-        Me.RRVBScaleReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.RRVBScaleReg1.Value = New Decimal(New Integer() {1, 0, 0, 0})
-        '
         'ReadIpAddr
         '
         Me.ReadIpAddr.Location = New System.Drawing.Point(51, 20)
@@ -1403,52 +1764,6 @@ Partial Class RVBSim
         Me.SourceIPAddressLabel.Text = "Read:"
         Me.SourceIPAddressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'RVBMin
-        '
-        Me.RVBMin.DecimalPlaces = 1
-        Me.RVBMin.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.RVBMin.Location = New System.Drawing.Point(589, 21)
-        Me.RVBMin.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
-        Me.RVBMin.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
-        Me.RVBMin.Name = "RVBMin"
-        Me.RVBMin.Size = New System.Drawing.Size(52, 20)
-        Me.RVBMin.TabIndex = 32
-        Me.RVBMin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.RVBMin.Value = New Decimal(New Integer() {90, 0, 0, 0})
-        '
-        'RVBMax
-        '
-        Me.RVBMax.DecimalPlaces = 1
-        Me.RVBMax.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.RVBMax.Location = New System.Drawing.Point(589, 44)
-        Me.RVBMax.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
-        Me.RVBMax.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
-        Me.RVBMax.Name = "RVBMax"
-        Me.RVBMax.Size = New System.Drawing.Size(52, 20)
-        Me.RVBMax.TabIndex = 31
-        Me.RVBMax.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.RVBMax.Value = New Decimal(New Integer() {150, 0, 0, 0})
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(540, 23)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(49, 13)
-        Me.Label7.TabIndex = 30
-        Me.Label7.Text = "RVB Min"
-        Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(536, 48)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(52, 13)
-        Me.Label5.TabIndex = 27
-        Me.Label5.Text = "RVB Max"
-        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
         'ProtocolBox
         '
         Me.ProtocolBox.Controls.Add(Me.dnpbutton)
@@ -1465,321 +1780,6 @@ Partial Class RVBSim
         Me.ProtocolBox.TabIndex = 1
         Me.ProtocolBox.TabStop = False
         Me.ProtocolBox.Text = "Supported TCP/IP Protocols"
-        '
-        'IecSettingsGroup
-        '
-        Me.IecSettingsGroup.Controls.Add(Me.IecReg3)
-        Me.IecSettingsGroup.Controls.Add(Me.IecReg2)
-        Me.IecSettingsGroup.Controls.Add(Me.IecReg1)
-        Me.IecSettingsGroup.Location = New System.Drawing.Point(664, 19)
-        Me.IecSettingsGroup.Name = "IecSettingsGroup"
-        Me.IecSettingsGroup.Size = New System.Drawing.Size(313, 467)
-        Me.IecSettingsGroup.TabIndex = 38
-        Me.IecSettingsGroup.TabStop = False
-        Me.IecSettingsGroup.Text = "IEC 61850 Data Points"
-        '
-        'IecReg1
-        '
-        Me.IecReg1.Controls.Add(Me.SplitContainer9)
-        Me.IecReg1.Location = New System.Drawing.Point(6, 19)
-        Me.IecReg1.Name = "IecReg1"
-        Me.IecReg1.Size = New System.Drawing.Size(298, 144)
-        Me.IecReg1.TabIndex = 35
-        Me.IecReg1.TabStop = False
-        Me.IecReg1.Text = "Regulator 1"
-        '
-        'SplitContainer9
-        '
-        Me.SplitContainer9.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer9.Location = New System.Drawing.Point(3, 16)
-        Me.SplitContainer9.Name = "SplitContainer9"
-        Me.SplitContainer9.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer9.Panel1
-        '
-        Me.SplitContainer9.Panel1.Controls.Add(Me.IecSourceVoltageReg1)
-        Me.SplitContainer9.Panel1.Controls.Add(Me.Label38)
-        Me.SplitContainer9.Panel1.Controls.Add(Me.Label39)
-        Me.SplitContainer9.Panel1.Controls.Add(Me.IecLocalVoltageReg1)
-        '
-        'SplitContainer9.Panel2
-        '
-        Me.SplitContainer9.Panel2.Controls.Add(Me.Label40)
-        Me.SplitContainer9.Panel2.Controls.Add(Me.IecRRVBValueReg1)
-        Me.SplitContainer9.Panel2.Controls.Add(Me.Label41)
-        Me.SplitContainer9.Panel2.Controls.Add(Me.IecFRVBValueReg1)
-        Me.SplitContainer9.Size = New System.Drawing.Size(292, 125)
-        Me.SplitContainer9.SplitterDistance = 61
-        Me.SplitContainer9.TabIndex = 0
-        '
-        'Label38
-        '
-        Me.Label38.AutoSize = True
-        Me.Label38.Location = New System.Drawing.Point(3, 11)
-        Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(83, 13)
-        Me.Label38.TabIndex = 23
-        Me.Label38.Text = "Source Voltage:"
-        Me.Label38.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label39
-        '
-        Me.Label39.AutoSize = True
-        Me.Label39.Location = New System.Drawing.Point(3, 35)
-        Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(75, 13)
-        Me.Label39.TabIndex = 21
-        Me.Label39.Text = "Local Voltage:"
-        Me.Label39.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label40
-        '
-        Me.Label40.AutoSize = True
-        Me.Label40.Location = New System.Drawing.Point(3, 10)
-        Me.Label40.Name = "Label40"
-        Me.Label40.Size = New System.Drawing.Size(105, 13)
-        Me.Label40.TabIndex = 25
-        Me.Label40.Text = "Source RVB Voltage"
-        Me.Label40.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label41
-        '
-        Me.Label41.AutoSize = True
-        Me.Label41.Location = New System.Drawing.Point(3, 32)
-        Me.Label41.Name = "Label41"
-        Me.Label41.Size = New System.Drawing.Size(91, 13)
-        Me.Label41.TabIndex = 24
-        Me.Label41.Text = "Fwd RVB Voltage"
-        Me.Label41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'IecSourceVoltageReg1
-        '
-        Me.IecSourceVoltageReg1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.IecSourceVoltageReg1.Location = New System.Drawing.Point(108, 7)
-        Me.IecSourceVoltageReg1.Name = "IecSourceVoltageReg1"
-        Me.IecSourceVoltageReg1.Size = New System.Drawing.Size(180, 20)
-        Me.IecSourceVoltageReg1.TabIndex = 24
-        Me.IecSourceVoltageReg1.Text = "ATCC0$MX$SrcCtrV$mag$i"
-        '
-        'IecReg2
-        '
-        Me.IecReg2.Controls.Add(Me.SplitContainer7)
-        Me.IecReg2.Location = New System.Drawing.Point(6, 169)
-        Me.IecReg2.Name = "IecReg2"
-        Me.IecReg2.Size = New System.Drawing.Size(298, 144)
-        Me.IecReg2.TabIndex = 36
-        Me.IecReg2.TabStop = False
-        Me.IecReg2.Text = "Regulator 2"
-        '
-        'SplitContainer7
-        '
-        Me.SplitContainer7.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer7.Location = New System.Drawing.Point(3, 16)
-        Me.SplitContainer7.Name = "SplitContainer7"
-        Me.SplitContainer7.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer7.Panel1
-        '
-        Me.SplitContainer7.Panel1.Controls.Add(Me.IecSourceVoltageReg2)
-        Me.SplitContainer7.Panel1.Controls.Add(Me.Label30)
-        Me.SplitContainer7.Panel1.Controls.Add(Me.Label31)
-        Me.SplitContainer7.Panel1.Controls.Add(Me.IecLocalVoltageReg2)
-        '
-        'SplitContainer7.Panel2
-        '
-        Me.SplitContainer7.Panel2.Controls.Add(Me.Label32)
-        Me.SplitContainer7.Panel2.Controls.Add(Me.IecRRVBValueReg2)
-        Me.SplitContainer7.Panel2.Controls.Add(Me.Label33)
-        Me.SplitContainer7.Panel2.Controls.Add(Me.IecFRVBValueReg2)
-        Me.SplitContainer7.Size = New System.Drawing.Size(292, 125)
-        Me.SplitContainer7.SplitterDistance = 61
-        Me.SplitContainer7.TabIndex = 0
-        '
-        'IecSourceVoltageReg2
-        '
-        Me.IecSourceVoltageReg2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.IecSourceVoltageReg2.Location = New System.Drawing.Point(108, 7)
-        Me.IecSourceVoltageReg2.Name = "IecSourceVoltageReg2"
-        Me.IecSourceVoltageReg2.Size = New System.Drawing.Size(180, 20)
-        Me.IecSourceVoltageReg2.TabIndex = 24
-        Me.IecSourceVoltageReg2.Text = "ATCC0$MX$SrcCtrV$mag$i"
-        '
-        'Label30
-        '
-        Me.Label30.AutoSize = True
-        Me.Label30.Location = New System.Drawing.Point(3, 11)
-        Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(83, 13)
-        Me.Label30.TabIndex = 23
-        Me.Label30.Text = "Source Voltage:"
-        Me.Label30.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label31
-        '
-        Me.Label31.AutoSize = True
-        Me.Label31.Location = New System.Drawing.Point(3, 35)
-        Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(75, 13)
-        Me.Label31.TabIndex = 21
-        Me.Label31.Text = "Local Voltage:"
-        Me.Label31.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'IecLocalVoltageReg2
-        '
-        Me.IecLocalVoltageReg2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.IecLocalVoltageReg2.Location = New System.Drawing.Point(108, 31)
-        Me.IecLocalVoltageReg2.Name = "IecLocalVoltageReg2"
-        Me.IecLocalVoltageReg2.Size = New System.Drawing.Size(180, 20)
-        Me.IecLocalVoltageReg2.TabIndex = 4
-        Me.IecLocalVoltageReg2.Text = "ATCC0$MX$LodCtrV$mag$i"
-        '
-        'Label32
-        '
-        Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(3, 10)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(105, 13)
-        Me.Label32.TabIndex = 25
-        Me.Label32.Text = "Source RVB Voltage"
-        Me.Label32.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'IecRRVBValueReg2
-        '
-        Me.IecRRVBValueReg2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.IecRRVBValueReg2.Location = New System.Drawing.Point(108, 6)
-        Me.IecRRVBValueReg2.Name = "IecRRVBValueReg2"
-        Me.IecRRVBValueReg2.Size = New System.Drawing.Size(180, 20)
-        Me.IecRRVBValueReg2.TabIndex = 15
-        Me.IecRRVBValueReg2.Text = "ATCC0$SP$RRemVVal$setMag$i"
-        '
-        'Label33
-        '
-        Me.Label33.AutoSize = True
-        Me.Label33.Location = New System.Drawing.Point(3, 32)
-        Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(91, 13)
-        Me.Label33.TabIndex = 24
-        Me.Label33.Text = "Fwd RVB Voltage"
-        Me.Label33.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'IecFRVBValueReg2
-        '
-        Me.IecFRVBValueReg2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.IecFRVBValueReg2.Location = New System.Drawing.Point(108, 28)
-        Me.IecFRVBValueReg2.Name = "IecFRVBValueReg2"
-        Me.IecFRVBValueReg2.Size = New System.Drawing.Size(180, 20)
-        Me.IecFRVBValueReg2.TabIndex = 5
-        Me.IecFRVBValueReg2.Text = "ATCC0$SP$FRemVVal$setMag$i"
-        '
-        'IecReg3
-        '
-        Me.IecReg3.Controls.Add(Me.SplitContainer8)
-        Me.IecReg3.Location = New System.Drawing.Point(6, 319)
-        Me.IecReg3.Name = "IecReg3"
-        Me.IecReg3.Size = New System.Drawing.Size(298, 144)
-        Me.IecReg3.TabIndex = 37
-        Me.IecReg3.TabStop = False
-        Me.IecReg3.Text = "Regulator 3"
-        '
-        'SplitContainer8
-        '
-        Me.SplitContainer8.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer8.Location = New System.Drawing.Point(3, 16)
-        Me.SplitContainer8.Name = "SplitContainer8"
-        Me.SplitContainer8.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer8.Panel1
-        '
-        Me.SplitContainer8.Panel1.Controls.Add(Me.IecSourceVoltageReg3)
-        Me.SplitContainer8.Panel1.Controls.Add(Me.Label34)
-        Me.SplitContainer8.Panel1.Controls.Add(Me.Label35)
-        Me.SplitContainer8.Panel1.Controls.Add(Me.IecLocalVoltageReg3)
-        '
-        'SplitContainer8.Panel2
-        '
-        Me.SplitContainer8.Panel2.Controls.Add(Me.Label36)
-        Me.SplitContainer8.Panel2.Controls.Add(Me.IecRRVBValueReg3)
-        Me.SplitContainer8.Panel2.Controls.Add(Me.Label37)
-        Me.SplitContainer8.Panel2.Controls.Add(Me.IecFRVBValueReg3)
-        Me.SplitContainer8.Size = New System.Drawing.Size(292, 125)
-        Me.SplitContainer8.SplitterDistance = 61
-        Me.SplitContainer8.TabIndex = 0
-        '
-        'IecSourceVoltageReg3
-        '
-        Me.IecSourceVoltageReg3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.IecSourceVoltageReg3.Location = New System.Drawing.Point(108, 7)
-        Me.IecSourceVoltageReg3.Name = "IecSourceVoltageReg3"
-        Me.IecSourceVoltageReg3.Size = New System.Drawing.Size(180, 20)
-        Me.IecSourceVoltageReg3.TabIndex = 24
-        Me.IecSourceVoltageReg3.Text = "ATCC0$MX$SrcCtrV$mag$i"
-        '
-        'Label34
-        '
-        Me.Label34.AutoSize = True
-        Me.Label34.Location = New System.Drawing.Point(3, 11)
-        Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(83, 13)
-        Me.Label34.TabIndex = 23
-        Me.Label34.Text = "Source Voltage:"
-        Me.Label34.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label35
-        '
-        Me.Label35.AutoSize = True
-        Me.Label35.Location = New System.Drawing.Point(3, 35)
-        Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(75, 13)
-        Me.Label35.TabIndex = 21
-        Me.Label35.Text = "Local Voltage:"
-        Me.Label35.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'IecLocalVoltageReg3
-        '
-        Me.IecLocalVoltageReg3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.IecLocalVoltageReg3.Location = New System.Drawing.Point(108, 31)
-        Me.IecLocalVoltageReg3.Name = "IecLocalVoltageReg3"
-        Me.IecLocalVoltageReg3.Size = New System.Drawing.Size(180, 20)
-        Me.IecLocalVoltageReg3.TabIndex = 4
-        Me.IecLocalVoltageReg3.Text = "ATCC0$MX$LodCtrV$mag$i"
-        '
-        'Label36
-        '
-        Me.Label36.AutoSize = True
-        Me.Label36.Location = New System.Drawing.Point(3, 10)
-        Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(105, 13)
-        Me.Label36.TabIndex = 25
-        Me.Label36.Text = "Source RVB Voltage"
-        Me.Label36.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'IecRRVBValueReg3
-        '
-        Me.IecRRVBValueReg3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.IecRRVBValueReg3.Location = New System.Drawing.Point(108, 6)
-        Me.IecRRVBValueReg3.Name = "IecRRVBValueReg3"
-        Me.IecRRVBValueReg3.Size = New System.Drawing.Size(180, 20)
-        Me.IecRRVBValueReg3.TabIndex = 15
-        Me.IecRRVBValueReg3.Text = "ATCC0$SP$RRemVVal$setMag$i"
-        '
-        'Label37
-        '
-        Me.Label37.AutoSize = True
-        Me.Label37.Location = New System.Drawing.Point(3, 32)
-        Me.Label37.Name = "Label37"
-        Me.Label37.Size = New System.Drawing.Size(91, 13)
-        Me.Label37.TabIndex = 24
-        Me.Label37.Text = "Fwd RVB Voltage"
-        Me.Label37.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'IecFRVBValueReg3
-        '
-        Me.IecFRVBValueReg3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.IecFRVBValueReg3.Location = New System.Drawing.Point(108, 28)
-        Me.IecFRVBValueReg3.Name = "IecFRVBValueReg3"
-        Me.IecFRVBValueReg3.Size = New System.Drawing.Size(180, 20)
-        Me.IecFRVBValueReg3.TabIndex = 5
-        Me.IecFRVBValueReg3.Text = "ATCC0$SP$FRemVVal$setMag$i"
         '
         'RVBSim
         '
@@ -1865,40 +1865,19 @@ Partial Class RVBSim
         CType(Me.ModbusLocalVoltageReg1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ModbusRRVBValueReg1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ModbusFRVBValueReg1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DNPDestinationReg1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DNPSourceReg1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ProtocolParameters.ResumeLayout(False)
-        Me.ProtocolParameters.PerformLayout()
         Me.RVBSettings.ResumeLayout(False)
         Me.RVBSettings.PerformLayout()
-        CType(Me.heartbeattimer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpFwdSettings.ResumeLayout(False)
         Me.grpFwdSettings.PerformLayout()
         CType(Me.FRVBScaleReg1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.FwdDeltaVoltageReg1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpRevSettings.ResumeLayout(False)
-        Me.grpRevSettings.PerformLayout()
         CType(Me.RevDeltaVoltageReg1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RRVBScaleReg1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RVBMin, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RVBMax, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ProtocolBox.ResumeLayout(False)
-        Me.ProtocolBox.PerformLayout()
+        CType(Me.heartbeattimer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RVBMin, System.ComponentModel.ISupportInitialize).EndInit()
         Me.IecSettingsGroup.ResumeLayout(False)
-        Me.IecReg1.ResumeLayout(False)
-        Me.SplitContainer9.Panel1.ResumeLayout(False)
-        Me.SplitContainer9.Panel1.PerformLayout()
-        Me.SplitContainer9.Panel2.ResumeLayout(False)
-        Me.SplitContainer9.Panel2.PerformLayout()
-        CType(Me.SplitContainer9, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer9.ResumeLayout(False)
-        Me.IecReg2.ResumeLayout(False)
-        Me.SplitContainer7.Panel1.ResumeLayout(False)
-        Me.SplitContainer7.Panel1.PerformLayout()
-        Me.SplitContainer7.Panel2.ResumeLayout(False)
-        Me.SplitContainer7.Panel2.PerformLayout()
-        CType(Me.SplitContainer7, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer7.ResumeLayout(False)
         Me.IecReg3.ResumeLayout(False)
         Me.SplitContainer8.Panel1.ResumeLayout(False)
         Me.SplitContainer8.Panel1.PerformLayout()
@@ -1906,6 +1885,26 @@ Partial Class RVBSim
         Me.SplitContainer8.Panel2.PerformLayout()
         CType(Me.SplitContainer8, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer8.ResumeLayout(False)
+        Me.IecReg2.ResumeLayout(False)
+        Me.SplitContainer7.Panel1.ResumeLayout(False)
+        Me.SplitContainer7.Panel1.PerformLayout()
+        Me.SplitContainer7.Panel2.ResumeLayout(False)
+        Me.SplitContainer7.Panel2.PerformLayout()
+        CType(Me.SplitContainer7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer7.ResumeLayout(False)
+        Me.IecReg1.ResumeLayout(False)
+        Me.SplitContainer9.Panel1.ResumeLayout(False)
+        Me.SplitContainer9.Panel1.PerformLayout()
+        Me.SplitContainer9.Panel2.ResumeLayout(False)
+        Me.SplitContainer9.Panel2.PerformLayout()
+        CType(Me.SplitContainer9, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer9.ResumeLayout(False)
+        CType(Me.DNPDestinationReg1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DNPSourceReg1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ProtocolParameters.ResumeLayout(False)
+        Me.ProtocolParameters.PerformLayout()
+        Me.ProtocolBox.ResumeLayout(False)
+        Me.ProtocolBox.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
