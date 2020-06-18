@@ -20,33 +20,51 @@ Namespace PeriodicOperations
 
                     Dim WriteEvent As New ManualResetEvent(False)
                     If ProtocolInUse() = "dnp" Then
-                        For Each dnpRegister As DnpCommunicationModel In regulator.DnpCommunication
+                        For Each model As DnpCommunicationModel In regulator.DnpCommunication
                             'transmit Forward RVB Voltage
                             'dnp.Send(WriteEvent, rvbForm.DNPDestinationReg1.Value, rvbForm.DNPSourceReg1.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.FRVBValue, CUShort(Forward_RVBVoltage2Write), 0)
-                            dnp.Send(WriteEvent, dnpRegister.DestinationAddress, dnpRegister.SourceAddress, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpRegister.FRVBValue, CUShort(Forward_RVBVoltage2Write), 0)
+
+
+                            ' TODO: Replace Reg1 in fRVBVoltage & rRVBVoltage with Reg{dnpRegister.Id}
+                            Debug.WriteLine("------------------- Writing RVB Voltage (DNP30) -------------------")
+
+                            'write back calculated Forward RVB Voltage to specified dnp point
+                            Dim fRVBVoltage = rvbForm.DnpSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.FRVBValue)}Reg{model.Id}"))(0)       '{modbusRegister.Id}"))
+
+                            dnp.Send(ManualEvent:=WriteEvent, Destination:=rvbForm.DNPDestinationReg1.Value, Source:=rvbForm.DNPSourceReg1.Value, FunctionCode:=Mode.DirectOp, ObjectX:=Objects.AnalogOutput, Variation:=Variations.AnaOutBlockShort, Qualifier:=QualifierField.AnaOutBlock16bitIndex, Start16Bit:=1, Stop16Bit:=fRVBVoltage.Value, Value:=CUShort(Forward_RVBVoltage2Write), Status:=0)
                             WriteEvent.WaitOne()
                             ReceivedErrorMsg = ErrorReceived
+
+                            ' Debug.WriteLine($"fRVBVoltage: {fRVBVoltage.Name} - {fRVBVoltage.Value}: Sending: dest: {rvbForm.DNPDestinationReg1.Value}, src: {rvbForm.DNPSourceReg1.Value},  FunctionCode: {Mode.DirectOp},  ObjectX: {Objects.AnalogOutput}, Variation: {Variations.AnaOutBlockShort}, Qualifier: {QualifierField.AnaOutBlock16bitIndex}, Start16Bit: {fRVBVoltage.Value},  Stop16Bit: {fRVBVoltage.Value}, Value: {CUShort(Forward_RVBVoltage2Write)}, Status: {0}")
 
                             'transmit Reverse RVB Voltage
                             WriteEvent.Reset()
                             ' dnp.Send(WriteEvent, rvbForm.DNPDestinationReg1.Value, rvbForm.DNPSourceReg1.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.RRVBValue, CUShort(Reverse_RVBVoltage2Write), 0)
-                            dnp.Send(WriteEvent, dnpRegister.DestinationAddress, rvbForm.DNPSourceReg1.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, dnpSetting.RRVBValue, CUShort(Reverse_RVBVoltage2Write), 0)
+                            'write back calculated Reverse RVB Voltage to specified modbus register
+                            Dim rRVBVoltage = rvbForm.DnpSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.RRVBValue)}Reg1"))(0)     '{modbusRegister.Id}"))
+
+                            dnp.Send(ManualEvent:=WriteEvent, Destination:=rvbForm.DNPDestinationReg1.Value, Source:=rvbForm.DNPSourceReg1.Value, FunctionCode:=Mode.DirectOp, ObjectX:=Objects.AnalogOutput, Variation:=Variations.AnaOutBlockShort, Qualifier:=QualifierField.AnaOutBlock16bitIndex, Start16Bit:=1, Stop16Bit:=rRVBVoltage.Value, Value:=CUShort(Reverse_RVBVoltage2Write), Status:=0)
                             WriteEvent.WaitOne()
                             ReceivedErrorMsg = ErrorReceived
+
+                            ' Debug.WriteLine($"rRVBVoltage: {rRVBVoltage.Name} - {rRVBVoltage.Value}: Sending: dest: {rvbForm.DNPDestinationReg1.Value}, src: {rvbForm.DNPSourceReg1.Value},  FunctionCode: {Mode.DirectOp},  ObjectX: {Objects.AnalogOutput}, Variation: {Variations.AnaOutBlockShort}, Qualifier: {QualifierField.AnaOutBlock16bitIndex}, Start16Bit: {rRVBVoltage.Value},  Stop16Bit: {rRVBVoltage.Value}, Value: {CUShort(Reverse_RVBVoltage2Write)}, Status: {0}")
+
+                            Debug.WriteLine("------------------- Writing RVB Voltage (DNP30) Done -------------------")
+
                         Next
 
                     ElseIf ProtocolInUse() = "modbus" Then
-                        For Each modbusRegister As ModbusCommunicationModel In regulator.ModbusCommunication
+                        For Each model As ModbusCommunicationModel In regulator.ModbusCommunication
 
                             ' TODO: Replace Reg1 in fRVBVoltage & rRVBVoltage with Reg{modbusRegister.Id}
                             Debug.WriteLine("------------------- Writing RVB Voltage (MODBUS) -------------------")
 
                             'write back calculated Forward RVB Voltage to specified modbus register
-                            Dim fRVBVoltage = rvbForm.ModbusSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{modbusRegister.Name}{NameOf(modbusRegister.FRVBValue)}Reg1"))(0)       '{modbusRegister.Id}"))
+                            Dim fRVBVoltage = rvbForm.ModbusSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.FRVBValue)}Reg{model.Id}"))(0)       '{modbusRegister.Id}"))
                             modbusWrite.WriteSingleRegister(fRVBVoltage.Value, CUShort(Forward_RVBVoltage2Write))
 
                             'write back calculated Reverse RVB Voltage to specified modbus register
-                            Dim rRVBVoltage = rvbForm.ModbusSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{modbusRegister.Name}{NameOf(modbusRegister.RRVBValue)}Reg1"))(0)     '{modbusRegister.Id}"))
+                            Dim rRVBVoltage = rvbForm.ModbusSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.RRVBValue)}Reg{model.Id}"))(0)     '{modbusRegister.Id}"))
                             modbusWrite.WriteSingleRegister(rRVBVoltage.Value, CUShort(Reverse_RVBVoltage2Write))
 
                             Debug.WriteLine("------------------- Writing RVB Voltage (MODBUS) Done -------------------")

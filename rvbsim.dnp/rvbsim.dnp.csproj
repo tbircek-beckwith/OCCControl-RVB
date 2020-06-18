@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\AnalogOutputControl.cs" />
+    <Compile Include="Helpers\IMasterConfigControl.cs" />
     <Compile Include="Helpers\MasterConfigControl.cs" />
     <Compile Include="Helpers\SafeConvert.cs" />
     <Compile Include="Helpers\StringCallback.cs" />

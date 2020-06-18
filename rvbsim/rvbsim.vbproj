@@ -206,9 +206,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="tcpdnp">
-      <HintPath>\\eng04-win10\C$\Users\tbircek\Documents\Win7\Documents\Visual Studio 2010\Projects\tcpdnp\tcpdnp\bin\Release\x86\tcpdnp.dll</HintPath>
-    </Reference>
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
@@ -333,6 +330,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libraries\tcpdnp\tcpdnp\tcpdnp.vbproj">
+      <Project>{e4d382bc-97b7-4bfd-b3bf-be6412f46ec0}</Project>
+      <Name>tcpdnp</Name>
+    </ProjectReference>
     <ProjectReference Include="..\rvbsim.dnp\rvbsim.dnp.csproj">
       <Project>{451fdca5-6d07-4114-8214-daffb30d3108}</Project>
       <Name>rvbsim.dnp</Name>
