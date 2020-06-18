@@ -7,7 +7,7 @@ namespace rvb_sim.dnp.Helpers
     /// <summary>
     ///
     /// </summary>
-    public class MasterConfigControl
+    public class MasterConfigControl : IMasterConfigControl
     {
         #region Constructor
 
