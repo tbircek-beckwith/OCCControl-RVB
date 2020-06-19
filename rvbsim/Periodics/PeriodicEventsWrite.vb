@@ -1,4 +1,5 @@
-﻿Imports System.Threading
+﻿Imports System.Text
+Imports System.Threading
 
 'custom libraries
 Imports tcpdnp.AsyncDNP3_0
@@ -17,6 +18,9 @@ Namespace PeriodicOperations
 
             Try
 
+                Dim outputFwdString As StringBuilder = New StringBuilder("Writing: ")
+                Dim outputRevString As StringBuilder = New StringBuilder("Writing: ")
+
                 For Each regulator As Regulator In Regulators
 
                     Dim WriteEvent As New ManualResetEvent(False)
@@ -24,6 +28,9 @@ Namespace PeriodicOperations
                         For Each model As DnpCommunicationModel In regulator.DnpCommunication
 
                             Debug.WriteLine("------------------- Writing RVB Voltage (DNP30) -------------------")
+
+                            GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=model.Id)
+
 
                             'write back calculated Forward RVB Voltage to specified dnp point
                             Dim fRVBVoltage = rvbForm.DnpSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.FRVBValue)}Reg1"))(0)       '{model.Id}"))
@@ -42,6 +49,8 @@ Namespace PeriodicOperations
                             WriteEvent.WaitOne()
                             ReceivedErrorMsg = ErrorReceived
 
+                            outputFwdString.Append($"Reg{model.Id}: Fwd: {FormatNumber(Forward_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
+                            outputRevString.Append($"Reg{model.Id}: Rev: {FormatNumber(Reverse_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
                             Debug.WriteLine("------------------- Writing RVB Voltage (DNP30) Done -------------------")
 
                         Next
@@ -51,6 +60,8 @@ Namespace PeriodicOperations
 
                             Debug.WriteLine("------------------- Writing RVB Voltage (MODBUS) -------------------")
 
+                            GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=model.Id)
+
                             'write back calculated Forward RVB Voltage to specified modbus register
                             Dim fRVBVoltage = rvbForm.ModbusSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.FRVBValue)}Reg1"))(0)       '{model.Id}"))
                             modbusWrite.WriteSingleRegister(fRVBVoltage.Value, CUShort(Forward_RVBVoltage2Write))
@@ -59,6 +70,8 @@ Namespace PeriodicOperations
                             Dim rRVBVoltage = rvbForm.ModbusSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.RRVBValue)}Reg1"))(0)     '{model.Id}"))
                             modbusWrite.WriteSingleRegister(rRVBVoltage.Value, CUShort(Reverse_RVBVoltage2Write))
 
+                            outputFwdString.Append($"Reg{model.Id}: Fwd: {FormatNumber(Forward_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
+                            outputRevString.Append($"Reg{model.Id}: Rev: {FormatNumber(Reverse_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
                             Debug.WriteLine("------------------- Writing RVB Voltage (MODBUS) Done -------------------")
 
                         Next
@@ -67,6 +80,8 @@ Namespace PeriodicOperations
                         For Each model As IECCommunicationModel In regulator.IECCommunication
 
                             Debug.WriteLine("------------------- Writing RVB Voltage (61850) -------------------")
+
+                            GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=model.Id)
 
                             'read the user specified 61850 objects.
                             Dim localVoltage = rvbForm.IecSettingsGroup.GetChildControls(Of TextBox)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.FRVBValue)}Reg1"))(0)    '{model.Id}"))
@@ -86,14 +101,16 @@ Namespace PeriodicOperations
                             WriteEvent.WaitOne()
                             ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
 
+                            outputFwdString.Append($"Reg{model.Id}: Fwd: {FormatNumber(Forward_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
+                            outputRevString.Append($"Reg{model.Id}: Rev: {FormatNumber(Reverse_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
                             Debug.WriteLine("------------------- Writing RVB Voltage (61850) Done -------------------")
 
                         Next
 
                     End If
 
-                    SetText(rvbForm.lblFwdRVBValue, $"Fwd RVB: {FormatNumber(Forward_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}")
-                    SetText(rvbForm.lblRevRVBValue, $"Rev RVB: {FormatNumber(Reverse_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}")
+                    SetText(rvbForm.lblFwdRVBValue, outputFwdString.ToString())
+                    SetText(rvbForm.lblRevRVBValue, outputRevString.ToString())
 
                     WriteEvent.SafeWaitHandle.Close()
 
@@ -112,6 +129,7 @@ Namespace PeriodicOperations
                 SetText(rvbForm.lblMsgCenter, message)
                 sb.AppendLine(message)
             End Try
+
         End Sub
     End Class
 End Namespace

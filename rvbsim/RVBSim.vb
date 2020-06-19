@@ -17,7 +17,8 @@ Public Class RVBSim
             ' Heart_Beat_Timer = 0
             Interlocked.Exchange(Heart_Beat_Timer, 0)
             ReadRegisterWait.Unregister(Nothing)
-            GenerateRVBVoltage2Transfer(rvbForm:=Me)
+
+            ' GenerateRVBVoltage2Transfer(rvbForm:=Me)
 
             ' TODO: uncomment following DEBUG
             periodicWrite.Write(rvbForm:=Me)
@@ -192,31 +193,7 @@ Public Class RVBSim
 
             Dim soome = New RelativeOrFixedValue
             soome.Decide(rvbForm:=Me, sender:=sender)
-            'Select Case sender.Name
-            '    Case $"{NameOf(useDeltaVoltageReg1)}"
-            '        If sender.Checked Then
-            '            FwdVoltageLabelReg1.Text = DeltaMessage
-            '            RevVoltageLabelReg1.Text = DeltaMessageSource
-            '            FwdDeltaVoltageReg1.Minimum = MinDeltaVoltage
-            '            FwdDeltaVoltageReg1.Maximum = MaxDeltaVoltage
-            '            RevDeltaVoltageReg1.Minimum = MinDeltaVoltage
-            '            RevDeltaVoltageReg1.Maximum = MaxDeltaVoltage
-            '            FwdDeltaVoltageReg1.Value = 0.0
-            '            RevDeltaVoltageReg1.Value = 0.0
-            '        End If
 
-            '    Case $"{NameOf(useFixedVoltageReg1)}"
-            '        If sender.Checked Then
-            '            FwdVoltageLabelReg1.Text = DirectMessage
-            '            RevVoltageLabelReg1.Text = DirectMessageSource
-            '            FwdDeltaVoltageReg1.Minimum = RVBMinReg1.Value 'MinSpecValue
-            '            FwdDeltaVoltageReg1.Maximum = RVBMaxReg1.Value 'MaxSpecValue
-            '            RevDeltaVoltageReg1.Minimum = RVBMinReg1.Value 'MinSpecValue
-            '            RevDeltaVoltageReg1.Maximum = RVBMaxReg1.Value 'MaxSpecValue
-            '            If LocalVoltageReadresult / BecoCommunicationScaleFactor >= FwdDeltaVoltageReg1.Minimum Then FwdDeltaVoltageReg1.Value = LocalVoltageReadresult / BecoCommunicationScaleFactor Else FwdDeltaVoltageReg1.Value = FwdDeltaVoltageReg1.Maximum
-            '            If SourceVoltageReadresult / BecoCommunicationScaleFactor >= RevDeltaVoltageReg1.Minimum Then RevDeltaVoltageReg1.Value = SourceVoltageReadresult / BecoCommunicationScaleFactor Else RevDeltaVoltageReg1.Value = RevDeltaVoltageReg1.Minimum
-            '        End If
-            'End Select
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
             SetText(lblMsgCenter, message)
