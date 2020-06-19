@@ -14,7 +14,7 @@ Module GenerateRVBVoltage
             Dim Forward_RVBVoltage2OperateWith As Double = 0.0
             Dim Reverse_RVBVoltage2OperateWith As Double = 0.0
 
-            Select Case rvbForm.useFixedVoltage.Checked
+            Select Case rvbForm.useFixedVoltageReg1.Checked
                 Case False
                     ActualLocalVoltage = LocalVoltageReadresult / BecoCommunicationScaleFactor
                     ActualSourceVoltage = SourceVoltageReadresult / BecoCommunicationScaleFactor
