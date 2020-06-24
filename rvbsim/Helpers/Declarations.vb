@@ -24,7 +24,7 @@ Module Declarations
     Friend sb As New StringBuilder
     Friend IPs As String() = New String(1) {}
 
-    Friend Regulators As List(Of Regulator) = New List(Of Regulator)()
+    Friend Regulators As List(Of RegulatorCommunication) = New List(Of RegulatorCommunication)()
 
     ''' <summary>
     ''' new modbus communication libraries
@@ -64,6 +64,9 @@ Module Declarations
 
     Friend visibility As Boolean = True
     Friend testSetting As TestSettings
+
+    Friend baseJsonSettings As JsonSettingsModel
+
     'Friend modbusRegister As ModbusSettings
     Friend dnpSetting As DnpSettings
     Friend iecSetting As IECSettings

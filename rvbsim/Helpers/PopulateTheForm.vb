@@ -12,6 +12,8 @@ Module Populate
             Dim xmlRead As New ReadXmlFile
             xmlRead.Read()
 
+            Dim jsonRead As New JsonFile()
+
             ' update the form title
             RVBSim.Text = $"RVB Simulator({Assembly.GetEntryAssembly().GetName().Version.ToString(3)})"
 
@@ -39,6 +41,7 @@ Module Populate
                 End If
                 '************************************************************
             End With
+
             Select Case testSetting.Protocol    '.protocol
                 Case "dnp"
                     RVBSim.dnpbutton.Checked = True

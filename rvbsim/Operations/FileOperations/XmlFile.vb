@@ -33,7 +33,7 @@ Friend Class ReadXmlFile
             If My.Computer.FileSystem.FileExists(settingFileLocation) Then
                 'reader = Xml.XmlReader.Create(settingFileLocation, settings)
 
-                Dim newRegulator As Regulator = New Regulator()
+                Dim newRegulator As RegulatorCommunication = New RegulatorCommunication()
                 Dim dnpModel As DnpCommunicationModel = New DnpCommunicationModel()
                 Dim modbusModel As ModbusCommunicationModel = New ModbusCommunicationModel()
                 Dim iecModel As IECCommunicationModel = New IECCommunicationModel()

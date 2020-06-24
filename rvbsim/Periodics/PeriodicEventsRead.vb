@@ -14,7 +14,7 @@ Namespace PeriodicOperations
 
                 ' TODO: Replace Reg1 in localVoltage & sourceVoltage with Reg{model.Id}
 
-                For Each regulator As Regulator In Regulators
+                For Each regulator As RegulatorCommunication In Regulators
 
                     Dim ReadEvent As New ManualResetEvent(False)
 

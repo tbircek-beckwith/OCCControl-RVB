@@ -13,7 +13,7 @@ Module SetupTestUnit
     Friend Sub SendSettings()
 
         Try
-            For Each regulator As Regulator In Regulators
+            For Each regulator As RegulatorCommunication In Regulators
 
                 With RVBSim
 

@@ -21,7 +21,7 @@ Namespace PeriodicOperations
                 Dim outputFwdString As StringBuilder = New StringBuilder("Writing: ")
                 Dim outputRevString As StringBuilder = New StringBuilder("Writing: ")
 
-                For Each regulator As Regulator In Regulators
+                For Each regulator As RegulatorCommunication In Regulators
 
                     Dim WriteEvent As New ManualResetEvent(False)
                     If ProtocolInUse() = "dnp" Then

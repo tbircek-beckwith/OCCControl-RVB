@@ -172,6 +172,9 @@
     <Reference Include="Mono.Cecil.Rocks, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NuGet.Squirrel, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\squirrel.windows.1.9.1\lib\Net45\NuGet.Squirrel.dll</HintPath>
     </Reference>
@@ -190,6 +193,7 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
@@ -227,11 +231,23 @@
     <Compile Include="Helpers\ExtensionMethods.vb" />
     <Compile Include="Helpers\RelativeOrFixedValue.vb" />
     <Compile Include="Helpers\SetControls.vb" />
+    <Compile Include="Operations\Communication\DnpCommunicationModel.vb" />
     <Compile Include="Operations\Communication\IECCommunicationModel.vb" />
-    <Compile Include="Operations\Communication\ModbusModel.vb" />
-    <Compile Include="Operations\Communication\DnpModel.vb" />
     <Compile Include="Operations\Communication\Base\CommunicationBaseModel.vb" />
-    <Compile Include="Operations\Communication\Regulator.vb" />
+    <Compile Include="Operations\Communication\ModbusCommunicationModel.vb" />
+    <Compile Include="Operations\Communication\RegulatorCommunication.vb" />
+    <Compile Include="Operations\FileOperations\JsonFile.vb" />
+    <Compile Include="Operations\Settings\BaseModel\JsonRangeModel.vb" />
+    <Compile Include="Operations\Settings\BaseModel\JsonRegulatorModel.vb" />
+    <Compile Include="Operations\Settings\BaseModel\JsonSettingsModel.vb" />
+    <Compile Include="Operations\Settings\BaseModel\JsonTestItemModel.vb" />
+    <Compile Include="Operations\Settings\BaseModel\JsonTestModel.vb" />
+    <Compile Include="Operations\Settings\ProtocolModels\Base\RegulatorJsonValueBaseModel.vb" />
+    <Compile Include="Operations\Settings\ProtocolModels\Base\SettingsJsonValuesBaseModel.vb" />
+    <Compile Include="Operations\Settings\ProtocolModels\Base\SettingsProtocolBaseModel.vb" />
+    <Compile Include="Operations\Settings\ProtocolModels\Protocols\IecProtocolSettingsModel.vb" />
+    <Compile Include="Operations\Settings\ProtocolModels\Protocols\DnpProtocolSettingsModel.vb" />
+    <Compile Include="Operations\Settings\ProtocolModels\Protocols\ModbusProtocolSettingsModel.vb" />
     <Compile Include="Periodics\PeriodicEventsResetTimers.vb" />
     <Compile Include="Periodics\PeriodicEventsWrite.vb" />
     <Compile Include="Helpers\Helpers.vb" />
@@ -292,6 +308,18 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="resources\Settings-dnp.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resources\Settings-iec.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resources\Settings-modbus.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resources\Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -351,6 +379,7 @@
     <Error Condition="!Exists('..\packages\squirrel.windows.1.9.1\build\squirrel.windows.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\squirrel.windows.1.9.1\build\squirrel.windows.targets'))" />
   </Target>
   <Import Project="..\packages\squirrel.windows.1.9.1\build\squirrel.windows.targets" Condition="Exists('..\packages\squirrel.windows.1.9.1\build\squirrel.windows.targets')" />
+  <ProjectExtensions />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
