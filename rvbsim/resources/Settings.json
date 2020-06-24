@@ -1,0 +1,220 @@
+﻿{
+  "title": "Remote Voltage Bias Simulator",
+  "fileversion": "1.0.0",
+  "date": "06-23-2020",
+  "protocol": "dnp",
+  "uivisible": true,
+  "singlephase": true,
+  "read": "192.168.0.101",
+  "write": "192.168.0.101",
+  "test": {
+    "fwdrvbvoltage": [
+      {
+        "description": "Forward Remote Voltage Value",
+        "range": [
+          {
+            "max": 150,
+            "min": 0
+          }
+        ],
+        "regulator": [
+          {
+            "id": 1,
+            "value": 10
+          },
+          {
+            "id": 2,
+            "value": 10
+          },
+          {
+            "id": 3,
+            "value": 10
+          }
+        ],
+        "unit": "volts"
+      }
+    ],
+    "fwdscalefactor": [
+      {
+        "description": "Remote Voltage Bias Scale factor",
+        "range": [
+          {
+            "max": 1000,
+            "min": 1
+          }
+        ],
+        "regulator": [
+          {
+            "id": 1,
+            "value": 10
+          },
+          {
+            "id": 2,
+            "value": 10
+          },
+          {
+            "id": 3,
+            "value": 10
+          }
+        ],
+        "unit": "-"
+      }
+    ],
+    "heartbeattimer": [
+      {
+        "description": "Remote Voltage Bias Heartbeat Timer",
+        "range": [
+          {
+            "max": 120,
+            "min": 2
+          }
+        ],
+        "regulator": [
+          {
+            "id": 1,
+            "value": 2
+          },
+          {
+            "id": 2,
+            "value": 5
+          },
+          {
+            "id": 3,
+            "value": 3
+          }
+        ],
+        "unit": "secs"
+      }
+    ],
+    "revrvbvoltage": [
+      {
+        "description": "Reverse Remote Voltage Value",
+        "range": [
+          {
+            "max": 150,
+            "min": 0
+          }
+        ],
+        "regulator": [
+          {
+            "id": 1,
+            "value": -10
+          },
+          {
+            "id": 2,
+            "value": -10
+          },
+          {
+            "id": 3,
+            "value": -10
+          }
+        ],
+        "unit": "volts"
+      }
+    ],
+    "revscalefactor": [
+      {
+        "description": "Reverse Remote Voltage Bias Scale Factor",
+        "range": [
+          {
+            "max": 1000,
+            "min": 1
+          }
+        ],
+        "regulator": [
+          {
+            "id": 1,
+            "value": 10
+          },
+          {
+            "id": 2,
+            "value": 10
+          },
+          {
+            "id": 3,
+            "value": 10
+          }
+        ],
+        "unit": "-"
+      }
+    ],
+    "rvbmax": [
+      {
+        "description": "Remote Voltage Maximum",
+        "range": [
+          {
+            "max": 1500,
+            "min": 900
+          }
+        ],
+        "regulator": [
+          {
+            "id": 1,
+            "value": 150
+          },
+          {
+            "id": 2,
+            "value": 150
+          },
+          {
+            "id": 3,
+            "value": 150
+          }
+        ],
+        "unit": "volts"
+      }
+    ],
+    "rvbmin": [
+      {
+        "description": "Remote Voltage Minimum",
+        "range": [
+          {
+            "max": 1500,
+            "min": 900
+          }
+        ],
+        "regulator": [
+          {
+            "id": 1,
+            "value": 90
+          },
+          {
+            "id": 2,
+            "value": 90
+          },
+          {
+            "id": 3,
+            "value": 90
+          }
+        ],
+        "unit": "volts"
+      }
+    ],
+    "userelative": [
+      {
+        "description": "Use relative values to read voltages or absolute value defined in the box",
+        "range": [
+          {
+            "max": 1,
+            "min": 0
+          }
+        ],
+        "regulator": [
+          {
+            "id": 1,
+            "value": 1
+          },
+          {
+            "id": 2,
+            "value": 1
+          },
+          {
+            "id": 3,
+            "value": 1
+          }
+        ],
+        "unit": "-"
+      }
+    ]
+  }
+}
