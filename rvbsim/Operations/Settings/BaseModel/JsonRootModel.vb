@@ -1,6 +1,6 @@
 ﻿Imports Newtonsoft.Json
 
-Public Class JsonSettingsModel
+Public Class JsonRootModel
 
     ' JsonProperty names need to match the .json file and are case insensitive
 

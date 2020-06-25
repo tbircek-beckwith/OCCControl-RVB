@@ -239,7 +239,7 @@
     <Compile Include="Operations\FileOperations\JsonFile.vb" />
     <Compile Include="Operations\Settings\BaseModel\JsonRangeModel.vb" />
     <Compile Include="Operations\Settings\BaseModel\JsonRegulatorModel.vb" />
-    <Compile Include="Operations\Settings\BaseModel\JsonSettingsModel.vb" />
+    <Compile Include="Operations\Settings\BaseModel\JsonRootModel.vb" />
     <Compile Include="Operations\Settings\BaseModel\JsonTestItemModel.vb" />
     <Compile Include="Operations\Settings\BaseModel\JsonTestModel.vb" />
     <Compile Include="Operations\Settings\ProtocolModels\Base\RegulatorJsonValueBaseModel.vb" />
@@ -308,6 +308,9 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="resources\Settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="resources\Settings-dnp.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -315,9 +318,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="resources\Settings-modbus.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="resources\Settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

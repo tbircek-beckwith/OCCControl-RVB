@@ -10,8 +10,8 @@ Public Class JsonTestItemModel
     <JsonProperty("Range")>
     Public Property Range() As List(Of JsonRangeModel)
 
-    <JsonProperty("Regulator")>
-    Public Property Regulator() As List(Of JsonRegulatorModel)
+    <JsonProperty("Value")>
+    Public Property Value() As Integer
 
     <JsonProperty("Unit")>
     Public Property Unit() As String
