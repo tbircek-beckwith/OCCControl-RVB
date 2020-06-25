@@ -33,7 +33,7 @@ Module FormOperations
                     .IECFwdRVBVoltage = RVBSim.IecFRVBValueReg1.Text
                     .IECRevRVBVoltage = RVBSim.IecRRVBValueReg1.Text
                 End If
-                .heartbeat = CUShort(RVBSim.heartBeatTimer.Value)
+                .heartbeat = CUShort(RVBSim.HeartbeatTimerReg1.Value)
                 .Fdeltavoltage = CDbl(RVBSim.FwdDeltaVoltageReg1.Value)
                 .Fmultiplier = CDbl(RVBSim.FRVBScaleReg1.Value)
                 .Rdeltavoltage = CDbl(RVBSim.RevDeltaVoltageReg1.Value)

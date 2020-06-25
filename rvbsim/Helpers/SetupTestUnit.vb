@@ -13,7 +13,7 @@ Module SetupTestUnit
     Friend Sub SendSettings()
 
         Try
-            For Each regulator As Regulator In Regulators
+            For Each regulator As RegulatorCommunication In Regulators
 
                 With RVBSim
 
@@ -44,17 +44,17 @@ Module SetupTestUnit
 
                             'set RVB heartbeat timer
                             WriteEvent.Reset()
-                            dnp.Send(ManualEvent:=WriteEvent, Destination:= .DNPDestinationReg1.Value, Source:= .DNPSourceReg1.Value, FunctionCode:=Mode.DirectOp, ObjectX:=Objects.AnalogOutput, Variation:=Variations.AnaOutBlockShort, Qualifier:=QualifierField.AnaOutBlock16bitIndex, Start16Bit:=1, Stop16Bit:=model.RVBHeartBeatTimer, Value:= .heartbeattimer.Value, Status:=0)
+                            dnp.Send(ManualEvent:=WriteEvent, Destination:= .DNPDestinationReg1.Value, Source:= .DNPSourceReg1.Value, FunctionCode:=Mode.DirectOp, ObjectX:=Objects.AnalogOutput, Variation:=Variations.AnaOutBlockShort, Qualifier:=QualifierField.AnaOutBlock16bitIndex, Start16Bit:=1, Stop16Bit:=model.RVBHeartBeatTimer, Value:= .HeartbeatTimerReg1.Value, Status:=0)
                             WriteEvent.WaitOne()
 
                             'set RVB Max
                             WriteEvent.Reset()
-                            dnp.Send(ManualEvent:=WriteEvent, Destination:= .DNPDestinationReg1.Value, Source:= .DNPSourceReg1.Value, FunctionCode:=Mode.DirectOp, ObjectX:=Objects.AnalogOutput, Variation:=Variations.AnaOutBlockShort, Qualifier:=QualifierField.AnaOutBlock16bitIndex, Start16Bit:=1, Stop16Bit:=model.RVBMax, Value:= .RVBMax.Value * BecoCommunicationScaleFactor, Status:=0)
+                            dnp.Send(ManualEvent:=WriteEvent, Destination:= .DNPDestinationReg1.Value, Source:= .DNPSourceReg1.Value, FunctionCode:=Mode.DirectOp, ObjectX:=Objects.AnalogOutput, Variation:=Variations.AnaOutBlockShort, Qualifier:=QualifierField.AnaOutBlock16bitIndex, Start16Bit:=1, Stop16Bit:=model.RVBMax, Value:= .RVBMaxReg1.Value * BecoCommunicationScaleFactor, Status:=0)
                             WriteEvent.WaitOne()
 
                             'set RVB Min
                             WriteEvent.Reset()
-                            dnp.Send(WriteEvent, .DNPDestinationReg1.Value, .DNPSourceReg1.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, model.RVBMin, Value:= .RVBMin.Value * BecoCommunicationScaleFactor, Status:=0)
+                            dnp.Send(WriteEvent, .DNPDestinationReg1.Value, .DNPSourceReg1.Value, Mode.DirectOp, Objects.AnalogOutput, Variations.AnaOutBlockShort, QualifierField.AnaOutBlock16bitIndex, 1, model.RVBMin, Value:= .RVBMinReg1.Value * BecoCommunicationScaleFactor, Status:=0)
                             WriteEvent.WaitOne()
 
                             'set Fwd RVB Scale Factor
@@ -81,13 +81,13 @@ Module SetupTestUnit
                             modbusWrite.WriteSingleRegister(modbusRegister.RVBEnable, 1)
 
                             'set RVB heartbeat timer
-                            modbusWrite.WriteSingleRegister(modbusRegister.RVBHeartBeatTimer, .heartbeattimer.Value)
+                            modbusWrite.WriteSingleRegister(modbusRegister.RVBHeartBeatTimer, .HeartbeatTimerReg1.Value)
 
                             'set RVB Max
-                            modbusWrite.WriteSingleRegister(modbusRegister.RVBMax, .RVBMax.Value * BecoCommunicationScaleFactor)
+                            modbusWrite.WriteSingleRegister(modbusRegister.RVBMax, .RVBMaxReg1.Value * BecoCommunicationScaleFactor)
 
                             'set RVB Min
-                            modbusWrite.WriteSingleRegister(modbusRegister.RVBMin, .RVBMin.Value * BecoCommunicationScaleFactor)
+                            modbusWrite.WriteSingleRegister(modbusRegister.RVBMin, .RVBMinReg1.Value * BecoCommunicationScaleFactor)
 
                             'set Fwd RVB Scale Factor
                             modbusWrite.WriteSingleRegister(modbusRegister.FRVBScale, .FRVBScaleReg1.Value * BecoCommunicationScaleFactor)
@@ -108,17 +108,17 @@ Module SetupTestUnit
 
                             'set RVB heartbeat timer
                             WriteEvent.Reset()
-                            iec61850.Send(WriteEvent, iec61850Values.RVBHeartBeatTimer, "Write", .heartbeattimer.Value, DataType.int)
+                            iec61850.Send(WriteEvent, iec61850Values.RVBHeartBeatTimer, "Write", .HeartbeatTimerReg1.Value, DataType.int)
                             WriteEvent.WaitOne()
 
                             'set RVB Max
                             WriteEvent.Reset()
-                            iec61850.Send(WriteEvent, iec61850Values.RVBMax, "Write", .RVBMax.Value * BecoCommunicationScaleFactor, DataType.int)
+                            iec61850.Send(WriteEvent, iec61850Values.RVBMax, "Write", .RVBMaxReg1.Value * BecoCommunicationScaleFactor, DataType.int)
                             WriteEvent.WaitOne()
 
                             'set RVB Min
                             WriteEvent.Reset()
-                            iec61850.Send(WriteEvent, iec61850Values.RVBMin, "Write", .RVBMin.Value * BecoCommunicationScaleFactor, DataType.int)
+                            iec61850.Send(WriteEvent, iec61850Values.RVBMin, "Write", .RVBMinReg1.Value * BecoCommunicationScaleFactor, DataType.int)
                             WriteEvent.WaitOne()
 
                             'set Fwd RVB Scale Factor

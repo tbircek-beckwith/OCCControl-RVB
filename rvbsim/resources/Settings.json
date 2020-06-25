@@ -1,0 +1,338 @@
+﻿{
+  "title": "Remote Voltage Bias Simulator",
+  "fileversion": "1.0.0",
+  "date": "06-23-2020",
+  "protocol": "dnp",
+  "uivisible": true,
+  "singlephase": true,
+  "read": "192.168.0.101",
+  "write": "192.168.0.101",
+  "test": {
+    "regulator": [
+      {
+        "id": 1,
+        "name": "Regulator 1",
+        "fwdrvbvoltage": [
+          {
+            "description": "Forward Remote Voltage Value",
+            "range": [
+              {
+                "max": 150,
+                "min": 0
+              }
+            ],
+            "value": 10,
+            "unit": "volts"
+          }
+        ],
+        "fwdscalefactor": [
+          {
+            "description": "Remote Voltage Bias Scale factor",
+            "range": [
+              {
+                "max": 1000,
+                "min": 1
+              }
+            ],
+            "value": 10,
+            "unit": "-"
+          }
+        ],
+        "heartbeattimer": [
+          {
+            "description": "Remote Voltage Bias Heartbeat Timer",
+            "range": [
+              {
+                "max": 120,
+                "min": 2
+              }
+            ],
+            "value": 2,
+            "unit": "secs"
+          }
+        ],
+        "revrvbvoltage": [
+          {
+            "description": "Reverse Remote Voltage Value",
+            "range": [
+              {
+                "max": 150,
+                "min": 0
+              }
+            ],
+            "value": 100,
+            "unit": "volts"
+          }
+        ],
+        "revscalefactor": [
+          {
+            "description": "Reverse Remote Voltage Bias Scale Factor",
+            "range": [
+              {
+                "max": 1000,
+                "min": 1
+              }
+            ],
+            "value": 10,
+            "unit": "-"
+          }
+        ],
+        "rvbmax": [
+          {
+            "description": "Remote Voltage Maximum",
+            "range": [
+              {
+                "max": 1500,
+                "min": 900
+              }
+            ],
+            "value": 1500,
+            "unit": "volts"
+          }
+        ],
+        "rvbmin": [
+          {
+            "description": "Remote Voltage Minimum",
+            "range": [
+              {
+                "max": 1500,
+                "min": 900
+              }
+            ],
+            "value": 90,
+            "unit": "volts"
+          }
+        ],
+        "userelative": [
+          {
+            "description": "Use relative values to read voltages or absolute value defined in the box",
+            "range": [
+              {
+                "max": 1,
+                "min": 0
+              }
+            ],
+            "value": 1,
+            "unit": "-"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Regulator 2",
+        "fwdrvbvoltage": [
+          {
+            "description": "Forward Remote Voltage Value",
+            "range": [
+              {
+                "max": 150,
+                "min": 0
+              }
+            ],
+            "value": 10,
+            "unit": "volts"
+          }
+        ],
+        "fwdscalefactor": [
+          {
+            "description": "Remote Voltage Bias Scale factor",
+            "range": [
+              {
+                "max": 1000,
+                "min": 1
+              }
+            ],
+            "value": 10,
+            "unit": "-"
+          }
+        ],
+        "heartbeattimer": [
+          {
+            "description": "Remote Voltage Bias Heartbeat Timer",
+            "range": [
+              {
+                "max": 120,
+                "min": 2
+              }
+            ],
+            "value": 2,
+            "unit": "secs"
+          }
+        ],
+        "revrvbvoltage": [
+          {
+            "description": "Reverse Remote Voltage Value",
+            "range": [
+              {
+                "max": 150,
+                "min": 0
+              }
+            ],
+            "value": 100,
+            "unit": "volts"
+          }
+        ],
+        "revscalefactor": [
+          {
+            "description": "Reverse Remote Voltage Bias Scale Factor",
+            "range": [
+              {
+                "max": 1000,
+                "min": 1
+              }
+            ],
+            "value": 10,
+            "unit": "-"
+          }
+        ],
+        "rvbmax": [
+          {
+            "description": "Remote Voltage Maximum",
+            "range": [
+              {
+                "max": 1500,
+                "min": 900
+              }
+            ],
+            "value": 1500,
+            "unit": "volts"
+          }
+        ],
+        "rvbmin": [
+          {
+            "description": "Remote Voltage Minimum",
+            "range": [
+              {
+                "max": 1500,
+                "min": 900
+              }
+            ],
+            "value": 90,
+            "unit": "volts"
+          }
+        ],
+        "userelative": [
+          {
+            "description": "Use relative values to read voltages or absolute value defined in the box",
+            "range": [
+              {
+                "max": 1,
+                "min": 0
+              }
+            ],
+            "value": 1,
+            "unit": "-"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Regulator 3",
+        "fwdrvbvoltage": [
+          {
+            "description": "Forward Remote Voltage Value",
+            "range": [
+              {
+                "max": 150,
+                "min": 0
+              }
+            ],
+            "value": 10,
+            "unit": "volts"
+          }
+        ],
+        "fwdscalefactor": [
+          {
+            "description": "Remote Voltage Bias Scale factor",
+            "range": [
+              {
+                "max": 1000,
+                "min": 1
+              }
+            ],
+            "value": 10,
+            "unit": "-"
+          }
+        ],
+        "heartbeattimer": [
+          {
+            "description": "Remote Voltage Bias Heartbeat Timer",
+            "range": [
+              {
+                "max": 120,
+                "min": 2
+              }
+            ],
+            "value": 2,
+            "unit": "secs"
+          }
+        ],
+        "revrvbvoltage": [
+          {
+            "description": "Reverse Remote Voltage Value",
+            "range": [
+              {
+                "max": 150,
+                "min": 0
+              }
+            ],
+            "value": 100,
+            "unit": "volts"
+          }
+        ],
+        "revscalefactor": [
+          {
+            "description": "Reverse Remote Voltage Bias Scale Factor",
+            "range": [
+              {
+                "max": 1000,
+                "min": 1
+              }
+            ],
+            "value": 10,
+            "unit": "-"
+          }
+        ],
+        "rvbmax": [
+          {
+            "description": "Remote Voltage Maximum",
+            "range": [
+              {
+                "max": 1500,
+                "min": 900
+              }
+            ],
+            "value": 1500,
+            "unit": "volts"
+          }
+        ],
+        "rvbmin": [
+          {
+            "description": "Remote Voltage Minimum",
+            "range": [
+              {
+                "max": 1500,
+                "min": 900
+              }
+            ],
+            "value": 90,
+            "unit": "volts"
+          }
+        ],
+        "userelative": [
+          {
+            "description": "Use relative values to read voltages or absolute value defined in the box",
+            "range": [
+              {
+                "max": 1,
+                "min": 0
+              }
+            ],
+            "value": 1,
+            "unit": "-"
+          }
+        ]
+      }
+    ]
+  }
+}

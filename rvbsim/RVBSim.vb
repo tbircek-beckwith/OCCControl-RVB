@@ -17,7 +17,8 @@ Public Class RVBSim
             ' Heart_Beat_Timer = 0
             Interlocked.Exchange(Heart_Beat_Timer, 0)
             ReadRegisterWait.Unregister(Nothing)
-            GenerateRVBVoltage2Transfer(rvbForm:=Me)
+
+            ' GenerateRVBVoltage2Transfer(rvbForm:=Me)
 
             ' TODO: uncomment following DEBUG
             periodicWrite.Write(rvbForm:=Me)
@@ -187,33 +188,12 @@ Public Class RVBSim
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Public Sub Radio_CheckedChanged(sender As RadioButton, e As EventArgs) Handles useDeltaVoltage.CheckedChanged, useFixedVoltage.CheckedChanged
+    Public Sub Radio_CheckedChanged(sender As RadioButton, e As EventArgs) Handles useFixedVoltageReg3.CheckedChanged, useFixedVoltageReg2.CheckedChanged, useFixedVoltageReg1.CheckedChanged, useDeltaVoltageReg3.CheckedChanged, useDeltaVoltageReg2.CheckedChanged, useDeltaVoltageReg1.CheckedChanged
         Try
-            Select Case sender.Name
-                Case $"{NameOf(useDeltaVoltage)}"
-                    If sender.Checked Then
-                        Forward_Voltage_Label.Text = DeltaMessage
-                        Reverse_Voltage_Label.Text = DeltaMessageSource
-                        FwdDeltaVoltageReg1.Minimum = MinDeltaVoltage
-                        FwdDeltaVoltageReg1.Maximum = MaxDeltaVoltage
-                        RevDeltaVoltageReg1.Minimum = MinDeltaVoltage
-                        RevDeltaVoltageReg1.Maximum = MaxDeltaVoltage
-                        FwdDeltaVoltageReg1.Value = 0.0
-                        RevDeltaVoltageReg1.Value = 0.0
-                    End If
 
-                Case $"{NameOf(useFixedVoltage)}"
-                    If sender.Checked Then
-                        Forward_Voltage_Label.Text = DirectMessage
-                        Reverse_Voltage_Label.Text = DirectMessageSource
-                        FwdDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
-                        FwdDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
-                        RevDeltaVoltageReg1.Minimum = RVBMin.Value 'MinSpecValue
-                        RevDeltaVoltageReg1.Maximum = RVBMax.Value 'MaxSpecValue
-                        If LocalVoltageReadresult / BecoCommunicationScaleFactor >= FwdDeltaVoltageReg1.Minimum Then FwdDeltaVoltageReg1.Value = LocalVoltageReadresult / BecoCommunicationScaleFactor Else FwdDeltaVoltageReg1.Value = FwdDeltaVoltageReg1.Maximum
-                        If SourceVoltageReadresult / BecoCommunicationScaleFactor >= RevDeltaVoltageReg1.Minimum Then RevDeltaVoltageReg1.Value = SourceVoltageReadresult / BecoCommunicationScaleFactor Else RevDeltaVoltageReg1.Value = RevDeltaVoltageReg1.Minimum
-                    End If
-            End Select
+            Dim soome = New RelativeOrFixedValue
+            soome.Decide(rvbForm:=Me, sender:=sender)
+
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
             SetText(lblMsgCenter, message)

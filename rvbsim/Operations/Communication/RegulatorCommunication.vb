@@ -2,11 +2,7 @@
 ''' <summary>
 ''' Holds all information about the regulator(s)
 ''' </summary>
-Public Class Regulator '(Of CommunicationModels)
-    ' Implements System.Collections.IEnumerable
-
-    'Public Property CommunicationModels() As CommunicationBaseModel(Of T)
-
+Public Class RegulatorCommunication
     ''' <summary>
     ''' Collection of dnp3.0 communication details
     ''' </summary>

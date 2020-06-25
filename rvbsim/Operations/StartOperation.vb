@@ -114,8 +114,8 @@ Namespace Communication.Operations
 
                             TimersEvent.Set()
 
-                            ReadInterval = .heartBeatTimer.Value * 250
-                            WriteInterval = .heartBeatTimer.Value * 900
+                            ReadInterval = .HeartbeatTimerReg1.Value * 250
+                            WriteInterval = .HeartbeatTimerReg1.Value * 900
 
                             'initial read of local voltage
                             ReadTickerDone.Reset()
