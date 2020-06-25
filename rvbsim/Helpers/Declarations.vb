@@ -1,9 +1,10 @@
 ﻿Imports System.Text
 Imports System.Threading
 'Imports Automatak.DNP3.Interface
-Imports RVBSim.Communication.Operations
+Imports rvbSim.Communication.Operations
 Imports rvbSim.PeriodicOperations
 Imports rvb_sim.dnp
+Imports System.IO
 
 Module Declarations
 
@@ -65,7 +66,13 @@ Module Declarations
     Friend visibility As Boolean = True
     Friend testSetting As TestSettings
 
-    Friend baseJsonSettings As JsonSettingsModel
+    Friend baseJsonSettings As JsonRootModel
+    Friend baseJsonTestSettings As List(Of JsonRegulatorModel)
+    Friend testJsonValues ' As New T
+    Friend baseJsonSettingsFileLocation As String = Path.Combine(path1:=My.Application.Info.DirectoryPath,
+                                                  path2:="resources") ',
+    'path3:="Settings")
+
 
     'Friend modbusRegister As ModbusSettings
     Friend dnpSetting As DnpSettings
