@@ -9,7 +9,7 @@ Public Class JsonFile
 
         Dim baseFileLocation As String = Path.Combine(path1:=My.Application.Info.DirectoryPath,
                                                           path2:="resources",
-                                                          path3:="Settings - Copy.json")
+                                                          path3:="Settings.json")
 
         ' Dim dnpFileLocation As String = Path.Combine(path1:=My.Application.Info.DirectoryPath,
         '                                               path2:="resources",

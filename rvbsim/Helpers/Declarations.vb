@@ -70,9 +70,7 @@ Module Declarations
     Friend baseJsonTestSettings As List(Of JsonRegulatorModel)
     Friend testJsonValues ' As New T
     Friend baseJsonSettingsFileLocation As String = Path.Combine(path1:=My.Application.Info.DirectoryPath,
-                                                  path2:="resources") ',
-    'path3:="Settings")
-
+                                                  path2:="resources")
 
     'Friend modbusRegister As ModbusSettings
     Friend dnpSetting As DnpSettings
