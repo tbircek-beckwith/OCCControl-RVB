@@ -1,9 +1,10 @@
 ﻿Imports System.Text
 Imports System.Threading
 'Imports Automatak.DNP3.Interface
-Imports RVBSim.Communication.Operations
+Imports rvbSim.Communication.Operations
 Imports rvbSim.PeriodicOperations
-Imports rvb_sim.dnp
+'Imports rvb_sim.dnp
+Imports System.IO
 
 Module Declarations
 
@@ -24,7 +25,7 @@ Module Declarations
     Friend sb As New StringBuilder
     Friend IPs As String() = New String(1) {}
 
-    Friend Regulators As List(Of Regulator) = New List(Of Regulator)()
+    Friend Regulators As List(Of RegulatorCommunication) = New List(Of RegulatorCommunication)()
 
     ''' <summary>
     ''' new modbus communication libraries
@@ -46,7 +47,7 @@ Module Declarations
     Friend periodicReset As New ResetEvents
 
     Friend dnp As tcpdnp.AsyncDNP3_0
-    Friend dnpTCP As AnalogOutputControl
+    'Friend dnpTCP As AnalogOutputControl
 
     'Friend modbus As tcpmodbus.AsyncModbus
     Friend iec61850 As iec.AsyncIEC61850
@@ -64,6 +65,13 @@ Module Declarations
 
     Friend visibility As Boolean = True
     Friend testSetting As TestSettings
+
+    Friend baseJsonSettings As JsonRootModel
+    Friend baseJsonTestSettings As List(Of JsonRegulatorModel)
+    Friend testJsonValues ' As New T
+    Friend baseJsonSettingsFileLocation As String = Path.Combine(path1:=My.Application.Info.DirectoryPath,
+                                                  path2:="resources")
+
     'Friend modbusRegister As ModbusSettings
     Friend dnpSetting As DnpSettings
     Friend iecSetting As IECSettings

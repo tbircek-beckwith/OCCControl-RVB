@@ -22,10 +22,10 @@ Public Class AppStartup
                 If updateInfo.CurrentlyInstalledVersion IsNot Nothing Then Debug.WriteLine($"Current version: {updateInfo.CurrentlyInstalledVersion.Version}", "Informative")
 
                 If updateInfo.ReleasesToApply.Count > 0 Then
-                    Debug.WriteLine($"Update version: {updateInfo.FutureReleaseEntry.Version}", "Informative")
+                    Debug.WriteLine($"Found an update version: {updateInfo.FutureReleaseEntry.Version}", "Informative")
                     Await updateManager.UpdateApp()
                 Else
-                    Debug.WriteLine($"No updates: Update version: {updateInfo.FutureReleaseEntry.Version}", "Informative")
+                    Debug.WriteLine($"No updates: The current version: {updateInfo.FutureReleaseEntry.Version}", "Informative")
                 End If
 
             Catch ex As Exception

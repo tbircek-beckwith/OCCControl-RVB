@@ -11,14 +11,14 @@ Module CommandLineHandler
                     Case "-vf"  'fwd voltage offset value
                         testSetting.FwdRVBVoltage = My.Application.CommandLineArgs.Item(i + 1)
                     Case "-va" 'fwd voltage apply value NOT IN HELP FILE
-                        RVBSim.useFixedVoltage.Checked = True
-                        RVBSim.useDeltaVoltage.Checked = False
+                        RVBSim.useFixedVoltageReg1.Checked = True
+                        RVBSim.useDeltaVoltageReg1.Checked = False
                         testSetting.FwdRVBVoltage = My.Application.CommandLineArgs.Item(i + 1)
                     Case "-vr"  'rev voltage offset value
                         testSetting.RevRVBVoltage = My.Application.CommandLineArgs.Item(i + 1)
                     Case "-vb" 'fwd voltage apply value NOT IN HELP FILE
-                        RVBSim.useFixedVoltage.Checked = True
-                        RVBSim.useDeltaVoltage.Checked = False
+                        RVBSim.useFixedVoltageReg1.Checked = True
+                        RVBSim.useDeltaVoltageReg1.Checked = False
                         testSetting.RevRVBVoltage = My.Application.CommandLineArgs.Item(i + 1)
                     Case "-s"
                         Select Case My.Application.CommandLineArgs.Item(i + 1)

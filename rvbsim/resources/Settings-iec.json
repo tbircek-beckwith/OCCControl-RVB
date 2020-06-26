@@ -1,0 +1,221 @@
+﻿{
+  "id": "iec",
+  "title": "Remote Voltage Bias Simulator",
+  "version": "1.0.0",
+  "date": "06-23-2020",
+  "port": 102,
+  "readiedname": "GE2011E",
+  "writeiedname": "GE2011E",
+  "settings": [
+    {
+      "id": "LocalVoltage",
+      "name": "LodCtrV",
+      "fc": "MX",
+      "sdi": "mag",
+      "dai": "i",
+      "regulator": [
+        {
+          "id": "1",
+          "value": "ATCC0"
+        },
+        {
+          "id": "2",
+          "value": "ATCC1"
+        },
+        {
+          "id": "3",
+          "value": "ATCC2"
+        }
+      ]
+    },
+    {
+      "id": "SourceVoltage",
+      "name": "SrcCtrV",
+      "fc": "MX",
+      "sdi": "mag",
+      "dai": "i",
+      "regulator": [
+        {
+          "id": "1",
+          "value": "ATCC0"
+        },
+        {
+          "id": "2",
+          "value": "ATCC1"
+        },
+        {
+          "id": "3",
+          "value": "ATCC2"
+        }
+      ]
+    },
+    {
+      "id": "RVBEnable",
+      "name": "RemVBiaEn",
+      "fc": "SP",
+      "sdi": "setVal",
+      "dai": "",
+      "regulator": [
+        {
+          "id": "1",
+          "value": "ATCC0"
+        },
+        {
+          "id": "2",
+          "value": "ATCC1"
+        },
+        {
+          "id": "3",
+          "value": "ATCC2"
+        }
+      ]
+    },
+    {
+      "id": "FRVBValue",
+      "name": "FRemVVal",
+      "fc": "SP",
+      "sdi": "setMag",
+      "dai": "i",
+      "regulator": [
+        {
+          "id": "1",
+          "value": "ATCC0"
+        },
+        {
+          "id": "2",
+          "value": "ATCC1"
+        },
+        {
+          "id": "3",
+          "value": "ATCC2"
+        }
+      ]
+    },
+    {
+      "id": "FRVBScale",
+      "name": "FRemVSF",
+      "fc": "SP",
+      "sdi": "setMag",
+      "dai": "i",
+      "regulator": [
+        {
+          "id": "1",
+          "value": "ATCC0"
+        },
+        {
+          "id": "2",
+          "value": "ATCC1"
+        },
+        {
+          "id": "3",
+          "value": "ATCC2"
+        }
+      ]
+    },
+    {
+      "id": "RVBHeartbeat",
+      "name": "RemVBiaHbT",
+      "fc": "SP",
+      "sdi": "setVal",
+      "dai": "",
+      "regulator": [
+        {
+          "id": "1",
+          "value": "ATCC0"
+        },
+        {
+          "id": "2",
+          "value": "ATCC1"
+        },
+        {
+          "id": "3",
+          "value": "ATCC2"
+        }
+      ]
+    },
+    {
+      "id": "RRVBValue",
+      "name": "RRemVVal",
+      "fc": "SP",
+      "sdi": "setMag",
+      "dai": "i",
+      "regulator": [
+        {
+          "id": "1",
+          "value": "ATCC0"
+        },
+        {
+          "id": "2",
+          "value": "ATCC1"
+        },
+        {
+          "id": "3",
+          "value": "ATCC2"
+        }
+      ]
+    },
+    {
+      "id": "RRVBScale",
+      "name": "RRemVSF",
+      "fc": "SP",
+      "sdi": "setMag",
+      "dai": "i",
+      "regulator": [
+        {
+          "id": "1",
+          "value": "ATCC0"
+        },
+        {
+          "id": "2",
+          "value": "ATCC1"
+        },
+        {
+          "id": "3",
+          "value": "ATCC2"
+        }
+      ]
+    },
+    {
+      "id": "RVBMax",
+      "name": "ReVMax",
+      "fc": "SP",
+      "sdi": "setMag",
+      "dai": "i",
+      "regulator": [
+        {
+          "id": "1",
+          "value": "ATCC0"
+        },
+        {
+          "id": "2",
+          "value": "ATCC1"
+        },
+        {
+          "id": "3",
+          "value": "ATCC2"
+        }
+      ]
+    },
+    {
+      "id": "RVBMin",
+      "name": "ReVMin",
+      "fc": "SP",
+      "sdi": "setMag",
+      "dai": "i",
+      "regulator": [
+        {
+          "id": "1",
+          "value": "ATCC0"
+        },
+        {
+          "id": "2",
+          "value": "ATCC1"
+        },
+        {
+          "id": "3",
+          "value": "ATCC2"
+        }
+      ]
+    }
+  ]
+}

@@ -72,7 +72,7 @@ Public Module ExtensionMethods
             ' TODO: Try to avoid late bounding
             ' flatten the Regulator object
             Dim modelList As List(Of Object) = New List(Of Object)
-            For Each communicationModel As Regulator In Regulators
+            For Each communicationModel As RegulatorCommunication In Regulators
                 modelList.AddRange(communicationModel.DnpCommunication)
                 modelList.AddRange(communicationModel.ModbusCommunication)
                 modelList.AddRange(communicationModel.IECCommunication)
