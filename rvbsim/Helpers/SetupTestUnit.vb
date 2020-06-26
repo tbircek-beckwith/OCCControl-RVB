@@ -3,7 +3,7 @@
 'custom libraries
 Imports tcpdnp.AsyncDNP3_0
 Imports iec.AsyncIEC61850
-Imports rvb_sim.dnp
+'Imports rvb_sim.dnp
 
 Module SetupTestUnit
 
