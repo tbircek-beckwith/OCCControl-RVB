@@ -128,20 +128,20 @@ Public Class RVBSim
                     If sender.Checked Then
                         CommunicationDetails.Text = "DNP3.0 Addresses"
                         lblwarning.Text = "Don't forget to download DNP default file"
-                        PortReg1.Text = Regulators(0).DnpCommunication(0).Port ' first regulator dnpSetting.Port
+                        PortReg1.Text = CType(testJsonValues, DnpProtocolSettingsModel).Port
                     End If
 
                 Case $"{NameOf(modbusbox)}"
                     If sender.Checked Then
                         CommunicationDetails.Text = "Modbus registers"
-                        PortReg1.Text = Regulators(0).ModbusCommunication(0).Port ' first regulator modbusRegister.Port
+                        PortReg1.Text = CType(testJsonValues, ModbusProtocolSettingsModel).Port
                     End If
 
                 Case $"{NameOf(iec61850box)}"
                     If sender.Checked Then
                         CommunicationDetails.Text = "IEC61850 Datasets"
                         lblwarning.Text = "Don't forget to purchase IEC61850"
-                        PortReg1.Text = Regulators(0).IECCommunication(0).Port ' first regulator iecSetting.Port
+                        PortReg1.Text = CType(testJsonValues, IecProtocolSettingsModel).Port
                     End If
             End Select
 
@@ -154,10 +154,20 @@ Public Class RVBSim
             ' warn the user about communication file uploads
             lblwarning.Visible = dnpbutton.Checked Or iec61850box.Checked
 
+            ' TODO: depending testSetting.IsSinglePhase value
+            '       show a single phase or 3-phase interface
             ' set visibility per the user selection
             ModbusSettingsGroup.Visible = modbusbox.Checked
             DnpSettingsGroup.Visible = dnpbutton.Checked
             IecSettingsGroup.Visible = iec61850box.Checked
+
+            ' show these items when 3-phase enabled in settings.json file
+            ' initial presentation
+            ModbusSettingsGroup3Phase.Visible = Not testSetting.IsSinglePhase
+            DnpSettingsGroup3Phase.Visible = Not testSetting.IsSinglePhase
+            IecSettingsGroup3Phase.Visible = Not testSetting.IsSinglePhase
+            RVBSettings3Phase.Visible = Not testSetting.IsSinglePhase
+            SinglePhaseCheckBox.Checked = testSetting.IsSinglePhase
 
             ' set focus on read ip address text box.
             ReadIpAddr.Select()
@@ -169,6 +179,17 @@ Public Class RVBSim
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(CheckHandler)}")
         End Try
+    End Sub
+
+    Private Sub SinglePhaseCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles SinglePhaseCheckBox.CheckedChanged
+
+        ' show these items when 3-phase enabled in settings.json file
+        ' handles changes
+        ModbusSettingsGroup3Phase.Visible = Not SinglePhaseCheckBox.Checked
+        DnpSettingsGroup3Phase.Visible = Not SinglePhaseCheckBox.Checked
+        IecSettingsGroup3Phase.Visible = Not SinglePhaseCheckBox.Checked
+        RVBSettings3Phase.Visible = Not SinglePhaseCheckBox.Checked
+
     End Sub
 
     Private Sub Dnpbutton_CheckedChanged(sender As Object, e As EventArgs) Handles dnpbutton.CheckedChanged
