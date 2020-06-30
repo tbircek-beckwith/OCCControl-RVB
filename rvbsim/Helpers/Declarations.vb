@@ -6,6 +6,9 @@ Imports rvbSim.PeriodicOperations
 'Imports rvb_sim.dnp
 Imports System.IO
 
+''' <summary>
+''' acts like DI
+''' </summary>
 Module Declarations
 
     ' Friend Const ConsoleWriteEnable As Boolean = True       'False          ' 
@@ -68,16 +71,20 @@ Module Declarations
 
     Friend baseJsonSettings As JsonRootModel
     Friend baseJsonTestSettings As List(Of JsonRegulatorModel)
+    Friend jsonRead As JsonFile
     Friend testJsonValues ' As New T
-    Friend baseJsonSettingsFileLocation As String = Path.Combine(path1:=My.Application.Info.DirectoryPath,
-                                                  path2:="resources")
 
     'Friend modbusRegister As ModbusSettings
     Friend dnpSetting As DnpSettings
     Friend iecSetting As IECSettings
 
     Friend Structure TestSettings
+        Dim Title As String
+        Dim FileVersion As String
+        Dim [Date] As String
         Dim Protocol As String
+        Dim IsUiVisible As Boolean
+        Dim IsSinglePhase As Boolean
         Dim readIpAddress As String
         Dim writeIpAddress As String
         Dim HeartbeatTimer As UShort
@@ -88,21 +95,6 @@ Module Declarations
         Dim RVBMax As Double
         Dim RVBMin As Double
     End Structure
-
-    'Friend Structure ModbusSettings
-    '    ' Dim Port As String
-    '    Dim LocalVoltage As UShort
-    '    Dim RVBEnable As UShort
-    '    Dim FRVBValue As UShort
-    '    Dim FRVBScale As UShort
-    '    Dim RVBHeartBeatTimer As UShort
-    '    Dim RVBActive As UShort
-    '    Dim RRVBValue As UShort
-    '    Dim RRVBScale As UShort
-    '    Dim RVBMax As UShort
-    '    Dim RVBMin As UShort
-    '    Dim Factory As UShort
-    'End Structure
 
     Friend Structure DnpSettings
         ' Dim Port As String
@@ -185,4 +177,6 @@ Module Declarations
 
     Friend Property ReceivedErrorMsg() As String = String.Empty
 
+    Friend Property BaseJsonSettingsFileLocation As String = Path.Combine(path1:=My.Application.Info.DirectoryPath,
+                                                                          path2:="resources")
 End Module
