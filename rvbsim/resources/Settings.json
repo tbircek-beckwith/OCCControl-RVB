@@ -2,9 +2,9 @@
   "title": "Remote Voltage Bias Simulator",
   "fileversion": "1.0.0",
   "date": "06-23-2020",
-  "protocol": "dnp",
+  "protocol": "modbus",
   "uivisible": true,
-  "singlephase": true,
+  "singlephase": false,
   "read": "192.168.0.101",
   "write": "192.168.0.101",
   "test": {
