@@ -2,7 +2,7 @@
 Imports System.Threading
 'Imports Automatak.DNP3.Adapter
 'Imports Automatak.DNP3.Interface
-Imports rvb_sim.dnp
+'Imports rvb_sim.dnp
 
 Namespace Communication.Operations
 
