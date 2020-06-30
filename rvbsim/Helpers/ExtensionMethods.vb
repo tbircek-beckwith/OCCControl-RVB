@@ -69,6 +69,7 @@ Public Module ExtensionMethods
     Public Sub SetValues(ByRef enable As Boolean)
 
         Try
+            ' TODO: Use new Json file format
             ' TODO: Try to avoid late bounding
             ' flatten the Regulator object
             Dim modelList As List(Of Object) = New List(Of Object)
@@ -96,6 +97,70 @@ Public Module ExtensionMethods
                         End If
                     End If
                 Next
+            Next
+
+        Catch ex As Exception
+            Dim trace = New StackTrace(ex, True)
+            Dim message As String = $"{Now}:{vbCrLf}Line #: {trace.GetFrame(0).GetFileLineNumber().ToString()}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+            SetText(RVBSim.lblMsgCenter, message)
+            sb.AppendLine(message)
+
+        Finally
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(SetValues)}")
+        End Try
+
+    End Sub
+
+
+    ''' <summary>
+    ''' Sets values of controls and enable/disable
+    ''' </summary>
+    ''' <param name="enable">True sets the control enabled, false disables the control</param>
+    <Extension()>
+    Public Sub SetValuesFromJson(ByRef enable As Boolean)
+
+        Try
+
+            Dim modbusRegulators As ModbusProtocolSettingsModel = New ModbusProtocolSettingsModel
+            Dim dnpRegulators As DnpProtocolSettingsModel = New DnpProtocolSettingsModel
+            Dim iecRegulators As IecProtocolSettingsModel = New IecProtocolSettingsModel
+
+            Dim settings As List(Of SettingsJsonValuesBaseModel) = New List(Of SettingsJsonValuesBaseModel)
+
+            Select Case testSetting.Protocol.ToLower()
+                Case "modbus"
+                    modbusRegulators = testJsonValues
+                    settings = modbusRegulators.Settings
+                Case "dnp"
+                    dnpRegulators = testJsonValues
+                    settings = dnpRegulators.Settings
+                Case "iec"
+                    iecRegulators = testJsonValues
+                    settings = iecRegulators.Settings
+                Case Else
+
+            End Select
+
+            ' scan the values
+            For Each model In settings
+
+                For Each regulator In model.Regulator
+
+                    ' stitch the control name
+                    Dim controlName As String = $"{modbusRegulators.Id.Substring(0, 1).ToUpper()}{modbusRegulators.Id.Substring(1).ToLower()}{model.Id}Reg{regulator.Id}"
+
+                    ' find the control name
+                    Dim t() As Control = RVBSim.Controls.Find(controlName, True)
+                    If t.Length > 0 Then
+                        t(0).Text = $"{regulator.Value}"
+                        t(0).Enabled = enable
+                    End If
+
+                    Debug.WriteLine($"Control name: {modbusRegulators.Id.Substring(0, 1).ToUpper()}{modbusRegulators.Id.Substring(1).ToLower()}{model.Id}Reg{regulator.Id}, value: {regulator.Value}")
+
+                Next
+
+                Debug.WriteLine("new extension")
             Next
 
         Catch ex As Exception
