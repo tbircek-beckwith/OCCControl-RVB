@@ -1,4 +1,5 @@
 ﻿
+Imports System.IO
 Imports System.Threading
 
 Public Class RVBSim
@@ -126,6 +127,7 @@ Public Class RVBSim
             Select Case sender.Name
                 Case $"{NameOf(dnpbutton)}"
                     If sender.Checked Then
+                        testJsonValues = jsonRead.GetSettings(Of DnpProtocolSettingsModel)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-dnp.json"))
                         CommunicationDetails.Text = "DNP3.0 Addresses"
                         lblwarning.Text = "Don't forget to download DNP default file"
                         PortReg1.Text = CType(testJsonValues, DnpProtocolSettingsModel).Port
@@ -168,6 +170,8 @@ Public Class RVBSim
             IecSettingsGroup3Phase.Visible = Not testSetting.IsSinglePhase
             RVBSettings3Phase.Visible = Not testSetting.IsSinglePhase
             SinglePhaseCheckBox.Checked = testSetting.IsSinglePhase
+
+            ' SetValuesFromJson(True)
 
             ' set focus on read ip address text box.
             ReadIpAddr.Select()

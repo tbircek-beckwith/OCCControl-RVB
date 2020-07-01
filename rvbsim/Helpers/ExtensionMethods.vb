@@ -127,16 +127,23 @@ Public Module ExtensionMethods
 
             Dim settings As List(Of SettingsJsonValuesBaseModel) = New List(Of SettingsJsonValuesBaseModel)
 
-            Select Case testSetting.Protocol.ToLower()
+            If String.IsNullOrWhiteSpace(ProtocolInUse) Then
+                ProtocolInUse = testSetting.Protocol
+            End If
+
+            Select Case ProtocolInUse.ToLower() ' testSetting.Protocol.ToLower()
                 Case "modbus"
                     modbusRegulators = testJsonValues
                     settings = modbusRegulators.Settings
+                   ' ProtocolInUse = "modbus"
                 Case "dnp"
                     dnpRegulators = testJsonValues
                     settings = dnpRegulators.Settings
+                   ' ProtocolInUse = "dnp"
                 Case "iec"
                     iecRegulators = testJsonValues
                     settings = iecRegulators.Settings
+                    ' ProtocolInUse = "iec"
                 Case Else
 
             End Select
@@ -147,7 +154,7 @@ Public Module ExtensionMethods
                 For Each regulator In model.Regulator
 
                     ' stitch the control name
-                    Dim controlName As String = $"{modbusRegulators.Id.Substring(0, 1).ToUpper()}{modbusRegulators.Id.Substring(1).ToLower()}{model.Id}Reg{regulator.Id}"
+                    Dim controlName As String = $"{ProtocolInUse.Substring(0, 1).ToUpper()}{ProtocolInUse.Substring(1).ToLower()}{model.Id}Reg{regulator.Id}"
 
                     ' find the control name
                     Dim t() As Control = RVBSim.Controls.Find(controlName, True)
@@ -156,7 +163,7 @@ Public Module ExtensionMethods
                         t(0).Enabled = enable
                     End If
 
-                    Debug.WriteLine($"Control name: {modbusRegulators.Id.Substring(0, 1).ToUpper()}{modbusRegulators.Id.Substring(1).ToLower()}{model.Id}Reg{regulator.Id}, value: {regulator.Value}")
+                    Debug.WriteLine($"Control name: {ProtocolInUse.Substring(0, 1).ToUpper()}{ProtocolInUse.Substring(1).ToLower()}{model.Id}Reg{regulator.Id}, value: {regulator.Value}")
 
                 Next
 
