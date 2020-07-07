@@ -24,7 +24,8 @@ Namespace PeriodicOperations
                 For Each regulator As RegulatorCommunication In Regulators
 
                     Dim WriteEvent As New ManualResetEvent(False)
-                    If ProtocolInUse() = "dnp" Then
+
+                    If String.Equals(ProtocolInUse, "dnp") Then
                         For Each model As DnpCommunicationModel In regulator.DnpCommunication
 
                             Debug.WriteLine("------------------- Writing RVB Voltage (DNP30) -------------------")
@@ -55,7 +56,7 @@ Namespace PeriodicOperations
 
                         Next
 
-                    ElseIf ProtocolInUse() = "modbus" Then
+                    ElseIf String.Equals(ProtocolInUse, "modbus") Then
                         For Each model As ModbusCommunicationModel In regulator.ModbusCommunication
 
                             Debug.WriteLine("------------------- Writing RVB Voltage (MODBUS) -------------------")
@@ -76,7 +77,7 @@ Namespace PeriodicOperations
 
                         Next
 
-                    ElseIf ProtocolInUse() = "iec" Then
+                    ElseIf String.Equals(ProtocolInUse, "iec") Then
                         For Each model As IECCommunicationModel In regulator.IECCommunication
 
                             Debug.WriteLine("------------------- Writing RVB Voltage (61850) -------------------")
