@@ -12,29 +12,32 @@ Public Class RelativeOrFixedValue
 
         Dim rb As RadioButton = TryCast(sender, RadioButton)
 
-        If rb Is Nothing Then
-            MessageBox.Show("Sender is not a RadioButton")
+        If rb Is Nothing Or String.IsNullOrWhiteSpace(rb.Name) Then
+            Debug.WriteLine("Sender is not a RadioButton")
             Return
         End If
 
+        '  If rb.Checked Then
+
         Dim regulatorNumber As Int16 = If(String.IsNullOrWhiteSpace(rb.Name), 1, Char.GetNumericValue(rb.Name.Last()))
-        Dim isFixed As Boolean = rb.Name.Contains("Fixed")
+            Dim isFixed As Boolean = rb.Name.Contains("fixed")
 
-        Dim fwdLabel = rvbForm.RVBSettings.GetChildControls(Of Label)().Where(Function(tb) tb.Name.Equals($"FwdVoltageLabelReg{regulatorNumber}"))(0)
+            Dim fwdLabel = rvbForm.RVBSettings.GetChildControls(Of Label)().Where(Function(tb) tb.Name.Equals($"FwdVoltageLabelReg{regulatorNumber}"))(0)
 
-        Dim revLabel = rvbForm.RVBSettings.GetChildControls(Of Label)().Where(Function(tb) tb.Name.Equals($"RevVoltageLabelReg{regulatorNumber}"))(0)
+            Dim revLabel = rvbForm.RVBSettings.GetChildControls(Of Label)().Where(Function(tb) tb.Name.Equals($"RevVoltageLabelReg{regulatorNumber}"))(0)
 
-        Dim fwdVoltage = rvbForm.RVBSettings.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"FwdDeltaVoltageReg{regulatorNumber}"))(0)
+            Dim fwdVoltage = rvbForm.RVBSettings.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"SettingsFwdrvbvoltageReg{regulatorNumber}"))(0)
 
-        Dim revVoltage = rvbForm.RVBSettings.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"RevDeltaVoltageReg{regulatorNumber}"))(0)
+            Dim revVoltage = rvbForm.RVBSettings.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"SettingsRevrvbvoltageReg{regulatorNumber}"))(0)
 
-        Dim rvbMin = rvbForm.RVBSettings.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"RVBMinReg{regulatorNumber}"))(0)
+            Dim rvbMin = rvbForm.RVBSettings.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"SettingsRvbminReg{regulatorNumber}"))(0)
 
-        Dim rvbMax = rvbForm.RVBSettings.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"RVBMaxReg{regulatorNumber}"))(0)
+            Dim rvbMax = rvbForm.RVBSettings.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"SettingsRvbmaxReg{regulatorNumber}"))(0)
 
-        Select Case rb.Text
-            Case $"Use Relative"
-                If rb.Checked Then
+
+
+            Select Case rb.Text
+                Case $"Use Relative"
                     fwdLabel.Text = DeltaMessage
                     revLabel.Text = DeltaMessageSource
                     fwdVoltage.Minimum = MinDeltaVoltage
@@ -43,10 +46,8 @@ Public Class RelativeOrFixedValue
                     revVoltage.Minimum = MinDeltaVoltage
                     revVoltage.Maximum = MaxDeltaVoltage
                     revVoltage.Value = 0.0
-                End If
 
-            Case $"Use Absolute"
-                If rb.Checked Then
+                Case $"Use Absolute"
                     fwdLabel.Text = DirectMessage
                     revLabel.Text = DirectMessageSource
                     fwdVoltage.Minimum = rvbMin.Value 'MinSpecValue
@@ -55,8 +56,8 @@ Public Class RelativeOrFixedValue
                     revVoltage.Maximum = rvbMax.Value 'MaxSpecValue
                     If LocalVoltageReadresult / BecoCommunicationScaleFactor >= fwdVoltage.Minimum Then fwdVoltage.Value = LocalVoltageReadresult / BecoCommunicationScaleFactor Else fwdVoltage.Value = fwdVoltage.Maximum
                     If SourceVoltageReadresult / BecoCommunicationScaleFactor >= revVoltage.Minimum Then revVoltage.Value = SourceVoltageReadresult / BecoCommunicationScaleFactor Else revVoltage.Value = revVoltage.Minimum
-                End If
-        End Select
+            End Select
+        ' End If
 
         Debug.WriteLine("whoowhoo")
     End Sub

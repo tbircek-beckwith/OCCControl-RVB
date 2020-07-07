@@ -8,34 +8,38 @@ Public Class LoadSettings
 
     Public Sub New(Optional ByVal protocol As String = "") ' As Boolean
 
-        jsonRead = New JsonFile()
+        'jsonRead = New JsonFile()
 
         Dim isProtocolValid As Boolean = True
 
-        If String.IsNullOrWhiteSpace(protocol) Then
-            ProtocolInUse = baseJsonSettings.Protocol
-        End If
+        'If String.IsNullOrWhiteSpace(protocol) Then
+        '    ProtocolInUse = baseJsonSettings.Protocol
+        'End If
+
+        testJsonSettings = jsonRead.GetSettings(Of NewJsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse} - Copy.json"))
+
+        testJsonSettingsRegulators = testJsonSettings.Test
 
         Select Case ProtocolInUse
             Case "dnp"
-                testJsonValues = New DnpProtocolSettingsModel()
-                testJsonValues = jsonRead.GetSettings(Of DnpProtocolSettingsModel)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse}.json"))
-                RVBSim.dnpbutton.Checked = True
-                RVBSim.PortReg1.Text = CType(testJsonValues, DnpProtocolSettingsModel).Port
-                ProtocolInUse = "dnp"
+                'testJsonValues = New DnpProtocolSettingsModel()
+                ' testJsonValues = jsonRead.GetSettings(Of NewJsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse} - Copy.json")).Test
+                ' RVBSim.dnpbutton.Checked = True
+                ' RVBSim.PortReg1.Text = CType(testJsonValues, DnpProtocolSettingsModel).Port
+                ' ProtocolInUse = "dnp"
                 RVBSim.CheckHandler(RVBSim.dnpbutton)
             Case "modbus"
-                testJsonValues = New ModbusProtocolSettingsModel()
-                testJsonValues = jsonRead.GetSettings(Of ModbusProtocolSettingsModel)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse}.json"))
-                RVBSim.modbusbox.Checked = True
-                RVBSim.PortReg1.Text = CType(testJsonValues, ModbusProtocolSettingsModel).Port
+                ' testJsonValues = New ModbusProtocolSettingsModel()
+                'testJsonValues = jsonRead.GetSettings(Of NewJsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse} - Copy.json"))
+                ' RVBSim.modbusbox.Checked = True
+                ' RVBSim.PortReg1.Text = CType(testJsonValues, ModbusProtocolSettingsModel).Port
                 'ProtocolInUse = "modbus"
                 RVBSim.CheckHandler(RVBSim.modbusbox)
             Case "iec"
-                testJsonValues = New IecProtocolSettingsModel()
-                testJsonValues = jsonRead.GetSettings(Of IecProtocolSettingsModel)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse}.json"))
-                RVBSim.iec61850box.Checked = True
-                RVBSim.PortReg1.Text = CType(testJsonValues, IecProtocolSettingsModel).Port
+                ' testJsonValues = New IecProtocolSettingsModel()
+                ' testJsonValues = jsonRead.GetSettings(Of IecProtocolSettingsModel)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse}.json"))
+                ' RVBSim.iec61850box.Checked = True
+                'RVBSim.PortReg1.Text = CType(testJsonValues, IecProtocolSettingsModel).Port
                 'ProtocolInUse = "iec"
                 RVBSim.CheckHandler(RVBSim.iec61850box)
             Case Else
@@ -43,6 +47,8 @@ Public Class LoadSettings
                 isProtocolValid = False
                 Exit Select
         End Select
+
+        RVBSim.UpdateProtocol()
 
         Debug.WriteLine($"port value: {RVBSim.PortReg1.Text}")
 

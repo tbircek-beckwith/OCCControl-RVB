@@ -14,31 +14,31 @@ Module GenerateRVBVoltage
             Dim Forward_RVBVoltage2OperateWith As Double = 0.0
             Dim Reverse_RVBVoltage2OperateWith As Double = 0.0
 
-            Select Case rvbForm.useFixedVoltageReg1.Checked
+            Select Case rvbForm.SettingsUsefixedReg1.Checked
                 Case False
                     ActualLocalVoltage = LocalVoltageReadresult / BecoCommunicationScaleFactor
                     ActualSourceVoltage = SourceVoltageReadresult / BecoCommunicationScaleFactor
 
                     If Not ActualLocalVoltage = 0.0 Then
-                        Forward_RVBVoltage2OperateWith = (ActualLocalVoltage + CDbl(rvbForm.FwdDeltaVoltageReg1.Value))
+                        Forward_RVBVoltage2OperateWith = (ActualLocalVoltage + CDbl(rvbForm.SettingsFwdrvbvoltageReg1.Value))
                     Else
                         Forward_RVBVoltage2OperateWith = 0.0
                     End If
 
                     If Not ActualSourceVoltage = 0.0 Then
-                        Reverse_RVBVoltage2OperateWith = (ActualSourceVoltage + CDbl(rvbForm.RevDeltaVoltageReg1.Value))
+                        Reverse_RVBVoltage2OperateWith = (ActualSourceVoltage + CDbl(rvbForm.SettingsRevrvbvoltageReg1.Value))
                     Else
                         Reverse_RVBVoltage2OperateWith = 0.0
                     End If
 
                 Case True
-                    Forward_RVBVoltage2OperateWith = CDbl(rvbForm.FwdDeltaVoltageReg1.Value)
-                    Reverse_RVBVoltage2OperateWith = CDbl(rvbForm.RevDeltaVoltageReg1.Value)
+                    Forward_RVBVoltage2OperateWith = CDbl(rvbForm.SettingsFwdrvbvoltageReg1.Value)
+                    Reverse_RVBVoltage2OperateWith = CDbl(rvbForm.SettingsRevrvbvoltageReg1.Value)
 
             End Select
 
-            Forward_RVBVoltage2OperateWith *= CDbl(rvbForm.FRVBScaleReg1.Value)
-            Reverse_RVBVoltage2OperateWith *= CDbl(rvbForm.RRVBScaleReg1.Value)
+            Forward_RVBVoltage2OperateWith *= CDbl(rvbForm.SettingsFwdscalefactorReg1.Value)
+            Reverse_RVBVoltage2OperateWith *= CDbl(rvbForm.SettingsRevscalefactorReg1.Value)
 
             Forward_RVBVoltage2Write = Forward_RVBVoltage2OperateWith
             Reverse_RVBVoltage2Write = Reverse_RVBVoltage2OperateWith
