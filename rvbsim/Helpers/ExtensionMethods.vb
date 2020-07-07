@@ -1,4 +1,5 @@
 ﻿
+Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Threading
@@ -65,6 +66,7 @@ Public Module ExtensionMethods
     ''' Sets values of controls and enable/disable
     ''' </summary>
     ''' <param name="enable">True sets the control enabled, false disables the control</param>
+    <Obsolete("Use SetValuesFromJson(enable)", True)>
     <Extension()>
     Public Sub SetValues(ByRef enable As Boolean)
 
@@ -121,54 +123,17 @@ Public Module ExtensionMethods
 
         Try
 
-            Dim modbusRegulators As ModbusProtocolSettingsModel = New ModbusProtocolSettingsModel
-            Dim dnpRegulators As DnpProtocolSettingsModel = New DnpProtocolSettingsModel
-            Dim iecRegulators As IecProtocolSettingsModel = New IecProtocolSettingsModel
+            ' retrieve test settings per selected protocol
+            testJsonSettings = jsonRead.GetSettings(Of NewJsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse} - Copy.json"))
+            testJsonSettingsRegulators = testJsonSettings.Test
 
-            Dim settings As List(Of SettingsJsonValuesBaseModel) = New List(Of SettingsJsonValuesBaseModel)
+            ' populate communication data
+            RVBSim.ReadIpAddr.Text = baseJsonSettings.Read
+            RVBSim.WriteIpAddr.Text = baseJsonSettings.Write
+            RVBSim.PortReg1.Text = testJsonSettings.Port
 
-            If String.IsNullOrWhiteSpace(ProtocolInUse) Then
-                ProtocolInUse = testSetting.Protocol
-            End If
-
-            Select Case ProtocolInUse.ToLower() ' testSetting.Protocol.ToLower()
-                Case "modbus"
-                    modbusRegulators = testJsonValues
-                    settings = modbusRegulators.Settings
-                   ' ProtocolInUse = "modbus"
-                Case "dnp"
-                    dnpRegulators = testJsonValues
-                    settings = dnpRegulators.Settings
-                   ' ProtocolInUse = "dnp"
-                Case "iec"
-                    iecRegulators = testJsonValues
-                    settings = iecRegulators.Settings
-                    ' ProtocolInUse = "iec"
-                Case Else
-
-            End Select
-
-            ' scan the values
-            For Each model In settings
-
-                For Each regulator In model.Regulator
-
-                    ' stitch the control name
-                    Dim controlName As String = $"{ProtocolInUse.Substring(0, 1).ToUpper()}{ProtocolInUse.Substring(1).ToLower()}{model.Id}Reg{regulator.Id}"
-
-                    ' find the control name
-                    Dim t() As Control = RVBSim.Controls.Find(controlName, True)
-                    If t.Length > 0 Then
-                        t(0).Text = $"{regulator.Value}"
-                        t(0).Enabled = enable
-                    End If
-
-                    Debug.WriteLine($"Control name: {ProtocolInUse.Substring(0, 1).ToUpper()}{ProtocolInUse.Substring(1).ToLower()}{model.Id}Reg{regulator.Id}, value: {regulator.Value}")
-
-                Next
-
-                Debug.WriteLine("new extension")
-            Next
+            ' populate test settings
+            PopulateControls(testJsonSettingsRegulators, True)
 
         Catch ex As Exception
             Dim trace = New StackTrace(ex, True)
@@ -178,6 +143,85 @@ Public Module ExtensionMethods
 
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(SetValues)}")
+        End Try
+
+    End Sub
+
+    ''' <summary>
+    ''' Populates Controls per selected protocol on boot up.
+    ''' </summary>
+    ''' <param name="regulators"></param>
+    ''' <param name="enable"></param>
+    Friend Sub PopulateControls(regulators As NewJsonTest, enable As Boolean)
+
+        Try
+
+            ' scan the values
+            For Each model In regulators.Regulator
+
+                For Each regulator In model.Values  '.Regulator
+
+
+                    ' stitch the control name
+                    Dim controlName As String = String.Empty
+
+                    ' if "NO" Protocol specified use settings.json file value
+                    If String.IsNullOrWhiteSpace(ProtocolInUse) Then
+
+                        ' update communication setting
+                        controlName = $"Settings{regulator.Name}Reg{model.Id}"
+
+                    Else
+
+                        controlName = $"{ProtocolInUse}{regulator.Name}Reg{model.Id}"
+                    End If
+
+
+
+                    ' find the control name
+                    Dim t() As Control = RVBSim.Controls.Find(controlName, True)
+                    If t.Length > 0 Then
+
+                        ' assigned values to the control
+                        Dim textValue As String = regulator.Value
+                        If String.Equals(ProtocolInUse, "iec") Then
+                            textValue = $"{regulator.Value}${regulator.Fc}${regulator.Sdi}${regulator.Dai}"
+                        End If
+
+                        Select Case t(0).GetType()
+                            Case GetType(RadioButton)
+                                Dim useRelative As RadioButton = CType(t(0), RadioButton)
+
+                                Dim isUseRelative As Boolean = regulator.Value
+
+                                Dim alternateName As String = $"SettingsUsefixedReg{model.Id}"
+                                Dim useFixed As RadioButton = CType(RVBSim.Controls.Find(alternateName, True)(0), RadioButton)
+
+                                If isUseRelative Then
+                                    useRelative.PerformClick()
+                                Else
+                                    useFixed.PerformClick()
+                                End If
+
+                                Debug.WriteLine($"Control name: {controlName}, value: {regulator.Value}")
+
+                            Case Else
+                                t(0).Text = textValue
+                        End Select
+
+                        t(0).Enabled = enable
+                    End If
+
+                    Debug.WriteLine($"Control name: {controlName}, value: {regulator.Value}")
+
+                Next
+
+                '  Debug.WriteLine("new extension")
+            Next
+        Catch ex As Exception
+            Dim message As String = $"{Now}: ({NameOf(Populatetheform)}) {vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+            SetText(RVBSim.lblMsgCenter, message)
+            sb.AppendLine(message)
         End Try
 
     End Sub

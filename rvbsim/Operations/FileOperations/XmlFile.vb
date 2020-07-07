@@ -60,9 +60,9 @@ test:                               Select Case reader.Name
                                             testSetting.HeartbeatTimer = CUShort(reader.Value)
                                         Case "userelative"
                                             Dim userelative As Boolean = CType(reader.Value, Boolean)
-                                            RVBSim.useDeltaVoltageReg1.Checked = userelative
-                                            RVBSim.useFixedVoltageReg1.Checked = Not userelative
-                                            RVBSim.Radio_CheckedChanged(RVBSim.useDeltaVoltageReg1, Nothing)
+                                            RVBSim.SettingsUserelativeReg1.Checked = userelative
+                                            RVBSim.SettingsUsefixedReg1.Checked = Not userelative
+                                            RVBSim.Radio_CheckedChanged(RVBSim.SettingsUserelativeReg1, Nothing)
                                         Case "fwdrvbvoltage"
                                             testSetting.FwdRVBVoltage = CDbl(reader.Value)
                                         Case "revrvbvoltage"

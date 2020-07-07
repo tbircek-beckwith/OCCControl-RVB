@@ -11,7 +11,6 @@ Imports System.IO
 ''' </summary>
 Module Declarations
 
-    ' Friend Const ConsoleWriteEnable As Boolean = True       'False          ' 
     Friend Const SupportedRVBRevision As String = "15"      'Supported RVB feature document revision
     Friend Const OperatingVoltage As Integer = 900
     Friend Const BecoCommunicationScaleFactor As Integer = 10   ' all products
@@ -22,7 +21,6 @@ Module Declarations
     Friend Const DirectMessage As String = "RVB Voltage is ="
     Friend Const DirectMessageSource As String = "Src RVB Voltage is ="
     Friend Const DNP_BufferSize As Integer = 29
-    ' Friend Const Modbus_BufferSize As Integer = 12
     Friend Const IEC_BufferSize As Integer = 200
 
     Friend sb As New StringBuilder
@@ -50,9 +48,6 @@ Module Declarations
     Friend periodicReset As New ResetEvents
 
     Friend dnp As tcpdnp.AsyncDNP3_0
-    'Friend dnpTCP As AnalogOutputControl
-
-    'Friend modbus As tcpmodbus.AsyncModbus
     Friend iec61850 As iec.AsyncIEC61850
 
     Friend processID As Integer = 0
@@ -69,12 +64,12 @@ Module Declarations
     Friend visibility As Boolean = True
     Friend testSetting As TestSettings
 
-    Friend baseJsonSettings As JsonRootModel
-    Friend baseJsonTestSettings As List(Of JsonRegulatorModel)
-    Friend jsonRead As JsonFile
-    Friend testJsonValues ' As New T
+    Friend jsonRead As JsonFile = New JsonFile()
+    Friend baseJsonSettings As NewJsonRoot
+    Friend baseJsonSettingsRegulators As NewJsonTest
+    Friend testJsonSettings As NewJsonRoot
+    Friend testJsonSettingsRegulators As NewJsonTest
 
-    'Friend modbusRegister As ModbusSettings
     Friend dnpSetting As DnpSettings
     Friend iecSetting As IECSettings
 
