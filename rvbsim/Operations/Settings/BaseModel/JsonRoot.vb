@@ -1,6 +1,6 @@
 ﻿Imports Newtonsoft.Json
 
-Public Class NewJsonRoot
+Public Class JsonRoot
 
     ' JsonProperty names need to match the .json file and are case insensitive
 
@@ -32,7 +32,7 @@ Public Class NewJsonRoot
     Public Property Write() As String
 
     <JsonProperty("Test")>
-    Public Property Test() As NewJsonTest
+    Public Property Test() As JsonTest
 
     '
     ' Communication specific properties.

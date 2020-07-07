@@ -16,21 +16,21 @@ Public Class LoadSettings
         '    ProtocolInUse = baseJsonSettings.Protocol
         'End If
 
-        testJsonSettings = jsonRead.GetSettings(Of NewJsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse} - Copy.json"))
+        testJsonSettings = jsonRead.GetSettings(Of JsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse} - Copy.json"))
 
         testJsonSettingsRegulators = testJsonSettings.Test
 
         Select Case ProtocolInUse
             Case "dnp"
                 'testJsonValues = New DnpProtocolSettingsModel()
-                ' testJsonValues = jsonRead.GetSettings(Of NewJsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse} - Copy.json")).Test
+                ' testJsonValues = jsonRead.GetSettings(Of JsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse} - Copy.json")).Test
                 ' RVBSim.dnpbutton.Checked = True
                 ' RVBSim.PortReg1.Text = CType(testJsonValues, DnpProtocolSettingsModel).Port
                 ' ProtocolInUse = "dnp"
                 RVBSim.CheckHandler(RVBSim.dnpbutton)
             Case "modbus"
                 ' testJsonValues = New ModbusProtocolSettingsModel()
-                'testJsonValues = jsonRead.GetSettings(Of NewJsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse} - Copy.json"))
+                'testJsonValues = jsonRead.GetSettings(Of JsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse} - Copy.json"))
                 ' RVBSim.modbusbox.Checked = True
                 ' RVBSim.PortReg1.Text = CType(testJsonValues, ModbusProtocolSettingsModel).Port
                 'ProtocolInUse = "modbus"

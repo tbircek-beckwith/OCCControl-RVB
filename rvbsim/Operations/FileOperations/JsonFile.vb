@@ -9,10 +9,10 @@ Public Class JsonFile
 
         Dim baseFileLocation As String = Path.Combine(path1:=My.Application.Info.DirectoryPath,
                                                       path2:="resources",
-                                                      path3:="Settings.json")
+                                                      path3:=$"{SettingFileName}.json")
 
         ' load general setting file
-        baseJsonSettings = GetSettings(Of NewJsonRoot)(baseFileLocation)
+        baseJsonSettings = GetSettings(Of JsonRoot)(baseFileLocation)
 
 
     End Sub

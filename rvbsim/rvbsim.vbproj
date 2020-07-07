@@ -231,11 +231,11 @@
     <Compile Include="Operations\Communication\ModbusCommunicationModel.vb" />
     <Compile Include="Operations\Communication\RegulatorCommunication.vb" />
     <Compile Include="Operations\FileOperations\JsonFile.vb" />
-    <Compile Include="Operations\Settings\BaseModel\NewJsonTest.vb" />
-    <Compile Include="Operations\Settings\BaseModel\NewJsonRegulator.vb" />
-    <Compile Include="Operations\Settings\BaseModel\NewJsonRange.vb" />
-    <Compile Include="Operations\Settings\BaseModel\NewJsonRoot.vb" />
-    <Compile Include="Operations\Settings\BaseModel\NewJsonValue.vb" />
+    <Compile Include="Operations\Settings\BaseModel\JsonRange.vb" />
+    <Compile Include="Operations\Settings\BaseModel\JsonRegulator.vb" />
+    <Compile Include="Operations\Settings\BaseModel\JsonRoot.vb" />
+    <Compile Include="Operations\Settings\BaseModel\JsonTest.vb" />
+    <Compile Include="Operations\Settings\BaseModel\JsonValue.vb" />
     <Compile Include="Periodics\PeriodicEventsResetTimers.vb" />
     <Compile Include="Periodics\PeriodicEventsWrite.vb" />
     <Compile Include="Helpers\Helpers.vb" />

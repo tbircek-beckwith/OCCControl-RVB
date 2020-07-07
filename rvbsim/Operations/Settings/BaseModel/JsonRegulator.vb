@@ -1,6 +1,6 @@
 ﻿Imports Newtonsoft.Json
 
-Public Class NewJsonRegulator
+Public Class JsonRegulator
 
     ' JsonProperty names need to match the .json file and are case insensitive
 
@@ -11,6 +11,6 @@ Public Class NewJsonRegulator
     Public Property Name() As String
 
     <JsonProperty("Values")>
-    Public Property Values() As List(Of NewJsonValue)
+    Public Property Values() As List(Of JsonValue)
 
 End Class

@@ -124,7 +124,7 @@ Public Module ExtensionMethods
         Try
 
             ' retrieve test settings per selected protocol
-            testJsonSettings = jsonRead.GetSettings(Of NewJsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{ProtocolInUse} - Copy.json"))
+            testJsonSettings = jsonRead.GetSettings(Of JsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"{SettingFileName}-{ProtocolInUse}.json"))
             testJsonSettingsRegulators = testJsonSettings.Test
 
             ' populate communication data
@@ -152,7 +152,7 @@ Public Module ExtensionMethods
     ''' </summary>
     ''' <param name="regulators"></param>
     ''' <param name="enable"></param>
-    Friend Sub PopulateControls(regulators As NewJsonTest, enable As Boolean)
+    Friend Sub PopulateControls(regulators As JsonTest, enable As Boolean)
 
         Try
 

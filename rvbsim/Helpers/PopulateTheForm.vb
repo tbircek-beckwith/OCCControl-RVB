@@ -35,11 +35,10 @@ Module Populate
                 '************************************************************
             End With
 
-            '  jsonRead = New JsonFile()
-
             Dim isProtocolValid As Boolean = True
 
-            baseJsonSettings = jsonRead.GetSettings(Of NewJsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings.json"))
+            baseJsonSettings = jsonRead.GetSettings(Of JsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation,
+                                                                                 path2:=$"{SettingFileName}.json"))
 
             baseJsonSettingsRegulators = baseJsonSettings.Test
 
@@ -50,22 +49,14 @@ Module Populate
 
             Select Case baseJsonSettings.Protocol
                 Case "dnp"
-                    RVBSim.dnpbutton.PerformClick() '.Checked = True
-                    'RVBSim.PortReg1.Text = baseJsonSettings.Port '  CType(testJsonValues, DnpProtocolSettingsModel).Port ' Regulators(0).DnpCommunication(0).Port 'dnpSetting.Port  '.dnpport
-                    Debug.WriteLine($"port value: {RVBSim.PortReg1.Text}")
-                   ' RVBSim.CheckHandler(RVBSim.dnpbutton)
+                    RVBSim.dnpbutton.PerformClick()
+
                 Case "modbus"
-                    'testJsonValues = jsonRead.GetSettings(Of ModbusProtocolSettingsModel)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{baseJsonSettings.Protocol}.json"))
-                    RVBSim.modbusbox.PerformClick() '.Checked = True
-                    ' RVBSim.PortReg1.Text = CType(testJsonValues, ModbusProtocolSettingsModel).Port ' Regulators(0).ModbusCommunication(0).Port ' modbusRegister.Port  '.mdport
-                    Debug.WriteLine($"port value: {RVBSim.PortReg1.Text}")
-                   ' RVBSim.CheckHandler(RVBSim.modbusbox)
+                    RVBSim.modbusbox.PerformClick()
+
                 Case "iec"
-                    'testJsonValues = jsonRead.GetSettings(Of IecProtocolSettingsModel)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-{baseJsonSettings.Protocol}.json"))
-                    RVBSim.iec61850box.PerformClick() '.Checked = True
-                    'RVBSim.PortReg1.Text = CType(testJsonValues, IecProtocolSettingsModel).Port ' Regulators(0).IECCommunication(0).Port ' iecSetting.Port '.iecport
-                    Debug.WriteLine($"port value: {RVBSim.PortReg1.Text}")
-                    ' RVBSim.CheckHandler(RVBSim.iec61850box)
+                    RVBSim.iec61850box.PerformClick()
+
                 Case Else
                     MessageBox.Show(text:=$"Please check Settings.json file protocol value.{vbCrLf}Read value: {testSetting.Protocol} <- not accurate", caption:="Unsupported Protocol", buttons:=MessageBoxButtons.OK, icon:=MessageBoxIcon.Error)
                     isProtocolValid = False
@@ -75,18 +66,8 @@ Module Populate
             ' is protocol accurate?
             If isProtocolValid Then
 
-                '' TODO: Start using Json file
-                '' Populate Communication Details and Enable all of the controls
+                ' Populate Communication Details and Enable all of the controls
                 SetValuesFromJson(True)
-                '' SetValues(True)
-
-                ''RVBSim.PortReg1.Text = testJsonValues.Port ' dnpSetting.Port  '.dnpport
-                ''Debug.WriteLine($"port value: {RVBSim.PortReg1.Text}")
-
-                'RVBSim.ReadIpAddr.Text = testSetting.readIpAddress  '.IPAddressToRead
-                'RVBSim.WriteIpAddr.Text = testSetting.writeIpAddress
-                'RVBSim.RRVBScaleReg1.Value = testSetting.RevRVBVoltageScale
-                'RVBSim.FRVBScaleReg1.Value = testSetting.FwdRVBVoltageScale
 
             End If
 

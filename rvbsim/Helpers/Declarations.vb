@@ -22,6 +22,7 @@ Module Declarations
     Friend Const DirectMessageSource As String = "Src RVB Voltage is ="
     Friend Const DNP_BufferSize As Integer = 29
     Friend Const IEC_BufferSize As Integer = 200
+    Friend Const SettingFileName As String = "settings"
 
     Friend sb As New StringBuilder
     Friend IPs As String() = New String(1) {}
@@ -65,10 +66,10 @@ Module Declarations
     Friend testSetting As TestSettings
 
     Friend jsonRead As JsonFile = New JsonFile()
-    Friend baseJsonSettings As NewJsonRoot
-    Friend baseJsonSettingsRegulators As NewJsonTest
-    Friend testJsonSettings As NewJsonRoot
-    Friend testJsonSettingsRegulators As NewJsonTest
+    Friend baseJsonSettings As JsonRoot
+    Friend baseJsonSettingsRegulators As JsonTest
+    Friend testJsonSettings As JsonRoot
+    Friend testJsonSettingsRegulators As JsonTest
 
     Friend dnpSetting As DnpSettings
     Friend iecSetting As IECSettings

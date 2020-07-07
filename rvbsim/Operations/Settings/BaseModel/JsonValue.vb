@@ -1,6 +1,6 @@
 ﻿Imports Newtonsoft.Json
 
-Public Class NewJsonValue
+Public Class JsonValue
 
     ' JsonProperty names need to match the .json file and are case insensitive
 
@@ -23,7 +23,7 @@ Public Class NewJsonValue
     Public Property Dai() As String
 
     <JsonProperty("Range")>
-    Public Property Range() As List(Of NewJsonRange)
+    Public Property Range() As List(Of JsonRange)
 
     <JsonProperty("Value")>
     Public Property Value() As String
