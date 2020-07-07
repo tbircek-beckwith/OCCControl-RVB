@@ -60,6 +60,8 @@ Public Class RVBSim
             ProtocolInUse = "dnp"
         ElseIf iec61850box.Checked Then
             ProtocolInUse = "iec"
+        Else
+            ProtocolInUse = baseJsonSettings.Protocol
         End If
 
         Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(UpdateProtocol)}")
@@ -124,28 +126,32 @@ Public Class RVBSim
     ''' <param name="sender"></param>
     Protected Friend Sub CheckHandler(sender As RadioButton)
         Try
-            Select Case sender.Name
-                Case $"{NameOf(dnpbutton)}"
-                    If sender.Checked Then
-                        testJsonValues = jsonRead.GetSettings(Of DnpProtocolSettingsModel)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"Settings-dnp.json"))
+
+            ' PortReg1.Text = baseJsonSettings.Port   'dnpRegulators.Port
+            If sender.Checked Then
+
+                Select Case sender.Name
+                    Case $"{NameOf(dnpbutton)}"
                         CommunicationDetails.Text = "DNP3.0 Addresses"
                         lblwarning.Text = "Don't forget to download DNP default file"
-                        PortReg1.Text = CType(testJsonValues, DnpProtocolSettingsModel).Port
-                    End If
+                        'PortReg1.Text = baseJsonSettings.Port   'dnpRegulators.Port
+                        ProtocolInUse = "dnp"
+                        SetValuesFromJson(True)
 
-                Case $"{NameOf(modbusbox)}"
-                    If sender.Checked Then
+                    Case $"{NameOf(modbusbox)}"
                         CommunicationDetails.Text = "Modbus registers"
-                        PortReg1.Text = CType(testJsonValues, ModbusProtocolSettingsModel).Port
-                    End If
+                        ' PortReg1.Text = modbusRegulators.Port
+                        ProtocolInUse = "modbus"
+                        SetValuesFromJson(True)
 
-                Case $"{NameOf(iec61850box)}"
-                    If sender.Checked Then
+                    Case $"{NameOf(iec61850box)}"
                         CommunicationDetails.Text = "IEC61850 Datasets"
                         lblwarning.Text = "Don't forget to purchase IEC61850"
-                        PortReg1.Text = CType(testJsonValues, IecProtocolSettingsModel).Port
-                    End If
-            End Select
+                        'PortReg1.Text = iecRegulators.Port
+                        ProtocolInUse = "iec"
+                        SetValuesFromJson(True)
+                End Select
+            End If
 
             ' dnp3.0 stuff.
             lbldestination.Visible = dnpbutton.Checked
@@ -165,16 +171,22 @@ Public Class RVBSim
 
             ' show these items when 3-phase enabled in settings.json file
             ' initial presentation
-            ModbusSettingsGroup3Phase.Visible = Not testSetting.IsSinglePhase
-            DnpSettingsGroup3Phase.Visible = Not testSetting.IsSinglePhase
-            IecSettingsGroup3Phase.Visible = Not testSetting.IsSinglePhase
-            RVBSettings3Phase.Visible = Not testSetting.IsSinglePhase
-            SinglePhaseCheckBox.Checked = testSetting.IsSinglePhase
+            With baseJsonSettings
+                ModbusSettingsGroup3Phase.Visible = Not .SinglePhase    ' testSetting.IsSinglePhase
+                DnpSettingsGroup3Phase.Visible = Not .SinglePhase
+                IecSettingsGroup3Phase.Visible = Not .SinglePhase
+                RVBSettings3Phase.Visible = Not .SinglePhase
+                SinglePhaseCheckBox.Checked = .SinglePhase
+            End With
 
-            ' SetValuesFromJson(True)
+            If sender.Checked Then
+                ' update the protocol in use
+                UpdateProtocol()
 
-            ' set focus on read ip address text box.
-            ReadIpAddr.Select()
+                ' set focus on read ip address text box.
+                ReadIpAddr.Select()
+            End If
+
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
@@ -196,16 +208,16 @@ Public Class RVBSim
 
     End Sub
 
-    Private Sub Dnpbutton_CheckedChanged(sender As Object, e As EventArgs) Handles dnpbutton.CheckedChanged
-        CheckHandler(sender)
-    End Sub
+    Private Sub ProtocolChanged(sender As Object, e As EventArgs) Handles dnpbutton.CheckedChanged, modbusbox.CheckedChanged, iec61850box.CheckedChanged
 
-    Private Sub Modbusbox_CheckedChanged(sender As Object, e As EventArgs) Handles modbusbox.CheckedChanged
-        CheckHandler(sender)
-    End Sub
+        Dim rb As RadioButton = CType(sender, RadioButton)
 
-    Private Sub Iec61850box_CheckedChanged(sender As Object, e As EventArgs) Handles iec61850box.CheckedChanged
-        CheckHandler(sender)
+        ' no need to update at load since it would change immediately.
+        If Not String.IsNullOrWhiteSpace(rb.Text) Then
+            If rb.Checked Then
+                CheckHandler(rb)
+            End If
+        End If
     End Sub
 
     ''' <summary>
@@ -213,7 +225,7 @@ Public Class RVBSim
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Public Sub Radio_CheckedChanged(sender As RadioButton, e As EventArgs) Handles useFixedVoltageReg3.CheckedChanged, useFixedVoltageReg2.CheckedChanged, useFixedVoltageReg1.CheckedChanged, useDeltaVoltageReg3.CheckedChanged, useDeltaVoltageReg2.CheckedChanged, useDeltaVoltageReg1.CheckedChanged
+    Public Sub Radio_CheckedChanged(sender As RadioButton, e As EventArgs) Handles SettingsUsefixedReg3.CheckedChanged, SettingsUsefixedReg2.CheckedChanged, SettingsUsefixedReg1.CheckedChanged, SettingsUserelativeReg3.CheckedChanged, SettingsUserelativeReg2.CheckedChanged, SettingsUserelativeReg1.CheckedChanged
         Try
 
             Dim soome = New RelativeOrFixedValue
