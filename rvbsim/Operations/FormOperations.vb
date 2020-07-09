@@ -33,11 +33,11 @@ Module FormOperations
                     .IECFwdRVBVoltage = RVBSim.IecFRVBValueReg1.Text
                     .IECRevRVBVoltage = RVBSim.IecRRVBValueReg1.Text
                 End If
-                .heartbeat = CUShort(RVBSim.SettingsHeartbeattimerReg1.Value)
+                .heartbeat = CUShort(RVBSim.SettingsRVBHeartbeatReg1.Value)
                 .Fdeltavoltage = CDbl(RVBSim.SettingsFwdrvbvoltageReg1.Value)
-                .Fmultiplier = CDbl(RVBSim.SettingsFwdscalefactorReg1.Value)
+                .Fmultiplier = CDbl(RVBSim.SettingsFRVBScaleReg1.Value)
                 .Rdeltavoltage = CDbl(RVBSim.SettingsRevrvbvoltageReg1.Value)
-                .Rmultiplier = CDbl(RVBSim.SettingsRevscalefactorReg1.Value)
+                .Rmultiplier = CDbl(RVBSim.SettingsRRVBScaleReg1.Value)
                 .IPAddressToRead = RVBSim.WriteIpAddr.Text
             End With
 

@@ -46,9 +46,9 @@ Partial Class RVBSim
         Me.SettingsUsefixedReg2 = New System.Windows.Forms.RadioButton()
         Me.Label43 = New System.Windows.Forms.Label()
         Me.Label44 = New System.Windows.Forms.Label()
-        Me.SettingsHeartbeattimerReg2 = New System.Windows.Forms.NumericUpDown()
+        Me.SettingsRVBHeartbeatReg2 = New System.Windows.Forms.NumericUpDown()
         Me.RVBFwdSettingsReg2 = New System.Windows.Forms.GroupBox()
-        Me.SettingsFwdscalefactorReg2 = New System.Windows.Forms.NumericUpDown()
+        Me.SettingsFRVBScaleReg2 = New System.Windows.Forms.NumericUpDown()
         Me.Label45 = New System.Windows.Forms.Label()
         Me.SettingsFwdrvbvoltageReg2 = New System.Windows.Forms.NumericUpDown()
         Me.FwdVoltageLabelReg2 = New System.Windows.Forms.Label()
@@ -56,7 +56,7 @@ Partial Class RVBSim
         Me.RevVoltageLabelReg2 = New System.Windows.Forms.Label()
         Me.SettingsRevrvbvoltageReg2 = New System.Windows.Forms.NumericUpDown()
         Me.Label48 = New System.Windows.Forms.Label()
-        Me.SettingsRevscalefactorReg2 = New System.Windows.Forms.NumericUpDown()
+        Me.SettingsRRVBScaleReg2 = New System.Windows.Forms.NumericUpDown()
         Me.RVBSettingsReg3 = New System.Windows.Forms.GroupBox()
         Me.RVBSettingsPanelReg3 = New System.Windows.Forms.FlowLayoutPanel()
         Me.RVBSettingsGeneralReg3 = New System.Windows.Forms.GroupBox()
@@ -68,9 +68,9 @@ Partial Class RVBSim
         Me.SettingsUsefixedReg3 = New System.Windows.Forms.RadioButton()
         Me.Label50 = New System.Windows.Forms.Label()
         Me.Label51 = New System.Windows.Forms.Label()
-        Me.SettingsHeartbeattimerReg3 = New System.Windows.Forms.NumericUpDown()
+        Me.SettingsRVBHeartbeatReg3 = New System.Windows.Forms.NumericUpDown()
         Me.RVBFwdSettingsReg3 = New System.Windows.Forms.GroupBox()
-        Me.SettingsFwdscalefactorReg3 = New System.Windows.Forms.NumericUpDown()
+        Me.SettingsFRVBScaleReg3 = New System.Windows.Forms.NumericUpDown()
         Me.Label52 = New System.Windows.Forms.Label()
         Me.SettingsFwdrvbvoltageReg3 = New System.Windows.Forms.NumericUpDown()
         Me.FwdVoltageLabelReg3 = New System.Windows.Forms.Label()
@@ -78,7 +78,7 @@ Partial Class RVBSim
         Me.RevVoltageLabelReg3 = New System.Windows.Forms.Label()
         Me.SettingsRevrvbvoltageReg3 = New System.Windows.Forms.NumericUpDown()
         Me.Label55 = New System.Windows.Forms.Label()
-        Me.SettingsRevscalefactorReg3 = New System.Windows.Forms.NumericUpDown()
+        Me.SettingsRRVBScaleReg3 = New System.Windows.Forms.NumericUpDown()
         Me.FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
         Me.RVBSettingsReg1 = New System.Windows.Forms.GroupBox()
         Me.RVBSettingsPanelReg1 = New System.Windows.Forms.FlowLayoutPanel()
@@ -91,9 +91,9 @@ Partial Class RVBSim
         Me.SettingsUsefixedReg1 = New System.Windows.Forms.RadioButton()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.SettingsHeartbeattimerReg1 = New System.Windows.Forms.NumericUpDown()
+        Me.SettingsRVBHeartbeatReg1 = New System.Windows.Forms.NumericUpDown()
         Me.RVBFwdSettingsReg1 = New System.Windows.Forms.GroupBox()
-        Me.SettingsFwdscalefactorReg1 = New System.Windows.Forms.NumericUpDown()
+        Me.SettingsFRVBScaleReg1 = New System.Windows.Forms.NumericUpDown()
         Me.F_RVBScaleFactor_Label = New System.Windows.Forms.Label()
         Me.SettingsFwdrvbvoltageReg1 = New System.Windows.Forms.NumericUpDown()
         Me.FwdVoltageLabelReg1 = New System.Windows.Forms.Label()
@@ -101,7 +101,7 @@ Partial Class RVBSim
         Me.RevVoltageLabelReg1 = New System.Windows.Forms.Label()
         Me.SettingsRevrvbvoltageReg1 = New System.Windows.Forms.NumericUpDown()
         Me.R_RVBScaleFactor_Label = New System.Windows.Forms.Label()
-        Me.SettingsRevscalefactorReg1 = New System.Windows.Forms.NumericUpDown()
+        Me.SettingsRRVBScaleReg1 = New System.Windows.Forms.NumericUpDown()
         Me.lblwarning = New System.Windows.Forms.Label()
         Me.DNPDestinationReg1 = New System.Windows.Forms.NumericUpDown()
         Me.lbldestination = New System.Windows.Forms.Label()
@@ -229,26 +229,26 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg2.SuspendLayout()
         CType(Me.SettingsRvbminReg2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SettingsRvbmaxReg2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SettingsHeartbeattimerReg2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SettingsRVBHeartbeatReg2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RVBFwdSettingsReg2.SuspendLayout()
-        CType(Me.SettingsFwdscalefactorReg2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SettingsFRVBScaleReg2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SettingsFwdrvbvoltageReg2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RVBRevSettingsReg2.SuspendLayout()
         CType(Me.SettingsRevrvbvoltageReg2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SettingsRevscalefactorReg2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SettingsRRVBScaleReg2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RVBSettingsReg3.SuspendLayout()
         Me.RVBSettingsPanelReg3.SuspendLayout()
         Me.RVBSettingsGeneralReg3.SuspendLayout()
         Me.GeneralSettingsTableReg3.SuspendLayout()
         CType(Me.SettingsRvbminReg3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SettingsRvbmaxReg3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SettingsHeartbeattimerReg3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SettingsRVBHeartbeatReg3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RVBFwdSettingsReg3.SuspendLayout()
-        CType(Me.SettingsFwdscalefactorReg3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SettingsFRVBScaleReg3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SettingsFwdrvbvoltageReg3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RVBRevSettingsReg3.SuspendLayout()
         CType(Me.SettingsRevrvbvoltageReg3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SettingsRevscalefactorReg3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SettingsRRVBScaleReg3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.FlowLayoutPanel1.SuspendLayout()
         Me.RVBSettingsReg1.SuspendLayout()
         Me.RVBSettingsPanelReg1.SuspendLayout()
@@ -256,13 +256,13 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg1.SuspendLayout()
         CType(Me.SettingsRvbminReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SettingsRvbmaxReg1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SettingsHeartbeattimerReg1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SettingsRVBHeartbeatReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RVBFwdSettingsReg1.SuspendLayout()
-        CType(Me.SettingsFwdscalefactorReg1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SettingsFRVBScaleReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SettingsFwdrvbvoltageReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RVBRevSettingsReg1.SuspendLayout()
         CType(Me.SettingsRevrvbvoltageReg1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SettingsRevscalefactorReg1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SettingsRRVBScaleReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DNPDestinationReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DNPSourceReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ProtocolParameters.SuspendLayout()
@@ -490,7 +490,7 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 87.78626!))
         Me.GeneralSettingsTableReg2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.21374!))
         Me.GeneralSettingsTableReg2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70.0!))
-        Me.GeneralSettingsTableReg2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66.0!))
+        Me.GeneralSettingsTableReg2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 68.0!))
         Me.GeneralSettingsTableReg2.Controls.Add(Me.Label42, 2, 0)
         Me.GeneralSettingsTableReg2.Controls.Add(Me.SettingsRvbminReg2, 3, 0)
         Me.GeneralSettingsTableReg2.Controls.Add(Me.SettingsUserelativeReg2, 0, 0)
@@ -498,7 +498,7 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg2.Controls.Add(Me.SettingsUsefixedReg2, 0, 1)
         Me.GeneralSettingsTableReg2.Controls.Add(Me.Label43, 2, 1)
         Me.GeneralSettingsTableReg2.Controls.Add(Me.Label44, 2, 2)
-        Me.GeneralSettingsTableReg2.Controls.Add(Me.SettingsHeartbeattimerReg2, 3, 2)
+        Me.GeneralSettingsTableReg2.Controls.Add(Me.SettingsRVBHeartbeatReg2, 3, 2)
         Me.GeneralSettingsTableReg2.Location = New System.Drawing.Point(6, 17)
         Me.GeneralSettingsTableReg2.Name = "GeneralSettingsTableReg2"
         Me.GeneralSettingsTableReg2.RowCount = 3
@@ -512,7 +512,7 @@ Partial Class RVBSim
         '
         Me.Label42.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label42.AutoSize = True
-        Me.Label42.Location = New System.Drawing.Point(127, 7)
+        Me.Label42.Location = New System.Drawing.Point(125, 7)
         Me.Label42.Name = "Label42"
         Me.Label42.Size = New System.Drawing.Size(49, 13)
         Me.Label42.TabIndex = 30
@@ -524,7 +524,7 @@ Partial Class RVBSim
         Me.SettingsRvbminReg2.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.SettingsRvbminReg2.DecimalPlaces = 1
         Me.SettingsRvbminReg2.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRvbminReg2.Location = New System.Drawing.Point(197, 3)
+        Me.SettingsRvbminReg2.Location = New System.Drawing.Point(195, 3)
         Me.SettingsRvbminReg2.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
         Me.SettingsRvbminReg2.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
         Me.SettingsRvbminReg2.Name = "SettingsRvbminReg2"
@@ -550,7 +550,7 @@ Partial Class RVBSim
         Me.SettingsRvbmaxReg2.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.SettingsRvbmaxReg2.DecimalPlaces = 1
         Me.SettingsRvbmaxReg2.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRvbmaxReg2.Location = New System.Drawing.Point(197, 30)
+        Me.SettingsRvbmaxReg2.Location = New System.Drawing.Point(195, 30)
         Me.SettingsRvbmaxReg2.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
         Me.SettingsRvbmaxReg2.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
         Me.SettingsRvbmaxReg2.Name = "SettingsRvbmaxReg2"
@@ -573,7 +573,7 @@ Partial Class RVBSim
         '
         Me.Label43.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label43.AutoSize = True
-        Me.Label43.Location = New System.Drawing.Point(127, 33)
+        Me.Label43.Location = New System.Drawing.Point(125, 33)
         Me.Label43.Name = "Label43"
         Me.Label43.Size = New System.Drawing.Size(52, 13)
         Me.Label43.TabIndex = 27
@@ -584,28 +584,28 @@ Partial Class RVBSim
         '
         Me.Label44.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label44.AutoSize = True
-        Me.Label44.Location = New System.Drawing.Point(127, 56)
+        Me.Label44.Location = New System.Drawing.Point(125, 56)
         Me.Label44.Name = "Label44"
         Me.Label44.Size = New System.Drawing.Size(54, 26)
         Me.Label44.TabIndex = 8
         Me.Label44.Text = "Heartbeat (sec)"
         Me.Label44.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'SettingsHeartbeattimerReg2
+        'SettingsRVBHeartbeatReg2
         '
-        Me.SettingsHeartbeattimerReg2.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.SettingsHeartbeattimerReg2.Location = New System.Drawing.Point(197, 59)
-        Me.SettingsHeartbeattimerReg2.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
-        Me.SettingsHeartbeattimerReg2.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
-        Me.SettingsHeartbeattimerReg2.Name = "SettingsHeartbeattimerReg2"
-        Me.SettingsHeartbeattimerReg2.Size = New System.Drawing.Size(52, 20)
-        Me.SettingsHeartbeattimerReg2.TabIndex = 5
-        Me.SettingsHeartbeattimerReg2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.SettingsHeartbeattimerReg2.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.SettingsRVBHeartbeatReg2.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.SettingsRVBHeartbeatReg2.Location = New System.Drawing.Point(195, 59)
+        Me.SettingsRVBHeartbeatReg2.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
+        Me.SettingsRVBHeartbeatReg2.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.SettingsRVBHeartbeatReg2.Name = "SettingsRVBHeartbeatReg2"
+        Me.SettingsRVBHeartbeatReg2.Size = New System.Drawing.Size(52, 20)
+        Me.SettingsRVBHeartbeatReg2.TabIndex = 5
+        Me.SettingsRVBHeartbeatReg2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SettingsRVBHeartbeatReg2.Value = New Decimal(New Integer() {2, 0, 0, 0})
         '
         'RVBFwdSettingsReg2
         '
-        Me.RVBFwdSettingsReg2.Controls.Add(Me.SettingsFwdscalefactorReg2)
+        Me.RVBFwdSettingsReg2.Controls.Add(Me.SettingsFRVBScaleReg2)
         Me.RVBFwdSettingsReg2.Controls.Add(Me.Label45)
         Me.RVBFwdSettingsReg2.Controls.Add(Me.SettingsFwdrvbvoltageReg2)
         Me.RVBFwdSettingsReg2.Controls.Add(Me.FwdVoltageLabelReg2)
@@ -616,17 +616,17 @@ Partial Class RVBSim
         Me.RVBFwdSettingsReg2.TabStop = False
         Me.RVBFwdSettingsReg2.Text = "Fwd RVB Settings"
         '
-        'SettingsFwdscalefactorReg2
+        'SettingsFRVBScaleReg2
         '
-        Me.SettingsFwdscalefactorReg2.DecimalPlaces = 1
-        Me.SettingsFwdscalefactorReg2.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsFwdscalefactorReg2.Location = New System.Drawing.Point(202, 25)
-        Me.SettingsFwdscalefactorReg2.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsFwdscalefactorReg2.Name = "SettingsFwdscalefactorReg2"
-        Me.SettingsFwdscalefactorReg2.Size = New System.Drawing.Size(52, 20)
-        Me.SettingsFwdscalefactorReg2.TabIndex = 6
-        Me.SettingsFwdscalefactorReg2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.SettingsFwdscalefactorReg2.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SettingsFRVBScaleReg2.DecimalPlaces = 1
+        Me.SettingsFRVBScaleReg2.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.SettingsFRVBScaleReg2.Location = New System.Drawing.Point(202, 25)
+        Me.SettingsFRVBScaleReg2.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.SettingsFRVBScaleReg2.Name = "SettingsFRVBScaleReg2"
+        Me.SettingsFRVBScaleReg2.Size = New System.Drawing.Size(52, 20)
+        Me.SettingsFRVBScaleReg2.TabIndex = 6
+        Me.SettingsFRVBScaleReg2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SettingsFRVBScaleReg2.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'Label45
         '
@@ -663,7 +663,7 @@ Partial Class RVBSim
         Me.RVBRevSettingsReg2.Controls.Add(Me.RevVoltageLabelReg2)
         Me.RVBRevSettingsReg2.Controls.Add(Me.SettingsRevrvbvoltageReg2)
         Me.RVBRevSettingsReg2.Controls.Add(Me.Label48)
-        Me.RVBRevSettingsReg2.Controls.Add(Me.SettingsRevscalefactorReg2)
+        Me.RVBRevSettingsReg2.Controls.Add(Me.SettingsRRVBScaleReg2)
         Me.RVBRevSettingsReg2.Location = New System.Drawing.Point(3, 216)
         Me.RVBRevSettingsReg2.Name = "RVBRevSettingsReg2"
         Me.RVBRevSettingsReg2.Size = New System.Drawing.Size(273, 88)
@@ -700,17 +700,17 @@ Partial Class RVBSim
         Me.Label48.Text = "Reverse RVB Scale Factor"
         Me.Label48.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'SettingsRevscalefactorReg2
+        'SettingsRRVBScaleReg2
         '
-        Me.SettingsRevscalefactorReg2.DecimalPlaces = 1
-        Me.SettingsRevscalefactorReg2.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRevscalefactorReg2.Location = New System.Drawing.Point(202, 25)
-        Me.SettingsRevscalefactorReg2.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRevscalefactorReg2.Name = "SettingsRevscalefactorReg2"
-        Me.SettingsRevscalefactorReg2.Size = New System.Drawing.Size(52, 20)
-        Me.SettingsRevscalefactorReg2.TabIndex = 10
-        Me.SettingsRevscalefactorReg2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.SettingsRevscalefactorReg2.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SettingsRRVBScaleReg2.DecimalPlaces = 1
+        Me.SettingsRRVBScaleReg2.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.SettingsRRVBScaleReg2.Location = New System.Drawing.Point(202, 25)
+        Me.SettingsRRVBScaleReg2.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.SettingsRRVBScaleReg2.Name = "SettingsRRVBScaleReg2"
+        Me.SettingsRRVBScaleReg2.Size = New System.Drawing.Size(52, 20)
+        Me.SettingsRRVBScaleReg2.TabIndex = 10
+        Me.SettingsRRVBScaleReg2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SettingsRRVBScaleReg2.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'RVBSettingsReg3
         '
@@ -750,7 +750,7 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 87.78626!))
         Me.GeneralSettingsTableReg3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.21374!))
         Me.GeneralSettingsTableReg3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70.0!))
-        Me.GeneralSettingsTableReg3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66.0!))
+        Me.GeneralSettingsTableReg3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 68.0!))
         Me.GeneralSettingsTableReg3.Controls.Add(Me.Label49, 2, 0)
         Me.GeneralSettingsTableReg3.Controls.Add(Me.SettingsRvbminReg3, 3, 0)
         Me.GeneralSettingsTableReg3.Controls.Add(Me.SettingsUserelativeReg3, 0, 0)
@@ -758,7 +758,7 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg3.Controls.Add(Me.SettingsUsefixedReg3, 0, 1)
         Me.GeneralSettingsTableReg3.Controls.Add(Me.Label50, 2, 1)
         Me.GeneralSettingsTableReg3.Controls.Add(Me.Label51, 2, 2)
-        Me.GeneralSettingsTableReg3.Controls.Add(Me.SettingsHeartbeattimerReg3, 3, 2)
+        Me.GeneralSettingsTableReg3.Controls.Add(Me.SettingsRVBHeartbeatReg3, 3, 2)
         Me.GeneralSettingsTableReg3.Location = New System.Drawing.Point(6, 17)
         Me.GeneralSettingsTableReg3.Name = "GeneralSettingsTableReg3"
         Me.GeneralSettingsTableReg3.RowCount = 3
@@ -772,7 +772,7 @@ Partial Class RVBSim
         '
         Me.Label49.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label49.AutoSize = True
-        Me.Label49.Location = New System.Drawing.Point(127, 7)
+        Me.Label49.Location = New System.Drawing.Point(125, 7)
         Me.Label49.Name = "Label49"
         Me.Label49.Size = New System.Drawing.Size(49, 13)
         Me.Label49.TabIndex = 30
@@ -784,7 +784,7 @@ Partial Class RVBSim
         Me.SettingsRvbminReg3.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.SettingsRvbminReg3.DecimalPlaces = 1
         Me.SettingsRvbminReg3.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRvbminReg3.Location = New System.Drawing.Point(197, 3)
+        Me.SettingsRvbminReg3.Location = New System.Drawing.Point(195, 3)
         Me.SettingsRvbminReg3.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
         Me.SettingsRvbminReg3.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
         Me.SettingsRvbminReg3.Name = "SettingsRvbminReg3"
@@ -810,7 +810,7 @@ Partial Class RVBSim
         Me.SettingsRvbmaxReg3.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.SettingsRvbmaxReg3.DecimalPlaces = 1
         Me.SettingsRvbmaxReg3.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRvbmaxReg3.Location = New System.Drawing.Point(197, 30)
+        Me.SettingsRvbmaxReg3.Location = New System.Drawing.Point(195, 30)
         Me.SettingsRvbmaxReg3.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
         Me.SettingsRvbmaxReg3.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
         Me.SettingsRvbmaxReg3.Name = "SettingsRvbmaxReg3"
@@ -833,7 +833,7 @@ Partial Class RVBSim
         '
         Me.Label50.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label50.AutoSize = True
-        Me.Label50.Location = New System.Drawing.Point(127, 33)
+        Me.Label50.Location = New System.Drawing.Point(125, 33)
         Me.Label50.Name = "Label50"
         Me.Label50.Size = New System.Drawing.Size(52, 13)
         Me.Label50.TabIndex = 27
@@ -844,28 +844,28 @@ Partial Class RVBSim
         '
         Me.Label51.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label51.AutoSize = True
-        Me.Label51.Location = New System.Drawing.Point(127, 56)
+        Me.Label51.Location = New System.Drawing.Point(125, 56)
         Me.Label51.Name = "Label51"
         Me.Label51.Size = New System.Drawing.Size(54, 26)
         Me.Label51.TabIndex = 8
         Me.Label51.Text = "Heartbeat (sec)"
         Me.Label51.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'SettingsHeartbeattimerReg3
+        'SettingsRVBHeartbeatReg3
         '
-        Me.SettingsHeartbeattimerReg3.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.SettingsHeartbeattimerReg3.Location = New System.Drawing.Point(197, 59)
-        Me.SettingsHeartbeattimerReg3.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
-        Me.SettingsHeartbeattimerReg3.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
-        Me.SettingsHeartbeattimerReg3.Name = "SettingsHeartbeattimerReg3"
-        Me.SettingsHeartbeattimerReg3.Size = New System.Drawing.Size(52, 20)
-        Me.SettingsHeartbeattimerReg3.TabIndex = 5
-        Me.SettingsHeartbeattimerReg3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.SettingsHeartbeattimerReg3.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.SettingsRVBHeartbeatReg3.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.SettingsRVBHeartbeatReg3.Location = New System.Drawing.Point(195, 59)
+        Me.SettingsRVBHeartbeatReg3.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
+        Me.SettingsRVBHeartbeatReg3.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.SettingsRVBHeartbeatReg3.Name = "SettingsRVBHeartbeatReg3"
+        Me.SettingsRVBHeartbeatReg3.Size = New System.Drawing.Size(52, 20)
+        Me.SettingsRVBHeartbeatReg3.TabIndex = 5
+        Me.SettingsRVBHeartbeatReg3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SettingsRVBHeartbeatReg3.Value = New Decimal(New Integer() {2, 0, 0, 0})
         '
         'RVBFwdSettingsReg3
         '
-        Me.RVBFwdSettingsReg3.Controls.Add(Me.SettingsFwdscalefactorReg3)
+        Me.RVBFwdSettingsReg3.Controls.Add(Me.SettingsFRVBScaleReg3)
         Me.RVBFwdSettingsReg3.Controls.Add(Me.Label52)
         Me.RVBFwdSettingsReg3.Controls.Add(Me.SettingsFwdrvbvoltageReg3)
         Me.RVBFwdSettingsReg3.Controls.Add(Me.FwdVoltageLabelReg3)
@@ -876,17 +876,17 @@ Partial Class RVBSim
         Me.RVBFwdSettingsReg3.TabStop = False
         Me.RVBFwdSettingsReg3.Text = "Fwd RVB Settings"
         '
-        'SettingsFwdscalefactorReg3
+        'SettingsFRVBScaleReg3
         '
-        Me.SettingsFwdscalefactorReg3.DecimalPlaces = 1
-        Me.SettingsFwdscalefactorReg3.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsFwdscalefactorReg3.Location = New System.Drawing.Point(202, 25)
-        Me.SettingsFwdscalefactorReg3.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsFwdscalefactorReg3.Name = "SettingsFwdscalefactorReg3"
-        Me.SettingsFwdscalefactorReg3.Size = New System.Drawing.Size(52, 20)
-        Me.SettingsFwdscalefactorReg3.TabIndex = 6
-        Me.SettingsFwdscalefactorReg3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.SettingsFwdscalefactorReg3.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SettingsFRVBScaleReg3.DecimalPlaces = 1
+        Me.SettingsFRVBScaleReg3.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.SettingsFRVBScaleReg3.Location = New System.Drawing.Point(202, 25)
+        Me.SettingsFRVBScaleReg3.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.SettingsFRVBScaleReg3.Name = "SettingsFRVBScaleReg3"
+        Me.SettingsFRVBScaleReg3.Size = New System.Drawing.Size(52, 20)
+        Me.SettingsFRVBScaleReg3.TabIndex = 6
+        Me.SettingsFRVBScaleReg3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SettingsFRVBScaleReg3.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'Label52
         '
@@ -923,7 +923,7 @@ Partial Class RVBSim
         Me.RVBRevSettingsReg3.Controls.Add(Me.RevVoltageLabelReg3)
         Me.RVBRevSettingsReg3.Controls.Add(Me.SettingsRevrvbvoltageReg3)
         Me.RVBRevSettingsReg3.Controls.Add(Me.Label55)
-        Me.RVBRevSettingsReg3.Controls.Add(Me.SettingsRevscalefactorReg3)
+        Me.RVBRevSettingsReg3.Controls.Add(Me.SettingsRRVBScaleReg3)
         Me.RVBRevSettingsReg3.Location = New System.Drawing.Point(3, 216)
         Me.RVBRevSettingsReg3.Name = "RVBRevSettingsReg3"
         Me.RVBRevSettingsReg3.Size = New System.Drawing.Size(273, 88)
@@ -960,17 +960,17 @@ Partial Class RVBSim
         Me.Label55.Text = "Reverse RVB Scale Factor"
         Me.Label55.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'SettingsRevscalefactorReg3
+        'SettingsRRVBScaleReg3
         '
-        Me.SettingsRevscalefactorReg3.DecimalPlaces = 1
-        Me.SettingsRevscalefactorReg3.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRevscalefactorReg3.Location = New System.Drawing.Point(202, 25)
-        Me.SettingsRevscalefactorReg3.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRevscalefactorReg3.Name = "SettingsRevscalefactorReg3"
-        Me.SettingsRevscalefactorReg3.Size = New System.Drawing.Size(52, 20)
-        Me.SettingsRevscalefactorReg3.TabIndex = 10
-        Me.SettingsRevscalefactorReg3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.SettingsRevscalefactorReg3.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SettingsRRVBScaleReg3.DecimalPlaces = 1
+        Me.SettingsRRVBScaleReg3.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.SettingsRRVBScaleReg3.Location = New System.Drawing.Point(202, 25)
+        Me.SettingsRRVBScaleReg3.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.SettingsRRVBScaleReg3.Name = "SettingsRRVBScaleReg3"
+        Me.SettingsRRVBScaleReg3.Size = New System.Drawing.Size(52, 20)
+        Me.SettingsRRVBScaleReg3.TabIndex = 10
+        Me.SettingsRRVBScaleReg3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SettingsRRVBScaleReg3.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'FlowLayoutPanel1
         '
@@ -1020,7 +1020,7 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 87.78626!))
         Me.GeneralSettingsTableReg1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.21374!))
         Me.GeneralSettingsTableReg1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70.0!))
-        Me.GeneralSettingsTableReg1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 66.0!))
+        Me.GeneralSettingsTableReg1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 68.0!))
         Me.GeneralSettingsTableReg1.Controls.Add(Me.Label7, 2, 0)
         Me.GeneralSettingsTableReg1.Controls.Add(Me.SettingsRvbminReg1, 3, 0)
         Me.GeneralSettingsTableReg1.Controls.Add(Me.SettingsUserelativeReg1, 0, 0)
@@ -1028,7 +1028,7 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg1.Controls.Add(Me.SettingsUsefixedReg1, 0, 1)
         Me.GeneralSettingsTableReg1.Controls.Add(Me.Label5, 2, 1)
         Me.GeneralSettingsTableReg1.Controls.Add(Me.Label4, 2, 2)
-        Me.GeneralSettingsTableReg1.Controls.Add(Me.SettingsHeartbeattimerReg1, 3, 2)
+        Me.GeneralSettingsTableReg1.Controls.Add(Me.SettingsRVBHeartbeatReg1, 3, 2)
         Me.GeneralSettingsTableReg1.Location = New System.Drawing.Point(6, 17)
         Me.GeneralSettingsTableReg1.Name = "GeneralSettingsTableReg1"
         Me.GeneralSettingsTableReg1.RowCount = 3
@@ -1042,7 +1042,7 @@ Partial Class RVBSim
         '
         Me.Label7.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(127, 7)
+        Me.Label7.Location = New System.Drawing.Point(125, 7)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(49, 13)
         Me.Label7.TabIndex = 30
@@ -1054,7 +1054,7 @@ Partial Class RVBSim
         Me.SettingsRvbminReg1.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.SettingsRvbminReg1.DecimalPlaces = 1
         Me.SettingsRvbminReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRvbminReg1.Location = New System.Drawing.Point(197, 3)
+        Me.SettingsRvbminReg1.Location = New System.Drawing.Point(195, 3)
         Me.SettingsRvbminReg1.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
         Me.SettingsRvbminReg1.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
         Me.SettingsRvbminReg1.Name = "SettingsRvbminReg1"
@@ -1080,7 +1080,7 @@ Partial Class RVBSim
         Me.SettingsRvbmaxReg1.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.SettingsRvbmaxReg1.DecimalPlaces = 1
         Me.SettingsRvbmaxReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRvbmaxReg1.Location = New System.Drawing.Point(197, 30)
+        Me.SettingsRvbmaxReg1.Location = New System.Drawing.Point(195, 30)
         Me.SettingsRvbmaxReg1.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
         Me.SettingsRvbmaxReg1.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
         Me.SettingsRvbmaxReg1.Name = "SettingsRvbmaxReg1"
@@ -1103,7 +1103,7 @@ Partial Class RVBSim
         '
         Me.Label5.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(127, 33)
+        Me.Label5.Location = New System.Drawing.Point(125, 33)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(52, 13)
         Me.Label5.TabIndex = 27
@@ -1114,28 +1114,28 @@ Partial Class RVBSim
         '
         Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(127, 56)
+        Me.Label4.Location = New System.Drawing.Point(125, 56)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(54, 26)
         Me.Label4.TabIndex = 8
         Me.Label4.Text = "Heartbeat (sec)"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'SettingsHeartbeattimerReg1
+        'SettingsRVBHeartbeatReg1
         '
-        Me.SettingsHeartbeattimerReg1.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.SettingsHeartbeattimerReg1.Location = New System.Drawing.Point(197, 59)
-        Me.SettingsHeartbeattimerReg1.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
-        Me.SettingsHeartbeattimerReg1.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
-        Me.SettingsHeartbeattimerReg1.Name = "SettingsHeartbeattimerReg1"
-        Me.SettingsHeartbeattimerReg1.Size = New System.Drawing.Size(52, 20)
-        Me.SettingsHeartbeattimerReg1.TabIndex = 5
-        Me.SettingsHeartbeattimerReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.SettingsHeartbeattimerReg1.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.SettingsRVBHeartbeatReg1.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.SettingsRVBHeartbeatReg1.Location = New System.Drawing.Point(195, 59)
+        Me.SettingsRVBHeartbeatReg1.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
+        Me.SettingsRVBHeartbeatReg1.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.SettingsRVBHeartbeatReg1.Name = "SettingsRVBHeartbeatReg1"
+        Me.SettingsRVBHeartbeatReg1.Size = New System.Drawing.Size(52, 20)
+        Me.SettingsRVBHeartbeatReg1.TabIndex = 5
+        Me.SettingsRVBHeartbeatReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SettingsRVBHeartbeatReg1.Value = New Decimal(New Integer() {2, 0, 0, 0})
         '
         'RVBFwdSettingsReg1
         '
-        Me.RVBFwdSettingsReg1.Controls.Add(Me.SettingsFwdscalefactorReg1)
+        Me.RVBFwdSettingsReg1.Controls.Add(Me.SettingsFRVBScaleReg1)
         Me.RVBFwdSettingsReg1.Controls.Add(Me.F_RVBScaleFactor_Label)
         Me.RVBFwdSettingsReg1.Controls.Add(Me.SettingsFwdrvbvoltageReg1)
         Me.RVBFwdSettingsReg1.Controls.Add(Me.FwdVoltageLabelReg1)
@@ -1146,17 +1146,17 @@ Partial Class RVBSim
         Me.RVBFwdSettingsReg1.TabStop = False
         Me.RVBFwdSettingsReg1.Text = "Fwd RVB Settings"
         '
-        'SettingsFwdscalefactorReg1
+        'SettingsFRVBScaleReg1
         '
-        Me.SettingsFwdscalefactorReg1.DecimalPlaces = 1
-        Me.SettingsFwdscalefactorReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsFwdscalefactorReg1.Location = New System.Drawing.Point(202, 25)
-        Me.SettingsFwdscalefactorReg1.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsFwdscalefactorReg1.Name = "SettingsFwdscalefactorReg1"
-        Me.SettingsFwdscalefactorReg1.Size = New System.Drawing.Size(52, 20)
-        Me.SettingsFwdscalefactorReg1.TabIndex = 6
-        Me.SettingsFwdscalefactorReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.SettingsFwdscalefactorReg1.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SettingsFRVBScaleReg1.DecimalPlaces = 1
+        Me.SettingsFRVBScaleReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.SettingsFRVBScaleReg1.Location = New System.Drawing.Point(202, 25)
+        Me.SettingsFRVBScaleReg1.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.SettingsFRVBScaleReg1.Name = "SettingsFRVBScaleReg1"
+        Me.SettingsFRVBScaleReg1.Size = New System.Drawing.Size(52, 20)
+        Me.SettingsFRVBScaleReg1.TabIndex = 6
+        Me.SettingsFRVBScaleReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SettingsFRVBScaleReg1.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'F_RVBScaleFactor_Label
         '
@@ -1193,7 +1193,7 @@ Partial Class RVBSim
         Me.RVBRevSettingsReg1.Controls.Add(Me.RevVoltageLabelReg1)
         Me.RVBRevSettingsReg1.Controls.Add(Me.SettingsRevrvbvoltageReg1)
         Me.RVBRevSettingsReg1.Controls.Add(Me.R_RVBScaleFactor_Label)
-        Me.RVBRevSettingsReg1.Controls.Add(Me.SettingsRevscalefactorReg1)
+        Me.RVBRevSettingsReg1.Controls.Add(Me.SettingsRRVBScaleReg1)
         Me.RVBRevSettingsReg1.Location = New System.Drawing.Point(3, 216)
         Me.RVBRevSettingsReg1.Name = "RVBRevSettingsReg1"
         Me.RVBRevSettingsReg1.Size = New System.Drawing.Size(273, 88)
@@ -1230,17 +1230,17 @@ Partial Class RVBSim
         Me.R_RVBScaleFactor_Label.Text = "Reverse RVB Scale Factor"
         Me.R_RVBScaleFactor_Label.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
-        'SettingsRevscalefactorReg1
+        'SettingsRRVBScaleReg1
         '
-        Me.SettingsRevscalefactorReg1.DecimalPlaces = 1
-        Me.SettingsRevscalefactorReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRevscalefactorReg1.Location = New System.Drawing.Point(202, 25)
-        Me.SettingsRevscalefactorReg1.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRevscalefactorReg1.Name = "SettingsRevscalefactorReg1"
-        Me.SettingsRevscalefactorReg1.Size = New System.Drawing.Size(52, 20)
-        Me.SettingsRevscalefactorReg1.TabIndex = 10
-        Me.SettingsRevscalefactorReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.SettingsRevscalefactorReg1.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.SettingsRRVBScaleReg1.DecimalPlaces = 1
+        Me.SettingsRRVBScaleReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.SettingsRRVBScaleReg1.Location = New System.Drawing.Point(202, 25)
+        Me.SettingsRRVBScaleReg1.Minimum = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.SettingsRRVBScaleReg1.Name = "SettingsRRVBScaleReg1"
+        Me.SettingsRRVBScaleReg1.Size = New System.Drawing.Size(52, 20)
+        Me.SettingsRRVBScaleReg1.TabIndex = 10
+        Me.SettingsRRVBScaleReg1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.SettingsRRVBScaleReg1.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'lblwarning
         '
@@ -1296,6 +1296,7 @@ Partial Class RVBSim
         'iec61850box
         '
         Me.iec61850box.AutoSize = True
+        Me.iec61850box.Enabled = False
         Me.iec61850box.Location = New System.Drawing.Point(7, 60)
         Me.iec61850box.Name = "iec61850box"
         Me.iec61850box.Size = New System.Drawing.Size(72, 17)
@@ -2582,14 +2583,14 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg2.PerformLayout()
         CType(Me.SettingsRvbminReg2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SettingsRvbmaxReg2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SettingsHeartbeattimerReg2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SettingsRVBHeartbeatReg2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RVBFwdSettingsReg2.ResumeLayout(False)
         Me.RVBFwdSettingsReg2.PerformLayout()
-        CType(Me.SettingsFwdscalefactorReg2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SettingsFRVBScaleReg2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SettingsFwdrvbvoltageReg2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RVBRevSettingsReg2.ResumeLayout(False)
         CType(Me.SettingsRevrvbvoltageReg2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SettingsRevscalefactorReg2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SettingsRRVBScaleReg2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RVBSettingsReg3.ResumeLayout(False)
         Me.RVBSettingsPanelReg3.ResumeLayout(False)
         Me.RVBSettingsGeneralReg3.ResumeLayout(False)
@@ -2597,14 +2598,14 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg3.PerformLayout()
         CType(Me.SettingsRvbminReg3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SettingsRvbmaxReg3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SettingsHeartbeattimerReg3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SettingsRVBHeartbeatReg3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RVBFwdSettingsReg3.ResumeLayout(False)
         Me.RVBFwdSettingsReg3.PerformLayout()
-        CType(Me.SettingsFwdscalefactorReg3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SettingsFRVBScaleReg3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SettingsFwdrvbvoltageReg3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RVBRevSettingsReg3.ResumeLayout(False)
         CType(Me.SettingsRevrvbvoltageReg3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SettingsRevscalefactorReg3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SettingsRRVBScaleReg3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.FlowLayoutPanel1.ResumeLayout(False)
         Me.RVBSettingsReg1.ResumeLayout(False)
         Me.RVBSettingsPanelReg1.ResumeLayout(False)
@@ -2613,14 +2614,14 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg1.PerformLayout()
         CType(Me.SettingsRvbminReg1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SettingsRvbmaxReg1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SettingsHeartbeattimerReg1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SettingsRVBHeartbeatReg1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RVBFwdSettingsReg1.ResumeLayout(False)
         Me.RVBFwdSettingsReg1.PerformLayout()
-        CType(Me.SettingsFwdscalefactorReg1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SettingsFRVBScaleReg1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SettingsFwdrvbvoltageReg1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RVBRevSettingsReg1.ResumeLayout(False)
         CType(Me.SettingsRevrvbvoltageReg1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SettingsRevscalefactorReg1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SettingsRRVBScaleReg1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DNPDestinationReg1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DNPSourceReg1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ProtocolParameters.ResumeLayout(False)
@@ -2750,10 +2751,10 @@ Partial Class RVBSim
     Friend WithEvents lblwarning As System.Windows.Forms.Label
     Friend WithEvents ProtocolParameters As System.Windows.Forms.GroupBox
     Friend WithEvents ProtocolBox As System.Windows.Forms.GroupBox
-    Friend WithEvents SettingsHeartbeattimerReg1 As System.Windows.Forms.NumericUpDown
+    Friend WithEvents SettingsRVBHeartbeatReg1 As System.Windows.Forms.NumericUpDown
     Friend WithEvents Label4 As System.Windows.Forms.Label
     Friend WithEvents F_RVBScaleFactor_Label As System.Windows.Forms.Label
-    Friend WithEvents SettingsFwdscalefactorReg1 As System.Windows.Forms.NumericUpDown
+    Friend WithEvents SettingsFRVBScaleReg1 As System.Windows.Forms.NumericUpDown
     Friend WithEvents FwdVoltageLabelReg1 As System.Windows.Forms.Label
     Friend WithEvents SettingsFwdrvbvoltageReg1 As System.Windows.Forms.NumericUpDown
     Friend WithEvents SettingsUserelativeReg1 As System.Windows.Forms.RadioButton
@@ -2762,7 +2763,7 @@ Partial Class RVBSim
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents R_RVBScaleFactor_Label As System.Windows.Forms.Label
-    Friend WithEvents SettingsRevscalefactorReg1 As System.Windows.Forms.NumericUpDown
+    Friend WithEvents SettingsRRVBScaleReg1 As System.Windows.Forms.NumericUpDown
     Friend WithEvents RevVoltageLabelReg1 As System.Windows.Forms.Label
     Friend WithEvents SettingsRevrvbvoltageReg1 As System.Windows.Forms.NumericUpDown
     Friend WithEvents ReadIpAddr As System.Windows.Forms.TextBox
@@ -2886,9 +2887,9 @@ Partial Class RVBSim
     Friend WithEvents SettingsUsefixedReg3 As RadioButton
     Friend WithEvents Label50 As Label
     Friend WithEvents Label51 As Label
-    Friend WithEvents SettingsHeartbeattimerReg3 As NumericUpDown
+    Friend WithEvents SettingsRVBHeartbeatReg3 As NumericUpDown
     Friend WithEvents RVBFwdSettingsReg3 As GroupBox
-    Friend WithEvents SettingsFwdscalefactorReg3 As NumericUpDown
+    Friend WithEvents SettingsFRVBScaleReg3 As NumericUpDown
     Friend WithEvents Label52 As Label
     Friend WithEvents SettingsFwdrvbvoltageReg3 As NumericUpDown
     Friend WithEvents FwdVoltageLabelReg3 As Label
@@ -2896,7 +2897,7 @@ Partial Class RVBSim
     Friend WithEvents RevVoltageLabelReg3 As Label
     Friend WithEvents SettingsRevrvbvoltageReg3 As NumericUpDown
     Friend WithEvents Label55 As Label
-    Friend WithEvents SettingsRevscalefactorReg3 As NumericUpDown
+    Friend WithEvents SettingsRRVBScaleReg3 As NumericUpDown
     Friend WithEvents RVBSettingsReg2 As GroupBox
     Friend WithEvents RVBSettingsPanelReg2 As FlowLayoutPanel
     Friend WithEvents RVBSettingsGeneralReg2 As GroupBox
@@ -2908,9 +2909,9 @@ Partial Class RVBSim
     Friend WithEvents SettingsUsefixedReg2 As RadioButton
     Friend WithEvents Label43 As Label
     Friend WithEvents Label44 As Label
-    Friend WithEvents SettingsHeartbeattimerReg2 As NumericUpDown
+    Friend WithEvents SettingsRVBHeartbeatReg2 As NumericUpDown
     Friend WithEvents RVBFwdSettingsReg2 As GroupBox
-    Friend WithEvents SettingsFwdscalefactorReg2 As NumericUpDown
+    Friend WithEvents SettingsFRVBScaleReg2 As NumericUpDown
     Friend WithEvents Label45 As Label
     Friend WithEvents SettingsFwdrvbvoltageReg2 As NumericUpDown
     Friend WithEvents FwdVoltageLabelReg2 As Label
@@ -2918,7 +2919,7 @@ Partial Class RVBSim
     Friend WithEvents RevVoltageLabelReg2 As Label
     Friend WithEvents SettingsRevrvbvoltageReg2 As NumericUpDown
     Friend WithEvents Label48 As Label
-    Friend WithEvents SettingsRevscalefactorReg2 As NumericUpDown
+    Friend WithEvents SettingsRRVBScaleReg2 As NumericUpDown
     Friend WithEvents ModbusSettingsGroup1Phase As FlowLayoutPanel
     Friend WithEvents ModbusSettingsGroup3Phase As FlowLayoutPanel
     Friend WithEvents IecSettingsGroup3Phase As FlowLayoutPanel

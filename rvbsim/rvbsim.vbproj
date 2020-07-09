@@ -231,7 +231,6 @@
     <Compile Include="Operations\Communication\ModbusCommunicationModel.vb" />
     <Compile Include="Operations\Communication\RegulatorCommunication.vb" />
     <Compile Include="Operations\FileOperations\JsonFile.vb" />
-    <Compile Include="Operations\Settings\BaseModel\JsonRange.vb" />
     <Compile Include="Operations\Settings\BaseModel\JsonRegulator.vb" />
     <Compile Include="Operations\Settings\BaseModel\JsonRoot.vb" />
     <Compile Include="Operations\Settings\BaseModel\JsonTest.vb" />
@@ -295,10 +294,16 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="resources\settings-dnp-m6200b.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="resources\settings-dnp.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="resources\settings-iec.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resources\settings-modbus-m6200b.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="resources\settings-modbus.json">
