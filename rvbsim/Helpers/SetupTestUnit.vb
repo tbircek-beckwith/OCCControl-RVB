@@ -1,4 +1,5 @@
 ﻿Imports System.Threading
+Imports System.Linq
 
 'custom libraries
 Imports tcpdnp.AsyncDNP3_0
@@ -50,7 +51,6 @@ Module SetupTestUnit
 
                                         SendSettingValues(address:=dataAddress, value:=registerBox.Value * value.ScaleFactor, iecDataType:=iecDataType)
 
-
                                     Case Else
                                         Debug.WriteLine($"something else control: alt-name: {v(0).Name}, text: {v(0).Text}, type: {v(0).GetType}")
                                 End Select
@@ -85,6 +85,31 @@ Module SetupTestUnit
             sb.AppendLine(message)
         End Try
     End Sub
+
+
+    Friend Function GetSpecificControl(ByRef rvbForm As RVBSim, featureType As String, featureName As String) As List(Of Control)
+
+        Dim returnList As List(Of Control) = New List(Of Control)
+
+        For Each regulator In testJsonSettingsRegulators.Regulator
+
+            Dim settingControlName As String = $"{featureType}{featureName}Reg{regulator.Id}"
+
+            Dim v() As Control = rvbForm.Controls.Find(settingControlName, True)
+
+            If v.Length > 0 Then
+
+                If v(0).Visible Then
+
+                    returnList.Add(v(0))
+                    Debug.Write($"--- {v(0).Name} is VISIBLE --- ")
+
+                End If
+            End If
+        Next
+
+        Return returnList
+    End Function
 
     Private Sub SendSettingValues(address As String, value As UShort, Optional iecDataType As DataType = DataType.int)
 
