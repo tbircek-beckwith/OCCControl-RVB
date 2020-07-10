@@ -16,6 +16,9 @@ Namespace PeriodicOperations
 
                 Dim ReadEvent As New ManualResetEvent(False)
 
+                LocalVoltageReadings = New List(Of UShort) '(3)
+                SourceVoltageReadings = New List(Of UShort) '(3)
+
                 For Each regulator In testJsonSettingsRegulators.Regulator
 
                     ' only send to regulator 1 when Single Phase checked
@@ -52,6 +55,7 @@ Namespace PeriodicOperations
                                             'read the user specified single modbus register.
                                             If registerBox.Name.Contains("Source") Then
                                                 SourceVoltageReadresult = CUShort(modbusRead.ReadHoldingRegisters(registerBox.Value, 1).ElementAt(0)) ' readValue
+
                                             Else
                                                 LocalVoltageReadresult = CUShort(modbusRead.ReadHoldingRegisters(registerBox.Value, 1).ElementAt(0)) ' readValue
                                             End If
@@ -76,6 +80,9 @@ Namespace PeriodicOperations
                                             Else
 
                                                 LocalVoltageReadresult = result
+
+                                                ' LocalVoltageReadings.Add(result)
+
                                             End If
 
                                             ReadEvent.WaitOne()
@@ -88,11 +95,14 @@ Namespace PeriodicOperations
 
                                     End Select
 
+                                    SourceVoltageReadings.Add(result)
+                                    LocalVoltageReadings.Add(result)
 
                                     SetText(rvbForm.lblLocalVoltageValue, $"Readings: Fwd Voltage: {FormatNumber(CDbl(LocalVoltageReadresult / BecoCommunicationScaleFactor), 1)}V {vbTab} Src Voltage: {FormatNumber(CDbl(SourceVoltageReadresult / BecoCommunicationScaleFactor), 1)}V")
                                     SetText(rvbForm.lblMsgCenter, $"Error: {ReceivedErrorMsg}")
 
                                     Debug.WriteLine($"Reading local voltage: {LocalVoltageReadresult} - source voltage: {SourceVoltageReadresult} - {Heart_Beat_Timer}")
+                                    'Debug.WriteLine($"Reading local voltageS: {LocalVoltageReadings(regulator.Id - 1)} - source voltage: { SourceVoltageReadings(regulator.Id - 1)} - {Heart_Beat_Timer}")
                                     Debug.WriteLine($"------------------- Reading Local & Source Voltage ({ProtocolInUse.ToUpperInvariant()}) Done -------------------")
 
                                 End If
@@ -100,6 +110,7 @@ Namespace PeriodicOperations
 
                         Next
 
+                        Debug.WriteLine($"Reading local voltageS: {LocalVoltageReadings(regulator.Id - 1)} - source voltage: { SourceVoltageReadings(regulator.Id - 1)} - {Heart_Beat_Timer}")
                     End If
                 Next
 

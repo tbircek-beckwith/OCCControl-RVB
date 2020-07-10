@@ -56,11 +56,16 @@ Module Declarations
     Friend errorCounter As Integer = 0
 
     Friend WriteTickerDone As New ManualResetEvent(False)
+    Friend WriteTickerDones As New List(Of ManualResetEvent())
     Friend ReadTickerDone As New ManualResetEvent(False)
+    Friend ReadTickerDones As New List(Of ManualResetEvent())
     Friend TimersEvent As New ManualResetEvent(False)
+    Friend TimersEvents As New List(Of ManualResetEvent())
 
     Friend WriteRegisterWait As RegisteredWaitHandle
+    Friend WriteRegisterWaits As List(Of RegisteredWaitHandle)
     Friend ReadRegisterWait As RegisteredWaitHandle
+    Friend ReadRegisterWaits As List(Of RegisteredWaitHandle)
 
     Friend visibility As Boolean = True
     Friend testSetting As TestSettings
@@ -153,11 +158,17 @@ Module Declarations
 
     Friend Property WriteInterval() As Integer
 
+    Friend Property WriteIntervals() As List(Of Integer)
+
     Friend Property ReadInterval() As Integer
+
+    Friend Property ReadIntervals() As List(Of Integer)
 
     Friend Property ProtocolInUse() As String
 
     Friend Property Heart_Beat_Timer() As Integer
+
+    Friend Property HeartBeatTimers() As List(Of Integer)
 
     Friend Property ActualLocalVoltage() As Double = 0.0
 
@@ -175,4 +186,9 @@ Module Declarations
 
     Friend Property BaseJsonSettingsFileLocation As String = Path.Combine(path1:=My.Application.Info.DirectoryPath,
                                                                           path2:="resources")
+
+    Public Property LocalVoltageReadings() As List(Of UShort) '= New List(Of UShort)()
+
+    Public Property SourceVoltageReadings() As List(Of UShort) ' = New List(Of UShort)()
+
 End Module
