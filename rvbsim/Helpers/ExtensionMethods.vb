@@ -1,6 +1,5 @@
 ﻿
 Imports System.IO
-Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 
@@ -30,6 +29,7 @@ Public Module ExtensionMethods
     ''' Gets all controls in the form.
     ''' </summary>
     ''' <returns>Returns all controls in the form.</returns>
+    <Obsolete("not in use. will remove next iteration.", True)>
     Friend Function GetControls() As List(Of Control)
 
         ' returns every control
@@ -56,63 +56,12 @@ Public Module ExtensionMethods
     ''' modbusWrite.WriteSingleRegister(CType(control, NumericUpDown).Value, .RVBMax.Value * M2001D_Comm_Scale)
     ''' </code>
     ''' </example>
+    <Obsolete("not in use. will remove next iteration.", True)>
     <Extension()>
     Public Function GetControls(ByVal protocol As String, ByVal settingName As String, ByVal regulatorNumber As Integer, Optional ByVal searchAllChildren As Boolean = True) As Control()
         Dim t() As Control = RVBSim.Controls.Find($"{protocol}{settingName}Reg{regulatorNumber}", searchAllChildren)
         Return t
     End Function
-
-    ''' <summary>
-    ''' Sets values of controls and enable/disable
-    ''' </summary>
-    ''' <param name="enable">True sets the control enabled, false disables the control</param>
-    <Obsolete("Use SetValuesFromJson(enable)", True)>
-    <Extension()>
-    Public Sub SetValues(ByRef enable As Boolean)
-
-        Try
-            ' TODO: Use new Json file format
-            ' TODO: Try to avoid late bounding
-            ' flatten the Regulator object
-            Dim modelList As List(Of Object) = New List(Of Object)
-            For Each communicationModel As RegulatorCommunication In Regulators
-                modelList.AddRange(communicationModel.DnpCommunication)
-                modelList.AddRange(communicationModel.ModbusCommunication)
-                modelList.AddRange(communicationModel.IECCommunication)
-            Next
-            For Each model In modelList
-
-                Dim item As Type = model.GetType()
-                Dim props() As PropertyInfo = item.GetProperties()
-
-                Debug.WriteLine($"Properties (N = {props.Length})")
-                For Each prop In props
-                    If prop.GetIndexParameters().Length = 0 Then
-
-                        Dim t() As Control = RVBSim.Controls.Find($"{model.Name}{prop.Name}Reg{model.Id}", True)
-
-                        If t.Length > 0 Then
-                            Debug.Write($"control: {model.Name}{prop.Name}Reg{model.Id}: old text: {t(0).Text} -- ")
-                            t(0).Text = prop.GetValue(model)
-                            t(0).Enabled = enable
-                            Debug.WriteLine($"new text: {t(0).Text}")
-                        End If
-                    End If
-                Next
-            Next
-
-        Catch ex As Exception
-            Dim trace = New StackTrace(ex, True)
-            Dim message As String = $"{Now}:{vbCrLf}Line #: {trace.GetFrame(0).GetFileLineNumber().ToString()}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(RVBSim.lblMsgCenter, message)
-            sb.AppendLine(message)
-
-        Finally
-            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(SetValues)}")
-        End Try
-
-    End Sub
-
 
     ''' <summary>
     ''' Sets values of controls and enable/disable
@@ -142,7 +91,7 @@ Public Module ExtensionMethods
             sb.AppendLine(message)
 
         Finally
-            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(SetValues)}")
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(SetValuesFromJson)}")
         End Try
 
     End Sub

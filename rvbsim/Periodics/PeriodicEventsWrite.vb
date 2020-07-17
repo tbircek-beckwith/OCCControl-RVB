@@ -9,121 +9,190 @@ Namespace PeriodicOperations
 
     Public Class WriteEvents
 
-        '''<summary>Writes periodically writes to write IP Address.</summary>
-        '''<param name='rvbForm'>Reference to the main window</param>
-        Protected Friend Sub Write(ByRef rvbForm As RVBSim)
-
-            'TODO: if 3-phase requires more register to write it will be done here.
-            ' TODO: Replace Reg1 in fRVBVoltage & rRVBVoltage with Reg{model.Id}
+        ''' <summary>
+        ''' Writes periodically to write IP Address.
+        ''' </summary>
+        ''' <param name="rvbForm">Reference to the main window</param>
+        ''' <param name="regulatorId">the current regulator</param>
+        Protected Friend Sub WriteNew(ByRef rvbForm As RVBSim, regulatorId As Integer)
 
             Try
 
-                Dim outputFwdString As StringBuilder = New StringBuilder("Writing: ")
-                Dim outputRevString As StringBuilder = New StringBuilder("Writing: ")
+                Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(WriteNew)} is running... STARTS")
 
-                For Each regulator As RegulatorCommunication In Regulators
+                Dim controlId = regulatorId + 1
 
-                    Dim WriteEvent As New ManualResetEvent(False)
+                Dim WriteEvent As New ManualResetEvent(False)
 
-                    If String.Equals(ProtocolInUse, "dnp") Then
-                        For Each model As DnpCommunicationModel In regulator.DnpCommunication
+                Dim query = From regulator In testJsonSettingsRegulators.Regulator
+                            Where regulator.Id = controlId
+                            Select regulator.Values
 
-                            Debug.WriteLine("------------------- Writing RVB Voltage (DNP30) -------------------")
+                GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=regulatorId)
 
-                            GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=model.Id)
+                For Each value In query
 
+                    For Each somethinElse In value
 
-                            'write back calculated Forward RVB Voltage to specified dnp point
-                            Dim fRVBVoltage = rvbForm.DnpSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.FRVBValue)}Reg1"))(0)       '{model.Id}"))
+                        If somethinElse.Name.Contains("RVBValue") Then
 
-                            dnp.Send(ManualEvent:=WriteEvent, Destination:=rvbForm.DNPDestinationReg1.Value, Source:=rvbForm.DNPSourceReg1.Value, FunctionCode:=Mode.DirectOp, ObjectX:=Objects.AnalogOutput, Variation:=Variations.AnaOutBlockShort, Qualifier:=QualifierField.AnaOutBlock16bitIndex, Start16Bit:=1, Stop16Bit:=fRVBVoltage.Value, Value:=CUShort(Forward_RVBVoltage2Write), Status:=0)
-                            WriteEvent.WaitOne()
-                            ReceivedErrorMsg = ErrorReceived
+                            Dim settingControlName As String = $"{ProtocolInUse}{somethinElse.Name}Reg{controlId}"
+                            ' Debug.WriteLine($" <------------------- {settingControlName} processing ...")
 
-                            'transmit Reverse RVB Voltage
-                            WriteEvent.Reset()
+                            Dim v() As Control = rvbForm.Controls.Find(settingControlName, True)
 
-                            'write back calculated Reverse RVB Voltage to specified dnp point
-                            Dim rRVBVoltage = rvbForm.DnpSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.RRVBValue)}Reg1"))(0)     '{model.Id}"))
+                            If v.Length > 0 Then
 
-                            dnp.Send(ManualEvent:=WriteEvent, Destination:=rvbForm.DNPDestinationReg1.Value, Source:=rvbForm.DNPSourceReg1.Value, FunctionCode:=Mode.DirectOp, ObjectX:=Objects.AnalogOutput, Variation:=Variations.AnaOutBlockShort, Qualifier:=QualifierField.AnaOutBlock16bitIndex, Start16Bit:=1, Stop16Bit:=rRVBVoltage.Value, Value:=CUShort(Reverse_RVBVoltage2Write), Status:=0)
-                            WriteEvent.WaitOne()
-                            ReceivedErrorMsg = ErrorReceived
+                                If v(0).Visible Then
 
-                            outputFwdString.Append($"Reg{model.Id}: Fwd: {FormatNumber(Forward_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
-                            outputRevString.Append($"Reg{model.Id}: Rev: {FormatNumber(Reverse_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
-                            Debug.WriteLine("------------------- Writing RVB Voltage (DNP30) Done -------------------")
+                                    Dim registerBox As NumericUpDown = CType(v(0), NumericUpDown)
 
-                        Next
+                                    Debug.WriteLine($"------------------- Writing RVB Voltage ({ProtocolInUse}) -------------------")
 
-                    ElseIf String.Equals(ProtocolInUse, "modbus") Then
-                        For Each model As ModbusCommunicationModel In regulator.ModbusCommunication
+                                    Debug.Write($"{Date.Now}{vbTab}Control name: {registerBox.Name}, Comm writes to Reg: {registerBox.Value}, ")
 
-                            Debug.WriteLine("------------------- Writing RVB Voltage (MODBUS) -------------------")
+                                    Select Case ProtocolInUse
+                                        Case "modbus"
+                                            If registerBox.Name.Contains("FRVB") Then
 
-                            GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=model.Id)
+                                                Debug.WriteLine($"Local: {Interlocked.Read(FwdRVBVoltages2Write(regulatorId))}")
 
-                            'write back calculated Forward RVB Voltage to specified modbus register
-                            Dim fRVBVoltage = rvbForm.ModbusSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.FRVBValue)}Reg1"))(0)       '{model.Id}"))
-                            modbusWrite.WriteSingleRegister(fRVBVoltage.Value, CUShort(Forward_RVBVoltage2Write))
+                                                modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(FwdRVBVoltages2Write(regulatorId)))
+                                            ElseIf registerBox.Name.Contains("RRVB") Then
 
-                            'write back calculated Reverse RVB Voltage to specified modbus register
-                            Dim rRVBVoltage = rvbForm.ModbusSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.RRVBValue)}Reg1"))(0)     '{model.Id}"))
-                            modbusWrite.WriteSingleRegister(rRVBVoltage.Value, CUShort(Reverse_RVBVoltage2Write))
+                                                Debug.WriteLine($"Src:{Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
 
-                            outputFwdString.Append($"Reg{model.Id}: Fwd: {FormatNumber(Forward_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
-                            outputRevString.Append($"Reg{model.Id}: Rev: {FormatNumber(Reverse_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
-                            Debug.WriteLine("------------------- Writing RVB Voltage (MODBUS) Done -------------------")
+                                                modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(RevRVBVoltages2Write(regulatorId)))
+                                            End If
+                                    End Select
 
-                        Next
+                                    Debug.WriteLine($"------------------- Writing RVB Voltage ({ProtocolInUse}) Done -------------------")
 
-                    ElseIf String.Equals(ProtocolInUse, "iec") Then
-                        For Each model As IECCommunicationModel In regulator.IECCommunication
+                                End If
+                            End If
 
-                            Debug.WriteLine("------------------- Writing RVB Voltage (61850) -------------------")
-
-                            GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=model.Id)
-
-                            'read the user specified 61850 objects.
-                            Dim localVoltage = rvbForm.IecSettingsGroup.GetChildControls(Of TextBox)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.FRVBValue)}Reg1"))(0)    '{model.Id}"))
-
-                            'transmit Forward RVB Voltage
-                            iec61850.Send(WriteEvent, localVoltage.Text, "Write", CUShort(Forward_RVBVoltage2Write))
-                            WriteEvent.WaitOne()
-                            ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
-
-                            'transmit Reverse RVB Voltage
-                            WriteEvent.Reset()
-
-                            'read the user specified 61850 objects.
-                            Dim sourceVoltage = rvbForm.IecSettingsGroup.GetChildControls(Of TextBox)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.RRVBValue)}Reg1"))(0)     '{model.Id}"))
-
-                            iec61850.Send(WriteEvent, sourceVoltage.Text, "Write", CUShort(Reverse_RVBVoltage2Write))
-                            WriteEvent.WaitOne()
-                            ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
-
-                            outputFwdString.Append($"Reg{model.Id}: Fwd: {FormatNumber(Forward_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
-                            outputRevString.Append($"Reg{model.Id}: Rev: {FormatNumber(Reverse_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
-                            Debug.WriteLine("------------------- Writing RVB Voltage (61850) Done -------------------")
-
-                        Next
-
-                    End If
-
-                    SetText(rvbForm.lblFwdRVBValue, outputFwdString.ToString())
-                    SetText(rvbForm.lblRevRVBValue, outputRevString.ToString())
-
-                    WriteEvent.SafeWaitHandle.Close()
-
-                    Debug.WriteLine($" ---------------------- Writing Fwd voltage: {Forward_RVBVoltage2Write}, Writing Rev voltage: {Reverse_RVBVoltage2Write}")
-
-                    If Not ReceivedErrorMsg = "None" Then sb.AppendLine($"{Now} Error: {ReceivedErrorMsg}")
-
-                    WriteRegisterWait.Unregister(Nothing)
-                    periodicReset.Timers(rvbForm:=rvbForm)
+                        End If
+                    Next
                 Next
 
+
             Catch ex As Exception
+
+                Interlocked.Increment(errorCounter)
+                CheckErrors()
+                Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+                SetText(rvbForm.lblMsgCenter, message)
+                sb.AppendLine(message)
+
+            Finally
+
+                Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(WriteNew)} is running... ENDS")
+
+            End Try
+
+        End Sub
+
+        <Obsolete("will remove in next iteration", True)>
+        Protected Friend Sub Write(ByRef rvbForm As RVBSim, regulatorId As Integer)
+
+            Try
+
+
+                ' TODO: delete up to exit sub
+                Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(Write)} is running... Regulator: {regulatorId + 1}")
+
+                If regulatorId < 0 Or regulatorId > 2 Or IsNothing(regulatorId) Then
+                    Debugger.Break()
+                End If
+
+                Debug.WriteLine($"<----------------------- Regulator: {regulatorId + 1}, Writing Elapsed time: {WritingTimers(regulatorId).ElapsedMilliseconds} msec, Reading Elapsed time: {ReadingTimer.ElapsedMilliseconds} msec")
+
+                WriteRegisterWaits.Item(regulatorId).Unregister(Nothing)
+                periodicReset.Timers(rvbForm:=rvbForm, regulatorID:=regulatorId)
+
+                Exit Sub
+
+                Dim WriteEvent As New ManualResetEvent(False)
+
+                Dim query = From regulator In testJsonSettingsRegulators.Regulator
+                            Where regulator.Id = regulatorId
+                            Select regulator.Values
+
+                For Each value In query
+
+                    For Each somethinElse In value
+
+
+                        If somethinElse.Name.Contains("RVBValue") Then
+
+                            Dim settingControlName As String = $"{ProtocolInUse}{somethinElse.Name}Reg{regulatorId}"
+                            Debug.WriteLine($" <------------------- {settingControlName} processing ...")
+
+                            Dim v() As Control = rvbForm.Controls.Find(settingControlName, True)
+
+                            If v.Length > 0 Then
+
+                                If v(0).Visible Then
+
+                                    Debug.Write($"--- {v(0).Name} is VISIBLE --- ")
+
+                                    Dim registerBox As NumericUpDown = CType(v(0), NumericUpDown)
+
+
+                                    Debug.WriteLine($"{Date.Now():mm:ss.ffff} - What????{ProtocolInUse}{somethinElse.Name}Reg{regulatorId}")
+
+                                    Debug.WriteLine("------------------- Writing RVB Voltage (MODBUS) -------------------")
+
+                                    GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=regulatorId)
+
+
+                                    'write back calculated Forward RVB Voltage to specified modbus register
+                                    ' Dim fRVBVoltage = rvbForm.ModbusSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.FRVBValue)}Reg1"))(0)       '{model.Id}"))
+
+                                    modbusWrite.WriteSingleRegister(registerBox.Value, CUShort(Forward_RVBVoltage2Write))
+
+                                    'write back calculated Reverse RVB Voltage to specified modbus register
+                                    ' Dim rRVBVoltage = rvbForm.ModbusSettingsGroup.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"{model.Name}{NameOf(model.RRVBValue)}Reg1"))(0)     '{model.Id}"))
+
+                                    modbusWrite.WriteSingleRegister(registerBox.Value, CUShort(Reverse_RVBVoltage2Write))
+
+                                    ' outputFwdString.Append($"Reg{model.Id}: Fwd: {FormatNumber(Forward_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
+                                    ' outputRevString.Append($"Reg{model.Id}: Rev: {FormatNumber(Reverse_RVBVoltage2Write / BecoCommunicationScaleFactor, 1)}{vbTab} -- {vbTab}")
+                                    Debug.WriteLine("------------------- Writing RVB Voltage (MODBUS) Done -------------------")
+
+                                    WriteRegisterWaits.Item(regulatorId).Unregister(Nothing)
+                                    periodicReset.Timers(rvbForm:=rvbForm, regulatorID:=regulatorId)
+
+                                End If
+                            End If
+
+                        End If
+                    Next
+
+
+
+                    '    Debug.Write($"value: {value.Name}")
+
+                    '    ' it is not a metering control
+                    '    If value.Name.Contains("RVB") Then
+                    '        Debug.WriteLine($" <------------------- SKIPPED ...")
+                    '        Continue For
+                    '    End If
+
+                    '    Dim settingControlName As String = $"{ProtocolInUse}{value.Name}Reg{regulator.Id}"
+                    '    Debug.WriteLine($" <------------------- {settingControlName} processing ...")
+
+                    '    Dim v() As Control = rvbForm.Controls.Find(settingControlName, True)
+
+                    '    If v.Length > 0 Then
+
+                    '        If v(0).Visible Then
+
+                Next
+
+
+            Catch ex As Exception
+
                 Interlocked.Increment(errorCounter)
                 CheckErrors()
                 Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
