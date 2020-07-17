@@ -33,8 +33,8 @@ Module CommandLineHandler
                 End Select
                 i += 1
             Next
-            If testSetting.FwdRVBVoltage < MinDeltaVoltage Or testSetting.FwdRVBVoltage > MaxDeltaVoltage Then RVBSim.SettingsFwdrvbvoltageReg1.Value = 0.0 Else RVBSim.SettingsFwdrvbvoltageReg1.Value = testSetting.FwdRVBVoltage
-            If testSetting.RevRVBVoltage < MinDeltaVoltage Or testSetting.RevRVBVoltage > MaxDeltaVoltage Then RVBSim.SettingsRevrvbvoltageReg1.Value = 0.0 Else RVBSim.SettingsRevrvbvoltageReg1.Value = testSetting.RevRVBVoltage
+            If testSetting.FwdRVBVoltage < MinDeltaVoltage Or testSetting.FwdRVBVoltage > MaxDeltaVoltage Then RVBSim.SettingsFwdRVBVoltageReg1.Value = 0.0 Else RVBSim.SettingsFwdRVBVoltageReg1.Value = testSetting.FwdRVBVoltage
+            If testSetting.RevRVBVoltage < MinDeltaVoltage Or testSetting.RevRVBVoltage > MaxDeltaVoltage Then RVBSim.SettingsRevRVBVoltageReg1.Value = 0.0 Else RVBSim.SettingsRevRVBVoltageReg1.Value = testSetting.RevRVBVoltage
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"

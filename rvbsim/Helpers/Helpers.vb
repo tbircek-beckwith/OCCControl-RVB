@@ -14,7 +14,11 @@ Module Helpers
 
     Friend Sub CheckErrors()
         If Not Interlocked.Read(errorCounter) >= 10 Then
-            periodicReset.Timers(rvbForm:=RVBSim)
+
+            For i = 0 To SupportedRegulatorNumber - 1
+                periodicReset.Timers(rvbForm:=RVBSim, regulatorID:=i)
+
+            Next
         End If
     End Sub
 

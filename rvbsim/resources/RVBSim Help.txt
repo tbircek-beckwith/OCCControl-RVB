@@ -10,3 +10,23 @@
   pause               waits until start or end command
 
 Use "Settings.xml" to set rest
+
+-------------------------------------------------------------------------------------------------
+Proposal for v4.x.x
+
+-vfx: 
+  value               Forward delta voltage value add to the regulator x's local voltage
+
+-vrx: 
+  value               Reverse delta voltage value add to the regulator x's local voltage
+
+-single: true to set single regulator, false to set multiple regulator
+
+-s
+  start               starts broadcasting, 
+  end                 end this program,
+  pause               waits until start or end command
+
+Use "settings.json" to set general settings
+Use "settings-protocolName.json" to set protocol specific settings
+-------------------------------------------------------------------------------------------------

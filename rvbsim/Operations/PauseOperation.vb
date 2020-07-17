@@ -12,8 +12,22 @@ Namespace Communication.Operations
             Dim Disconnect As New ManualResetEvent(False)
 
             Try
-                WriteRegisterWait.Unregister(Nothing)
-                ReadRegisterWait.Unregister(Nothing)
+
+                For i = 0 To SupportedRegulatorNumber - 1
+
+                    WritingTimers(i).Reset()
+                    WriteTickerDones(i).Reset()
+                    ' WriteTickerDones(i).SafeWaitHandle.Close()
+                    WriteRegisterWaits(i).Unregister(Nothing)
+
+                    ' reset measurements
+                    Interlocked.Exchange(LocalVoltageReadings(i), UShort.MaxValue)
+                    Interlocked.Exchange(SourceVoltageReadings(i), UShort.MaxValue)
+                    Interlocked.Exchange(FwdRVBVoltages2Write(i), UShort.MaxValue)
+                    Interlocked.Exchange(RevRVBVoltages2Write(i), UShort.MaxValue)
+                    Interlocked.Exchange(HeartBeatTimers(i), 120)
+
+                Next
 
                 If ProtocolInUse = "modbus" Then
                     'disconnect modbus
@@ -30,14 +44,14 @@ Namespace Communication.Operations
                     iec61850.Dispose()
                 End If
 
+                ReadingTimer.Reset()
+                ReadTickerDone.Reset()
+                'ReadTickerDone.SafeWaitHandle.Close()
+                ReadRegisterWait.Unregister(Nothing)
+
                 TimersEvent.Dispose()
                 Disconnect.Dispose()
 
-                Interlocked.Exchange(Heart_Beat_Timer, 0)
-                LocalVoltageReadresult = 0
-                SourceVoltageReadresult = 0
-                Forward_RVBVoltage2Write = 0.0
-                Reverse_RVBVoltage2Write = 0.0
                 SetEnable(RVBSim.StopButton, False)
                 SetEnable(RVBSim.StartButton, True)
 

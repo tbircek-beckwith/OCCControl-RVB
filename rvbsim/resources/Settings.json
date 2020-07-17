@@ -4,7 +4,7 @@
   "fileversion": "1.0.0",
   "protocol": "modbus",
   "read": "192.168.0.101",
-  "singlephase": true,
+  "singlephase": false,
   "title": "Remote Voltage Bias Simulator",
   "uivisible": true,
   "write": "192.168.0.101",
@@ -21,7 +21,7 @@
             "name": "fwdrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 10
+            "value": 2.3
           },
           {
             "description": "Remote Voltage Bias Scale factor",
@@ -39,7 +39,7 @@
             "name": "heartbeattimer",
             "scalefactor": 1,
             "unit": "secs",
-            "value": 2
+            "value": 20
           },
           {
             "description": "Reverse Remote Voltage Value",
@@ -48,7 +48,7 @@
             "name": "revrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 100
+            "value": -2.9
           },
           {
             "description": "Reverse Remote Voltage Bias Scale Factor",
@@ -99,7 +99,7 @@
             "name": "fwdrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 10
+            "value": 1156
           },
           {
             "description": "Remote Voltage Bias Scale factor",
@@ -117,7 +117,7 @@
             "name": "heartbeattimer",
             "scalefactor": 1,
             "unit": "secs",
-            "value": 2
+            "value": 7
           },
           {
             "description": "Reverse Remote Voltage Value",
@@ -126,7 +126,7 @@
             "name": "revrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 100
+            "value": 1255
           },
           {
             "description": "Reverse Remote Voltage Bias Scale Factor",
@@ -144,7 +144,7 @@
             "name": "rvbmax",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 1500
+            "value": 150
           },
           {
             "description": "Remote Voltage Minimum",
@@ -177,7 +177,7 @@
             "name": "fwdrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 10
+            "value": 7.9
           },
           {
             "description": "Remote Voltage Bias Scale factor",
@@ -195,7 +195,7 @@
             "name": "heartbeattimer",
             "scalefactor": 1,
             "unit": "secs",
-            "value": 2
+            "value": 5
           },
           {
             "description": "Reverse Remote Voltage Value",
@@ -204,7 +204,7 @@
             "name": "revrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 100
+            "value": -7.1
           },
           {
             "description": "Reverse Remote Voltage Bias Scale Factor",

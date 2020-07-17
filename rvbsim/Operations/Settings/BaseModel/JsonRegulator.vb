@@ -5,7 +5,7 @@ Public Class JsonRegulator
     ' JsonProperty names need to match the .json file and are case insensitive
 
     <JsonProperty("Id")>
-    Public Property Id() As String
+    Public Property Id() As Integer
 
     <JsonProperty("Name")>
     Public Property Name() As String

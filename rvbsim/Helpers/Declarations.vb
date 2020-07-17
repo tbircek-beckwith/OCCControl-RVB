@@ -23,11 +23,12 @@ Module Declarations
     Friend Const DNP_BufferSize As Integer = 29
     Friend Const IEC_BufferSize As Integer = 200
     Friend Const SettingFileName As String = "settings"
+    Friend Const SupportedRegulatorNumber As Integer = 3
 
     Friend sb As New StringBuilder
     Friend IPs As String() = New String(1) {}
 
-    Friend Regulators As List(Of RegulatorCommunication) = New List(Of RegulatorCommunication)()
+    ' Friend Regulators As List(Of RegulatorCommunication) = New List(Of RegulatorCommunication)()
 
     ''' <summary>
     ''' new modbus communication libraries
@@ -56,16 +57,19 @@ Module Declarations
     Friend errorCounter As Integer = 0
 
     Friend WriteTickerDone As New ManualResetEvent(False)
-    Friend WriteTickerDones As New List(Of ManualResetEvent())
     Friend ReadTickerDone As New ManualResetEvent(False)
-    Friend ReadTickerDones As New List(Of ManualResetEvent())
     Friend TimersEvent As New ManualResetEvent(False)
-    Friend TimersEvents As New List(Of ManualResetEvent())
-
     Friend WriteRegisterWait As RegisteredWaitHandle
-    Friend WriteRegisterWaits As List(Of RegisteredWaitHandle)
     Friend ReadRegisterWait As RegisteredWaitHandle
-    Friend ReadRegisterWaits As List(Of RegisteredWaitHandle)
+
+    ''' 
+    ''' Multiple phase regulator supports
+    '''
+    Friend WriteTickerDones As List(Of ManualResetEvent) = Enumerable.Repeat(New ManualResetEvent(True), SupportedRegulatorNumber).ToList()
+    Friend ReadTickerDones As New List(Of ManualResetEvent)
+    Friend TimersEvents As New List(Of ManualResetEvent)
+    Friend WriteRegisterWaits As New List(Of RegisteredWaitHandle)
+    Friend ReadRegisterWaits As New List(Of RegisteredWaitHandle)
 
     Friend visibility As Boolean = True
     Friend testSetting As TestSettings
@@ -158,17 +162,11 @@ Module Declarations
 
     Friend Property WriteInterval() As Integer
 
-    Friend Property WriteIntervals() As List(Of Integer)
-
     Friend Property ReadInterval() As Integer
-
-    Friend Property ReadIntervals() As List(Of Integer)
 
     Friend Property ProtocolInUse() As String
 
-    Friend Property Heart_Beat_Timer() As Integer
-
-    Friend Property HeartBeatTimers() As List(Of Integer)
+    '  Friend Property Heart_Beat_Timer() As Integer
 
     Friend Property ActualLocalVoltage() As Double = 0.0
 
@@ -187,8 +185,25 @@ Module Declarations
     Friend Property BaseJsonSettingsFileLocation As String = Path.Combine(path1:=My.Application.Info.DirectoryPath,
                                                                           path2:="resources")
 
-    Public Property LocalVoltageReadings() As List(Of UShort) '= New List(Of UShort)()
+    ''' 
+    ''' Multiple phase regulator supports
+    '''
+    Public Property LocalVoltageReadings() As List(Of UShort) = Enumerable.Repeat(Of UShort)(UShort.MaxValue, SupportedRegulatorNumber).ToList() '= New List(Of UShort)()
 
-    Public Property SourceVoltageReadings() As List(Of UShort) ' = New List(Of UShort)()
+    Public Property SourceVoltageReadings() As List(Of UShort) = Enumerable.Repeat(Of UShort)(UShort.MaxValue, SupportedRegulatorNumber).ToList() ' = New List(Of UShort)()
+
+    Friend Property WriteIntervals() As List(Of Integer) = Enumerable.Repeat(2000, SupportedRegulatorNumber).ToList() '= New List(Of Integer)()
+
+    Friend Property ReadIntervals() As List(Of Integer) = Enumerable.Repeat(500, SupportedRegulatorNumber).ToList() ' = New List(Of Integer)()
+
+    Friend Property HeartBeatTimers() As List(Of Integer) = Enumerable.Repeat(120, SupportedRegulatorNumber).ToList()
+
+    Friend Property FwdRVBVoltages2Write() As List(Of Double) = Enumerable.Repeat(65535.0, SupportedRegulatorNumber).ToList()
+
+    Friend Property RevRVBVoltages2Write() As List(Of Double) = Enumerable.Repeat(65535.0, SupportedRegulatorNumber).ToList()
+
+    Friend Property ReadingTimer() As Stopwatch = New Stopwatch()
+
+    Friend Property WritingTimers As List(Of Stopwatch) = Enumerable.Repeat(New Stopwatch(), 3).ToList()
 
 End Module
