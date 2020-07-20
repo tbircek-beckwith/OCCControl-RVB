@@ -13,7 +13,7 @@ Namespace Communication.Operations
 
             Try
 
-                For i = 0 To SupportedRegulatorNumber - 1
+                For i = 0 To WriteRegisterWaits.Count - 1   ' SupportedRegulatorNumber - 1
 
                     WritingTimers(i).Reset()
                     WriteTickerDones(i).Reset()
