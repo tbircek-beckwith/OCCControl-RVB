@@ -22,7 +22,7 @@ Namespace PeriodicOperations
 
                 Dim controlId = regulatorId + 1
 
-                Dim WriteEvent As New ManualResetEvent(False)
+                'Dim WriteEvent As New ManualResetEvent(False)
 
                 Dim query = From regulator In testJsonSettingsRegulators.Regulator
                             Where regulator.Id = controlId
@@ -30,13 +30,13 @@ Namespace PeriodicOperations
 
                 GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=regulatorId)
 
-                For Each value In query
+                For Each values In query
 
-                    For Each somethinElse In value
+                    For Each value In values
 
-                        If somethinElse.Name.Contains("RVBValue") Then
+                        If value.Name.Contains("RVBValue") Then
 
-                            Dim settingControlName As String = $"{ProtocolInUse}{somethinElse.Name}Reg{controlId}"
+                            Dim settingControlName As String = $"{ProtocolInUse}{value.Name}Reg{controlId}"
                             ' Debug.WriteLine($" <------------------- {settingControlName} processing ...")
 
                             Dim v() As Control = rvbForm.Controls.Find(settingControlName, True)
@@ -64,6 +64,63 @@ Namespace PeriodicOperations
 
                                                 modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(RevRVBVoltages2Write(regulatorId)))
                                             End If
+
+                                        Case "dnp"
+                                            If registerBox.Name.Contains("FRVB") Then
+
+                                                Debug.WriteLine($"Local: {Interlocked.Read(FwdRVBVoltages2Write(regulatorId))}")
+
+                                                Send(rvbForm:=rvbForm,
+                                                     address:=registerBox.Value,
+                                                     value:=Interlocked.Read(FwdRVBVoltages2Write(regulatorId)))
+
+                                                'write back calculated Forward RVB Voltage to specified dnp point
+                                                'dnp.Send(ManualEvent:=WriteEvent,
+                                                '         Destination:=rvbForm.DNPDestinationReg1.Value,
+                                                '         Source:=rvbForm.DNPSourceReg1.Value,
+                                                '         FunctionCode:=Mode.DirectOp,
+                                                '         ObjectX:=Objects.AnalogOutput,
+                                                '         Variation:=Variations.AnaOutBlockShort,
+                                                '         Qualifier:=QualifierField.AnaOutBlock16bitIndex,
+                                                '         Start16Bit:=1,
+                                                '         Stop16Bit:=registerBox.Value,                                      'fRVBVoltage.Value,
+                                                '         Value:=Interlocked.Read(FwdRVBVoltages2Write(regulatorId)),        'CUShort(Forward_RVBVoltage2Write),
+                                                '         Status:=0)
+                                                'WriteEvent.WaitOne()
+                                                'ReceivedErrorMsg = ErrorReceived
+
+                                                ''transmit Reverse RVB Voltage
+                                                'WriteEvent.Reset()
+
+                                            ElseIf registerBox.Name.Contains("RRVB") Then
+
+                                                Debug.WriteLine($"Src:{Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
+
+                                                'write back calculated Reverse RVB Voltage to specified dnp point
+                                                'dnp.Send(ManualEvent:=WriteEvent,
+                                                '         Destination:=rvbForm.DNPDestinationReg1.Value,
+                                                '         Source:=rvbForm.DNPSourceReg1.Value,
+                                                '         FunctionCode:=Mode.DirectOp,
+                                                '         ObjectX:=Objects.AnalogOutput,
+                                                '         Variation:=Variations.AnaOutBlockShort,
+                                                '         Qualifier:=QualifierField.AnaOutBlock16bitIndex,
+                                                '         Start16Bit:=1,
+                                                '         Stop16Bit:=registerBox.Value,                                      'rRVBVoltage.Value,
+                                                '         Value:=Interlocked.Read(RevRVBVoltages2Write(regulatorId)),        'CUShort(Reverse_RVBVoltage2Write),
+                                                '         Status:=0)
+                                                'WriteEvent.WaitOne()
+                                                'ReceivedErrorMsg = ErrorReceived
+
+                                                ''transmit Reverse RVB Voltage
+                                                'WriteEvent.Reset()
+
+                                                Send(rvbForm:=rvbForm,
+                                                     address:=registerBox.Value,
+                                                     value:=Interlocked.Read(RevRVBVoltages2Write(regulatorId)))
+
+                                            End If
+
+
                                     End Select
 
                                     Debug.WriteLine($"------------------- Writing RVB Voltage ({ProtocolInUse}) Done -------------------")
@@ -73,6 +130,10 @@ Namespace PeriodicOperations
 
                         End If
                     Next
+
+                    If rvbForm.SinglePhaseCheckBox.Checked Then
+                        Exit For
+                    End If
                 Next
 
 
@@ -89,6 +150,31 @@ Namespace PeriodicOperations
                 Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(WriteNew)} is running... ENDS")
 
             End Try
+
+        End Sub
+
+        Private Sub Send(rvbForm As RVBSim, address As UShort, value As UShort)
+
+            Dim WriteEvent As New ManualResetEvent(False)
+
+            'write back calculated Forward RVB Voltage to specified dnp point
+            dnp.Send(ManualEvent:=WriteEvent,
+                     Destination:=rvbForm.DNPDestinationReg1.Value,
+                     Source:=rvbForm.DNPSourceReg1.Value,
+                     FunctionCode:=Mode.DirectOp,
+                     ObjectX:=Objects.AnalogOutput,
+                     Variation:=Variations.AnaOutBlockShort,
+                     Qualifier:=QualifierField.AnaOutBlock16bitIndex,
+                     Start16Bit:=1,
+                     Stop16Bit:=address,
+                     Value:=value,
+                     Status:=0)
+
+            WriteEvent.WaitOne()
+            ReceivedErrorMsg = ErrorReceived
+
+            'transmit Reverse RVB Voltage
+            WriteEvent.Reset()
 
         End Sub
 

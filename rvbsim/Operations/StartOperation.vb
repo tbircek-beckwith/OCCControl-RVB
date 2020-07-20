@@ -95,6 +95,7 @@ Namespace Communication.Operations
                             ' set factory option and etc.
                             SendSettings()
 
+                            WriteRegisterWaits = New List(Of RegisteredWaitHandle)
                             SetMultiPhase(rvbForm:=RVBSim)
 
                         Else
@@ -139,6 +140,7 @@ Namespace Communication.Operations
                 ReadingTimer.Start()
 
                 For Each beat In heartbeat
+
                     TimersEvent = New ManualResetEvent(True)
                     TimersEvents.Add(TimersEvent)
 
@@ -156,7 +158,7 @@ Namespace Communication.Operations
                         WriteTickerDone.Reset()
 
                         Interlocked.Exchange(WriteTickerDones(regulator - 1), WriteTickerDone)
-                        WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(waitObject:=WriteTickerDones(regulator - 1), 'WriteTickerDone,
+                        WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(waitObject:=WriteTickerDones(regulator - 1),
                                                                                    callBack:=New WaitOrTimerCallback(AddressOf RVBSim.PeriodicWriteEventNew),
                                                                                    state:=regulator - 1,
                                                                                    millisecondsTimeOutInterval:=WriteInterval,
@@ -166,6 +168,10 @@ Namespace Communication.Operations
 
                         WritingTimers(regulator - 1).Start()
                     End With
+
+                    If rvbForm.SinglePhaseCheckBox.Checked Then
+                        Exit For
+                    End If
                 Next
 
             Catch ex As Exception

@@ -45,12 +45,12 @@ Namespace PeriodicOperations
                                             If registerBox.Name.Contains("Source") Then
 
                                                 Interlocked.Exchange(SourceVoltageReadings.Item(regulator.Id - 1), modbusRead.ReadHoldingRegisters(registerBox.Value, 1).ElementAt(0))
-                                                Continue For
+                                                'Continue For
                                             ElseIf registerBox.Name.Contains("Local") Then
 
                                                 Interlocked.Exchange(LocalVoltageReadings.Item(regulator.Id - 1), modbusRead.ReadHoldingRegisters(registerBox.Value, 1).ElementAt(0))
 
-                                                Continue For
+                                                ' Continue For
                                             End If
 
                                         Case "dnp"
@@ -86,13 +86,13 @@ Namespace PeriodicOperations
 
                                     End Select
 
-                                    For i = 0 To SupportedRegulatorNumber - 1
+                                    'For i = 0 To WriteRegisterWaits.Count - 1
 
-                                        SetText(rvbForm.lblLocalVoltageValue, $"Regulator: {i + 1}, Readings: Fwd Voltage: {FormatNumber(CDbl(LocalVoltageReadings(i) / BecoCommunicationScaleFactor), 1)}V {vbTab} Src Voltage: {FormatNumber(CDbl(SourceVoltageReadings(i) / BecoCommunicationScaleFactor), 1)}V")
+                                    SetText(rvbForm.lblLocalVoltageValue, $"Regulator: {regulator.Id}, Readings: Fwd Voltage: {FormatNumber(CDbl(LocalVoltageReadings(regulator.Id - 1) / BecoCommunicationScaleFactor), 1)}V {vbTab} Src Voltage: {FormatNumber(CDbl(SourceVoltageReadings(regulator.Id - 1) / BecoCommunicationScaleFactor), 1)}V")
 
-                                        SetText(rvbForm.lblMsgCenter, $"Error: {ReceivedErrorMsg}")
+                                    SetText(rvbForm.lblMsgCenter, $"Error: {ReceivedErrorMsg}")
 
-                                    Next
+                                    ' Next
                                 End If
                             End If
                         Next
