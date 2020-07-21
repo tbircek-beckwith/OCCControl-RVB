@@ -24,25 +24,30 @@ Public Class UpdateMeteringValues
         Dim labelDirection As String = String.Empty
         Dim opType As String = String.Empty
         Dim value As Double = 0.0
+        Dim spacing As Integer = 0
 
         If registerBox.Name.Contains("FRVB") Then
             labelDirection = "Fwd"
             opType = "Writing"
+            spacing = "Source: ".Length - labelDirection.Length
             value = Interlocked.Read(FwdRVBVoltages2Write(regulatorId)) / BecoCommunicationScaleFactor
 
         ElseIf registerBox.Name.Contains("RRVB") Then
             labelDirection = "Rev"
             opType = "Writing"
+            spacing = "Source: ".Length - labelDirection.Length
             value = Interlocked.Read(RevRVBVoltages2Write(regulatorId)) / BecoCommunicationScaleFactor
 
         ElseIf registerBox.Name.Contains("Source") Then
             labelDirection = "Source"
             opType = "Reading"
+            spacing = 0
             value = Interlocked.Read(SourceVoltageReadings.Item(regulatorId)) / BecoCommunicationScaleFactor
 
         ElseIf registerBox.Name.Contains("Local") Then
             labelDirection = "Local"
             opType = "Reading"
+            spacing = "Source: ".Length - labelDirection.Length
             value = Interlocked.Read(LocalVoltageReadings.Item(regulatorId)) / BecoCommunicationScaleFactor
 
         End If
@@ -55,7 +60,12 @@ Public Class UpdateMeteringValues
 
             If l(0).Visible Then
 
-                SetText(l(0), $"{labelDirection}: {FormatNumber(value, 1)}V")
+                'Dim space = StrDup("Source".Length - labelDirection.Length, " ")
+
+                ' Debug.WriteLine($"src: {"Source".Length}, act: {labelDirection.Length}, diff: {space.Length}")
+
+                'SetText(l(0), $"{labelDirection}: {labelDirection.PadLeft("Source".Length - labelDirection.Length, "-"c)}{FormatNumber(value, 1)}V")
+                SetText(l(0), $"{labelDirection}: {StrDup(spacing, " "c)}{FormatNumber(value, 1)}V")
 
             End If
         End If
