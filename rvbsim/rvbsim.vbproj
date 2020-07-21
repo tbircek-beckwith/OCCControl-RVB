@@ -225,11 +225,6 @@
     <Compile Include="Helpers\UpdateMeteringValues.vb" />
     <Compile Include="Helpers\RelativeOrFixedValue.vb" />
     <Compile Include="Helpers\SetControls.vb" />
-    <Compile Include="Operations\Communication\DnpCommunicationModel.vb" />
-    <Compile Include="Operations\Communication\IECCommunicationModel.vb" />
-    <Compile Include="Operations\Communication\Base\CommunicationBaseModel.vb" />
-    <Compile Include="Operations\Communication\ModbusCommunicationModel.vb" />
-    <Compile Include="Operations\Communication\RegulatorCommunication.vb" />
     <Compile Include="Operations\FileOperations\JsonFile.vb" />
     <Compile Include="Operations\Settings\BaseModel\JsonRegulator.vb" />
     <Compile Include="Operations\Settings\BaseModel\JsonRoot.vb" />
