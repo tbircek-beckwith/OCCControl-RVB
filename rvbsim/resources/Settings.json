@@ -39,7 +39,7 @@
             "name": "heartbeattimer",
             "scalefactor": 1,
             "unit": "secs",
-            "value": 20
+            "value": 2
           },
           {
             "description": "Reverse Remote Voltage Value",

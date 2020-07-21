@@ -243,6 +243,7 @@ Public Class RVBSim
                 DnpSettingsGroup3Phase.Visible = Not .SinglePhase
                 IecSettingsGroup3Phase.Visible = Not .SinglePhase
                 RVBSettings3Phase.Visible = Not .SinglePhase
+                Regulator3PhReadings.Visible = Not .SinglePhase
                 SinglePhaseCheckBox.Checked = .SinglePhase
             End With
 
@@ -272,6 +273,7 @@ Public Class RVBSim
         DnpSettingsGroup3Phase.Visible = Not SinglePhaseCheckBox.Checked
         IecSettingsGroup3Phase.Visible = Not SinglePhaseCheckBox.Checked
         RVBSettings3Phase.Visible = Not SinglePhaseCheckBox.Checked
+        Regulator3PhReadings.Visible = Not SinglePhaseCheckBox.Checked
 
     End Sub
 
@@ -310,6 +312,5 @@ Public Class RVBSim
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Radio_CheckedChanged)}")
         End Try
     End Sub
-
 End Class
 

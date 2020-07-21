@@ -9,15 +9,14 @@ Namespace Communication.Operations
 
         Protected Friend Sub Pause()
 
-            Dim Disconnect As New ManualResetEvent(False)
-
             Try
+
+                Dim Disconnect As New ManualResetEvent(False)
 
                 For i = 0 To WriteRegisterWaits.Count - 1   ' SupportedRegulatorNumber - 1
 
                     WritingTimers(i).Reset()
                     WriteTickerDones(i).Reset()
-                    ' WriteTickerDones(i).SafeWaitHandle.Close()
                     WriteRegisterWaits(i).Unregister(Nothing)
 
                     ' reset measurements
@@ -46,7 +45,6 @@ Namespace Communication.Operations
 
                 ReadingTimer.Reset()
                 ReadTickerDone.Reset()
-                'ReadTickerDone.SafeWaitHandle.Close()
                 ReadRegisterWait.Unregister(Nothing)
 
                 TimersEvent.Dispose()
@@ -65,10 +63,14 @@ Namespace Communication.Operations
                     sb.AppendLine($"{Now} Disconnect failed {ReceivedErrorMsg}")
                 End If
 
+                ' try to get every Label in the form
+                Dim labels = RVBSim.GetChildControls(Of Label)().Where(Function(x) x.Name.Contains("Writing") Or x.Name.Contains("Reading"))
+
+                For Each label In labels
+                    SetText(label, String.Empty)
+                Next
+
                 Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Pause)}")
-                SetText(RVBSim.lblLocalVoltageValue, String.Format(""))
-                SetText(RVBSim.lblFwdRVBValue, String.Format(""))
-                SetText(RVBSim.lblRevRVBValue, String.Format(""))
 
             Catch ex As Exception
                 Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
@@ -76,6 +78,5 @@ Namespace Communication.Operations
                 sb.AppendLine(message)
             End Try
         End Sub
-
     End Class
 End Namespace

@@ -28,7 +28,6 @@ Partial Class RVBSim
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.lblLocalVoltageValue = New System.Windows.Forms.Label()
         Me.WriteIpAddr = New System.Windows.Forms.TextBox()
         Me.PortReg1 = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -111,12 +110,37 @@ Partial Class RVBSim
         Me.modbusbox = New System.Windows.Forms.RadioButton()
         Me.dnpbutton = New System.Windows.Forms.RadioButton()
         Me.ProtocolParameters = New System.Windows.Forms.GroupBox()
-        Me.SinglePhaseCheckBox = New System.Windows.Forms.CheckBox()
-        Me.lblRevRVBValue = New System.Windows.Forms.Label()
-        Me.lblMsgCenter = New System.Windows.Forms.Label()
-        Me.lblFwdRVBValue = New System.Windows.Forms.Label()
-        Me.ReadIpAddr = New System.Windows.Forms.TextBox()
+        Me.ReadingWritingValues = New System.Windows.Forms.FlowLayoutPanel()
+        Me.FlowLayoutPanel5 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.FlowLayoutPanel6 = New System.Windows.Forms.FlowLayoutPanel()
         Me.SourceIPAddressLabel = New System.Windows.Forms.Label()
+        Me.ReadIpAddr = New System.Windows.Forms.TextBox()
+        Me.FlowLayoutPanel7 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.FlowLayoutPanel8 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.FlowLayoutPanel9 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.SinglePhaseCheckBox = New System.Windows.Forms.CheckBox()
+        Me.RegulatorReadings = New System.Windows.Forms.FlowLayoutPanel()
+        Me.RegulatorAllReadings = New System.Windows.Forms.FlowLayoutPanel()
+        Me.Regulator1Readings = New System.Windows.Forms.GroupBox()
+        Me.FlowLayoutPanel2 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.SourceVoltageReadingRegulator1 = New System.Windows.Forms.Label()
+        Me.LocalVoltageReadingRegulator1 = New System.Windows.Forms.Label()
+        Me.RevVoltageWritingRegulator1 = New System.Windows.Forms.Label()
+        Me.FwdVoltageWritingRegulator1 = New System.Windows.Forms.Label()
+        Me.Regulator2Readings = New System.Windows.Forms.GroupBox()
+        Me.FlowLayoutPanel3 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.SourceVoltageReadingRegulator2 = New System.Windows.Forms.Label()
+        Me.LocalVoltageReadingRegulator2 = New System.Windows.Forms.Label()
+        Me.RevVoltageWritingRegulator2 = New System.Windows.Forms.Label()
+        Me.FwdVoltageWritingRegulator2 = New System.Windows.Forms.Label()
+        Me.Regulator3Readings = New System.Windows.Forms.GroupBox()
+        Me.FlowLayoutPanel4 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.SourceVoltageReadingRegulator3 = New System.Windows.Forms.Label()
+        Me.LocalVoltageReadingRegulator3 = New System.Windows.Forms.Label()
+        Me.RevVoltageWritingRegulator3 = New System.Windows.Forms.Label()
+        Me.FwdVoltageWritingRegulator3 = New System.Windows.Forms.Label()
+        Me.FlowLayoutPanel12 = New System.Windows.Forms.FlowLayoutPanel()
+        Me.lblMsgCenter = New System.Windows.Forms.Label()
         Me.ProtocolBox = New System.Windows.Forms.GroupBox()
         Me.RVBPanel = New System.Windows.Forms.FlowLayoutPanel()
         Me.ProtocolDetails = New System.Windows.Forms.FlowLayoutPanel()
@@ -221,6 +245,8 @@ Partial Class RVBSim
         Me.DnpRRVBValueReg1 = New System.Windows.Forms.NumericUpDown()
         Me.DnpFRVBValueReg1 = New System.Windows.Forms.NumericUpDown()
         Me.RVBSettingsPanel = New System.Windows.Forms.FlowLayoutPanel()
+        Me.Regulator3PhReadings = New System.Windows.Forms.FlowLayoutPanel()
+        Me.RegulatorSinglePhReadings = New System.Windows.Forms.FlowLayoutPanel()
         Me.RVBSettings.SuspendLayout()
         Me.RVBSettings3Phase.SuspendLayout()
         Me.RVBSettingsReg2.SuspendLayout()
@@ -266,6 +292,21 @@ Partial Class RVBSim
         CType(Me.DNPDestinationReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DNPSourceReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ProtocolParameters.SuspendLayout()
+        Me.ReadingWritingValues.SuspendLayout()
+        Me.FlowLayoutPanel5.SuspendLayout()
+        Me.FlowLayoutPanel6.SuspendLayout()
+        Me.FlowLayoutPanel7.SuspendLayout()
+        Me.FlowLayoutPanel8.SuspendLayout()
+        Me.FlowLayoutPanel9.SuspendLayout()
+        Me.RegulatorReadings.SuspendLayout()
+        Me.RegulatorAllReadings.SuspendLayout()
+        Me.Regulator1Readings.SuspendLayout()
+        Me.FlowLayoutPanel2.SuspendLayout()
+        Me.Regulator2Readings.SuspendLayout()
+        Me.FlowLayoutPanel3.SuspendLayout()
+        Me.Regulator3Readings.SuspendLayout()
+        Me.FlowLayoutPanel4.SuspendLayout()
+        Me.FlowLayoutPanel12.SuspendLayout()
         Me.ProtocolBox.SuspendLayout()
         Me.RVBPanel.SuspendLayout()
         Me.ProtocolDetails.SuspendLayout()
@@ -349,11 +390,13 @@ Partial Class RVBSim
         CType(Me.DnpRRVBValueReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DnpFRVBValueReg1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RVBSettingsPanel.SuspendLayout()
+        Me.Regulator3PhReadings.SuspendLayout()
+        Me.RegulatorSinglePhReadings.SuspendLayout()
         Me.SuspendLayout()
         '
         'StartButton
         '
-        Me.StartButton.Location = New System.Drawing.Point(168, 19)
+        Me.StartButton.Location = New System.Drawing.Point(161, 3)
         Me.StartButton.Name = "StartButton"
         Me.StartButton.Size = New System.Drawing.Size(75, 23)
         Me.StartButton.TabIndex = 3
@@ -364,7 +407,7 @@ Partial Class RVBSim
         '
         Me.StopButton.DialogResult = System.Windows.Forms.DialogResult.Cancel
         Me.StopButton.Enabled = False
-        Me.StopButton.Location = New System.Drawing.Point(168, 46)
+        Me.StopButton.Location = New System.Drawing.Point(160, 3)
         Me.StopButton.Name = "StopButton"
         Me.StopButton.Size = New System.Drawing.Size(75, 23)
         Me.StopButton.TabIndex = 4
@@ -389,33 +432,26 @@ Partial Class RVBSim
         Me.ToolStripMenuItem3.Size = New System.Drawing.Size(121, 22)
         Me.ToolStripMenuItem3.Text = "Modbus"
         '
-        'lblLocalVoltageValue
-        '
-        Me.lblLocalVoltageValue.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblLocalVoltageValue.Location = New System.Drawing.Point(261, 16)
-        Me.lblLocalVoltageValue.Name = "lblLocalVoltageValue"
-        Me.lblLocalVoltageValue.Size = New System.Drawing.Size(383, 20)
-        Me.lblLocalVoltageValue.TabIndex = 3
-        Me.lblLocalVoltageValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'WriteIpAddr
         '
-        Me.WriteIpAddr.Location = New System.Drawing.Point(51, 47)
+        Me.WriteIpAddr.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.WriteIpAddr.Location = New System.Drawing.Point(44, 4)
         Me.WriteIpAddr.Name = "WriteIpAddr"
         Me.WriteIpAddr.Size = New System.Drawing.Size(110, 20)
         Me.WriteIpAddr.TabIndex = 1
         '
         'PortReg1
         '
-        Me.PortReg1.Location = New System.Drawing.Point(51, 70)
+        Me.PortReg1.Location = New System.Drawing.Point(44, 3)
         Me.PortReg1.Name = "PortReg1"
         Me.PortReg1.Size = New System.Drawing.Size(110, 20)
         Me.PortReg1.TabIndex = 2
         '
         'Label2
         '
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(9, 51)
+        Me.Label2.Location = New System.Drawing.Point(3, 8)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(35, 13)
         Me.Label2.TabIndex = 6
@@ -424,10 +460,10 @@ Partial Class RVBSim
         '
         'Label3
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(9, 74)
+        Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label3.Location = New System.Drawing.Point(3, 6)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(29, 13)
+        Me.Label3.Size = New System.Drawing.Size(35, 13)
         Me.Label3.TabIndex = 7
         Me.Label3.Text = "Port:"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -490,7 +526,7 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 87.78626!))
         Me.GeneralSettingsTableReg2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.21374!))
         Me.GeneralSettingsTableReg2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70.0!))
-        Me.GeneralSettingsTableReg2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 69.0!))
+        Me.GeneralSettingsTableReg2.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 72.0!))
         Me.GeneralSettingsTableReg2.Controls.Add(Me.Label42, 2, 0)
         Me.GeneralSettingsTableReg2.Controls.Add(Me.SettingsRvbminReg2, 3, 0)
         Me.GeneralSettingsTableReg2.Controls.Add(Me.SettingsUserelativeReg2, 0, 0)
@@ -512,7 +548,7 @@ Partial Class RVBSim
         '
         Me.Label42.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label42.AutoSize = True
-        Me.Label42.Location = New System.Drawing.Point(124, 7)
+        Me.Label42.Location = New System.Drawing.Point(121, 7)
         Me.Label42.Name = "Label42"
         Me.Label42.Size = New System.Drawing.Size(49, 13)
         Me.Label42.TabIndex = 30
@@ -524,7 +560,7 @@ Partial Class RVBSim
         Me.SettingsRvbminReg2.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.SettingsRvbminReg2.DecimalPlaces = 1
         Me.SettingsRvbminReg2.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRvbminReg2.Location = New System.Drawing.Point(194, 3)
+        Me.SettingsRvbminReg2.Location = New System.Drawing.Point(191, 3)
         Me.SettingsRvbminReg2.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
         Me.SettingsRvbminReg2.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
         Me.SettingsRvbminReg2.Name = "SettingsRvbminReg2"
@@ -550,7 +586,7 @@ Partial Class RVBSim
         Me.SettingsRvbmaxReg2.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.SettingsRvbmaxReg2.DecimalPlaces = 1
         Me.SettingsRvbmaxReg2.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRvbmaxReg2.Location = New System.Drawing.Point(194, 30)
+        Me.SettingsRvbmaxReg2.Location = New System.Drawing.Point(191, 30)
         Me.SettingsRvbmaxReg2.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
         Me.SettingsRvbmaxReg2.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
         Me.SettingsRvbmaxReg2.Name = "SettingsRvbmaxReg2"
@@ -573,7 +609,7 @@ Partial Class RVBSim
         '
         Me.Label43.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label43.AutoSize = True
-        Me.Label43.Location = New System.Drawing.Point(124, 33)
+        Me.Label43.Location = New System.Drawing.Point(121, 33)
         Me.Label43.Name = "Label43"
         Me.Label43.Size = New System.Drawing.Size(52, 13)
         Me.Label43.TabIndex = 27
@@ -584,7 +620,7 @@ Partial Class RVBSim
         '
         Me.Label44.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label44.AutoSize = True
-        Me.Label44.Location = New System.Drawing.Point(124, 56)
+        Me.Label44.Location = New System.Drawing.Point(121, 56)
         Me.Label44.Name = "Label44"
         Me.Label44.Size = New System.Drawing.Size(54, 26)
         Me.Label44.TabIndex = 8
@@ -594,7 +630,7 @@ Partial Class RVBSim
         'SettingsHeartbeatTimerReg2
         '
         Me.SettingsHeartbeatTimerReg2.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.SettingsHeartbeatTimerReg2.Location = New System.Drawing.Point(194, 59)
+        Me.SettingsHeartbeatTimerReg2.Location = New System.Drawing.Point(191, 59)
         Me.SettingsHeartbeatTimerReg2.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
         Me.SettingsHeartbeatTimerReg2.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.SettingsHeartbeatTimerReg2.Name = "SettingsHeartbeatTimerReg2"
@@ -750,7 +786,7 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 87.78626!))
         Me.GeneralSettingsTableReg3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.21374!))
         Me.GeneralSettingsTableReg3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70.0!))
-        Me.GeneralSettingsTableReg3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 69.0!))
+        Me.GeneralSettingsTableReg3.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 72.0!))
         Me.GeneralSettingsTableReg3.Controls.Add(Me.Label49, 2, 0)
         Me.GeneralSettingsTableReg3.Controls.Add(Me.SettingsRvbminReg3, 3, 0)
         Me.GeneralSettingsTableReg3.Controls.Add(Me.SettingsUserelativeReg3, 0, 0)
@@ -772,7 +808,7 @@ Partial Class RVBSim
         '
         Me.Label49.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label49.AutoSize = True
-        Me.Label49.Location = New System.Drawing.Point(124, 7)
+        Me.Label49.Location = New System.Drawing.Point(121, 7)
         Me.Label49.Name = "Label49"
         Me.Label49.Size = New System.Drawing.Size(49, 13)
         Me.Label49.TabIndex = 30
@@ -784,7 +820,7 @@ Partial Class RVBSim
         Me.SettingsRvbminReg3.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.SettingsRvbminReg3.DecimalPlaces = 1
         Me.SettingsRvbminReg3.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRvbminReg3.Location = New System.Drawing.Point(194, 3)
+        Me.SettingsRvbminReg3.Location = New System.Drawing.Point(191, 3)
         Me.SettingsRvbminReg3.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
         Me.SettingsRvbminReg3.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
         Me.SettingsRvbminReg3.Name = "SettingsRvbminReg3"
@@ -810,7 +846,7 @@ Partial Class RVBSim
         Me.SettingsRvbmaxReg3.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.SettingsRvbmaxReg3.DecimalPlaces = 1
         Me.SettingsRvbmaxReg3.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRvbmaxReg3.Location = New System.Drawing.Point(194, 30)
+        Me.SettingsRvbmaxReg3.Location = New System.Drawing.Point(191, 30)
         Me.SettingsRvbmaxReg3.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
         Me.SettingsRvbmaxReg3.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
         Me.SettingsRvbmaxReg3.Name = "SettingsRvbmaxReg3"
@@ -833,7 +869,7 @@ Partial Class RVBSim
         '
         Me.Label50.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label50.AutoSize = True
-        Me.Label50.Location = New System.Drawing.Point(124, 33)
+        Me.Label50.Location = New System.Drawing.Point(121, 33)
         Me.Label50.Name = "Label50"
         Me.Label50.Size = New System.Drawing.Size(52, 13)
         Me.Label50.TabIndex = 27
@@ -844,7 +880,7 @@ Partial Class RVBSim
         '
         Me.Label51.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label51.AutoSize = True
-        Me.Label51.Location = New System.Drawing.Point(124, 56)
+        Me.Label51.Location = New System.Drawing.Point(121, 56)
         Me.Label51.Name = "Label51"
         Me.Label51.Size = New System.Drawing.Size(54, 26)
         Me.Label51.TabIndex = 8
@@ -854,7 +890,7 @@ Partial Class RVBSim
         'SettingsHeartbeatTimerReg3
         '
         Me.SettingsHeartbeatTimerReg3.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.SettingsHeartbeatTimerReg3.Location = New System.Drawing.Point(194, 59)
+        Me.SettingsHeartbeatTimerReg3.Location = New System.Drawing.Point(191, 59)
         Me.SettingsHeartbeatTimerReg3.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
         Me.SettingsHeartbeatTimerReg3.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.SettingsHeartbeatTimerReg3.Name = "SettingsHeartbeatTimerReg3"
@@ -1020,7 +1056,7 @@ Partial Class RVBSim
         Me.GeneralSettingsTableReg1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 87.78626!))
         Me.GeneralSettingsTableReg1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.21374!))
         Me.GeneralSettingsTableReg1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70.0!))
-        Me.GeneralSettingsTableReg1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 69.0!))
+        Me.GeneralSettingsTableReg1.ColumnStyles.Add(New System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 72.0!))
         Me.GeneralSettingsTableReg1.Controls.Add(Me.Label7, 2, 0)
         Me.GeneralSettingsTableReg1.Controls.Add(Me.SettingsRvbminReg1, 3, 0)
         Me.GeneralSettingsTableReg1.Controls.Add(Me.SettingsUserelativeReg1, 0, 0)
@@ -1042,7 +1078,7 @@ Partial Class RVBSim
         '
         Me.Label7.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(124, 7)
+        Me.Label7.Location = New System.Drawing.Point(121, 7)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(49, 13)
         Me.Label7.TabIndex = 30
@@ -1054,7 +1090,7 @@ Partial Class RVBSim
         Me.SettingsRvbminReg1.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.SettingsRvbminReg1.DecimalPlaces = 1
         Me.SettingsRvbminReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRvbminReg1.Location = New System.Drawing.Point(194, 3)
+        Me.SettingsRvbminReg1.Location = New System.Drawing.Point(191, 3)
         Me.SettingsRvbminReg1.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
         Me.SettingsRvbminReg1.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
         Me.SettingsRvbminReg1.Name = "SettingsRvbminReg1"
@@ -1080,7 +1116,7 @@ Partial Class RVBSim
         Me.SettingsRvbmaxReg1.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.SettingsRvbmaxReg1.DecimalPlaces = 1
         Me.SettingsRvbmaxReg1.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.SettingsRvbmaxReg1.Location = New System.Drawing.Point(194, 30)
+        Me.SettingsRvbmaxReg1.Location = New System.Drawing.Point(191, 30)
         Me.SettingsRvbmaxReg1.Maximum = New Decimal(New Integer() {150, 0, 0, 0})
         Me.SettingsRvbmaxReg1.Minimum = New Decimal(New Integer() {90, 0, 0, 0})
         Me.SettingsRvbmaxReg1.Name = "SettingsRvbmaxReg1"
@@ -1103,7 +1139,7 @@ Partial Class RVBSim
         '
         Me.Label5.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(124, 33)
+        Me.Label5.Location = New System.Drawing.Point(121, 33)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(52, 13)
         Me.Label5.TabIndex = 27
@@ -1114,7 +1150,7 @@ Partial Class RVBSim
         '
         Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(124, 56)
+        Me.Label4.Location = New System.Drawing.Point(121, 56)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(54, 26)
         Me.Label4.TabIndex = 8
@@ -1124,7 +1160,7 @@ Partial Class RVBSim
         'SettingsHeartbeatTimerReg1
         '
         Me.SettingsHeartbeatTimerReg1.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.SettingsHeartbeatTimerReg1.Location = New System.Drawing.Point(194, 59)
+        Me.SettingsHeartbeatTimerReg1.Location = New System.Drawing.Point(191, 59)
         Me.SettingsHeartbeatTimerReg1.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
         Me.SettingsHeartbeatTimerReg1.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.SettingsHeartbeatTimerReg1.Name = "SettingsHeartbeatTimerReg1"
@@ -1248,7 +1284,7 @@ Partial Class RVBSim
         Me.lblwarning.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblwarning.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblwarning.ForeColor = System.Drawing.Color.Red
-        Me.lblwarning.Location = New System.Drawing.Point(6, 95)
+        Me.lblwarning.Location = New System.Drawing.Point(6, 146)
         Me.lblwarning.Name = "lblwarning"
         Me.lblwarning.Size = New System.Drawing.Size(247, 23)
         Me.lblwarning.TabIndex = 7
@@ -1330,81 +1366,362 @@ Partial Class RVBSim
         '
         'ProtocolParameters
         '
-        Me.ProtocolParameters.Controls.Add(Me.SinglePhaseCheckBox)
-        Me.ProtocolParameters.Controls.Add(Me.lblRevRVBValue)
-        Me.ProtocolParameters.Controls.Add(Me.lblMsgCenter)
-        Me.ProtocolParameters.Controls.Add(Me.lblFwdRVBValue)
-        Me.ProtocolParameters.Controls.Add(Me.ReadIpAddr)
-        Me.ProtocolParameters.Controls.Add(Me.SourceIPAddressLabel)
-        Me.ProtocolParameters.Controls.Add(Me.WriteIpAddr)
-        Me.ProtocolParameters.Controls.Add(Me.StartButton)
-        Me.ProtocolParameters.Controls.Add(Me.lblLocalVoltageValue)
-        Me.ProtocolParameters.Controls.Add(Me.Label3)
-        Me.ProtocolParameters.Controls.Add(Me.StopButton)
-        Me.ProtocolParameters.Controls.Add(Me.Label2)
-        Me.ProtocolParameters.Controls.Add(Me.PortReg1)
+        Me.ProtocolParameters.Controls.Add(Me.ReadingWritingValues)
         Me.ProtocolParameters.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ProtocolParameters.Location = New System.Drawing.Point(268, 3)
         Me.ProtocolParameters.Name = "ProtocolParameters"
-        Me.ProtocolParameters.Size = New System.Drawing.Size(664, 124)
+        Me.ProtocolParameters.Size = New System.Drawing.Size(664, 225)
         Me.ProtocolParameters.TabIndex = 0
         Me.ProtocolParameters.TabStop = False
         Me.ProtocolParameters.Text = "Protocol Parameters"
         '
+        'ReadingWritingValues
+        '
+        Me.ReadingWritingValues.Controls.Add(Me.FlowLayoutPanel5)
+        Me.ReadingWritingValues.Controls.Add(Me.RegulatorReadings)
+        Me.ReadingWritingValues.Location = New System.Drawing.Point(24, 13)
+        Me.ReadingWritingValues.Name = "ReadingWritingValues"
+        Me.ReadingWritingValues.Size = New System.Drawing.Size(629, 204)
+        Me.ReadingWritingValues.TabIndex = 4
+        '
+        'FlowLayoutPanel5
+        '
+        Me.FlowLayoutPanel5.Controls.Add(Me.FlowLayoutPanel6)
+        Me.FlowLayoutPanel5.Controls.Add(Me.FlowLayoutPanel7)
+        Me.FlowLayoutPanel5.Controls.Add(Me.FlowLayoutPanel8)
+        Me.FlowLayoutPanel5.Controls.Add(Me.FlowLayoutPanel9)
+        Me.FlowLayoutPanel5.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
+        Me.FlowLayoutPanel5.Location = New System.Drawing.Point(3, 3)
+        Me.FlowLayoutPanel5.Name = "FlowLayoutPanel5"
+        Me.FlowLayoutPanel5.Size = New System.Drawing.Size(245, 170)
+        Me.FlowLayoutPanel5.TabIndex = 5
+        '
+        'FlowLayoutPanel6
+        '
+        Me.FlowLayoutPanel6.Controls.Add(Me.SourceIPAddressLabel)
+        Me.FlowLayoutPanel6.Controls.Add(Me.ReadIpAddr)
+        Me.FlowLayoutPanel6.Controls.Add(Me.StartButton)
+        Me.FlowLayoutPanel6.Location = New System.Drawing.Point(3, 3)
+        Me.FlowLayoutPanel6.Name = "FlowLayoutPanel6"
+        Me.FlowLayoutPanel6.Size = New System.Drawing.Size(240, 30)
+        Me.FlowLayoutPanel6.TabIndex = 0
+        '
+        'SourceIPAddressLabel
+        '
+        Me.SourceIPAddressLabel.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SourceIPAddressLabel.AutoSize = True
+        Me.SourceIPAddressLabel.Location = New System.Drawing.Point(3, 8)
+        Me.SourceIPAddressLabel.Name = "SourceIPAddressLabel"
+        Me.SourceIPAddressLabel.Size = New System.Drawing.Size(36, 13)
+        Me.SourceIPAddressLabel.TabIndex = 33
+        Me.SourceIPAddressLabel.Text = "Read:"
+        Me.SourceIPAddressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'ReadIpAddr
+        '
+        Me.ReadIpAddr.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ReadIpAddr.Location = New System.Drawing.Point(45, 4)
+        Me.ReadIpAddr.Name = "ReadIpAddr"
+        Me.ReadIpAddr.Size = New System.Drawing.Size(110, 20)
+        Me.ReadIpAddr.TabIndex = 0
+        '
+        'FlowLayoutPanel7
+        '
+        Me.FlowLayoutPanel7.Controls.Add(Me.Label2)
+        Me.FlowLayoutPanel7.Controls.Add(Me.WriteIpAddr)
+        Me.FlowLayoutPanel7.Controls.Add(Me.StopButton)
+        Me.FlowLayoutPanel7.Location = New System.Drawing.Point(3, 39)
+        Me.FlowLayoutPanel7.Name = "FlowLayoutPanel7"
+        Me.FlowLayoutPanel7.Size = New System.Drawing.Size(240, 30)
+        Me.FlowLayoutPanel7.TabIndex = 1
+        '
+        'FlowLayoutPanel8
+        '
+        Me.FlowLayoutPanel8.Controls.Add(Me.Label3)
+        Me.FlowLayoutPanel8.Controls.Add(Me.PortReg1)
+        Me.FlowLayoutPanel8.Location = New System.Drawing.Point(3, 75)
+        Me.FlowLayoutPanel8.Name = "FlowLayoutPanel8"
+        Me.FlowLayoutPanel8.Size = New System.Drawing.Size(240, 30)
+        Me.FlowLayoutPanel8.TabIndex = 2
+        '
+        'FlowLayoutPanel9
+        '
+        Me.FlowLayoutPanel9.Controls.Add(Me.SinglePhaseCheckBox)
+        Me.FlowLayoutPanel9.Location = New System.Drawing.Point(3, 111)
+        Me.FlowLayoutPanel9.Name = "FlowLayoutPanel9"
+        Me.FlowLayoutPanel9.Size = New System.Drawing.Size(240, 27)
+        Me.FlowLayoutPanel9.TabIndex = 3
+        '
         'SinglePhaseCheckBox
         '
-        Me.SinglePhaseCheckBox.AutoSize = True
-        Me.SinglePhaseCheckBox.Location = New System.Drawing.Point(51, 99)
+        Me.SinglePhaseCheckBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SinglePhaseCheckBox.Location = New System.Drawing.Point(3, 3)
         Me.SinglePhaseCheckBox.Name = "SinglePhaseCheckBox"
         Me.SinglePhaseCheckBox.Size = New System.Drawing.Size(94, 17)
         Me.SinglePhaseCheckBox.TabIndex = 38
         Me.SinglePhaseCheckBox.Text = "Single Phase?"
         Me.SinglePhaseCheckBox.UseVisualStyleBackColor = True
         '
-        'lblRevRVBValue
+        'RegulatorReadings
         '
-        Me.lblRevRVBValue.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblRevRVBValue.Location = New System.Drawing.Point(261, 56)
-        Me.lblRevRVBValue.Name = "lblRevRVBValue"
-        Me.lblRevRVBValue.Size = New System.Drawing.Size(383, 20)
-        Me.lblRevRVBValue.TabIndex = 37
-        Me.lblRevRVBValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.RegulatorReadings.Controls.Add(Me.RegulatorAllReadings)
+        Me.RegulatorReadings.Controls.Add(Me.FlowLayoutPanel12)
+        Me.RegulatorReadings.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
+        Me.RegulatorReadings.Location = New System.Drawing.Point(254, 3)
+        Me.RegulatorReadings.Name = "RegulatorReadings"
+        Me.RegulatorReadings.Size = New System.Drawing.Size(370, 194)
+        Me.RegulatorReadings.TabIndex = 5
+        '
+        'RegulatorAllReadings
+        '
+        Me.RegulatorAllReadings.Controls.Add(Me.RegulatorSinglePhReadings)
+        Me.RegulatorAllReadings.Controls.Add(Me.Regulator3PhReadings)
+        Me.RegulatorAllReadings.Location = New System.Drawing.Point(3, 3)
+        Me.RegulatorAllReadings.Name = "RegulatorAllReadings"
+        Me.RegulatorAllReadings.Size = New System.Drawing.Size(375, 133)
+        Me.RegulatorAllReadings.TabIndex = 0
+        '
+        'Regulator1Readings
+        '
+        Me.Regulator1Readings.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.Regulator1Readings.Controls.Add(Me.FlowLayoutPanel2)
+        Me.Regulator1Readings.Location = New System.Drawing.Point(3, 3)
+        Me.Regulator1Readings.Name = "Regulator1Readings"
+        Me.Regulator1Readings.Size = New System.Drawing.Size(113, 120)
+        Me.Regulator1Readings.TabIndex = 0
+        Me.Regulator1Readings.TabStop = False
+        Me.Regulator1Readings.Text = "Regulator 1"
+        '
+        'FlowLayoutPanel2
+        '
+        Me.FlowLayoutPanel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.FlowLayoutPanel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.FlowLayoutPanel2.Controls.Add(Me.SourceVoltageReadingRegulator1)
+        Me.FlowLayoutPanel2.Controls.Add(Me.LocalVoltageReadingRegulator1)
+        Me.FlowLayoutPanel2.Controls.Add(Me.RevVoltageWritingRegulator1)
+        Me.FlowLayoutPanel2.Controls.Add(Me.FwdVoltageWritingRegulator1)
+        Me.FlowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
+        Me.FlowLayoutPanel2.Location = New System.Drawing.Point(6, 19)
+        Me.FlowLayoutPanel2.Name = "FlowLayoutPanel2"
+        Me.FlowLayoutPanel2.Size = New System.Drawing.Size(101, 96)
+        Me.FlowLayoutPanel2.TabIndex = 6
+        '
+        'SourceVoltageReadingRegulator1
+        '
+        Me.SourceVoltageReadingRegulator1.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.SourceVoltageReadingRegulator1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.SourceVoltageReadingRegulator1.Location = New System.Drawing.Point(2, 2)
+        Me.SourceVoltageReadingRegulator1.Margin = New System.Windows.Forms.Padding(2)
+        Me.SourceVoltageReadingRegulator1.Name = "SourceVoltageReadingRegulator1"
+        Me.SourceVoltageReadingRegulator1.Padding = New System.Windows.Forms.Padding(2)
+        Me.SourceVoltageReadingRegulator1.Size = New System.Drawing.Size(93, 19)
+        Me.SourceVoltageReadingRegulator1.TabIndex = 0
+        Me.SourceVoltageReadingRegulator1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'LocalVoltageReadingRegulator1
+        '
+        Me.LocalVoltageReadingRegulator1.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.LocalVoltageReadingRegulator1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LocalVoltageReadingRegulator1.Location = New System.Drawing.Point(2, 25)
+        Me.LocalVoltageReadingRegulator1.Margin = New System.Windows.Forms.Padding(2)
+        Me.LocalVoltageReadingRegulator1.Name = "LocalVoltageReadingRegulator1"
+        Me.LocalVoltageReadingRegulator1.Padding = New System.Windows.Forms.Padding(2)
+        Me.LocalVoltageReadingRegulator1.Size = New System.Drawing.Size(93, 19)
+        Me.LocalVoltageReadingRegulator1.TabIndex = 3
+        Me.LocalVoltageReadingRegulator1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'RevVoltageWritingRegulator1
+        '
+        Me.RevVoltageWritingRegulator1.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.RevVoltageWritingRegulator1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.RevVoltageWritingRegulator1.Location = New System.Drawing.Point(2, 48)
+        Me.RevVoltageWritingRegulator1.Margin = New System.Windows.Forms.Padding(2)
+        Me.RevVoltageWritingRegulator1.Name = "RevVoltageWritingRegulator1"
+        Me.RevVoltageWritingRegulator1.Padding = New System.Windows.Forms.Padding(2)
+        Me.RevVoltageWritingRegulator1.Size = New System.Drawing.Size(93, 19)
+        Me.RevVoltageWritingRegulator1.TabIndex = 1
+        Me.RevVoltageWritingRegulator1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'FwdVoltageWritingRegulator1
+        '
+        Me.FwdVoltageWritingRegulator1.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.FwdVoltageWritingRegulator1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.FwdVoltageWritingRegulator1.Location = New System.Drawing.Point(2, 71)
+        Me.FwdVoltageWritingRegulator1.Margin = New System.Windows.Forms.Padding(2)
+        Me.FwdVoltageWritingRegulator1.Name = "FwdVoltageWritingRegulator1"
+        Me.FwdVoltageWritingRegulator1.Padding = New System.Windows.Forms.Padding(2)
+        Me.FwdVoltageWritingRegulator1.Size = New System.Drawing.Size(93, 19)
+        Me.FwdVoltageWritingRegulator1.TabIndex = 2
+        Me.FwdVoltageWritingRegulator1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Regulator2Readings
+        '
+        Me.Regulator2Readings.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.Regulator2Readings.Controls.Add(Me.FlowLayoutPanel3)
+        Me.Regulator2Readings.Location = New System.Drawing.Point(3, 3)
+        Me.Regulator2Readings.Name = "Regulator2Readings"
+        Me.Regulator2Readings.Size = New System.Drawing.Size(113, 120)
+        Me.Regulator2Readings.TabIndex = 7
+        Me.Regulator2Readings.TabStop = False
+        Me.Regulator2Readings.Text = "Regulator 2"
+        '
+        'FlowLayoutPanel3
+        '
+        Me.FlowLayoutPanel3.AutoSize = True
+        Me.FlowLayoutPanel3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.FlowLayoutPanel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.FlowLayoutPanel3.Controls.Add(Me.SourceVoltageReadingRegulator2)
+        Me.FlowLayoutPanel3.Controls.Add(Me.LocalVoltageReadingRegulator2)
+        Me.FlowLayoutPanel3.Controls.Add(Me.RevVoltageWritingRegulator2)
+        Me.FlowLayoutPanel3.Controls.Add(Me.FwdVoltageWritingRegulator2)
+        Me.FlowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
+        Me.FlowLayoutPanel3.Location = New System.Drawing.Point(6, 19)
+        Me.FlowLayoutPanel3.Name = "FlowLayoutPanel3"
+        Me.FlowLayoutPanel3.Size = New System.Drawing.Size(101, 96)
+        Me.FlowLayoutPanel3.TabIndex = 6
+        '
+        'SourceVoltageReadingRegulator2
+        '
+        Me.SourceVoltageReadingRegulator2.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.SourceVoltageReadingRegulator2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.SourceVoltageReadingRegulator2.Location = New System.Drawing.Point(2, 2)
+        Me.SourceVoltageReadingRegulator2.Margin = New System.Windows.Forms.Padding(2)
+        Me.SourceVoltageReadingRegulator2.Name = "SourceVoltageReadingRegulator2"
+        Me.SourceVoltageReadingRegulator2.Padding = New System.Windows.Forms.Padding(2)
+        Me.SourceVoltageReadingRegulator2.Size = New System.Drawing.Size(93, 19)
+        Me.SourceVoltageReadingRegulator2.TabIndex = 0
+        Me.SourceVoltageReadingRegulator2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'LocalVoltageReadingRegulator2
+        '
+        Me.LocalVoltageReadingRegulator2.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.LocalVoltageReadingRegulator2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LocalVoltageReadingRegulator2.Location = New System.Drawing.Point(2, 25)
+        Me.LocalVoltageReadingRegulator2.Margin = New System.Windows.Forms.Padding(2)
+        Me.LocalVoltageReadingRegulator2.Name = "LocalVoltageReadingRegulator2"
+        Me.LocalVoltageReadingRegulator2.Padding = New System.Windows.Forms.Padding(2)
+        Me.LocalVoltageReadingRegulator2.Size = New System.Drawing.Size(93, 19)
+        Me.LocalVoltageReadingRegulator2.TabIndex = 7
+        Me.LocalVoltageReadingRegulator2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'RevVoltageWritingRegulator2
+        '
+        Me.RevVoltageWritingRegulator2.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.RevVoltageWritingRegulator2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.RevVoltageWritingRegulator2.Location = New System.Drawing.Point(2, 48)
+        Me.RevVoltageWritingRegulator2.Margin = New System.Windows.Forms.Padding(2)
+        Me.RevVoltageWritingRegulator2.Name = "RevVoltageWritingRegulator2"
+        Me.RevVoltageWritingRegulator2.Padding = New System.Windows.Forms.Padding(2)
+        Me.RevVoltageWritingRegulator2.Size = New System.Drawing.Size(93, 19)
+        Me.RevVoltageWritingRegulator2.TabIndex = 1
+        Me.RevVoltageWritingRegulator2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'FwdVoltageWritingRegulator2
+        '
+        Me.FwdVoltageWritingRegulator2.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.FwdVoltageWritingRegulator2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.FwdVoltageWritingRegulator2.Location = New System.Drawing.Point(2, 71)
+        Me.FwdVoltageWritingRegulator2.Margin = New System.Windows.Forms.Padding(2)
+        Me.FwdVoltageWritingRegulator2.Name = "FwdVoltageWritingRegulator2"
+        Me.FwdVoltageWritingRegulator2.Padding = New System.Windows.Forms.Padding(2)
+        Me.FwdVoltageWritingRegulator2.Size = New System.Drawing.Size(93, 19)
+        Me.FwdVoltageWritingRegulator2.TabIndex = 2
+        Me.FwdVoltageWritingRegulator2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Regulator3Readings
+        '
+        Me.Regulator3Readings.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.Regulator3Readings.Controls.Add(Me.FlowLayoutPanel4)
+        Me.Regulator3Readings.Location = New System.Drawing.Point(122, 3)
+        Me.Regulator3Readings.Name = "Regulator3Readings"
+        Me.Regulator3Readings.Size = New System.Drawing.Size(113, 120)
+        Me.Regulator3Readings.TabIndex = 7
+        Me.Regulator3Readings.TabStop = False
+        Me.Regulator3Readings.Text = "Regulator 3"
+        '
+        'FlowLayoutPanel4
+        '
+        Me.FlowLayoutPanel4.AutoSize = True
+        Me.FlowLayoutPanel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.FlowLayoutPanel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.FlowLayoutPanel4.Controls.Add(Me.SourceVoltageReadingRegulator3)
+        Me.FlowLayoutPanel4.Controls.Add(Me.LocalVoltageReadingRegulator3)
+        Me.FlowLayoutPanel4.Controls.Add(Me.RevVoltageWritingRegulator3)
+        Me.FlowLayoutPanel4.Controls.Add(Me.FwdVoltageWritingRegulator3)
+        Me.FlowLayoutPanel4.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
+        Me.FlowLayoutPanel4.Location = New System.Drawing.Point(6, 19)
+        Me.FlowLayoutPanel4.Name = "FlowLayoutPanel4"
+        Me.FlowLayoutPanel4.Size = New System.Drawing.Size(101, 96)
+        Me.FlowLayoutPanel4.TabIndex = 6
+        '
+        'SourceVoltageReadingRegulator3
+        '
+        Me.SourceVoltageReadingRegulator3.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.SourceVoltageReadingRegulator3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.SourceVoltageReadingRegulator3.Location = New System.Drawing.Point(2, 2)
+        Me.SourceVoltageReadingRegulator3.Margin = New System.Windows.Forms.Padding(2)
+        Me.SourceVoltageReadingRegulator3.Name = "SourceVoltageReadingRegulator3"
+        Me.SourceVoltageReadingRegulator3.Padding = New System.Windows.Forms.Padding(2)
+        Me.SourceVoltageReadingRegulator3.Size = New System.Drawing.Size(93, 19)
+        Me.SourceVoltageReadingRegulator3.TabIndex = 0
+        Me.SourceVoltageReadingRegulator3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'LocalVoltageReadingRegulator3
+        '
+        Me.LocalVoltageReadingRegulator3.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.LocalVoltageReadingRegulator3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.LocalVoltageReadingRegulator3.Location = New System.Drawing.Point(2, 25)
+        Me.LocalVoltageReadingRegulator3.Margin = New System.Windows.Forms.Padding(2)
+        Me.LocalVoltageReadingRegulator3.Name = "LocalVoltageReadingRegulator3"
+        Me.LocalVoltageReadingRegulator3.Padding = New System.Windows.Forms.Padding(2)
+        Me.LocalVoltageReadingRegulator3.Size = New System.Drawing.Size(93, 19)
+        Me.LocalVoltageReadingRegulator3.TabIndex = 7
+        Me.LocalVoltageReadingRegulator3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'RevVoltageWritingRegulator3
+        '
+        Me.RevVoltageWritingRegulator3.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.RevVoltageWritingRegulator3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.RevVoltageWritingRegulator3.Location = New System.Drawing.Point(2, 48)
+        Me.RevVoltageWritingRegulator3.Margin = New System.Windows.Forms.Padding(2)
+        Me.RevVoltageWritingRegulator3.Name = "RevVoltageWritingRegulator3"
+        Me.RevVoltageWritingRegulator3.Padding = New System.Windows.Forms.Padding(2)
+        Me.RevVoltageWritingRegulator3.Size = New System.Drawing.Size(93, 19)
+        Me.RevVoltageWritingRegulator3.TabIndex = 1
+        Me.RevVoltageWritingRegulator3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'FwdVoltageWritingRegulator3
+        '
+        Me.FwdVoltageWritingRegulator3.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.FwdVoltageWritingRegulator3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.FwdVoltageWritingRegulator3.Location = New System.Drawing.Point(2, 71)
+        Me.FwdVoltageWritingRegulator3.Margin = New System.Windows.Forms.Padding(2)
+        Me.FwdVoltageWritingRegulator3.Name = "FwdVoltageWritingRegulator3"
+        Me.FwdVoltageWritingRegulator3.Padding = New System.Windows.Forms.Padding(2)
+        Me.FwdVoltageWritingRegulator3.Size = New System.Drawing.Size(93, 19)
+        Me.FwdVoltageWritingRegulator3.TabIndex = 2
+        Me.FwdVoltageWritingRegulator3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'FlowLayoutPanel12
+        '
+        Me.FlowLayoutPanel12.Controls.Add(Me.lblMsgCenter)
+        Me.FlowLayoutPanel12.Location = New System.Drawing.Point(3, 142)
+        Me.FlowLayoutPanel12.Name = "FlowLayoutPanel12"
+        Me.FlowLayoutPanel12.Size = New System.Drawing.Size(360, 49)
+        Me.FlowLayoutPanel12.TabIndex = 1
         '
         'lblMsgCenter
         '
+        Me.lblMsgCenter.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblMsgCenter.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.lblMsgCenter.ImageAlign = System.Drawing.ContentAlignment.TopLeft
-        Me.lblMsgCenter.Location = New System.Drawing.Point(261, 78)
+        Me.lblMsgCenter.Location = New System.Drawing.Point(3, 3)
+        Me.lblMsgCenter.Margin = New System.Windows.Forms.Padding(3)
         Me.lblMsgCenter.Name = "lblMsgCenter"
-        Me.lblMsgCenter.Size = New System.Drawing.Size(383, 40)
+        Me.lblMsgCenter.Padding = New System.Windows.Forms.Padding(3)
+        Me.lblMsgCenter.Size = New System.Drawing.Size(351, 40)
         Me.lblMsgCenter.TabIndex = 36
         Me.lblMsgCenter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblFwdRVBValue
-        '
-        Me.lblFwdRVBValue.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.lblFwdRVBValue.Location = New System.Drawing.Point(261, 36)
-        Me.lblFwdRVBValue.Name = "lblFwdRVBValue"
-        Me.lblFwdRVBValue.Size = New System.Drawing.Size(383, 20)
-        Me.lblFwdRVBValue.TabIndex = 35
-        Me.lblFwdRVBValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'ReadIpAddr
-        '
-        Me.ReadIpAddr.Location = New System.Drawing.Point(51, 20)
-        Me.ReadIpAddr.Name = "ReadIpAddr"
-        Me.ReadIpAddr.Size = New System.Drawing.Size(110, 20)
-        Me.ReadIpAddr.TabIndex = 0
-        '
-        'SourceIPAddressLabel
-        '
-        Me.SourceIPAddressLabel.AutoSize = True
-        Me.SourceIPAddressLabel.Location = New System.Drawing.Point(9, 24)
-        Me.SourceIPAddressLabel.Name = "SourceIPAddressLabel"
-        Me.SourceIPAddressLabel.Size = New System.Drawing.Size(36, 13)
-        Me.SourceIPAddressLabel.TabIndex = 33
-        Me.SourceIPAddressLabel.Text = "Read:"
-        Me.SourceIPAddressLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'ProtocolBox
         '
@@ -1418,7 +1735,7 @@ Partial Class RVBSim
         Me.ProtocolBox.Controls.Add(Me.lblwarning)
         Me.ProtocolBox.Location = New System.Drawing.Point(3, 3)
         Me.ProtocolBox.Name = "ProtocolBox"
-        Me.ProtocolBox.Size = New System.Drawing.Size(259, 124)
+        Me.ProtocolBox.Size = New System.Drawing.Size(259, 225)
         Me.ProtocolBox.TabIndex = 1
         Me.ProtocolBox.TabStop = False
         Me.ProtocolBox.Text = "Supported TCP/IP Protocols"
@@ -1432,7 +1749,7 @@ Partial Class RVBSim
         Me.RVBPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
         Me.RVBPanel.Location = New System.Drawing.Point(12, 12)
         Me.RVBPanel.Name = "RVBPanel"
-        Me.RVBPanel.Size = New System.Drawing.Size(945, 698)
+        Me.RVBPanel.Size = New System.Drawing.Size(945, 795)
         Me.RVBPanel.TabIndex = 3
         '
         'ProtocolDetails
@@ -1441,7 +1758,7 @@ Partial Class RVBSim
         Me.ProtocolDetails.Controls.Add(Me.ProtocolParameters)
         Me.ProtocolDetails.Location = New System.Drawing.Point(3, 3)
         Me.ProtocolDetails.Name = "ProtocolDetails"
-        Me.ProtocolDetails.Size = New System.Drawing.Size(935, 136)
+        Me.ProtocolDetails.Size = New System.Drawing.Size(935, 231)
         Me.ProtocolDetails.TabIndex = 0
         '
         'CommunicationDetails
@@ -1449,7 +1766,7 @@ Partial Class RVBSim
         Me.CommunicationDetails.Controls.Add(Me.ModbusSettingsGroup)
         Me.CommunicationDetails.Controls.Add(Me.IecSettingsGroup)
         Me.CommunicationDetails.Controls.Add(Me.DnpSettingsGroup)
-        Me.CommunicationDetails.Location = New System.Drawing.Point(3, 145)
+        Me.CommunicationDetails.Location = New System.Drawing.Point(3, 240)
         Me.CommunicationDetails.Name = "CommunicationDetails"
         Me.CommunicationDetails.Size = New System.Drawing.Size(935, 178)
         Me.CommunicationDetails.TabIndex = 1
@@ -1552,9 +1869,9 @@ Partial Class RVBSim
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(3, 10)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(105, 13)
+        Me.Label9.Size = New System.Drawing.Size(91, 13)
         Me.Label9.TabIndex = 25
-        Me.Label9.Text = "Source RVB Voltage"
+        Me.Label9.Text = "Rev RVB Voltage"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label8
@@ -1675,9 +1992,9 @@ Partial Class RVBSim
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(3, 10)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(105, 13)
+        Me.Label12.Size = New System.Drawing.Size(91, 13)
         Me.Label12.TabIndex = 25
-        Me.Label12.Text = "Source RVB Voltage"
+        Me.Label12.Text = "Rev RVB Voltage"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label13
@@ -1789,9 +2106,9 @@ Partial Class RVBSim
         Me.Label16.AutoSize = True
         Me.Label16.Location = New System.Drawing.Point(3, 10)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(105, 13)
+        Me.Label16.Size = New System.Drawing.Size(91, 13)
         Me.Label16.TabIndex = 25
-        Me.Label16.Text = "Source RVB Voltage"
+        Me.Label16.Text = "Rev RVB Voltage"
         Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label17
@@ -2555,17 +2872,34 @@ Partial Class RVBSim
         'RVBSettingsPanel
         '
         Me.RVBSettingsPanel.Controls.Add(Me.RVBSettings)
-        Me.RVBSettingsPanel.Location = New System.Drawing.Point(3, 329)
+        Me.RVBSettingsPanel.Location = New System.Drawing.Point(3, 424)
         Me.RVBSettingsPanel.Name = "RVBSettingsPanel"
         Me.RVBSettingsPanel.Size = New System.Drawing.Size(935, 364)
         Me.RVBSettingsPanel.TabIndex = 2
+        '
+        'Regulator3PhReadings
+        '
+        Me.Regulator3PhReadings.Controls.Add(Me.Regulator2Readings)
+        Me.Regulator3PhReadings.Controls.Add(Me.Regulator3Readings)
+        Me.Regulator3PhReadings.Location = New System.Drawing.Point(130, 3)
+        Me.Regulator3PhReadings.Name = "Regulator3PhReadings"
+        Me.Regulator3PhReadings.Size = New System.Drawing.Size(241, 126)
+        Me.Regulator3PhReadings.TabIndex = 8
+        '
+        'RegulatorSinglePhReadings
+        '
+        Me.RegulatorSinglePhReadings.Controls.Add(Me.Regulator1Readings)
+        Me.RegulatorSinglePhReadings.Location = New System.Drawing.Point(3, 3)
+        Me.RegulatorSinglePhReadings.Name = "RegulatorSinglePhReadings"
+        Me.RegulatorSinglePhReadings.Size = New System.Drawing.Size(121, 126)
+        Me.RegulatorSinglePhReadings.TabIndex = 9
         '
         'RVBSim
         '
         Me.AcceptButton = Me.StartButton
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(960, 712)
+        Me.ClientSize = New System.Drawing.Size(960, 812)
         Me.Controls.Add(Me.RVBPanel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
@@ -2625,7 +2959,26 @@ Partial Class RVBSim
         CType(Me.DNPDestinationReg1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DNPSourceReg1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ProtocolParameters.ResumeLayout(False)
-        Me.ProtocolParameters.PerformLayout()
+        Me.ReadingWritingValues.ResumeLayout(False)
+        Me.FlowLayoutPanel5.ResumeLayout(False)
+        Me.FlowLayoutPanel6.ResumeLayout(False)
+        Me.FlowLayoutPanel6.PerformLayout()
+        Me.FlowLayoutPanel7.ResumeLayout(False)
+        Me.FlowLayoutPanel7.PerformLayout()
+        Me.FlowLayoutPanel8.ResumeLayout(False)
+        Me.FlowLayoutPanel8.PerformLayout()
+        Me.FlowLayoutPanel9.ResumeLayout(False)
+        Me.RegulatorReadings.ResumeLayout(False)
+        Me.RegulatorAllReadings.ResumeLayout(False)
+        Me.Regulator1Readings.ResumeLayout(False)
+        Me.FlowLayoutPanel2.ResumeLayout(False)
+        Me.Regulator2Readings.ResumeLayout(False)
+        Me.Regulator2Readings.PerformLayout()
+        Me.FlowLayoutPanel3.ResumeLayout(False)
+        Me.Regulator3Readings.ResumeLayout(False)
+        Me.Regulator3Readings.PerformLayout()
+        Me.FlowLayoutPanel4.ResumeLayout(False)
+        Me.FlowLayoutPanel12.ResumeLayout(False)
         Me.ProtocolBox.ResumeLayout(False)
         Me.ProtocolBox.PerformLayout()
         Me.RVBPanel.ResumeLayout(False)
@@ -2728,6 +3081,8 @@ Partial Class RVBSim
         CType(Me.DnpRRVBValueReg1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DnpFRVBValueReg1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RVBSettingsPanel.ResumeLayout(False)
+        Me.Regulator3PhReadings.ResumeLayout(False)
+        Me.RegulatorSinglePhReadings.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -2736,7 +3091,6 @@ Partial Class RVBSim
     Friend WithEvents ToolStripMenuItem1 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem3 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents lblLocalVoltageValue As System.Windows.Forms.Label
     Friend WithEvents WriteIpAddr As System.Windows.Forms.TextBox
     Friend WithEvents PortReg1 As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
@@ -2772,9 +3126,7 @@ Partial Class RVBSim
     Friend WithEvents SettingsRvbminReg1 As System.Windows.Forms.NumericUpDown
     Friend WithEvents SettingsRvbmaxReg1 As System.Windows.Forms.NumericUpDown
     Friend WithEvents RVBSettings As System.Windows.Forms.GroupBox
-    Friend WithEvents lblRevRVBValue As System.Windows.Forms.Label
     Friend WithEvents lblMsgCenter As System.Windows.Forms.Label
-    Friend WithEvents lblFwdRVBValue As System.Windows.Forms.Label
     Friend WithEvents RVBPanel As FlowLayoutPanel
     Friend WithEvents ProtocolDetails As FlowLayoutPanel
     Friend WithEvents CommunicationDetails As FlowLayoutPanel
@@ -2929,4 +3281,33 @@ Partial Class RVBSim
     Friend WithEvents RVBSettings3Phase As FlowLayoutPanel
     Friend WithEvents FlowLayoutPanel1 As FlowLayoutPanel
     Friend WithEvents SinglePhaseCheckBox As CheckBox
+    Friend WithEvents ReadingWritingValues As FlowLayoutPanel
+    Friend WithEvents Regulator1Readings As GroupBox
+    Friend WithEvents FlowLayoutPanel2 As FlowLayoutPanel
+    Friend WithEvents SourceVoltageReadingRegulator1 As Label
+    Friend WithEvents RevVoltageWritingRegulator1 As Label
+    Friend WithEvents FwdVoltageWritingRegulator1 As Label
+    Friend WithEvents FlowLayoutPanel5 As FlowLayoutPanel
+    Friend WithEvents FlowLayoutPanel6 As FlowLayoutPanel
+    Friend WithEvents FlowLayoutPanel7 As FlowLayoutPanel
+    Friend WithEvents FlowLayoutPanel8 As FlowLayoutPanel
+    Friend WithEvents FlowLayoutPanel9 As FlowLayoutPanel
+    Friend WithEvents RegulatorReadings As FlowLayoutPanel
+    Friend WithEvents RegulatorAllReadings As FlowLayoutPanel
+    Friend WithEvents Regulator2Readings As GroupBox
+    Friend WithEvents FlowLayoutPanel3 As FlowLayoutPanel
+    Friend WithEvents SourceVoltageReadingRegulator2 As Label
+    Friend WithEvents RevVoltageWritingRegulator2 As Label
+    Friend WithEvents FwdVoltageWritingRegulator2 As Label
+    Friend WithEvents Regulator3Readings As GroupBox
+    Friend WithEvents FlowLayoutPanel4 As FlowLayoutPanel
+    Friend WithEvents SourceVoltageReadingRegulator3 As Label
+    Friend WithEvents RevVoltageWritingRegulator3 As Label
+    Friend WithEvents FwdVoltageWritingRegulator3 As Label
+    Friend WithEvents FlowLayoutPanel12 As FlowLayoutPanel
+    Friend WithEvents LocalVoltageReadingRegulator1 As Label
+    Friend WithEvents LocalVoltageReadingRegulator2 As Label
+    Friend WithEvents LocalVoltageReadingRegulator3 As Label
+    Friend WithEvents RegulatorSinglePhReadings As FlowLayoutPanel
+    Friend WithEvents Regulator3PhReadings As FlowLayoutPanel
 End Class

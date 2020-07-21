@@ -26,6 +26,9 @@ Module DisEnableCheckBoxes
                 'general rvb settings dis/enable
                 SetEnable(RVBSim.RVBSettings, .Enabled)
 
+                ' single phase
+                SetEnable(RVBSim.SinglePhaseCheckBox, .Enabled)
+
             End With
 
         Catch ex As Exception
