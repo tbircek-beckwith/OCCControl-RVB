@@ -65,6 +65,8 @@ Module Declarations
     ''' 
     ''' Multiple phase regulator supports
     '''
+    Friend updateMetering As UpdateMeteringValues = New UpdateMeteringValues()
+
     Friend WriteTickerDones As List(Of ManualResetEvent) = Enumerable.Repeat(New ManualResetEvent(True), SupportedRegulatorNumber).ToList()
     Friend ReadTickerDones As New List(Of ManualResetEvent)
     Friend TimersEvents As New List(Of ManualResetEvent)
