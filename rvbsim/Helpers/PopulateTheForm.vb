@@ -39,11 +39,19 @@ Module Populate
 
             baseJsonSettings = jsonRead.GetSettings(Of JsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation,
                                                                                  path2:=$"{SettingFileName}.json"))
+            If IsNothing(baseJsonSettings) Then
+
+                MessageBox.Show(text:=$"Please check settings.json file values.", caption:="Unsupported data", buttons:=MessageBoxButtons.OK, icon:=MessageBoxIcon.Error)
+                isProtocolValid = False
+
+                Return
+            End If
 
             baseJsonSettingsRegulators = baseJsonSettings.Test
 
             ' populate RVBSim controls
-            PopulateControls(baseJsonSettingsRegulators, True)
+            ' PopulateControls(regulators:=baseJsonSettingsRegulators, enable:=True)
+            PopulateControlsNew(rvbForm:=RVBSim, regulators:=baseJsonSettingsRegulators, enable:=True, isSetting:=True)
 
             'RVBSim.PortReg1.Text = baseJsonSettings.Port
 

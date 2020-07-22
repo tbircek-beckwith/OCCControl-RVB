@@ -16,15 +16,11 @@ Module GenerateRVBVoltage
             Dim Forward_RVBVoltage2OperateWith As Double = 0.0
             Dim Reverse_RVBVoltage2OperateWith As Double = 0.0
 
-            Dim fwdVoltage = rvbForm.RVBSettings.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"SettingsFwdRVBVoltageReg{controlId}"))(0)
-
-            Dim revVoltage = rvbForm.RVBSettings.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"SettingsRevRVBVoltageReg{controlId}"))(0)
-
-            Dim useFixedVoltage = rvbForm.RVBSettings.GetChildControls(Of RadioButton)().Where(Function(tb) tb.Name.Equals($"SettingsUsefixedReg{controlId}"))(0)
-
-            Dim fwdScale = rvbForm.RVBSettings.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"SettingsFwdScaleFactorReg{controlId}"))(0)
-
-            Dim revScale = rvbForm.RVBSettings.GetChildControls(Of NumericUpDown)().Where(Function(tb) tb.Name.Equals($"SettingsRevScaleFactorReg{controlId}"))(0)
+            Dim fwdVoltage = CType(rvbForm.Controls.Find($"SettingsFwdRVBVoltageReg{controlId}", True)(0), NumericUpDown)
+            Dim revVoltage = CType(rvbForm.Controls.Find($"SettingsRevRVBVoltageReg{controlId}", True)(0), NumericUpDown)
+            Dim useFixedVoltage = CType(rvbForm.Controls.Find($"SettingsUsefixedReg{controlId}", True)(0), RadioButton)
+            Dim fwdScale = CType(rvbForm.Controls.Find($"SettingsFwdScaleFactorReg{controlId}", True)(0), NumericUpDown)
+            Dim revScale = CType(rvbForm.Controls.Find($"SettingsRevScaleFactorReg{controlId}", True)(0), NumericUpDown)
 
             Select Case useFixedVoltage.Checked
                 Case False
