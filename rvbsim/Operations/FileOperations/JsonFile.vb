@@ -40,7 +40,7 @@ Public Class JsonFile
             Return fileJson
 
         Catch ex As Exception
-            Dim message As String = $"{Now}: ({NameOf(GetSettings)}) {vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+            Dim message As String = $"{Now}: ({NameOf(GetSettings)}) {vbCrLf}{ex.Message}"  '{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
             SetText(RVBSim.lblMsgCenter, message)
             sb.AppendLine(message)
 
