@@ -76,7 +76,7 @@ Module Declarations
     Friend visibility As Boolean = True
     Friend testSetting As TestSettings
 
-    Friend jsonRead As JsonFile = New JsonFile()
+    Friend jsonRead As JsonFile ' = New JsonFile()
     Friend baseJsonSettings As JsonRoot
     Friend baseJsonSettingsRegulators As JsonTest
     Friend testJsonSettings As JsonRoot
