@@ -23,10 +23,10 @@ Public Class JsonValue
     Public Property Dai() As String
 
     <JsonProperty("Max")>
-    Public Property Max() As Integer
+    Public Property Max() As Double     ' Integer
 
     <JsonProperty("Min")>
-    Public Property Min() As Integer
+    Public Property Min() As Double     ' Integer
 
     <JsonProperty("ScaleFactor")>
     Public Property ScaleFactor() As Integer
