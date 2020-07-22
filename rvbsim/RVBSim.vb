@@ -60,64 +60,6 @@ Public Class RVBSim
         End If
     End Sub
 
-    '''' <summary>
-    '''' Writes periodically writes to write IP Address.
-    '''' </summary>
-    '''' <param name="state"></param>
-    '''' <param name="timeOut"></param>
-    'Protected Friend Sub PeriodicWriteEvent(ByVal state As Object, ByVal timeOut As Boolean)
-
-    '    If timeOut Then
-    '        ' TODO: add loop to thru multi phase regulators
-
-    '        Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicWriteEvent)}")
-
-    '        'Dim protectedState As Integer = Val(state) - 1
-    '        'If IsNothing(state) Then
-    '        '    protectedState = 0
-    '        'End If
-
-    '        For i = 0 To SupportedRegulatorNumber - 1
-
-    '            Interlocked.Exchange(HeartBeatTimers(i), 0)
-
-    '        Next
-
-    '        ' Interlocked.Exchange(Heart_Beat_Timer, 0)
-    '        ReadRegisterWait.Unregister(Nothing)
-
-    '        ' GenerateRVBVoltage2Transfer(rvbForm:=Me)
-
-    '        ' TODO: uncomment following DEBUG
-    '        periodicWrite.Write(rvbForm:=Me, regulatorId:=Val(state))           'protectedState)
-
-    '        ' TODO: delete me and following DEBUG
-    '        'periodicReset.Timers(rvbForm:=Me)
-
-    '    Else
-    '        WriteRegisterWait.Unregister(Nothing)
-    '    End If
-    'End Sub
-
-    '''' <summary>
-    '''' Reads periodically
-    '''' </summary>
-    '''' <param name="state"></param>
-    '''' <param name="timeOut"></param>
-    'Protected Friend Sub PeriodicReadEvent(ByVal state As Object, ByVal timeOut As Boolean)
-
-    '    If timeOut Then
-    '        ' TODO: add loop to thru multi phase regulators
-
-    '        Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicReadEvent)}")
-
-    '        periodicRead.Read(rvbForm:=Me)
-
-    '    Else
-    '        ReadRegisterWait.Unregister(Nothing)
-    '    End If
-    'End Sub
-
     ''' <summary>
     ''' Updates Protocol
     ''' </summary>
@@ -155,6 +97,7 @@ Public Class RVBSim
 
         Dim proc As Process
         Try
+            jsonRead = New JsonFile()
             processID = 0
             For Each proc In Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName)
                 processID += 1
@@ -299,7 +242,7 @@ Public Class RVBSim
 
             Dim rb As RadioButton = CType(sender, RadioButton)
 
-            If rb.Checked Then
+            If rb.Checked AndAlso Not String.IsNullOrWhiteSpace(rb.Name) Then
                 Dim soome = New RelativeOrFixedValue
                 soome.Decide(rvbForm:=Me, sender:=sender)
             End If
