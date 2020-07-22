@@ -16,8 +16,8 @@
         "values": [
           {
             "description": "Forward Remote Voltage Value",
-            "max": 150,
-            "min": 0,
+            "max": 150.0,
+            "min": 0.0,
             "name": "fwdrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
@@ -43,8 +43,8 @@
           },
           {
             "description": "Reverse Remote Voltage Value",
-            "max": 150,
-            "min": 0,
+            "max": 150.0,
+            "min": 0.0,
             "name": "revrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
@@ -61,21 +61,21 @@
           },
           {
             "description": "Remote Voltage Maximum",
-            "max": 1500,
-            "min": 900,
+            "max": 150.0,
+            "min": 90.0,
             "name": "rvbmax",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 1500
+            "value": 150.0
           },
           {
             "description": "Remote Voltage Minimum",
-            "max": 1500,
-            "min": 900,
+            "max": 150.0,
+            "min": 90.0,
             "name": "rvbmin",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 90
+            "value": 90.0
           },
           {
             "description": "Use relative values to read voltages or absolute value defined in the box",
@@ -94,12 +94,12 @@
         "values": [
           {
             "description": "Forward Remote Voltage Value",
-            "max": 150,
-            "min": 0,
+            "max": 150.0,
+            "min": 0.0,
             "name": "fwdrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 1156
+            "value": 115.6
           },
           {
             "description": "Remote Voltage Bias Scale factor",
@@ -121,12 +121,12 @@
           },
           {
             "description": "Reverse Remote Voltage Value",
-            "max": 150,
-            "min": 0,
+            "max": 150.0,
+            "min": 0.0,
             "name": "revrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 1255
+            "value": 125.5
           },
           {
             "description": "Reverse Remote Voltage Bias Scale Factor",
@@ -139,21 +139,21 @@
           },
           {
             "description": "Remote Voltage Maximum",
-            "max": 1500,
-            "min": 900,
+            "max": 150.0,
+            "min": 90.0,
             "name": "rvbmax",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 150
+            "value": 150.0
           },
           {
             "description": "Remote Voltage Minimum",
-            "max": 1500,
-            "min": 900,
+            "max": 150.0,
+            "min": 90.0,
             "name": "rvbmin",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 90
+            "value": 90.0
           },
           {
             "description": "Use relative values to read voltages or absolute value defined in the box",
@@ -172,8 +172,8 @@
         "values": [
           {
             "description": "Forward Remote Voltage Value",
-            "max": 150,
-            "min": 0,
+            "max": 150.0,
+            "min": 0.0,
             "name": "fwdrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
@@ -199,8 +199,8 @@
           },
           {
             "description": "Reverse Remote Voltage Value",
-            "max": 150,
-            "min": 0,
+            "max": 150.0,
+            "min": 0.0,
             "name": "revrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
@@ -217,21 +217,21 @@
           },
           {
             "description": "Remote Voltage Maximum",
-            "max": 1500,
-            "min": 900,
+            "max": 150.0,
+            "min": 90.0,
             "name": "rvbmax",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 1500
+            "value": 150.0
           },
           {
             "description": "Remote Voltage Minimum",
-            "max": 1500,
-            "min": 900,
+            "max": 150.0,
+            "min": 90.0,
             "name": "rvbmin",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 90
+            "value": 90.0
           },
           {
             "description": "Use relative values to read voltages or absolute value defined in the box",
