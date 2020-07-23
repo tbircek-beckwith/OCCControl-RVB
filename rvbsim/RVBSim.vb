@@ -9,21 +9,20 @@ Public Class RVBSim
     ''' </summary>
     ''' <param name="state"></param>
     ''' <param name="timeOut"></param>
-    Protected Friend Sub PeriodicReadEventNew(ByVal state As Object, ByVal timeOut As Boolean)
+    Protected Friend Sub PeriodicReadEvent(ByVal state As Object, ByVal timeOut As Boolean)
 
         If timeOut AndAlso StopButton.Enabled Then
-            ' TODO: add loop to thru multi phase regulators
 
-            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicReadEventNew)} -- STARTS")
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicReadEvent)} -- STARTS")
 
             Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- Reading is in progress... Reads everything.")
 
             Debug.WriteLine($"-----------------------> Elapsed time: {ReadingTimer.ElapsedMilliseconds} msec")
 
-            periodicRead.ReadNew(rvbForm:=Me)
+            periodicRead.Read(rvbForm:=Me)
 
             ' periodicRead.Read(rvbForm:=Me)
-            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicReadEventNew)} -- ENDS")
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicReadEvent)} -- ENDS")
 
         Else
             If StopButton.Enabled Then
@@ -40,7 +39,6 @@ Public Class RVBSim
     Protected Friend Sub PeriodicWriteEventNew(ByVal state As Object, ByVal timeOut As Boolean)
 
         If timeOut AndAlso StopButton.Enabled Then
-            ' TODO: add loop to thru multi phase regulators
 
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicWriteEventNew)} -- STARTS")
 

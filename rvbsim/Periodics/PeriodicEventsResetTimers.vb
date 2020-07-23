@@ -27,7 +27,7 @@ Namespace PeriodicOperations
                     ReadTickerDone.Reset()
 
                     ReadRegisterWait = ThreadPool.RegisterWaitForSingleObject(waitObject:=ReadTickerDone,
-                                                                              callBack:=New WaitOrTimerCallback(AddressOf rvbForm.PeriodicReadEventNew),
+                                                                              callBack:=New WaitOrTimerCallback(AddressOf rvbForm.PeriodicReadEvent),
                                                                               state:=regulatorID,
                                                                               millisecondsTimeOutInterval:=ReadInterval,
                                                                               executeOnlyOnce:=False)

@@ -132,7 +132,7 @@ Namespace Communication.Operations
                 ReadTickerDone.Reset()
 
                 ReadRegisterWait = ThreadPool.RegisterWaitForSingleObject(waitObject:=ReadTickerDone,
-                                                                           callBack:=New WaitOrTimerCallback(AddressOf RVBSim.PeriodicReadEventNew),
+                                                                           callBack:=New WaitOrTimerCallback(AddressOf RVBSim.PeriodicReadEvent),
                                                                            state:=Nothing,  ' regulator - 1,    ' 
                                                                            millisecondsTimeOutInterval:=ReadInterval,
                                                                            executeOnlyOnce:=False)

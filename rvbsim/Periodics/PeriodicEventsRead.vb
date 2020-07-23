@@ -4,10 +4,10 @@ Imports tcpdnp.AsyncDNP3_0
 Namespace PeriodicOperations
     Public Class ReadEvents
 
-        Protected Friend Sub ReadNew(ByRef rvbForm As RVBSim)
+        Protected Friend Sub Read(ByRef rvbForm As RVBSim)
             Try
 
-                Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(ReadNew)} --- START")
+                Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Read)} --- START")
 
                 Dim ReadEvent As New ManualResetEvent(False)
 
@@ -44,12 +44,11 @@ Namespace PeriodicOperations
                                             If registerBox.Name.Contains("Source") Then
 
                                                 Interlocked.Exchange(SourceVoltageReadings.Item(regulator.Id - 1), modbusRead.ReadHoldingRegisters(registerBox.Value, 1).ElementAt(0))
-                                                'Continue For
+
                                             ElseIf registerBox.Name.Contains("Local") Then
 
                                                 Interlocked.Exchange(LocalVoltageReadings.Item(regulator.Id - 1), modbusRead.ReadHoldingRegisters(registerBox.Value, 1).ElementAt(0))
 
-                                                ' Continue For
                                             End If
 
                                         Case "dnp"
@@ -85,17 +84,10 @@ Namespace PeriodicOperations
 
                                     End Select
 
-                                    'For i = 0 To WriteRegisterWaits.Count - 1
-
-                                    '  SetText(rvbForm.lblLocalVoltageValue, $"Regulator: {regulator.Id}, Readings: Fwd Voltage: {FormatNumber(CDbl(LocalVoltageReadings(regulator.Id - 1) / BecoCommunicationScaleFactor), 1)}V {vbTab} Src Voltage: {FormatNumber(CDbl(SourceVoltageReadings(regulator.Id - 1) / BecoCommunicationScaleFactor), 1)}V")
-
-                                    ' SetText(rvbForm.SourceVoltageReadingRegulator1, $"Reading: {FormatNumber(CDbl(LocalVoltageReadings(regulator.Id - 1) / BecoCommunicationScaleFactor), 1)}V")
-
                                     Dim s = New UpdateMeteringValues(rvbForm:=rvbForm, registerBox:=registerBox, regulatorId:=regulator.Id - 1)
 
                                     SetText(rvbForm.lblMsgCenter, $"Error: {ReceivedErrorMsg}")
 
-                                    ' Next
                                 End If
                             End If
                         Next
@@ -104,7 +96,7 @@ Namespace PeriodicOperations
 
                 Next
 
-                Debug.WriteLine($"Current thread Is # {Thread.CurrentThread.GetHashCode} {NameOf(ReadNew)} --- END")
+                Debug.WriteLine($"Current thread Is # {Thread.CurrentThread.GetHashCode} {NameOf(Read)} --- END")
 
                 If Not ReceivedErrorMsg = "None" Then sb.AppendLine($"{Now} Received {ReceivedErrorMsg} error")
 
