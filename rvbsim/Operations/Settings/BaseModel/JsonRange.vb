@@ -1,6 +1,6 @@
 ﻿Imports Newtonsoft.Json
 
-Public Class JsonRangeModel
+Public Class JsonRange
 
     ' JsonProperty names need to match the .json file and are case insensitive
 

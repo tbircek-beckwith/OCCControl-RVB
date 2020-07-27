@@ -5,21 +5,13 @@ Imports System.Threading
 Module Populate
 
     ''' <summary>
-    ''' Reads a Settings.xml file and populates form with read information.
+    ''' Reads a settings.json file and populates form with read information.
     ''' </summary>
     Friend Sub Populatetheform()
         Try
-            ' Read Settings.xml file
-            Dim xmlRead As New ReadXmlFile
-            xmlRead.Read()
-
-            ' Dim jsonRead As New JsonFile()
 
             ' update the form title
             RVBSim.Text = $"RVB Simulator({Assembly.GetEntryAssembly().GetName().Version.ToString(3)})"
-
-            ' Populate Communication Details and Enable all of the controls
-            SetValues(True)
 
             ' get the user settings
             With My.Settings
@@ -43,53 +35,55 @@ Module Populate
                 '************************************************************
             End With
 
-            Select Case testSetting.Protocol    '.protocol
+            Dim isProtocolValid As Boolean = True
 
-            ' baseJsonTestSettings = baseJsonSettings.Test.Regulator
+            baseJsonSettings = jsonRead.GetSettings(Of JsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation,
+                                                                                 path2:=$"{SettingFileName}.json"))
+            If IsNothing(baseJsonSettings) Then
 
-            ' Select Case baseJsonSettings.Protocol
+                MessageBox.Show(text:=$"Please check settings.json file values.", caption:="Unsupported data", buttons:=MessageBoxButtons.OK, icon:=MessageBoxIcon.Error)
+                isProtocolValid = False
+
+                Return
+            End If
+
+            baseJsonSettingsRegulators = baseJsonSettings.Test
+
+            ' populate RVBSim controls
+            PopulateControls(rvbForm:=RVBSim, regulators:=baseJsonSettingsRegulators, enable:=True, isSetting:=True)
+
+            Select Case baseJsonSettings.Protocol
                 Case "dnp"
-                    'testJsonValues = jsonRead.GetSettings(Of DnpProtocolSettingsModel)(Path.Combine(path1:=baseJsonSettingsFileLocation, path2:=$"Settings-{baseJsonSettings.Protocol}.json"))
+                    RVBSim.dnpbutton.PerformClick()
 
-                    RVBSim.dnpbutton.Checked = True
-                    RVBSim.PortReg1.Text = Regulators(0).DnpCommunication(0).Port 'dnpSetting.Port  '.dnpport
-                    RVBSim.CheckHandler(RVBSim.dnpbutton)
                 Case "modbus"
-                    'testJsonValues = jsonRead.GetSettings(Of ModbusProtocolSettingsModel)(Path.Combine(path1:=baseJsonSettingsFileLocation, path2:=$"Settings-{baseJsonSettings.Protocol}.json"))
-                    RVBSim.modbusbox.Checked = True
-                    RVBSim.PortReg1.Text = Regulators(0).ModbusCommunication(0).Port ' modbusRegister.Port  '.mdport
-                    Debug.WriteLine($"port value: {RVBSim.PortReg1.Text}")
-                    RVBSim.CheckHandler(RVBSim.modbusbox)
-                Case "iec"
-                    'testJsonValues = jsonRead.GetSettings(Of IecProtocolSettingsModel)(Path.Combine(path1:=baseJsonSettingsFileLocation, path2:=$"Settings-{baseJsonSettings.Protocol}.json"))
+                    RVBSim.modbusbox.PerformClick()
 
-                    RVBSim.iec61850box.Checked = True
-                    RVBSim.PortReg1.Text = Regulators(0).IECCommunication(0).Port ' iecSetting.Port '.iecport
-                    Debug.WriteLine($"port value: {RVBSim.PortReg1.Text}")
-                    RVBSim.CheckHandler(RVBSim.iec61850box)
+                Case "iec"
+                    RVBSim.iec61850box.PerformClick()
+
+                Case Else
+                    MessageBox.Show(text:=$"Please check Settings.json file protocol value.{vbCrLf}Read value: {testSetting.Protocol} <- not accurate", caption:="Unsupported Protocol", buttons:=MessageBoxButtons.OK, icon:=MessageBoxIcon.Error)
+                    isProtocolValid = False
+                    Exit Select
             End Select
 
+            ' is protocol accurate?
+            If isProtocolValid Then
 
-            '' Populate Communication Details and Enable all of the controls
-            'SetValues(True)
+                ' Populate Communication Details and Enable all of the controls
+                SetValuesFromJson(True)
 
-            'RVBSim.PortReg1.Text = testJsonValues.Port ' dnpSetting.Port  '.dnpport
-            'Debug.WriteLine($"port value: {RVBSim.PortReg1.Text}")
+            End If
 
-            RVBSim.ReadIpAddr.Text = testSetting.readIpAddress  '.IPAddressToRead
-            RVBSim.WriteIpAddr.Text = testSetting.writeIpAddress
-            RVBSim.RRVBScaleReg1.Value = testSetting.RevRVBVoltageScale
-            RVBSim.FRVBScaleReg1.Value = testSetting.FwdRVBVoltageScale
-
-            Debug.WriteLine("delete here")
-            '
         Catch ex As Exception
             Dim message As String = $"{Now}: ({NameOf(Populatetheform)}) {vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(RVBSim.lblMsgCenter, message)
+            ' SetText(RVBSim.lblMsgCenter, message)
+            SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         Finally
 
-            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Populatetheform)}")
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Populatetheform)} -- ENDS")
         End Try
     End Sub
 

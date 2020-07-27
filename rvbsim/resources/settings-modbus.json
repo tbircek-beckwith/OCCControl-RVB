@@ -1,0 +1,327 @@
+﻿{
+  "date": "07-08-2020",
+  "description": "modbus communication settings",
+  "fileversion": "1.0.2",
+  "protocol": "modbus",
+  "factory": 4787,
+  "port": 502,
+  "test": {
+    "regulator": [
+      {
+        "id": 1,
+        "name": "Regulator 1",
+        "values": [
+          {
+            "description": "Local Voltage (Secondary)",
+            "max": 65535,
+            "min": 0,
+            "name": "LocalVoltage",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "3701"
+          },
+          {
+            "description": "Source Voltage (Secondary)",
+            "max": 65535,
+            "min": 0,
+            "name": "SourceVoltage",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "3708"
+          },
+          {
+            "description": "RVB Enable",
+            "max": 1,
+            "min": 0,
+            "name": "RVBEnable",
+            "scalefactor": 1,
+            "unit": "-",
+            "value": "1991"
+          },
+          {
+            "description": "Fwd RVB Voltage",
+            "max": 65535,
+            "min": 0,
+            "name": "FRVBValue",
+            "scalefactor": 10,
+            "unit": "-",
+            "value": "3718"
+          },
+          {
+            "description": "Fwd RVB Scale",
+            "max": 65535,
+            "min": 0,
+            "name": "FRVBScale",
+            "scalefactor": 10,
+            "unit": "-",
+            "value": "1993"
+          },
+          {
+            "description": "RVB Heartbeat Timer",
+            "max": 65535,
+            "min": 0,
+            "name": "RVBHeartbeat",
+            "scalefactor": 1,
+            "unit": "secs",
+            "value": "1994"
+          },
+          {
+            "description": "RVB Active",
+            "max": 1,
+            "min": 0,
+            "name": "RVBActive",
+            "scalefactor": 1,
+            "unit": "-",
+            "value": "1995"
+          },
+          {
+            "description": "Rev RVB Voltage",
+            "max": 65535,
+            "min": 0,
+            "name": "RRVBValue",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "3720"
+          },
+          {
+            "description": "Rev RVB Scale",
+            "max": 65535,
+            "min": 0,
+            "name": "RRVBScale",
+            "scalefactor": 10,
+            "unit": "-",
+            "value": "1997"
+          },
+          {
+            "description": "Remote Voltage Maximum",
+            "max": 65535,
+            "min": 0,
+            "name": "RVBMax",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "1998"
+          },
+          {
+            "description": "Remote Voltage Minimum",
+            "max": 65535,
+            "min": 0,
+            "name": "RVBMin",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "1999"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Regulator 2",
+        "values": [
+          {
+            "description": "Local Voltage (Secondary)",
+            "max": 65535,
+            "min": 0,
+            "name": "LocalVoltage",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "3727"
+          },
+          {
+            "description": "Source Voltage (Secondary)",
+            "max": 65535,
+            "min": 0,
+            "name": "SourceVoltage",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "3733"
+          },
+          {
+            "description": "RVB Enable",
+            "max": 1,
+            "min": 0,
+            "name": "RVBEnable",
+            "scalefactor": 1,
+            "unit": "-",
+            "value": "1991"
+          },
+          {
+            "description": "Fwd RVB Voltage",
+            "max": 65535,
+            "min": 0,
+            "name": "FRVBValue",
+            "scalefactor": 10,
+            "unit": "-",
+            "value": "3742"
+          },
+          {
+            "description": "Fwd RVB Scale",
+            "max": 65535,
+            "min": 0,
+            "name": "FRVBScale",
+            "scalefactor": 10,
+            "unit": "-",
+            "value": "1993"
+          },
+          {
+            "description": "RVB Heartbeat Timer",
+            "max": 65535,
+            "min": 0,
+            "name": "RVBHeartbeat",
+            "scalefactor": 1,
+            "unit": "secs",
+            "value": "1994"
+          },
+          {
+            "description": "RVB Active",
+            "max": 1,
+            "min": 0,
+            "name": "RVBActive",
+            "scalefactor": 1,
+            "unit": "-",
+            "value": "1995"
+          },
+          {
+            "description": "Rev RVB Voltage",
+            "max": 65535,
+            "min": 0,
+            "name": "RRVBValue",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "3744"
+          },
+          {
+            "description": "Rev RVB Scale",
+            "max": 65535,
+            "min": 0,
+            "name": "RRVBScale",
+            "scalefactor": 10,
+            "unit": "-",
+            "value": "1997"
+          },
+          {
+            "description": "Remote Voltage Maximum",
+            "max": 65535,
+            "min": 0,
+            "name": "RVBMax",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "1998"
+          },
+          {
+            "description": "Remote Voltage Minimum",
+            "max": 65535,
+            "min": 0,
+            "name": "RVBMin",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "1999"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Regulator 3",
+        "values": [
+          {
+            "description": "Local Voltage (Secondary)",
+            "max": 65535,
+            "min": 0,
+            "name": "LocalVoltage",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "3750"
+          },
+          {
+            "description": "Source Voltage (Secondary)",
+            "max": 65535,
+            "min": 0,
+            "name": "SourceVoltage",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "3756"
+          },
+          {
+            "description": "RVB Enable",
+            "max": 1,
+            "min": 0,
+            "name": "RVBEnable",
+            "scalefactor": 1,
+            "unit": "-",
+            "value": "1991"
+          },
+          {
+            "description": "Fwd RVB Voltage",
+            "max": 65535,
+            "min": 0,
+            "name": "FRVBValue",
+            "scalefactor": 10,
+            "unit": "-",
+            "value": "3765"
+          },
+          {
+            "description": "Fwd RVB Scale",
+            "max": 65535,
+            "min": 0,
+            "name": "FRVBScale",
+            "scalefactor": 10,
+            "unit": "-",
+            "value": "1993"
+          },
+          {
+            "description": "RVB Heartbeat Timer",
+            "max": 65535,
+            "min": 0,
+            "name": "RVBHeartbeat",
+            "scalefactor": 1,
+            "unit": "secs",
+            "value": "1994"
+          },
+          {
+            "description": "RVB Active",
+            "max": 1,
+            "min": 0,
+            "name": "RVBActive",
+            "scalefactor": 1,
+            "unit": "-",
+            "value": "1995"
+          },
+          {
+            "description": "Rev RVB Voltage",
+            "max": 65535,
+            "min": 0,
+            "name": "RRVBValue",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "3767"
+          },
+          {
+            "description": "Rev RVB Scale",
+            "max": 65535,
+            "min": 0,
+            "name": "RRVBScale",
+            "scalefactor": 10,
+            "unit": "-",
+            "value": "1997"
+          },
+          {
+            "description": "Remote Voltage Maximum",
+            "max": 65535,
+            "min": 0,
+            "name": "RVBMax",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "1998"
+          },
+          {
+            "description": "Remote Voltage Minimum",
+            "max": 65535,
+            "min": 0,
+            "name": "RVBMin",
+            "scalefactor": 10,
+            "unit": "volts",
+            "value": "1999"
+          }
+        ]
+      }
+    ]
+  }
+}

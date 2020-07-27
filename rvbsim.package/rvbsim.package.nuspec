@@ -11,7 +11,7 @@
     <license type="expression">MIT</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Reads specified local and source voltages, modifies and writes back to specified remote voltage registers.</description>
-    <releaseNotes>adds new user interface.</releaseNotes>
+    <releaseNotes>adds 3ph user interface. settings loaded from settings.json files</releaseNotes>
     <copyright>Copyright © 2013-2020 Beckwith Electric Co. Inc.</copyright>
     <tags>metering modbus dnp3.0 iec61850 beckwith electric remote voltage control turgay bircek</tags>
     <dependencies/>

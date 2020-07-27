@@ -1,0 +1,499 @@
+﻿{
+  "date": "07-02-2020",
+  "description": "iec61850 communication settings",
+  "fileversion": "1.0.1",
+  "protocol": "iec",
+  "readiedname": "GE2011E",
+  "writeiedname": "GE2011E",
+  "port": 102,
+  "test": {
+    "regulator": [
+      {
+        "id": 1,
+        "name": "Regulator 1",
+        "values": [
+          {
+            "id": "LodCtrV",
+            "name": "LocalVoltage",
+            "description": "Local Voltage (Secondary)",
+            "fc": "MX",
+            "sdi": "mag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC0",
+            "unit": "volts"
+          },
+          {
+            "id": "SrcCtrV",
+            "name": "SourceVoltage",
+            "description": "Source Voltage (Secondary)",
+            "fc": "MX",
+            "sdi": "mag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC0",
+            "unit": "volts"
+          },
+          {
+            "id": "RemVBiaEn",
+            "name": "RVBEnable",
+            "description": "RVB Enable",
+            "fc": "SP",
+            "sdi": "setVal",
+            "dai": "",
+            "range": [
+              {
+                "max": 1,
+                "min": 0
+              }
+            ],
+            "value": "ATCC0",
+            "unit": "-"
+          },
+          {
+            "id": "FRemVVal",
+            "name": "FRVBValue",
+            "description": "Fwd RVB Voltage",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC0",
+            "unit": "-"
+          },
+          {
+            "name": "FRVBScale",
+            "description": "Fwd RVB Scale",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC0",
+            "unit": "-"
+          },
+          {
+            "id": "RemVBiaHbT",
+            "name": "RVBHeartbeat",
+            "description": "RVB Heartbeat Timer",
+            "fc": "SP",
+            "sdi": "setVal",
+            "dai": "",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATTC0",
+            "unit": "secs"
+          },
+          {
+            "id": "RRemVVal",
+            "name": "RRVBValue",
+            "description": "Rev RVB Voltage",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC0",
+            "unit": "volts"
+          },
+          {
+            "id": "RRemVSF",
+            "name": "RRVBScale",
+            "description": "Rev RVB Scale",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC0",
+            "unit": "-"
+          },
+          {
+            "id": "ReVMax",
+            "name": "RVBMax",
+            "description": "Remote Voltage Maximum",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC0",
+            "unit": "volts"
+          },
+          {
+            "id": "ReVMin",
+            "name": "RVBMin",
+            "description": "Remote Voltage Minimum",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC0",
+            "unit": "volts"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Regulator 2",
+        "values": [
+          {
+            "id": "LodCtrV",
+            "name": "LocalVoltage",
+            "description": "Local Voltage (Secondary)",
+            "fc": "MX",
+            "sdi": "mag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC1",
+            "unit": "volts"
+          },
+          {
+            "id": "SrcCtrV",
+            "name": "SourceVoltage",
+            "description": "Source Voltage (Secondary)",
+            "fc": "MX",
+            "sdi": "mag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC1",
+            "unit": "volts"
+          },
+          {
+            "id": "RemVBiaEn",
+            "name": "RVBEnable",
+            "description": "RVB Enable",
+            "fc": "SP",
+            "sdi": "setVal",
+            "dai": "",
+            "range": [
+              {
+                "max": 1,
+                "min": 0
+              }
+            ],
+            "value": "ATCC1",
+            "unit": "-"
+          },
+          {
+            "id": "FRemVVal",
+            "name": "FRVBValue",
+            "description": "Fwd RVB Voltage",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC1",
+            "unit": "-"
+          },
+          {
+            "name": "FRVBScale",
+            "description": "Fwd RVB Scale",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC1",
+            "unit": "-"
+          },
+          {
+            "id": "RemVBiaHbT",
+            "name": "RVBHeartbeat",
+            "description": "RVB Heartbeat Timer",
+            "fc": "SP",
+            "sdi": "setVal",
+            "dai": "",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATTC1",
+            "unit": "secs"
+          },
+          {
+            "id": "RRemVVal",
+            "name": "RRVBValue",
+            "description": "Rev RVB Voltage",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC1",
+            "unit": "volts"
+          },
+          {
+            "id": "RRemVSF",
+            "name": "RRVBScale",
+            "description": "Rev RVB Scale",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC1",
+            "unit": "-"
+          },
+          {
+            "id": "ReVMax",
+            "name": "RVBMax",
+            "description": "Remote Voltage Maximum",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC1",
+            "unit": "volts"
+          },
+          {
+            "id": "ReVMin",
+            "name": "RVBMin",
+            "description": "Remote Voltage Minimum",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC1",
+            "unit": "volts"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Regulator 3",
+        "values": [
+          {
+            "id": "LodCtrV",
+            "name": "LocalVoltage",
+            "description": "Local Voltage (Secondary)",
+            "fc": "MX",
+            "sdi": "mag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC2",
+            "unit": "volts"
+          },
+          {
+            "id": "SrcCtrV",
+            "name": "SourceVoltage",
+            "description": "Source Voltage (Secondary)",
+            "fc": "MX",
+            "sdi": "mag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC2",
+            "unit": "volts"
+          },
+          {
+            "id": "RemVBiaEn",
+            "name": "RVBEnable",
+            "description": "RVB Enable",
+            "fc": "SP",
+            "sdi": "setVal",
+            "dai": "",
+            "range": [
+              {
+                "max": 1,
+                "min": 0
+              }
+            ],
+            "value": "ATCC2",
+            "unit": "-"
+          },
+          {
+            "id": "FRemVVal",
+            "name": "FRVBValue",
+            "description": "Fwd RVB Voltage",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC2",
+            "unit": "-"
+          },
+          {
+            "name": "FRVBScale",
+            "description": "Fwd RVB Scale",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC2",
+            "unit": "-"
+          },
+          {
+            "id": "RemVBiaHbT",
+            "name": "RVBHeartbeat",
+            "description": "RVB Heartbeat Timer",
+            "fc": "SP",
+            "sdi": "setVal",
+            "dai": "",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATTC2",
+            "unit": "secs"
+          },
+          {
+            "id": "RRemVVal",
+            "name": "RRVBValue",
+            "description": "Rev RVB Voltage",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC2",
+            "unit": "volts"
+          },
+          {
+            "id": "RRemVSF",
+            "name": "RRVBScale",
+            "description": "Rev RVB Scale",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC2",
+            "unit": "-"
+          },
+          {
+            "id": "ReVMax",
+            "name": "RVBMax",
+            "description": "Remote Voltage Maximum",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC2",
+            "unit": "volts"
+          },
+          {
+            "id": "ReVMin",
+            "name": "RVBMin",
+            "description": "Remote Voltage Minimum",
+            "fc": "SP",
+            "sdi": "setMag",
+            "dai": "i",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "ATCC2",
+            "unit": "volts"
+          }
+        ]
+      }
+    ]
+  }
+}

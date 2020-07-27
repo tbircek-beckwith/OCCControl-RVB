@@ -2,7 +2,7 @@
 Imports System.Threading
 'Imports Automatak.DNP3.Adapter
 'Imports Automatak.DNP3.Interface
-Imports rvb_sim.dnp
+'Imports rvb_sim.dnp
 
 Namespace Communication.Operations
 
@@ -15,11 +15,10 @@ Namespace Communication.Operations
         Protected Friend Sub Start()
 
             Try
-
                 With RVBSim
 
                     Dim Connection As New ManualResetEvent(False)
-                    TimersEvent = New ManualResetEvent(False)
+                    ' TimersEvent = New ManualResetEvent(False)
 
                     errorCounter = 0
                     ReceivedErrorMsg = "None"
@@ -28,13 +27,15 @@ Namespace Communication.Operations
                     .UpdateProtocol()
 
                     'set texts and buttons
-                    SetText(.lblMsgCenter, "Establishing communication ...")
+                    ' SetText(.lblMsgCenter, "Establishing communication ...")
+                    SetTextBox(textbox:= .ErrorsTextBox, text:="Establishing communication...")
                     SetEnable(.StopButton, True)
                     SetEnable(.StartButton, False)
                     Disenable()
 
                     IPs = { .ReadIpAddr.Text, .WriteIpAddr.Text}
-                    SetText(.lblMsgCenter, "Connecting to the units ...")
+                    ' SetText(.lblMsgCenter, "Connecting to the units ...")
+                    SetTextBox(textbox:= .ErrorsTextBox, text:="Connecting to the units...")
 
                     Dim success As Boolean = False
 
@@ -68,31 +69,15 @@ Namespace Communication.Operations
                             success = modbusRead.Connected And modbusWrite.Connected
 
                         ElseIf ProtocolInUse = "dnp" Then
+
                             tcpdnp.AsyncDNP3_0.ConsoleWriteEnable = True
                             dnp = New tcpdnp.AsyncDNP3_0(IPs.Length, DNP_BufferSize)
                             dnp.AsyncConnectTo(IPs, .PortReg1.Text, Connection)
                             ReceivedErrorMsg = tcpdnp.AsyncDNP3_0.ErrorReceived
                             success = Connection.WaitOne(1000)
 
-
-                            'dnpReadManager = DNP3ManagerFactory.CreateManager(1, New PrintingLogAdapter())
-
-                            'Dim channel As IChannel = dnpReadManager.AddTCPClient(id:="dnpReadingChannel",
-                            '                                                      filters:=LogLevels.NORMAL,
-                            '                                                      retry:=New ChannelRetry(minRetryDelay:=TimeSpan.FromSeconds(1), maxRetryDelay:=TimeSpan.FromSeconds(10), reconnectDelay:=TimeSpan.FromSeconds(5)),
-                            '                                                      remotes:=New List(Of IPEndpoint) From {New IPEndpoint(RVBSim.txtRead.Text, RVBSim.txtPort.Text)},
-                            '                                                      listener:=ChannelListener.Print())
-                            ' Dim newDnpRead = New Dnp30().OpenConnection(RVBSim.txtRead.Text, RVBSim.txtPort.Text)
-
-                            'Dim newDnp = New Dnp30
-
-                            'newDnp.OpenConnection(RVBSim.txtRead.Text, RVBSim.txtPort.Text)
-
-
-                            ' Debug.WriteLine($"dnp reads: {newDnpRead}")
-
                         ElseIf ProtocolInUse = "iec" Then
-                            ' iec.AsyncIEC61850.ConsoleWriteEnable = ConsoleWriteEnable
+
                             iec61850 = New iec.AsyncIEC61850(iecSetting.ReadIEDName, iecSetting.WriteIEDName, IPs.Length, IEC_BufferSize)
                             iec61850.AsyncConnectTo(IPs, .PortReg1.Text, Connection)
                             ReceivedErrorMsg = iec.AsyncIEC61850.ErrorReceived
@@ -103,7 +88,8 @@ Namespace Communication.Operations
                         Thread.CurrentThread.Join(100)
 
                         If success Then
-                            SetText(.lblMsgCenter, "Connection successful ...")
+                            ' SetText(.lblMsgCenter, "Connection successful ...")
+                            SetTextBox(textbox:= .ErrorsTextBox, text:="Connection is successful...")
 
                             For Each ip As String In IPs
                                 sb.AppendLine($"{Now} Successfully connected to read {ip}")
@@ -112,20 +98,10 @@ Namespace Communication.Operations
                             ' set factory option and etc.
                             SendSettings()
 
-                            TimersEvent.Set()
-
-                            ReadInterval = .HeartbeatTimerReg1.Value * 250
-                            WriteInterval = .HeartbeatTimerReg1.Value * 900
-
-                            'initial read of local voltage
-                            ReadTickerDone.Reset()
-                            ReadRegisterWait = ThreadPool.RegisterWaitForSingleObject(ReadTickerDone, New WaitOrTimerCallback(AddressOf .PeriodicReadEvent), Nothing, ReadInterval, True)
-
-                            WriteTickerDone.Reset()
-                            WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(WriteTickerDone, New WaitOrTimerCallback(AddressOf .PeriodicWriteEvent), Nothing, WriteInterval, False)
+                            WriteRegisterWaits = New List(Of RegisteredWaitHandle)
+                            SetMultiPhase(rvbForm:=RVBSim)
 
                         Else
-                            'Throw New Sockets.SocketException(CInt(Sockets.SocketError.HostUnreachable))
                             Throw New CustomExceptions("Host(s) is(are) unreachable")
                         End If
 
@@ -138,8 +114,9 @@ Namespace Communication.Operations
                 End With
 
             Catch ex As Exception
-                Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                SetText(RVBSim.lblMsgCenter, message)
+                Dim message As String = $"{Now}{vbCrLf}{ex.Message}{vbCrLf}{ex.StackTrace}"
+                ' SetText(RVBSim.lblMsgCenter, message)
+                SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
                 sb.AppendLine(message)
                 SetEnable(RVBSim.StartButton, True)
                 SetEnable(RVBSim.StopButton, False)
@@ -147,6 +124,70 @@ Namespace Communication.Operations
             End Try
         End Sub
 
+        Private Sub SetMultiPhase(ByRef rvbForm As RVBSim)
+
+            Try
+                Dim heartbeat = GetSpecificControl(rvbForm:=RVBSim, featureType:="Settings", featureName:="HeartbeatTimer")
+
+                ' always reading at 500msec, this is not effected by the user selection.
+                ' this way the application would have the highest sensitivity to voltage changes.
+                ' does not produce a lot of traffic
+                ReadInterval = 500
+                ReadTickerDone.Reset()
+
+                ReadRegisterWait = ThreadPool.RegisterWaitForSingleObject(waitObject:=ReadTickerDone,
+                                                                           callBack:=New WaitOrTimerCallback(AddressOf RVBSim.PeriodicReadEvent),
+                                                                           state:=Nothing,  ' regulator - 1,    ' 
+                                                                           millisecondsTimeOutInterval:=ReadInterval,
+                                                                           executeOnlyOnce:=False)
+
+                ReadingTimer.Start()
+
+                For Each beat In heartbeat
+
+                    TimersEvent = New ManualResetEvent(True)
+                    TimersEvents.Add(TimersEvent)
+
+                    With CType(beat, NumericUpDown)
+
+                        ' write events effected by the user selections.
+                        WriteInterval = (.Value - 0.2) * 1000 ' * 900
+
+                        Dim regulator = Val(beat.Name.Last())
+
+                        HeartBeatTimers.Item(regulator - 1) = .Value
+
+                        Interlocked.Exchange(WriteIntervals(regulator - 1), WriteInterval)
+
+                        WriteTickerDone.Reset()
+
+                        Interlocked.Exchange(WriteTickerDones(regulator - 1), WriteTickerDone)
+                        WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(waitObject:=WriteTickerDones(regulator - 1),
+                                                                                   callBack:=New WaitOrTimerCallback(AddressOf RVBSim.PeriodicWriteEventNew),
+                                                                                   state:=regulator - 1,
+                                                                                   millisecondsTimeOutInterval:=WriteInterval,
+                                                                                   executeOnlyOnce:=False)
+
+                        WriteRegisterWaits.Add(WriteRegisterWait)
+
+                        WritingTimers(regulator - 1).Start()
+                    End With
+
+                    If rvbForm.SinglePhaseCheckBox.Checked Then
+                        Exit For
+                    End If
+                Next
+
+            Catch ex As Exception
+                Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
+                ' SetText(RVBSim.lblMsgCenter, message)
+                SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
+                sb.AppendLine(message)
+                SetEnable(RVBSim.StartButton, True)
+                SetEnable(RVBSim.StopButton, False)
+                Disenable()
+            End Try
+        End Sub
     End Class
 End Namespace
 

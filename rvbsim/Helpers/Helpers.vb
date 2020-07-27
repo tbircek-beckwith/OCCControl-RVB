@@ -4,7 +4,8 @@ Module Helpers
 
     Friend Function PingIPAddresses(ByVal IPs As String()) As Boolean
         PingIPAddresses = False
-        SetText(RVBSim.lblMsgCenter, ReceivedErrorMsg)
+        ' SetText(RVBSim.lblMsgCenter, ReceivedErrorMsg)
+        SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=ReceivedErrorMsg)
 
         Dim siteResponds As Boolean = My.Computer.Network.Ping(IPs(0), 5000)
         PingIPAddresses = My.Computer.Network.Ping(IPs(1), 5000) And siteResponds
@@ -14,7 +15,11 @@ Module Helpers
 
     Friend Sub CheckErrors()
         If Not Interlocked.Read(errorCounter) >= 10 Then
-            periodicReset.Timers(rvbForm:=RVBSim)
+
+            For i = 0 To SupportedRegulatorNumber - 1
+                periodicReset.Timers(rvbForm:=RVBSim, regulatorID:=i)
+
+            Next
         End If
     End Sub
 

@@ -1,4 +1,5 @@
-﻿Module SetControls
+﻿
+Module SetControls
 
     Private Delegate Sub SetEnableDelegate(ByVal [control] As Control, ByVal [enable] As Boolean)
 
@@ -18,7 +19,8 @@
             End If
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(RVBSim.lblMsgCenter, message)
+            ' SetText(RVBSim.lblMsgCenter, message)
+            SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         End Try
     End Sub
