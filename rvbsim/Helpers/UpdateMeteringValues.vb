@@ -54,18 +54,13 @@ Public Class UpdateMeteringValues
 
         Dim labelControlName As String = $"{labelDirection}Voltage{opType}Regulator{regulatorId + 1}"
 
-        Dim l() As Control = rvbForm.Controls.Find(labelControlName, True)
+        Dim meteringLabel() As Control = rvbForm.Controls.Find(labelControlName, True)
 
-        If l.Length > 0 Then
+        If meteringLabel.Length > 0 Then
 
-            If l(0).Visible Then
+            If meteringLabel(0).Visible Then
 
-                'Dim space = StrDup("Source".Length - labelDirection.Length, " ")
-
-                ' Debug.WriteLine($"src: {"Source".Length}, act: {labelDirection.Length}, diff: {space.Length}")
-
-                'SetText(l(0), $"{labelDirection}: {labelDirection.PadLeft("Source".Length - labelDirection.Length, "-"c)}{FormatNumber(value, 1)}V")
-                SetText(l(0), $"{labelDirection}: {StrDup(spacing, " "c)}{FormatNumber(value, 1)}V")
+                SetText(label:=meteringLabel(0), text:=$"{labelDirection}: {StrDup(spacing, " "c)}{FormatNumber(value, 1)}V")
 
             End If
         End If
