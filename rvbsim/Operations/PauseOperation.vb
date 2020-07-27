@@ -57,25 +57,25 @@ Namespace Communication.Operations
 
                 'if no errors show comm stop msg
                 If ReceivedErrorMsg = "None" Then
-                    SetText(RVBSim.lblMsgCenter, "Comm stopped ...")
+                    ' SetText(RVBSim.lblMsgCenter, "Comm stopped ...")
+                    SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:="Communication stops...")
                     sb.AppendLine($"{Now} Successfully disconnected")
                 Else
+                    SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=$"Failed to stop communication...{vbCrLf}{ReceivedErrorMsg}")
                     sb.AppendLine($"{Now} Disconnect failed {ReceivedErrorMsg}")
                 End If
-
-                ' try to get every Label in the form
-                Dim labels = RVBSim.GetChildControls(Of Label)().Where(Function(x) x.Name.Contains("Writing") Or x.Name.Contains("Reading"))
-
-                For Each label In labels
-                    SetText(label, String.Empty)
-                Next
 
                 Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Pause)}")
 
             Catch ex As Exception
                 Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                SetText(RVBSim.lblMsgCenter, message)
+                ' SetText(RVBSim.lblMsgCenter, message)
+                SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
                 sb.AppendLine(message)
+
+            Finally
+
+                ResetMeteringLabels()
             End Try
         End Sub
     End Class

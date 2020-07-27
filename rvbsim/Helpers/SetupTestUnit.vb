@@ -1,9 +1,8 @@
 ﻿Imports System.Threading
-Imports System.Linq
 
+Imports iec.AsyncIEC61850
 'custom libraries
 Imports tcpdnp.AsyncDNP3_0
-Imports iec.AsyncIEC61850
 'Imports rvb_sim.dnp
 
 Module SetupTestUnit
@@ -22,7 +21,8 @@ Module SetupTestUnit
                 ' only send to regulator 1 when Single Phase checked
                 If RVBSim.RVBSettings3Phase.Visible Or regulator.Id = 1 Then
 
-                    SetText(RVBSim.lblMsgCenter, "Sending settings to the units ...")
+                    ' SetText(RVBSim.lblMsgCenter, "Sending settings to the units ...")
+                    SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:="Sending settings to the units...")
 
                     ' generate control names with regulator values.
                     For Each value In regulator.Values
@@ -69,7 +69,9 @@ Module SetupTestUnit
                         End If
                     Next
 
-                    SetText(RVBSim.lblMsgCenter, "Sending completed ... reading Local Voltage")
+                    ' SetText(RVBSim.lblMsgCenter, "Sending completed ... reading Local Voltage")
+                    SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:="Sending completed... reading specified values...")
+
                     If Not String.Equals(ReceivedErrorMsg, "None") Then sb.AppendLine($"{Now} Received {ReceivedErrorMsg} error")
 
                 End If
@@ -81,8 +83,13 @@ Module SetupTestUnit
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(RVBSim.lblMsgCenter, message)
+            ' SetText(RVBSim.lblMsgCenter, message)
+            SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
             sb.AppendLine(message)
+
+        Finally
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(SendSettings)} --- END")
+
         End Try
     End Sub
 
@@ -129,7 +136,7 @@ Module SetupTestUnit
                          Qualifier:=QualifierField.AnaOutBlock16bitIndex,
                          Start16Bit:=1,
                          Stop16Bit:=CUShort(address),
-                         Value:=value,'  * BecoCommunicationScaleFactor, 'Value:=1,
+                         Value:=value,
                          Status:=0)
 
                 WriteEvent.WaitOne()

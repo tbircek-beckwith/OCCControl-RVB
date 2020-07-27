@@ -4,7 +4,8 @@ Module Helpers
 
     Friend Function PingIPAddresses(ByVal IPs As String()) As Boolean
         PingIPAddresses = False
-        SetText(RVBSim.lblMsgCenter, ReceivedErrorMsg)
+        ' SetText(RVBSim.lblMsgCenter, ReceivedErrorMsg)
+        SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=ReceivedErrorMsg)
 
         Dim siteResponds As Boolean = My.Computer.Network.Ping(IPs(0), 5000)
         PingIPAddresses = My.Computer.Network.Ping(IPs(1), 5000) And siteResponds

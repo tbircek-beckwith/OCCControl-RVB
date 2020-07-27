@@ -5,7 +5,7 @@ Imports System.Threading
 Module Populate
 
     ''' <summary>
-    ''' Reads a Settings.xml file and populates form with read information.
+    ''' Reads a settings.json file and populates form with read information.
     ''' </summary>
     Friend Sub Populatetheform()
         Try
@@ -50,10 +50,7 @@ Module Populate
             baseJsonSettingsRegulators = baseJsonSettings.Test
 
             ' populate RVBSim controls
-            ' PopulateControls(regulators:=baseJsonSettingsRegulators, enable:=True)
-            PopulateControlsNew(rvbForm:=RVBSim, regulators:=baseJsonSettingsRegulators, enable:=True, isSetting:=True)
-
-            'RVBSim.PortReg1.Text = baseJsonSettings.Port
+            PopulateControls(rvbForm:=RVBSim, regulators:=baseJsonSettingsRegulators, enable:=True, isSetting:=True)
 
             Select Case baseJsonSettings.Protocol
                 Case "dnp"
@@ -81,11 +78,12 @@ Module Populate
 
         Catch ex As Exception
             Dim message As String = $"{Now}: ({NameOf(Populatetheform)}) {vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(RVBSim.lblMsgCenter, message)
+            ' SetText(RVBSim.lblMsgCenter, message)
+            SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         Finally
 
-            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Populatetheform)}")
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Populatetheform)} -- ENDS")
         End Try
     End Sub
 

@@ -3,7 +3,8 @@
 Module DisEnableCheckBoxes
 
     ''' <summary>
-    ''' Enables or disables controls per Start button
+    ''' Enables or disables controls per Start button enable state.
+    ''' thread safe
     ''' </summary>
     Friend Sub Disenable()
 
@@ -33,8 +34,13 @@ Module DisEnableCheckBoxes
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(RVBSim.lblMsgCenter, message)
+            ' SetText(RVBSim.lblMsgCenter, message)
+            SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
             sb.AppendLine(message)
+
+        Finally
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Disenable)} -- ENDS")
+
         End Try
     End Sub
 

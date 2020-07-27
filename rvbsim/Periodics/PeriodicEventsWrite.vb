@@ -69,7 +69,7 @@ Namespace PeriodicOperations
 
                                                 Debug.WriteLine($"Local: {Interlocked.Read(FwdRVBVoltages2Write(regulatorId))}")
 
-                                                Send(rvbForm:=rvbForm,
+                                                DnpSend(rvbForm:=rvbForm,
                                                      address:=registerBox.Value,
                                                      value:=Interlocked.Read(FwdRVBVoltages2Write(regulatorId)))
 
@@ -77,7 +77,7 @@ Namespace PeriodicOperations
 
                                                 Debug.WriteLine($"Src:{Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
 
-                                                Send(rvbForm:=rvbForm,
+                                                DnpSend(rvbForm:=rvbForm,
                                                      address:=registerBox.Value,
                                                      value:=Interlocked.Read(RevRVBVoltages2Write(regulatorId)))
 
@@ -106,9 +106,11 @@ Namespace PeriodicOperations
             Catch ex As Exception
 
                 Interlocked.Increment(errorCounter)
+                ResetMeteringLabels()
                 CheckErrors()
                 Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                SetText(rvbForm.lblMsgCenter, message)
+                ' SetText(rvbForm.lblMsgCenter, message)
+                SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
                 sb.AppendLine(message)
 
             Finally
@@ -119,7 +121,7 @@ Namespace PeriodicOperations
 
         End Sub
 
-        Private Sub Send(rvbForm As RVBSim, address As UShort, value As UShort)
+        Private Sub DnpSend(rvbForm As RVBSim, address As UShort, value As UShort)
 
             Dim WriteEvent As New ManualResetEvent(False)
 

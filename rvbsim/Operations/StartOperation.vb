@@ -27,13 +27,15 @@ Namespace Communication.Operations
                     .UpdateProtocol()
 
                     'set texts and buttons
-                    SetText(.lblMsgCenter, "Establishing communication ...")
+                    ' SetText(.lblMsgCenter, "Establishing communication ...")
+                    SetTextBox(textbox:= .ErrorsTextBox, text:="Establishing communication...")
                     SetEnable(.StopButton, True)
                     SetEnable(.StartButton, False)
                     Disenable()
 
                     IPs = { .ReadIpAddr.Text, .WriteIpAddr.Text}
-                    SetText(.lblMsgCenter, "Connecting to the units ...")
+                    ' SetText(.lblMsgCenter, "Connecting to the units ...")
+                    SetTextBox(textbox:= .ErrorsTextBox, text:="Connecting to the units...")
 
                     Dim success As Boolean = False
 
@@ -86,7 +88,8 @@ Namespace Communication.Operations
                         Thread.CurrentThread.Join(100)
 
                         If success Then
-                            SetText(.lblMsgCenter, "Connection successful ...")
+                            ' SetText(.lblMsgCenter, "Connection successful ...")
+                            SetTextBox(textbox:= .ErrorsTextBox, text:="Connection is successful...")
 
                             For Each ip As String In IPs
                                 sb.AppendLine($"{Now} Successfully connected to read {ip}")
@@ -111,8 +114,9 @@ Namespace Communication.Operations
                 End With
 
             Catch ex As Exception
-                Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                SetText(RVBSim.lblMsgCenter, message)
+                Dim message As String = $"{Now}{vbCrLf}{ex.Message}{vbCrLf}{ex.StackTrace}"
+                ' SetText(RVBSim.lblMsgCenter, message)
+                SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
                 sb.AppendLine(message)
                 SetEnable(RVBSim.StartButton, True)
                 SetEnable(RVBSim.StopButton, False)
@@ -176,7 +180,8 @@ Namespace Communication.Operations
 
             Catch ex As Exception
                 Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                SetText(RVBSim.lblMsgCenter, message)
+                ' SetText(RVBSim.lblMsgCenter, message)
+                SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
                 sb.AppendLine(message)
                 SetEnable(RVBSim.StartButton, True)
                 SetEnable(RVBSim.StopButton, False)

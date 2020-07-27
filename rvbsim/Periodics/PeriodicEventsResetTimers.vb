@@ -52,7 +52,8 @@ Namespace PeriodicOperations
 
             Catch ex As Exception
                 Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                SetText(rvbForm.lblMsgCenter, message)
+                ' SetText(rvbForm.lblMsgCenter, message)
+                SetTextBox(textbox:=rvbForm.ErrorsTextBox, text:=message)
                 sb.AppendLine(message)
             End Try
         End Sub

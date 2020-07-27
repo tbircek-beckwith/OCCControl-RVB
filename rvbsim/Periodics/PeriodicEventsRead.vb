@@ -86,8 +86,8 @@ Namespace PeriodicOperations
 
                                     Dim s = New UpdateMeteringValues(rvbForm:=rvbForm, registerBox:=registerBox, regulatorId:=regulator.Id - 1)
 
-                                    SetText(rvbForm.lblMsgCenter, $"Error: {ReceivedErrorMsg}")
-
+                                    ' SetText(rvbForm.lblMsgCenter, $"Error: {ReceivedErrorMsg}")
+                                    SetTextBox(rvbForm.ErrorsTextBox, $"Error: {ReceivedErrorMsg}")
                                 End If
                             End If
                         Next
@@ -131,8 +131,10 @@ Namespace PeriodicOperations
 
             Catch ex As Exception
                 Interlocked.Increment(errorCounter)
-                Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                SetText(rvbForm.lblMsgCenter, message)
+                ResetMeteringLabels()
+                Dim message As String = $"{Now}{vbCrLf}{ex.Message}:{vbCrLf}{ex.StackTrace}"
+                ' SetText(rvbForm.lblMsgCenter, message)
+                SetTextBox(textbox:=rvbForm.ErrorsTextBox, text:=message)
                 sb.AppendLine(message)
             End Try
         End Sub

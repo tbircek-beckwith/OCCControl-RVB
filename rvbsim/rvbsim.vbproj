@@ -222,6 +222,7 @@
     <Compile Include="AppStartup\AppStartup.vb" />
     <Compile Include="Helpers\CommandLineHandler.vb" />
     <Compile Include="Helpers\ExtensionMethods.vb" />
+    <Compile Include="Helpers\ResetMetering.vb" />
     <Compile Include="Helpers\UpdateMeteringValues.vb" />
     <Compile Include="Helpers\RelativeOrFixedValue.vb" />
     <Compile Include="Helpers\SetControls.vb" />

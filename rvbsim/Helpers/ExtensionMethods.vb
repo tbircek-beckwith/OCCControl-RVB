@@ -44,16 +44,17 @@ Public Module ExtensionMethods
             RVBSim.PortReg1.Text = testJsonSettings.Port
 
             ' populate test settings
-            PopulateControlsNew(rvbForm:=RVBSim, regulators:=testJsonSettingsRegulators, enable:=True)
+            PopulateControls(rvbForm:=RVBSim, regulators:=testJsonSettingsRegulators, enable:=True)
 
         Catch ex As Exception
             Dim trace = New StackTrace(ex, True)
             Dim message As String = $"{Now}:{vbCrLf}Line #: {trace.GetFrame(0).GetFileLineNumber().ToString()}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(RVBSim.lblMsgCenter, message)
+            ' SetText(RVBSim.lblMsgCenter, message)
+            SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
             sb.AppendLine(message)
 
         Finally
-            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(SetValuesFromJson)}")
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(SetValuesFromJson)} -- ENDS")
         End Try
 
     End Sub
@@ -65,7 +66,7 @@ Public Module ExtensionMethods
     ''' <param name="regulators">.json file values</param>
     ''' <param name="enable">is the controls enabled</param>
     ''' <param name="isSetting">is it the setting populating</param>
-    Friend Sub PopulateControlsNew(ByRef rvbForm As RVBSim, regulators As JsonTest, enable As Boolean, Optional isSetting As Boolean = False)
+    Friend Sub PopulateControls(ByRef rvbForm As RVBSim, regulators As JsonTest, enable As Boolean, Optional isSetting As Boolean = False)
 
         Try
 
@@ -135,7 +136,8 @@ Public Module ExtensionMethods
             Next
         Catch ex As Exception
             Dim message As String = $"{Now}: ({NameOf(Populatetheform)}) {vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(RVBSim.lblMsgCenter, message)
+            ' SetText(RVBSim.lblMsgCenter, message)
+            SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         End Try
     End Sub

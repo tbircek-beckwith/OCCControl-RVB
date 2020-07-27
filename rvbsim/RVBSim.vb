@@ -122,7 +122,8 @@ Public Class RVBSim
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(lblMsgCenter, message)
+            ' SetText(lblMsgCenter, message)
+            SetTextBox(textbox:=ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Main)}")
@@ -199,7 +200,8 @@ Public Class RVBSim
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(lblMsgCenter, message)
+            ' SetText(lblMsgCenter, message)
+            SetTextBox(textbox:=ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(CheckHandler)}")
@@ -247,7 +249,8 @@ Public Class RVBSim
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(lblMsgCenter, message)
+            ' SetText(lblMsgCenter, message)
+            SetTextBox(textbox:=ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Radio_CheckedChanged)}")

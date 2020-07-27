@@ -56,7 +56,8 @@ Module GenerateRVBVoltage
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}{vbCrLf}{ex.Message}"
-            SetText(RVBSim.lblMsgCenter, message)
+            ' SetText(RVBSim.lblMsgCenter, message)
+            SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
             sb.AppendLine(message)
 
         Finally

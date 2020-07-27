@@ -43,13 +43,14 @@ Module FormOperations
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(RVBSim.lblMsgCenter, message)
+            ' SetText(RVBSim.lblMsgCenter, message)
+            SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         Finally
 
             Dim logFilePath = Path.Combine(path1:=My.Application.Info.DirectoryPath, path2:="Log.txt")
 
-            My.Computer.FileSystem.WriteAllText(logFilePath, sb.ToString, False)
+            My.Computer.FileSystem.WriteAllText(file:=logFilePath, text:=sb.ToString, append:=False)
 
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(CloseForm)}")
         End Try
