@@ -6,9 +6,11 @@ Imports rvbSim.PeriodicOperations
 'Imports rvb_sim.dnp
 Imports System.IO
 
+''' <summary>
+''' acts like DI
+''' </summary>
 Module Declarations
 
-    ' Friend Const ConsoleWriteEnable As Boolean = True       'False          ' 
     Friend Const SupportedRVBRevision As String = "15"      'Supported RVB feature document revision
     Friend Const OperatingVoltage As Integer = 900
     Friend Const BecoCommunicationScaleFactor As Integer = 10   ' all products
@@ -19,13 +21,14 @@ Module Declarations
     Friend Const DirectMessage As String = "RVB Voltage is ="
     Friend Const DirectMessageSource As String = "Src RVB Voltage is ="
     Friend Const DNP_BufferSize As Integer = 29
-    ' Friend Const Modbus_BufferSize As Integer = 12
     Friend Const IEC_BufferSize As Integer = 200
+    Friend Const SettingFileName As String = "settings"
+    Friend Const SupportedRegulatorNumber As Integer = 3
 
     Friend sb As New StringBuilder
     Friend IPs As String() = New String(1) {}
 
-    Friend Regulators As List(Of RegulatorCommunication) = New List(Of RegulatorCommunication)()
+    ' Friend Regulators As List(Of RegulatorCommunication) = New List(Of RegulatorCommunication)()
 
     ''' <summary>
     ''' new modbus communication libraries
@@ -47,9 +50,6 @@ Module Declarations
     Friend periodicReset As New ResetEvents
 
     Friend dnp As tcpdnp.AsyncDNP3_0
-    'Friend dnpTCP As AnalogOutputControl
-
-    'Friend modbus As tcpmodbus.AsyncModbus
     Friend iec61850 As iec.AsyncIEC61850
 
     Friend processID As Integer = 0
@@ -59,25 +59,39 @@ Module Declarations
     Friend WriteTickerDone As New ManualResetEvent(False)
     Friend ReadTickerDone As New ManualResetEvent(False)
     Friend TimersEvent As New ManualResetEvent(False)
-
     Friend WriteRegisterWait As RegisteredWaitHandle
     Friend ReadRegisterWait As RegisteredWaitHandle
+
+    ''' 
+    ''' Multiple phase regulator supports
+    '''
+    Friend updateMetering As UpdateMeteringValues = New UpdateMeteringValues()
+
+    Friend WriteTickerDones As List(Of ManualResetEvent) = Enumerable.Repeat(New ManualResetEvent(True), SupportedRegulatorNumber).ToList()
+    Friend ReadTickerDones As New List(Of ManualResetEvent)
+    Friend TimersEvents As New List(Of ManualResetEvent)
+    Friend WriteRegisterWaits As New List(Of RegisteredWaitHandle)
+    Friend ReadRegisterWaits As New List(Of RegisteredWaitHandle)
 
     Friend visibility As Boolean = True
     Friend testSetting As TestSettings
 
-    Friend baseJsonSettings As JsonRootModel
-    Friend baseJsonTestSettings As List(Of JsonRegulatorModel)
-    Friend testJsonValues ' As New T
-    Friend baseJsonSettingsFileLocation As String = Path.Combine(path1:=My.Application.Info.DirectoryPath,
-                                                  path2:="resources")
+    Friend jsonRead As JsonFile ' = New JsonFile()
+    Friend baseJsonSettings As JsonRoot
+    Friend baseJsonSettingsRegulators As JsonTest
+    Friend testJsonSettings As JsonRoot
+    Friend testJsonSettingsRegulators As JsonTest
 
-    'Friend modbusRegister As ModbusSettings
     Friend dnpSetting As DnpSettings
     Friend iecSetting As IECSettings
 
     Friend Structure TestSettings
+        Dim Title As String
+        Dim FileVersion As String
+        Dim [Date] As String
         Dim Protocol As String
+        Dim IsUiVisible As Boolean
+        Dim IsSinglePhase As Boolean
         Dim readIpAddress As String
         Dim writeIpAddress As String
         Dim HeartbeatTimer As UShort
@@ -88,21 +102,6 @@ Module Declarations
         Dim RVBMax As Double
         Dim RVBMin As Double
     End Structure
-
-    'Friend Structure ModbusSettings
-    '    ' Dim Port As String
-    '    Dim LocalVoltage As UShort
-    '    Dim RVBEnable As UShort
-    '    Dim FRVBValue As UShort
-    '    Dim FRVBScale As UShort
-    '    Dim RVBHeartBeatTimer As UShort
-    '    Dim RVBActive As UShort
-    '    Dim RRVBValue As UShort
-    '    Dim RRVBScale As UShort
-    '    Dim RVBMax As UShort
-    '    Dim RVBMin As UShort
-    '    Dim Factory As UShort
-    'End Structure
 
     Friend Structure DnpSettings
         ' Dim Port As String
@@ -169,7 +168,7 @@ Module Declarations
 
     Friend Property ProtocolInUse() As String
 
-    Friend Property Heart_Beat_Timer() As Integer
+    '  Friend Property Heart_Beat_Timer() As Integer
 
     Friend Property ActualLocalVoltage() As Double = 0.0
 
@@ -184,5 +183,29 @@ Module Declarations
     Friend Property SourceVoltageReadresult() As UShort = 0
 
     Friend Property ReceivedErrorMsg() As String = String.Empty
+
+    Friend Property BaseJsonSettingsFileLocation As String = Path.Combine(path1:=My.Application.Info.DirectoryPath,
+                                                                          path2:="resources")
+
+    ''' 
+    ''' Multiple phase regulator supports
+    '''
+    Public Property LocalVoltageReadings() As List(Of UShort) = Enumerable.Repeat(Of UShort)(UShort.MaxValue, SupportedRegulatorNumber).ToList() '= New List(Of UShort)()
+
+    Public Property SourceVoltageReadings() As List(Of UShort) = Enumerable.Repeat(Of UShort)(UShort.MaxValue, SupportedRegulatorNumber).ToList() ' = New List(Of UShort)()
+
+    Friend Property WriteIntervals() As List(Of Integer) = Enumerable.Repeat(2000, SupportedRegulatorNumber).ToList() '= New List(Of Integer)()
+
+    Friend Property ReadIntervals() As List(Of Integer) = Enumerable.Repeat(500, SupportedRegulatorNumber).ToList() ' = New List(Of Integer)()
+
+    Friend Property HeartBeatTimers() As List(Of Integer) = Enumerable.Repeat(120, SupportedRegulatorNumber).ToList()
+
+    Friend Property FwdRVBVoltages2Write() As List(Of Double) = Enumerable.Repeat(65535.0, SupportedRegulatorNumber).ToList()
+
+    Friend Property RevRVBVoltages2Write() As List(Of Double) = Enumerable.Repeat(65535.0, SupportedRegulatorNumber).ToList()
+
+    Friend Property ReadingTimer() As Stopwatch = New Stopwatch()
+
+    Friend Property WritingTimers As List(Of Stopwatch) = Enumerable.Repeat(New Stopwatch(), 3).ToList()
 
 End Module

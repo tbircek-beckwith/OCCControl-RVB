@@ -1,35 +1,8 @@
 ﻿
+Imports System.IO
 Imports System.Threading
 
 Public Class RVBSim
-
-    ''' <summary>
-    ''' Writes periodically writes to write IP Address.
-    ''' </summary>
-    ''' <param name="state"></param>
-    ''' <param name="timeOut"></param>
-    Protected Friend Sub PeriodicWriteEvent(ByVal state As Object, ByVal timeOut As Boolean)
-
-        If timeOut Then
-
-            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicWriteEvent)}")
-
-            ' Heart_Beat_Timer = 0
-            Interlocked.Exchange(Heart_Beat_Timer, 0)
-            ReadRegisterWait.Unregister(Nothing)
-
-            ' GenerateRVBVoltage2Transfer(rvbForm:=Me)
-
-            ' TODO: uncomment following DEBUG
-            periodicWrite.Write(rvbForm:=Me)
-
-            ' TODO: delete me and following DEBUG
-            'periodicReset.Timers(rvbForm:=Me)
-
-        Else
-            WriteRegisterWait.Unregister(Nothing)
-        End If
-    End Sub
 
     ''' <summary>
     ''' Reads periodically
@@ -38,14 +11,50 @@ Public Class RVBSim
     ''' <param name="timeOut"></param>
     Protected Friend Sub PeriodicReadEvent(ByVal state As Object, ByVal timeOut As Boolean)
 
-        If timeOut Then
+        If timeOut AndAlso StopButton.Enabled Then
 
-            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicReadEvent)}")
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicReadEvent)} -- STARTS")
+
+            Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- Reading is in progress... Reads everything.")
+
+            Debug.WriteLine($"-----------------------> Elapsed time: {ReadingTimer.ElapsedMilliseconds} msec")
 
             periodicRead.Read(rvbForm:=Me)
 
+            ' periodicRead.Read(rvbForm:=Me)
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicReadEvent)} -- ENDS")
+
         Else
-            ReadRegisterWait.Unregister(Nothing)
+            If StopButton.Enabled Then
+                ReadTickerDone.Set()
+            End If
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Writes periodically writes to write IP Address.
+    ''' </summary>
+    ''' <param name="state"></param>
+    ''' <param name="timeOut"></param>
+    Protected Friend Sub PeriodicWriteEventNew(ByVal state As Object, ByVal timeOut As Boolean)
+
+        If timeOut AndAlso StopButton.Enabled Then
+
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicWriteEventNew)} -- STARTS")
+
+            Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- Writing is in progress...")
+
+            Debug.WriteLine($"-----------------------> Writing: Regulator {Val(state)}, Writing: {WritingTimers(Val(state)).ElapsedMilliseconds} msec, Reading:{ReadingTimer.ElapsedMilliseconds} msec")
+
+            periodicWrite.WriteNew(rvbForm:=Me, regulatorId:=Val(state))
+
+            ' periodicRead.Read(rvbForm:=Me)
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicWriteEventNew)} -- ENDS")
+
+        Else
+            If StopButton.Enabled Then
+                WriteTickerDones(Val(state)).Set()
+            End If
         End If
     End Sub
 
@@ -59,6 +68,8 @@ Public Class RVBSim
             ProtocolInUse = "dnp"
         ElseIf iec61850box.Checked Then
             ProtocolInUse = "iec"
+        Else
+            ProtocolInUse = baseJsonSettings.Protocol
         End If
 
         Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(UpdateProtocol)}")
@@ -84,6 +95,7 @@ Public Class RVBSim
 
         Dim proc As Process
         Try
+            jsonRead = New JsonFile()
             processID = 0
             For Each proc In Process.GetProcessesByName(Process.GetCurrentProcess.ProcessName)
                 processID += 1
@@ -110,7 +122,8 @@ Public Class RVBSim
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(lblMsgCenter, message)
+            ' SetText(lblMsgCenter, message)
+            SetTextBox(textbox:=ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Main)}")
@@ -123,27 +136,32 @@ Public Class RVBSim
     ''' <param name="sender"></param>
     Protected Friend Sub CheckHandler(sender As RadioButton)
         Try
-            Select Case sender.Name
-                Case $"{NameOf(dnpbutton)}"
-                    If sender.Checked Then
+
+            ' PortReg1.Text = baseJsonSettings.Port   'dnpRegulators.Port
+            If sender.Checked Then
+
+                Select Case sender.Name
+                    Case $"{NameOf(dnpbutton)}"
                         CommunicationDetails.Text = "DNP3.0 Addresses"
                         lblwarning.Text = "Don't forget to download DNP default file"
-                        PortReg1.Text = Regulators(0).DnpCommunication(0).Port ' first regulator dnpSetting.Port
-                    End If
+                        'PortReg1.Text = baseJsonSettings.Port   'dnpRegulators.Port
+                        ProtocolInUse = "dnp"
+                        SetValuesFromJson(True)
 
-                Case $"{NameOf(modbusbox)}"
-                    If sender.Checked Then
+                    Case $"{NameOf(modbusbox)}"
                         CommunicationDetails.Text = "Modbus registers"
-                        PortReg1.Text = Regulators(0).ModbusCommunication(0).Port ' first regulator modbusRegister.Port
-                    End If
+                        ' PortReg1.Text = modbusRegulators.Port
+                        ProtocolInUse = "modbus"
+                        SetValuesFromJson(True)
 
-                Case $"{NameOf(iec61850box)}"
-                    If sender.Checked Then
+                    Case $"{NameOf(iec61850box)}"
                         CommunicationDetails.Text = "IEC61850 Datasets"
                         lblwarning.Text = "Don't forget to purchase IEC61850"
-                        PortReg1.Text = Regulators(0).IECCommunication(0).Port ' first regulator iecSetting.Port
-                    End If
-            End Select
+                        'PortReg1.Text = iecRegulators.Port
+                        ProtocolInUse = "iec"
+                        SetValuesFromJson(True)
+                End Select
+            End If
 
             ' dnp3.0 stuff.
             lbldestination.Visible = dnpbutton.Checked
@@ -154,33 +172,64 @@ Public Class RVBSim
             ' warn the user about communication file uploads
             lblwarning.Visible = dnpbutton.Checked Or iec61850box.Checked
 
+            ' show a single phase or 3-phase interface
             ' set visibility per the user selection
             ModbusSettingsGroup.Visible = modbusbox.Checked
             DnpSettingsGroup.Visible = dnpbutton.Checked
             IecSettingsGroup.Visible = iec61850box.Checked
 
-            ' set focus on read ip address text box.
-            ReadIpAddr.Select()
+            ' show these items when 3-phase enabled in settings.json file
+            ' initial presentation
+            With baseJsonSettings
+                ModbusSettingsGroup3Phase.Visible = Not .SinglePhase    ' testSetting.IsSinglePhase
+                DnpSettingsGroup3Phase.Visible = Not .SinglePhase
+                IecSettingsGroup3Phase.Visible = Not .SinglePhase
+                RVBSettings3Phase.Visible = Not .SinglePhase
+                Regulator3PhReadings.Visible = Not .SinglePhase
+                SinglePhaseCheckBox.Checked = .SinglePhase
+            End With
+
+            If sender.Checked Then
+                ' update the protocol in use
+                UpdateProtocol()
+
+                ' set focus on read ip address text box.
+                ReadIpAddr.Select()
+            End If
+
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(lblMsgCenter, message)
+            ' SetText(lblMsgCenter, message)
+            SetTextBox(textbox:=ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(CheckHandler)}")
         End Try
     End Sub
 
-    Private Sub Dnpbutton_CheckedChanged(sender As Object, e As EventArgs) Handles dnpbutton.CheckedChanged
-        CheckHandler(sender)
+    Private Sub SinglePhaseCheckBox_CheckedChanged(sender As Object, e As EventArgs) Handles SinglePhaseCheckBox.CheckedChanged
+
+        ' show these items when 3-phase enabled in settings.json file
+        ' handles changes
+        ModbusSettingsGroup3Phase.Visible = Not SinglePhaseCheckBox.Checked
+        DnpSettingsGroup3Phase.Visible = Not SinglePhaseCheckBox.Checked
+        IecSettingsGroup3Phase.Visible = Not SinglePhaseCheckBox.Checked
+        RVBSettings3Phase.Visible = Not SinglePhaseCheckBox.Checked
+        Regulator3PhReadings.Visible = Not SinglePhaseCheckBox.Checked
+
     End Sub
 
-    Private Sub Modbusbox_CheckedChanged(sender As Object, e As EventArgs) Handles modbusbox.CheckedChanged
-        CheckHandler(sender)
-    End Sub
+    Private Sub ProtocolChanged(sender As Object, e As EventArgs) Handles dnpbutton.CheckedChanged, modbusbox.CheckedChanged, iec61850box.CheckedChanged
 
-    Private Sub Iec61850box_CheckedChanged(sender As Object, e As EventArgs) Handles iec61850box.CheckedChanged
-        CheckHandler(sender)
+        Dim rb As RadioButton = CType(sender, RadioButton)
+
+        ' no need to update at load since it would change immediately.
+        If Not String.IsNullOrWhiteSpace(rb.Text) Then
+            If rb.Checked Then
+                CheckHandler(rb)
+            End If
+        End If
     End Sub
 
     ''' <summary>
@@ -188,20 +237,24 @@ Public Class RVBSim
     ''' </summary>
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
-    Public Sub Radio_CheckedChanged(sender As RadioButton, e As EventArgs) Handles useFixedVoltageReg3.CheckedChanged, useFixedVoltageReg2.CheckedChanged, useFixedVoltageReg1.CheckedChanged, useDeltaVoltageReg3.CheckedChanged, useDeltaVoltageReg2.CheckedChanged, useDeltaVoltageReg1.CheckedChanged
+    Public Sub Radio_CheckedChanged(sender As RadioButton, e As EventArgs) Handles SettingsUsefixedReg3.CheckedChanged, SettingsUsefixedReg2.CheckedChanged, SettingsUsefixedReg1.CheckedChanged, SettingsUserelativeReg3.CheckedChanged, SettingsUserelativeReg2.CheckedChanged, SettingsUserelativeReg1.CheckedChanged
         Try
 
-            Dim soome = New RelativeOrFixedValue
-            soome.Decide(rvbForm:=Me, sender:=sender)
+            Dim rb As RadioButton = CType(sender, RadioButton)
+
+            If rb.Checked AndAlso Not String.IsNullOrWhiteSpace(rb.Name) Then
+                Dim soome = New RelativeOrFixedValue
+                soome.Decide(rvbForm:=Me, sender:=sender)
+            End If
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(lblMsgCenter, message)
+            ' SetText(lblMsgCenter, message)
+            SetTextBox(textbox:=ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(Radio_CheckedChanged)}")
         End Try
     End Sub
-
 End Class
 

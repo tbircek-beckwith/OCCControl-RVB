@@ -13,7 +13,7 @@ Public Class ModbusCommunicationModel
     'Public Property Port() As UShort
 
     ''' <summary>
-    ''' Holds "Source Address" information.
+    ''' Holds "Factory setting" information.
     ''' </summary>
     ''' <returns></returns>
     Public Property Factory() As UShort

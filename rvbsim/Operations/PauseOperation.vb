@@ -9,11 +9,24 @@ Namespace Communication.Operations
 
         Protected Friend Sub Pause()
 
-            Dim Disconnect As New ManualResetEvent(False)
-
             Try
-                WriteRegisterWait.Unregister(Nothing)
-                ReadRegisterWait.Unregister(Nothing)
+
+                Dim Disconnect As New ManualResetEvent(False)
+
+                For i = 0 To WriteRegisterWaits.Count - 1   ' SupportedRegulatorNumber - 1
+
+                    WritingTimers(i).Reset()
+                    WriteTickerDones(i).Reset()
+                    WriteRegisterWaits(i).Unregister(Nothing)
+
+                    ' reset measurements
+                    Interlocked.Exchange(LocalVoltageReadings(i), UShort.MaxValue)
+                    Interlocked.Exchange(SourceVoltageReadings(i), UShort.MaxValue)
+                    Interlocked.Exchange(FwdRVBVoltages2Write(i), UShort.MaxValue)
+                    Interlocked.Exchange(RevRVBVoltages2Write(i), UShort.MaxValue)
+                    Interlocked.Exchange(HeartBeatTimers(i), 120)
+
+                Next
 
                 If ProtocolInUse = "modbus" Then
                     'disconnect modbus
@@ -30,14 +43,13 @@ Namespace Communication.Operations
                     iec61850.Dispose()
                 End If
 
+                ReadingTimer.Reset()
+                ReadTickerDone.Reset()
+                ReadRegisterWait.Unregister(Nothing)
+
                 TimersEvent.Dispose()
                 Disconnect.Dispose()
 
-                Interlocked.Exchange(Heart_Beat_Timer, 0)
-                LocalVoltageReadresult = 0
-                SourceVoltageReadresult = 0
-                Forward_RVBVoltage2Write = 0.0
-                Reverse_RVBVoltage2Write = 0.0
                 SetEnable(RVBSim.StopButton, False)
                 SetEnable(RVBSim.StartButton, True)
 
@@ -45,23 +57,26 @@ Namespace Communication.Operations
 
                 'if no errors show comm stop msg
                 If ReceivedErrorMsg = "None" Then
-                    SetText(RVBSim.lblMsgCenter, "Comm stopped ...")
+                    ' SetText(RVBSim.lblMsgCenter, "Comm stopped ...")
+                    SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:="Communication stops...")
                     sb.AppendLine($"{Now} Successfully disconnected")
                 Else
+                    SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=$"Failed to stop communication...{vbCrLf}{ReceivedErrorMsg}")
                     sb.AppendLine($"{Now} Disconnect failed {ReceivedErrorMsg}")
                 End If
 
                 Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(Pause)}")
-                SetText(RVBSim.lblLocalVoltageValue, String.Format(""))
-                SetText(RVBSim.lblFwdRVBValue, String.Format(""))
-                SetText(RVBSim.lblRevRVBValue, String.Format(""))
 
             Catch ex As Exception
                 Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                SetText(RVBSim.lblMsgCenter, message)
+                ' SetText(RVBSim.lblMsgCenter, message)
+                SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
                 sb.AppendLine(message)
+
+            Finally
+
+                ResetMeteringLabels()
             End Try
         End Sub
-
     End Class
 End Namespace

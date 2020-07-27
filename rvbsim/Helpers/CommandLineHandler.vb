@@ -11,14 +11,14 @@ Module CommandLineHandler
                     Case "-vf"  'fwd voltage offset value
                         testSetting.FwdRVBVoltage = My.Application.CommandLineArgs.Item(i + 1)
                     Case "-va" 'fwd voltage apply value NOT IN HELP FILE
-                        RVBSim.useFixedVoltageReg1.Checked = True
-                        RVBSim.useDeltaVoltageReg1.Checked = False
+                        RVBSim.SettingsUsefixedReg1.Checked = True
+                        RVBSim.SettingsUserelativeReg1.Checked = False
                         testSetting.FwdRVBVoltage = My.Application.CommandLineArgs.Item(i + 1)
                     Case "-vr"  'rev voltage offset value
                         testSetting.RevRVBVoltage = My.Application.CommandLineArgs.Item(i + 1)
                     Case "-vb" 'fwd voltage apply value NOT IN HELP FILE
-                        RVBSim.useFixedVoltageReg1.Checked = True
-                        RVBSim.useDeltaVoltageReg1.Checked = False
+                        RVBSim.SettingsUsefixedReg1.Checked = True
+                        RVBSim.SettingsUserelativeReg1.Checked = False
                         testSetting.RevRVBVoltage = My.Application.CommandLineArgs.Item(i + 1)
                     Case "-s"
                         Select Case My.Application.CommandLineArgs.Item(i + 1)
@@ -33,12 +33,13 @@ Module CommandLineHandler
                 End Select
                 i += 1
             Next
-            If testSetting.FwdRVBVoltage < MinDeltaVoltage Or testSetting.FwdRVBVoltage > MaxDeltaVoltage Then RVBSim.FwdDeltaVoltageReg1.Value = 0.0 Else RVBSim.FwdDeltaVoltageReg1.Value = testSetting.FwdRVBVoltage
-            If testSetting.RevRVBVoltage < MinDeltaVoltage Or testSetting.RevRVBVoltage > MaxDeltaVoltage Then RVBSim.RevDeltaVoltageReg1.Value = 0.0 Else RVBSim.RevDeltaVoltageReg1.Value = testSetting.RevRVBVoltage
+            If testSetting.FwdRVBVoltage < MinDeltaVoltage Or testSetting.FwdRVBVoltage > MaxDeltaVoltage Then RVBSim.SettingsFwdRVBVoltageReg1.Value = 0.0 Else RVBSim.SettingsFwdRVBVoltageReg1.Value = testSetting.FwdRVBVoltage
+            If testSetting.RevRVBVoltage < MinDeltaVoltage Or testSetting.RevRVBVoltage > MaxDeltaVoltage Then RVBSim.SettingsRevRVBVoltageReg1.Value = 0.0 Else RVBSim.SettingsRevRVBVoltageReg1.Value = testSetting.RevRVBVoltage
 
         Catch ex As Exception
-            Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(RVBSim.lblMsgCenter, message)
+            Dim message As String = $"{Now}{vbCrLf}{ex.Message}:{vbCrLf}{ex.StackTrace}"
+            ' SetText(RVBSim.lblMsgCenter, message)
+            SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         Finally
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(CheckCommandLine)}")

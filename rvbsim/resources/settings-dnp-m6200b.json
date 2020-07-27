@@ -1,0 +1,427 @@
+﻿{
+  "date": "07-07-2020",
+  "description": "dnp3.0 communication settings",
+  "fileversion": "1.0.0",
+  "protocol": "dnp",
+  "source": 1,
+  "destination": 3,
+  "port": 20000,
+  "test": {
+    "regulator": [
+      {
+        "id": 1,
+        "name": "Regulator 1",
+        "values": [
+          {
+            "name": "LocalVoltage",
+            "description": "Local Voltage (Secondary)",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "163",
+            "unit": "volts"
+          },
+          {
+            "name": "SourceVoltage",
+            "description": "Source Voltage (Secondary)",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "174",
+            "unit": "volts"
+          },
+          {
+            "name": "RVBEnable",
+            "description": "RVB Enable",
+            "range": [
+              {
+                "max": 1,
+                "min": 0
+              }
+            ],
+            "value": "289",
+            "unit": "-"
+          },
+          {
+            "name": "FRVBValue",
+            "description": "Fwd RVB Voltage",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "290",
+            "unit": "-"
+          },
+          {
+            "name": "FRVBScale",
+            "description": "Fwd RVB Scale",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "291",
+            "unit": "-"
+          },
+          {
+            "name": "RVBHeartbeat",
+            "description": "RVB Heartbeat Timer",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "292",
+            "unit": "secs"
+          },
+          {
+            "name": "RVBActive",
+            "description": "RVB Active",
+            "range": [
+              {
+                "max": 1,
+                "min": 0
+              }
+            ],
+            "value": "14804",
+            "unit": "-"
+          },
+          {
+            "name": "RRVBValue",
+            "description": "Rev RVB Voltage",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "293",
+            "unit": "volts"
+          },
+          {
+            "name": "RRVBScale",
+            "description": "Rev RVB Scale",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "294",
+            "unit": "-"
+          },
+          {
+            "name": "RVBMax",
+            "description": "Remote Voltage Maximum",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "295",
+            "unit": "volts"
+          },
+          {
+            "name": "RVBMin",
+            "description": "Remote Voltage Minimum",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "296",
+            "unit": "volts"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Regulator 2",
+        "values": [
+          {
+            "name": "LocalVoltage",
+            "description": "Local Voltage (Secondary)",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "2163",
+            "unit": "volts"
+          },
+          {
+            "name": "SourceVoltage",
+            "description": "Source Voltage (Secondary)",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "2174",
+            "unit": "volts"
+          },
+          {
+            "name": "RVBEnable",
+            "description": "RVB Enable",
+            "range": [
+              {
+                "max": 1,
+                "min": 0
+              }
+            ],
+            "value": "2289",
+            "unit": "-"
+          },
+          {
+            "name": "FRVBValue",
+            "description": "Fwd RVB Voltage",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "2290",
+            "unit": "-"
+          },
+          {
+            "name": "FRVBScale",
+            "description": "Fwd RVB Scale",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "2291",
+            "unit": "-"
+          },
+          {
+            "name": "RVBHeartbeat",
+            "description": "RVB Heartbeat Timer",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "2292",
+            "unit": "secs"
+          },
+          {
+            "name": "RVBActive",
+            "description": "RVB Active",
+            "range": [
+              {
+                "max": 1,
+                "min": 0
+              }
+            ],
+            "value": "24804",
+            "unit": "-"
+          },
+          {
+            "name": "RRVBValue",
+            "description": "Rev RVB Voltage",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "2293",
+            "unit": "volts"
+          },
+          {
+            "name": "RRVBScale",
+            "description": "Rev RVB Scale",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "2294",
+            "unit": "-"
+          },
+          {
+            "name": "RVBMax",
+            "description": "Remote Voltage Maximum",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "2295",
+            "unit": "volts"
+          },
+          {
+            "name": "RVBMin",
+            "description": "Remote Voltage Minimum",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "2296",
+            "unit": "volts"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Regulator 3",
+        "values": [
+          {
+            "name": "LocalVoltage",
+            "description": "Local Voltage (Secondary)",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "3163",
+            "unit": "volts"
+          },
+          {
+            "name": "SourceVoltage",
+            "description": "Source Voltage (Secondary)",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "3174",
+            "unit": "volts"
+          },
+          {
+            "name": "RVBEnable",
+            "description": "RVB Enable",
+            "range": [
+              {
+                "max": 1,
+                "min": 0
+              }
+            ],
+            "value": "3289",
+            "unit": "-"
+          },
+          {
+            "name": "FRVBValue",
+            "description": "Fwd RVB Voltage",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "3290",
+            "unit": "-"
+          },
+          {
+            "name": "FRVBScale",
+            "description": "Fwd RVB Scale",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "3291",
+            "unit": "-"
+          },
+          {
+            "name": "RVBHeartbeat",
+            "description": "RVB Heartbeat Timer",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "3292",
+            "unit": "secs"
+          },
+          {
+            "name": "RVBActive",
+            "description": "RVB Active",
+            "range": [
+              {
+                "max": 1,
+                "min": 0
+              }
+            ],
+            "value": "34804",
+            "unit": "-"
+          },
+          {
+            "name": "RRVBValue",
+            "description": "Rev RVB Voltage",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "3293",
+            "unit": "volts"
+          },
+          {
+            "name": "RRVBScale",
+            "description": "Rev RVB Scale",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "3294",
+            "unit": "-"
+          },
+          {
+            "name": "RVBMax",
+            "description": "Remote Voltage Maximum",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "3295",
+            "unit": "volts"
+          },
+          {
+            "name": "RVBMin",
+            "description": "Remote Voltage Minimum",
+            "range": [
+              {
+                "max": 65535,
+                "min": 0
+              }
+            ],
+            "value": "3296",
+            "unit": "volts"
+          }
+        ]
+      }
+    ]
+  }
+}

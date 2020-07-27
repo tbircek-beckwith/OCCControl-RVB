@@ -35,39 +35,39 @@ Public Class RegulatorCommunication
     '    Return output
     'End Function
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    Private Class RegulatorEnumerator
-        Implements IEnumerator
+    '''' <summary>
+    '''' 
+    '''' </summary>
+    'Private Class RegulatorEnumerator
+    '    Implements IEnumerator
 
-        ' Private _regulator As List(Of T)
-        Private ReadOnly _dnpCommunication As ObservableCollection(Of DnpCommunicationModel)
-        Private ReadOnly _modbusCommunication() As ObservableCollection(Of ModbusCommunicationModel)
-        Private ReadOnly _iecCommunication As ObservableCollection(Of IECCommunicationModel)
-        ' Private ReadOnly _position As Integer = -1
+    '    ' Private _regulator As List(Of T)
+    '    Private ReadOnly _dnpCommunication As ObservableCollection(Of DnpCommunicationModel)
+    '    Private ReadOnly _modbusCommunication() As ObservableCollection(Of ModbusCommunicationModel)
+    '    Private ReadOnly _iecCommunication As ObservableCollection(Of IECCommunicationModel)
+    '    ' Private ReadOnly _position As Integer = -1
 
-        Public Sub New(ByVal modbusCommunication() As ObservableCollection(Of ModbusCommunicationModel), ByVal iecCommunication As ObservableCollection(Of IECCommunicationModel), ByVal dnpCommunication As ObservableCollection(Of DnpCommunicationModel))
-            _modbusCommunication = modbusCommunication
-            _iecCommunication = iecCommunication
-            _dnpCommunication = dnpCommunication
-        End Sub
+    '    Public Sub New(ByVal modbusCommunication() As ObservableCollection(Of ModbusCommunicationModel), ByVal iecCommunication As ObservableCollection(Of IECCommunicationModel), ByVal dnpCommunication As ObservableCollection(Of DnpCommunicationModel))
+    '        _modbusCommunication = modbusCommunication
+    '        _iecCommunication = iecCommunication
+    '        _dnpCommunication = dnpCommunication
+    '    End Sub
 
-        Public ReadOnly Property Current As Object Implements IEnumerator.Current
-            Get
-                Throw New NotImplementedException()
-                'Return
-            End Get
-        End Property
+    '    Public ReadOnly Property Current As Object Implements IEnumerator.Current
+    '        Get
+    '            Throw New NotImplementedException()
+    '            'Return
+    '        End Get
+    '    End Property
 
-        Public Sub Reset() Implements IEnumerator.Reset
-            Throw New NotImplementedException()
-        End Sub
+    '    Public Sub Reset() Implements IEnumerator.Reset
+    '        Throw New NotImplementedException()
+    '    End Sub
 
-        Public Function MoveNext() As Boolean Implements IEnumerator.MoveNext
-            Throw New NotImplementedException()
-        End Function
-    End Class
+    '    Public Function MoveNext() As Boolean Implements IEnumerator.MoveNext
+    '        Throw New NotImplementedException()
+    '    End Function
+    'End Class
 
 End Class
 

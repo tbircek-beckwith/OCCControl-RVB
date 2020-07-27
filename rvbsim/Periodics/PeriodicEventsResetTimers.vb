@@ -7,9 +7,16 @@ Namespace PeriodicOperations
     ''' </summary>
     Public Class ResetEvents
 
-        Protected Friend Sub Timers(ByRef rvbForm As RVBSim)
+        Protected Friend Sub Timers(ByRef rvbForm As RVBSim, Optional regulatorID As Object = Nothing)
+
+            'If Val(regulatorID) < 0 Or Val(regulatorID) > 2 Or IsNothing(regulatorID) Then
+            '    Debugger.Break()
+            'End If
 
             Try
+
+                Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(Timers)} is running... Regulator: {regulatorID}")
+
                 Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} ResetTimers.ErrorCounter(old): {Interlocked.Read(errorCounter)}")
 
                 If Not Interlocked.Read(errorCounter) >= 10 Then
@@ -17,9 +24,23 @@ Namespace PeriodicOperations
                     ReadRegisterWait.Unregister(Nothing)
                     WriteRegisterWait.Unregister(Nothing)
 
-                    ReadRegisterWait = ThreadPool.RegisterWaitForSingleObject(ReadTickerDone, New WaitOrTimerCallback(AddressOf rvbForm.PeriodicReadEvent), Nothing, ReadInterval, False)
+                    ReadTickerDone.Reset()
 
-                    WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(WriteTickerDone, New WaitOrTimerCallback(AddressOf rvbForm.PeriodicWriteEvent), Nothing, WriteInterval, False)
+                    ReadRegisterWait = ThreadPool.RegisterWaitForSingleObject(waitObject:=ReadTickerDone,
+                                                                              callBack:=New WaitOrTimerCallback(AddressOf rvbForm.PeriodicReadEvent),
+                                                                              state:=regulatorID,
+                                                                              millisecondsTimeOutInterval:=ReadInterval,
+                                                                              executeOnlyOnce:=False)
+
+                    ReadingTimer.Restart()
+
+                    WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(waitObject:=WriteTickerDone,
+                                                                               callBack:=New WaitOrTimerCallback(AddressOf rvbForm.PeriodicWriteEventNew),
+                                                                               state:=regulatorID,
+                                                                               millisecondsTimeOutInterval:=WriteIntervals(regulatorID),
+                                                                               executeOnlyOnce:=False)
+
+                    WritingTimers(regulatorID).Restart()
 
                     Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} ResetTimers.ErrorCounter(new): {Interlocked.Read(errorCounter)}")
                 Else
@@ -31,7 +52,8 @@ Namespace PeriodicOperations
 
             Catch ex As Exception
                 Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                SetText(rvbForm.lblMsgCenter, message)
+                ' SetText(rvbForm.lblMsgCenter, message)
+                SetTextBox(textbox:=rvbForm.ErrorsTextBox, text:=message)
                 sb.AppendLine(message)
             End Try
         End Sub

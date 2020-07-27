@@ -33,23 +33,24 @@ Module FormOperations
                     .IECFwdRVBVoltage = RVBSim.IecFRVBValueReg1.Text
                     .IECRevRVBVoltage = RVBSim.IecRRVBValueReg1.Text
                 End If
-                .heartbeat = CUShort(RVBSim.HeartbeatTimerReg1.Value)
-                .Fdeltavoltage = CDbl(RVBSim.FwdDeltaVoltageReg1.Value)
-                .Fmultiplier = CDbl(RVBSim.FRVBScaleReg1.Value)
-                .Rdeltavoltage = CDbl(RVBSim.RevDeltaVoltageReg1.Value)
-                .Rmultiplier = CDbl(RVBSim.RRVBScaleReg1.Value)
+                .heartbeat = CUShort(RVBSim.SettingsHeartbeatTimerReg1.Value)
+                .Fdeltavoltage = CDbl(RVBSim.SettingsFwdRVBVoltageReg1.Value)
+                .Fmultiplier = CDbl(RVBSim.SettingsFwdScaleFactorReg1.Value)
+                .Rdeltavoltage = CDbl(RVBSim.SettingsRevRVBVoltageReg1.Value)
+                .Rmultiplier = CDbl(RVBSim.SettingsRevScaleFactorReg1.Value)
                 .IPAddressToRead = RVBSim.WriteIpAddr.Text
             End With
 
         Catch ex As Exception
             Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-            SetText(RVBSim.lblMsgCenter, message)
+            ' SetText(RVBSim.lblMsgCenter, message)
+            SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
             sb.AppendLine(message)
         Finally
 
             Dim logFilePath = Path.Combine(path1:=My.Application.Info.DirectoryPath, path2:="Log.txt")
 
-            My.Computer.FileSystem.WriteAllText(logFilePath, sb.ToString, False)
+            My.Computer.FileSystem.WriteAllText(file:=logFilePath, text:=sb.ToString, append:=False)
 
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(CloseForm)}")
         End Try
