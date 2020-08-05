@@ -1,5 +1,4 @@
-﻿Imports System.IO
-Imports System.Threading
+﻿Imports System.Threading
 
 Module FormOperations
 
@@ -46,11 +45,10 @@ Module FormOperations
             ' SetText(RVBSim.lblMsgCenter, message)
             SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
             sb.AppendLine(message)
+
         Finally
 
-            Dim logFilePath = Path.Combine(path1:=My.Application.Info.DirectoryPath, path2:="Log.txt")
-
-            My.Computer.FileSystem.WriteAllText(file:=logFilePath, text:=sb.ToString, append:=False)
+            SaveLog()
 
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(CloseForm)}")
         End Try

@@ -1,6 +1,4 @@
-﻿
-Imports System.IO
-Imports System.Threading
+﻿Imports System.Threading
 
 Public Class RVBSim
 
@@ -15,13 +13,15 @@ Public Class RVBSim
 
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicReadEvent)} -- STARTS")
 
-            Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- Reading is in progress... Reads everything.")
+            Dim offset As Integer = "Current thread is #".Length + 1
 
-            Debug.WriteLine($"-----------------------> Elapsed time: {ReadingTimer.ElapsedMilliseconds} msec")
+            Debug.WriteLine($"{StrDup(offset, " "c)}{Date.Now:hh:mm:ss.ffff} -- Reading is in progress...")
 
+            Debug.WriteLine($"{StrDup(offset, " "c)}Elapsed time (since beginning): {ReadingTimer.ElapsedMilliseconds} msec")
+
+            ' do actual reading...
             periodicRead.Read(rvbForm:=Me)
 
-            ' periodicRead.Read(rvbForm:=Me)
             Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicReadEvent)} -- ENDS")
 
         Else
@@ -36,20 +36,20 @@ Public Class RVBSim
     ''' </summary>
     ''' <param name="state"></param>
     ''' <param name="timeOut"></param>
-    Protected Friend Sub PeriodicWriteEventNew(ByVal state As Object, ByVal timeOut As Boolean)
+    Protected Friend Sub PeriodicWriteEvent(ByVal state As Object, ByVal timeOut As Boolean)
 
         If timeOut AndAlso StopButton.Enabled Then
 
-            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicWriteEventNew)} -- STARTS")
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicWriteEvent)} -- STARTS")
+            Dim offset As Integer = "Current thread is #".Length + 1
 
-            Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- Writing is in progress...")
+            Debug.WriteLine($"{StrDup(offset, " "c)}{Date.Now:hh:mm:ss.ffff} -- Writing is in progress...")
 
-            Debug.WriteLine($"-----------------------> Writing: Regulator {Val(state)}, Writing: {WritingTimers(Val(state)).ElapsedMilliseconds} msec, Reading:{ReadingTimer.ElapsedMilliseconds} msec")
+            Debug.WriteLine($"{StrDup(offset, " "c)}Writing: Regulator {Val(state)}, Writing: {WritingTimers(Val(state)).ElapsedMilliseconds} msec, Reading:{ReadingTimer.ElapsedMilliseconds} msec")
 
-            periodicWrite.WriteNew(rvbForm:=Me, regulatorId:=Val(state))
+            periodicWrite.Write(rvbForm:=Me, regulatorId:=Val(state))
 
-            ' periodicRead.Read(rvbForm:=Me)
-            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicWriteEventNew)} -- ENDS")
+            Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} {NameOf(PeriodicWriteEvent)} -- ENDS")
 
         Else
             If StopButton.Enabled Then
@@ -111,7 +111,9 @@ Public Class RVBSim
 
             ' check for updates
             Dim update = New AppStartup()
-            Await update.CheckForUpdates()
+
+            ' lets skip until next best thing
+            'Await update.CheckForUpdates()
 
             Populatetheform()
             If My.Application.CommandLineArgs.Count > 1 Then

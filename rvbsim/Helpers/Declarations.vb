@@ -58,7 +58,7 @@ Module Declarations
 
     Friend WriteTickerDone As New ManualResetEvent(False)
     Friend ReadTickerDone As New ManualResetEvent(False)
-    Friend TimersEvent As New ManualResetEvent(False)
+    ' Friend TimersEvent As New ManualResetEvent(False)
     Friend WriteRegisterWait As RegisteredWaitHandle
     Friend ReadRegisterWait As RegisteredWaitHandle
 
@@ -69,7 +69,7 @@ Module Declarations
 
     Friend WriteTickerDones As List(Of ManualResetEvent) = Enumerable.Repeat(New ManualResetEvent(True), SupportedRegulatorNumber).ToList()
     Friend ReadTickerDones As New List(Of ManualResetEvent)
-    Friend TimersEvents As New List(Of ManualResetEvent)
+    '  Friend TimersEvents As New List(Of ManualResetEvent)
     Friend WriteRegisterWaits As New List(Of RegisteredWaitHandle)
     Friend ReadRegisterWaits As New List(Of RegisteredWaitHandle)
 

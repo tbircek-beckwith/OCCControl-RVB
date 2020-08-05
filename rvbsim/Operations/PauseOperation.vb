@@ -47,7 +47,7 @@ Namespace Communication.Operations
                 ReadTickerDone.Reset()
                 ReadRegisterWait.Unregister(Nothing)
 
-                TimersEvent.Dispose()
+                ' TimersEvent.Dispose()
                 Disconnect.Dispose()
 
                 SetEnable(RVBSim.StopButton, False)

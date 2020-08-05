@@ -13,15 +13,13 @@ Namespace PeriodicOperations
         ''' </summary>
         ''' <param name="rvbForm">Reference to the main window</param>
         ''' <param name="regulatorId">the current regulator</param>
-        Protected Friend Sub WriteNew(ByRef rvbForm As RVBSim, regulatorId As Integer)
+        Protected Friend Sub Write(ByRef rvbForm As RVBSim, regulatorId As Integer)
 
             Try
 
-                Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(WriteNew)} is running... STARTS")
+                Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(Write)} is running... STARTS")
 
                 Dim controlId = regulatorId + 1
-
-                'Dim WriteEvent As New ManualResetEvent(False)
 
                 Dim query = From regulator In testJsonSettingsRegulators.Regulator
                             Where regulator.Id = controlId
@@ -36,7 +34,6 @@ Namespace PeriodicOperations
                         If value.Name.Contains("RVBValue") Then
 
                             Dim settingControlName As String = $"{ProtocolInUse}{value.Name}Reg{controlId}"
-                            ' Debug.WriteLine($" <------------------- {settingControlName} processing ...")
 
                             Dim v() As Control = rvbForm.Controls.Find(settingControlName, True)
 
@@ -57,9 +54,10 @@ Namespace PeriodicOperations
                                                 Debug.WriteLine($"Local: {Interlocked.Read(FwdRVBVoltages2Write(regulatorId))}")
 
                                                 modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(FwdRVBVoltages2Write(regulatorId)))
+
                                             ElseIf registerBox.Name.Contains("RRVB") Then
 
-                                                Debug.WriteLine($"Src:{Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
+                                                Debug.WriteLine($"Src: {Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
 
                                                 modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(RevRVBVoltages2Write(regulatorId)))
                                             End If
@@ -75,7 +73,7 @@ Namespace PeriodicOperations
 
                                             ElseIf registerBox.Name.Contains("RRVB") Then
 
-                                                Debug.WriteLine($"Src:{Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
+                                                Debug.WriteLine($"Src: {Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
 
                                                 DnpSend(rvbForm:=rvbForm,
                                                      address:=registerBox.Value,
@@ -109,13 +107,12 @@ Namespace PeriodicOperations
                 ResetMeteringLabels()
                 CheckErrors()
                 Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                ' SetText(rvbForm.lblMsgCenter, message)
-                SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
+                SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message, append:=True)
                 sb.AppendLine(message)
 
             Finally
 
-                Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(WriteNew)} is running... ENDS")
+                Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(Write)} is running... ENDS")
 
             End Try
 

@@ -16,10 +16,10 @@ Module SetupTestUnit
 
             For Each regulator In testJsonSettingsRegulators.Regulator
 
-                Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(SendSettings)} --- START")
-
                 ' only send to regulator 1 when Single Phase checked
                 If RVBSim.RVBSettings3Phase.Visible Or regulator.Id = 1 Then
+
+                    Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(SendSettings)} --- START")
 
                     ' SetText(RVBSim.lblMsgCenter, "Sending settings to the units ...")
                     SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:="Sending settings to the units...")
@@ -69,16 +69,11 @@ Module SetupTestUnit
                         End If
                     Next
 
-                    ' SetText(RVBSim.lblMsgCenter, "Sending completed ... reading Local Voltage")
                     SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:="Sending completed... reading specified values...")
 
                     If Not String.Equals(ReceivedErrorMsg, "None") Then sb.AppendLine($"{Now} Received {ReceivedErrorMsg} error")
 
                 End If
-
-                Debug.WriteLine($"Current thread is # {Thread.CurrentThread.GetHashCode} --- {NameOf(SendSettings)} --- END")
-
-                '  End With
             Next
 
         Catch ex As Exception
