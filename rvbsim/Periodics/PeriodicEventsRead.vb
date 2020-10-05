@@ -111,6 +111,8 @@ Namespace PeriodicOperations
 
                                     Dim s = New UpdateMeteringValues(rvbForm:=rvbForm, registerBox:=registerBox, regulatorId:=regulator.Id - 1)
 
+                                    GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=regulator.Id - 1)
+
                                     SetTextBox(rvbForm.ErrorsTextBox, $"Error: {ReceivedErrorMsg}")
                                 End If
                             End If

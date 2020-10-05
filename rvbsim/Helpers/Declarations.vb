@@ -170,17 +170,17 @@ Module Declarations
 
     '  Friend Property Heart_Beat_Timer() As Integer
 
-    Friend Property ActualLocalVoltage() As Double = 0.0
+    Friend Property ActualLocalVoltage() As Decimal = 0.0D
 
-    Friend Property ActualSourceVoltage() As Double = 0.0
+    Friend Property ActualSourceVoltage() As Decimal = 0.0D
 
-    Friend Property Forward_RVBVoltage2Write() As Double = 0.0
+    Friend Property Forward_RVBVoltage2Write() As Decimal = 0.0D
 
-    Friend Property Reverse_RVBVoltage2Write() As Double = 0.0
+    Friend Property Reverse_RVBVoltage2Write() As Decimal = 0.0D
 
-    Friend Property LocalVoltageReadresult() As UShort = 0
+    Friend Property LocalVoltageReadresult() As Decimal = 0.0D
 
-    Friend Property SourceVoltageReadresult() As UShort = 0
+    Friend Property SourceVoltageReadresult() As Decimal = 0.0D
 
     Friend Property ReceivedErrorMsg() As String = String.Empty
 
@@ -190,9 +190,9 @@ Module Declarations
     ''' 
     ''' Multiple phase regulator supports
     '''
-    Public Property LocalVoltageReadings() As List(Of UShort) = Enumerable.Repeat(Of UShort)(UShort.MaxValue, SupportedRegulatorNumber).ToList() '= New List(Of UShort)()
+    Public Property LocalVoltageReadings() As List(Of Decimal) = Enumerable.Repeat(Decimal.MaxValue, SupportedRegulatorNumber).ToList() '= New List(Of UShort)()
 
-    Public Property SourceVoltageReadings() As List(Of UShort) = Enumerable.Repeat(Of UShort)(UShort.MaxValue, SupportedRegulatorNumber).ToList() ' = New List(Of UShort)()
+    Public Property SourceVoltageReadings() As List(Of Decimal) = Enumerable.Repeat(Decimal.MaxValue, SupportedRegulatorNumber).ToList() ' = New List(Of UShort)()
 
     Friend Property WriteIntervals() As List(Of Integer) = Enumerable.Repeat(2000, SupportedRegulatorNumber).ToList() '= New List(Of Integer)()
 
@@ -200,9 +200,9 @@ Module Declarations
 
     Friend Property HeartBeatTimers() As List(Of Integer) = Enumerable.Repeat(120, SupportedRegulatorNumber).ToList()
 
-    Friend Property FwdRVBVoltages2Write() As List(Of Double) = Enumerable.Repeat(65535.0, SupportedRegulatorNumber).ToList()
+    Friend Property FwdRVBVoltages2Write() As List(Of Decimal) = Enumerable.Repeat(65535D, SupportedRegulatorNumber).ToList()
 
-    Friend Property RevRVBVoltages2Write() As List(Of Double) = Enumerable.Repeat(65535.0, SupportedRegulatorNumber).ToList()
+    Friend Property RevRVBVoltages2Write() As List(Of Decimal) = Enumerable.Repeat(65535D, SupportedRegulatorNumber).ToList()
 
     Friend Property ReadingTimer() As Stopwatch = New Stopwatch()
 

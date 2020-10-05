@@ -91,7 +91,7 @@ Public Class RVBSim
         Main()
     End Sub
 
-    Public Async Sub Main()
+    Public Sub Main()
 
         Dim proc As Process
         Try
