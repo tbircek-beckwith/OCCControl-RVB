@@ -236,7 +236,7 @@
     <Compile Include="Helpers\Helpers.vb" />
     <Compile Include="Helpers\Declarations.vb" />
     <Compile Include="Helpers\DisEnableCheckBoxes.vb" />
-    <Compile Include="Helpers\Error Handler.vb" />
+    <Compile Include="Helpers\ErrorHandler.vb" />
     <Compile Include="Operations\FormOperations.vb" />
     <Compile Include="Helpers\GenerateRVBVoltage.vb" />
     <Compile Include="Operations\PauseOperation.vb" />
