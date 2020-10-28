@@ -162,7 +162,7 @@
             "name": "userelative",
             "scalefactor": 1,
             "unit": "-",
-            "value": 0
+            "value": 1
           }
         ]
       },

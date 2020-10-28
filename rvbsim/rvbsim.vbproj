@@ -222,6 +222,8 @@
     <Compile Include="Helpers\CommandLineHandler.vb" />
     <Compile Include="Helpers\ExtensionMethods.vb" />
     <Compile Include="Helpers\ResetMetering.vb" />
+    <Compile Include="Helpers\SetRelativeChecks.vb" />
+    <Compile Include="Helpers\SetVoltageOffsetControls.vb" />
     <Compile Include="Helpers\UpdateMeteringValues.vb" />
     <Compile Include="Helpers\RelativeOrFixedValue.vb" />
     <Compile Include="Helpers\SetControls.vb" />
