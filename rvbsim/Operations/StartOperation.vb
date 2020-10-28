@@ -145,7 +145,7 @@ Namespace Communication.Operations
                     With CType(beat, NumericUpDown)
 
                         ' write events effected by the user selections.
-                        WriteInterval = (.Value - 0.25D) * 1000 ' * 900
+                        WriteInterval = (.Value - WritingTimeDelay) * 1000 ' * 900
 
                         Dim regulator = Val(beat.Name.Last())
 

@@ -25,6 +25,13 @@ Module Declarations
     Friend Const SettingFileName As String = "settings"
     Friend Const SupportedRegulatorNumber As Integer = 3
 
+    Friend Property CommDelay As Integer = 20
+
+    ''' <summary>
+    ''' make sure we writing before heartbeat expires
+    ''' </summary>
+    Friend Property WritingTimeDelay As Decimal = 0.2D
+
     Friend sb As New StringBuilder
     Friend IPs As String() = New String(1) {}
 
