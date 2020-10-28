@@ -30,6 +30,7 @@ Module SetupTestUnit
                         Dim settingControlName As String = $"Settings{value.Name}Reg{regulator.Id}"
                         Dim iecDataType As DataType = DataType.none
                         Dim dataAddress As String = value.Value
+                        ' Dim scaleFactor As Integer = value.ScaleFactor
 
                         Dim v() As Control = RVBSim.Controls.Find(settingControlName, True)
 
