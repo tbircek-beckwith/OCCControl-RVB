@@ -1,7 +1,7 @@
 ﻿{
-  "date": "10-26-2020",
+  "date": "10-28-2020",
   "description": "modbus communication settings",
-  "fileversion": "1.0.1",
+  "fileversion": "1.0.2",
   "protocol": "modbus-m6200b",
   "factory": 4787,
   "port": 502,
@@ -64,7 +64,7 @@
             "unit": "-"
           },
           {
-            "name": "FRVBScale",
+            "name": "FwdScaleFactor",
             "description": "Fwd RVB Scale",
             "range": [
               {
@@ -72,12 +72,12 @@
                 "min": 0
               }
             ],
-            "scalefactor": 1,
+            "scalefactor": 10,
             "value": "14802",
             "unit": "-"
           },
           {
-            "name": "RVBHeartbeat",
+            "name": "HeartbeatTimer",
             "description": "RVB Heartbeat Timer",
             "range": [
               {
@@ -116,7 +116,7 @@
             "unit": "volts"
           },
           {
-            "name": "RRVBScale",
+            "name": "RevScaleFactor",
             "description": "Rev RVB Scale",
             "range": [
               {
@@ -124,7 +124,7 @@
                 "min": 0
               }
             ],
-            "scalefactor": 1,
+            "scalefactor": 10,
             "value": "14806",
             "unit": "-"
           },
@@ -213,7 +213,7 @@
             "unit": "-"
           },
           {
-            "name": "FRVBScale",
+            "name": "FwdScaleFactor",
             "description": "Fwd RVB Scale",
             "range": [
               {
@@ -221,12 +221,12 @@
                 "min": 0
               }
             ],
-            "scalefactor": 1,
+            "scalefactor": 10,
             "value": "24802",
             "unit": "-"
           },
           {
-            "name": "RVBHeartbeat",
+            "name": "HeartbeatTimer",
             "description": "RVB Heartbeat Timer",
             "range": [
               {
@@ -265,7 +265,7 @@
             "unit": "volts"
           },
           {
-            "name": "RRVBScale",
+            "name": "RevScaleFactor",
             "description": "Rev RVB Scale",
             "range": [
               {
@@ -273,7 +273,7 @@
                 "min": 0
               }
             ],
-            "scalefactor": 1,
+            "scalefactor": 10,
             "value": "24806",
             "unit": "-"
           },
@@ -362,7 +362,7 @@
             "unit": "-"
           },
           {
-            "name": "FRVBScale",
+            "name": "FwdScaleFactor",
             "description": "Fwd RVB Scale",
             "range": [
               {
@@ -370,12 +370,12 @@
                 "min": 0
               }
             ],
-            "scalefactor": 1,
+            "scalefactor": 10,
             "value": "34802",
             "unit": "-"
           },
           {
-            "name": "RVBHeartbeat",
+            "name": "HeartbeatTimer",
             "description": "RVB Heartbeat Timer",
             "range": [
               {
@@ -414,7 +414,7 @@
             "unit": "volts"
           },
           {
-            "name": "RRVBScale",
+            "name": "RevScaleFactor",
             "description": "Rev RVB Scale",
             "range": [
               {
@@ -422,7 +422,7 @@
                 "min": 0
               }
             ],
-            "scalefactor": 1,
+            "scalefactor": 10,
             "value": "34806",
             "unit": "-"
           },
