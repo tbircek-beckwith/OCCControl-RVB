@@ -59,18 +59,48 @@ Namespace PeriodicOperations
                                     Select Case ProtocolInUse
 
                                         Case "modbus"
+
+                                            'Try
+
                                             If registerBox.Name.Contains("FRVB") Then
 
-                                                Console.WriteLine($"Local: {Interlocked.Read(FwdRVBVoltages2Write(regulatorId))}")
+                                                    Console.WriteLine($"Local: {Interlocked.Read(FwdRVBVoltages2Write(regulatorId))}")
 
-                                                Tasks.Task.Run(Sub() modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(FwdRVBVoltages2Write(regulatorId)))).Wait(10)
+                                                Tasks.Task.Run(Sub()
+                                                                   Try
+                                                                       modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(FwdRVBVoltages2Write(regulatorId)))
+                                                                   Catch ex As Exception
+
+                                                                       Debug.WriteLine("error: &&&&&&&& FORWARD &&&&&&&&&")
+                                                                       Debug.WriteLine("error: " & ex.Message)
+                                                                       Debug.WriteLine("error: &&&&&&&&&&&&&&&&&&&&&&&&")
+
+                                                                   End Try
+
+                                                               End Sub).Wait(CommDelay)   '10)
 
                                             ElseIf registerBox.Name.Contains("RRVB") Then
 
-                                                Console.WriteLine($"Src: {Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
+                                                    Console.WriteLine($"Src: {Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
 
-                                                Tasks.Task.Run(Sub() modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(RevRVBVoltages2Write(regulatorId)))).Wait(10)
+                                                Tasks.Task.Run(Sub()
+                                                                   Try
+                                                                       modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(RevRVBVoltages2Write(regulatorId)))
+                                                                   Catch ex As Exception
+
+                                                                       Debug.WriteLine("error: &&&&&&& REVERSE &&&&&&&&")
+                                                                       Debug.WriteLine("error: " & ex.Message)
+                                                                       Debug.WriteLine("error: &&&&&&&&&&&&&&&&&&&&&&&&")
+
+                                                                   End Try
+
+                                                               End Sub
+                                                               ).Wait(CommDelay)   '10)
                                             End If
+
+                                            'Catch ex As Exception
+
+                                            'End Try
 
                                         Case "dnp"
                                             If registerBox.Name.Contains("FRVB") Then
@@ -97,7 +127,7 @@ Namespace PeriodicOperations
 
                                     Dim s = New UpdateMeteringValues(rvbForm:=rvbForm, registerBox:=registerBox, regulatorId:=regulatorId)
 
-                                    Console.WriteLine($"------------------- Writing RVB Voltage ({ProtocolInUse}) Done -------------------")
+                                    Debug.WriteLine($"------------------- Writing RVB Voltage ({ProtocolInUse}) Done -------------------")
 
                                 End If
                             End If
