@@ -1,4 +1,5 @@
-﻿Imports System.Text
+﻿
+Imports System.Text
 Imports System.Threading
 'Imports Automatak.DNP3.Interface
 Imports rvbSim.Communication.Operations
@@ -30,7 +31,7 @@ Module Declarations
     ''' <summary>
     ''' make sure we writing before heartbeat expires
     ''' </summary>
-    Friend Property WritingTimeDelay As Decimal = 0.2D
+    Friend Property WritingTimeDelay As Decimal = 0.05D
 
     Friend sb As New StringBuilder
     Friend IPs As String() = New String(1) {}
