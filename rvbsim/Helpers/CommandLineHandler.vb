@@ -19,17 +19,9 @@ Module CommandLineHandler
 
                 Throw New ArgumentException("No parameters provided. Please check help file.")
 
-            ElseIf inputArguments.Count > 8 Then
+            ElseIf inputArguments.Count > 7 Then
 
                 Throw New ArgumentException("Extra parameters provided. Please check help file.")
-
-                'ElseIf inputArguments(1).Split(",").Count < expectedArguments.Split(",").Count Then
-
-                '    Throw New ArgumentException("arguments missing value(s): Parameters: " & inputArguments(1))
-
-                'ElseIf inputArguments(1).Split(",").Count > expectedArguments.Split(",").Count Then
-
-                '    Throw New ArgumentException("arguments extra value(s): Parameters: " & inputArguments(1))
 
             Else
 
@@ -53,11 +45,13 @@ Module CommandLineHandler
 
                             SetVoltageOffset(value.Value, "Rev", regulatorId)
 
+                        ' TODO: add va(x) option to command handler
                         'Case "va" 'fwd voltage apply value NOT IN HELP FILE
                         '    RVBSim.SettingsUsefixedReg1.Checked = True
                         '    RVBSim.SettingsUserelativeReg1.Checked = False
                         '    testSetting.FwdRVBVoltage = value.Value ' My.Application.CommandLineArgs.Item(i + 1)
 
+                        ' TODO: add vb(x) option to command handler
                         'Case "vb" 'fwd voltage apply value NOT IN HELP FILE
                         '    RVBSim.SettingsUsefixedReg1.Checked = True
                         '    RVBSim.SettingsUserelativeReg1.Checked = False
@@ -88,6 +82,7 @@ Module CommandLineHandler
 
     End Sub
 
+    <Obsolete("cannot handle 3ph m-6200b", True)>
     Friend Sub OldCheckCommandLine()
         Try
             Dim i As Integer = 0
