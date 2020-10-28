@@ -18,7 +18,6 @@ Namespace Communication.Operations
                 With RVBSim
 
                     Dim Connection As New ManualResetEvent(False)
-                    ' TimersEvent = New ManualResetEvent(False)
 
                     errorCounter = 0
                     ReceivedErrorMsg = "None"
@@ -27,7 +26,6 @@ Namespace Communication.Operations
                     .UpdateProtocol()
 
                     'set texts and buttons
-                    ' SetText(.lblMsgCenter, "Establishing communication ...")
                     SetTextBox(textbox:= .ErrorsTextBox, text:="Establishing communication...")
                     SetEnable(.StopButton, True)
                     SetEnable(.StartButton, False)
@@ -88,7 +86,7 @@ Namespace Communication.Operations
                         Thread.CurrentThread.Join(100)
 
                         If success Then
-                            ' SetText(.lblMsgCenter, "Connection successful ...")
+
                             SetTextBox(textbox:= .ErrorsTextBox, text:="Connection is successful...")
 
                             For Each ip As String In IPs
@@ -115,7 +113,6 @@ Namespace Communication.Operations
 
             Catch ex As Exception
                 Dim message As String = $"{Now}{vbCrLf}{ex.Message}{vbCrLf}{ex.StackTrace}"
-                ' SetText(RVBSim.lblMsgCenter, message)
                 SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
                 sb.AppendLine(message)
                 SetEnable(RVBSim.StartButton, True)
@@ -145,13 +142,10 @@ Namespace Communication.Operations
 
                 For Each beat In heartbeat
 
-                    TimersEvent = New ManualResetEvent(True)
-                    TimersEvents.Add(TimersEvent)
-
                     With CType(beat, NumericUpDown)
 
                         ' write events effected by the user selections.
-                        WriteInterval = (.Value - 0.2) * 1000 ' * 900
+                        WriteInterval = (.Value - WritingTimeDelay) * 1000 ' * 900
 
                         Dim regulator = Val(beat.Name.Last())
 
@@ -163,7 +157,7 @@ Namespace Communication.Operations
 
                         Interlocked.Exchange(WriteTickerDones(regulator - 1), WriteTickerDone)
                         WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(waitObject:=WriteTickerDones(regulator - 1),
-                                                                                   callBack:=New WaitOrTimerCallback(AddressOf RVBSim.PeriodicWriteEventNew),
+                                                                                   callBack:=New WaitOrTimerCallback(AddressOf RVBSim.PeriodicWriteEvent),
                                                                                    state:=regulator - 1,
                                                                                    millisecondsTimeOutInterval:=WriteInterval,
                                                                                    executeOnlyOnce:=False)
@@ -180,7 +174,6 @@ Namespace Communication.Operations
 
             Catch ex As Exception
                 Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                ' SetText(RVBSim.lblMsgCenter, message)
                 SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
                 sb.AppendLine(message)
                 SetEnable(RVBSim.StartButton, True)

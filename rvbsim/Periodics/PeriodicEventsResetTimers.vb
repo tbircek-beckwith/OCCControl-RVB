@@ -9,10 +9,6 @@ Namespace PeriodicOperations
 
         Protected Friend Sub Timers(ByRef rvbForm As RVBSim, Optional regulatorID As Object = Nothing)
 
-            'If Val(regulatorID) < 0 Or Val(regulatorID) > 2 Or IsNothing(regulatorID) Then
-            '    Debugger.Break()
-            'End If
-
             Try
 
                 Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(Timers)} is running... Regulator: {regulatorID}")
@@ -35,7 +31,7 @@ Namespace PeriodicOperations
                     ReadingTimer.Restart()
 
                     WriteRegisterWait = ThreadPool.RegisterWaitForSingleObject(waitObject:=WriteTickerDone,
-                                                                               callBack:=New WaitOrTimerCallback(AddressOf rvbForm.PeriodicWriteEventNew),
+                                                                               callBack:=New WaitOrTimerCallback(AddressOf rvbForm.PeriodicWriteEvent),
                                                                                state:=regulatorID,
                                                                                millisecondsTimeOutInterval:=WriteIntervals(regulatorID),
                                                                                executeOnlyOnce:=False)
@@ -52,9 +48,8 @@ Namespace PeriodicOperations
 
             Catch ex As Exception
                 Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                ' SetText(rvbForm.lblMsgCenter, message)
-                SetTextBox(textbox:=rvbForm.ErrorsTextBox, text:=message)
                 sb.AppendLine(message)
+                SetTextBox(textbox:=rvbForm.ErrorsTextBox, text:=message, append:=True)
             End Try
         End Sub
     End Class

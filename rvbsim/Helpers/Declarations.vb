@@ -25,6 +25,13 @@ Module Declarations
     Friend Const SettingFileName As String = "settings"
     Friend Const SupportedRegulatorNumber As Integer = 3
 
+    Friend Property CommDelay As Integer = 20
+
+    ''' <summary>
+    ''' make sure we writing before heartbeat expires
+    ''' </summary>
+    Friend Property WritingTimeDelay As Decimal = 0.2D
+
     Friend sb As New StringBuilder
     Friend IPs As String() = New String(1) {}
 
@@ -58,7 +65,7 @@ Module Declarations
 
     Friend WriteTickerDone As New ManualResetEvent(False)
     Friend ReadTickerDone As New ManualResetEvent(False)
-    Friend TimersEvent As New ManualResetEvent(False)
+    ' Friend TimersEvent As New ManualResetEvent(False)
     Friend WriteRegisterWait As RegisteredWaitHandle
     Friend ReadRegisterWait As RegisteredWaitHandle
 
@@ -69,7 +76,7 @@ Module Declarations
 
     Friend WriteTickerDones As List(Of ManualResetEvent) = Enumerable.Repeat(New ManualResetEvent(True), SupportedRegulatorNumber).ToList()
     Friend ReadTickerDones As New List(Of ManualResetEvent)
-    Friend TimersEvents As New List(Of ManualResetEvent)
+    '  Friend TimersEvents As New List(Of ManualResetEvent)
     Friend WriteRegisterWaits As New List(Of RegisteredWaitHandle)
     Friend ReadRegisterWaits As New List(Of RegisteredWaitHandle)
 
@@ -170,17 +177,17 @@ Module Declarations
 
     '  Friend Property Heart_Beat_Timer() As Integer
 
-    Friend Property ActualLocalVoltage() As Double = 0.0
+    Friend Property ActualLocalVoltage() As Decimal = 0.0D
 
-    Friend Property ActualSourceVoltage() As Double = 0.0
+    Friend Property ActualSourceVoltage() As Decimal = 0.0D
 
-    Friend Property Forward_RVBVoltage2Write() As Double = 0.0
+    Friend Property Forward_RVBVoltage2Write() As Decimal = 0.0D
 
-    Friend Property Reverse_RVBVoltage2Write() As Double = 0.0
+    Friend Property Reverse_RVBVoltage2Write() As Decimal = 0.0D
 
-    Friend Property LocalVoltageReadresult() As UShort = 0
+    Friend Property LocalVoltageReadresult() As Decimal = 0.0D
 
-    Friend Property SourceVoltageReadresult() As UShort = 0
+    Friend Property SourceVoltageReadresult() As Decimal = 0.0D
 
     Friend Property ReceivedErrorMsg() As String = String.Empty
 
@@ -190,9 +197,9 @@ Module Declarations
     ''' 
     ''' Multiple phase regulator supports
     '''
-    Public Property LocalVoltageReadings() As List(Of UShort) = Enumerable.Repeat(Of UShort)(UShort.MaxValue, SupportedRegulatorNumber).ToList() '= New List(Of UShort)()
+    Public Property LocalVoltageReadings() As List(Of Decimal) = Enumerable.Repeat(Decimal.MaxValue, SupportedRegulatorNumber).ToList() '= New List(Of UShort)()
 
-    Public Property SourceVoltageReadings() As List(Of UShort) = Enumerable.Repeat(Of UShort)(UShort.MaxValue, SupportedRegulatorNumber).ToList() ' = New List(Of UShort)()
+    Public Property SourceVoltageReadings() As List(Of Decimal) = Enumerable.Repeat(Decimal.MaxValue, SupportedRegulatorNumber).ToList() ' = New List(Of UShort)()
 
     Friend Property WriteIntervals() As List(Of Integer) = Enumerable.Repeat(2000, SupportedRegulatorNumber).ToList() '= New List(Of Integer)()
 
@@ -200,9 +207,9 @@ Module Declarations
 
     Friend Property HeartBeatTimers() As List(Of Integer) = Enumerable.Repeat(120, SupportedRegulatorNumber).ToList()
 
-    Friend Property FwdRVBVoltages2Write() As List(Of Double) = Enumerable.Repeat(65535.0, SupportedRegulatorNumber).ToList()
+    Friend Property FwdRVBVoltages2Write() As List(Of Decimal) = Enumerable.Repeat(65535D, SupportedRegulatorNumber).ToList()
 
-    Friend Property RevRVBVoltages2Write() As List(Of Double) = Enumerable.Repeat(65535.0, SupportedRegulatorNumber).ToList()
+    Friend Property RevRVBVoltages2Write() As List(Of Decimal) = Enumerable.Repeat(65535D, SupportedRegulatorNumber).ToList()
 
     Friend Property ReadingTimer() As Stopwatch = New Stopwatch()
 

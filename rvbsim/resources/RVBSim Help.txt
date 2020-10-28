@@ -13,14 +13,12 @@ Use "Settings.xml" to set rest
 
 -------------------------------------------------------------------------------------------------
 Proposal for v4.x.x
-
+				 	
 -vfx: 
-  value               Forward delta voltage value add to the regulator x's local voltage
+  value               Forward delta voltage value add to the regulator (x)'s local voltage --- x = 2, x = 3
 
 -vrx: 
-  value               Reverse delta voltage value add to the regulator x's local voltage
-
--single: true to set single regulator, false to set multiple regulator
+  value               Reverse delta voltage value add to the regulator (x)'s local voltage --- x = 2, x = 3
 
 -s
   start               starts broadcasting, 
