@@ -2,7 +2,7 @@
   "date": "07-07-2020",
   "description": "dnp3.0 communication settings",
   "fileversion": "1.0.0",
-  "protocol": "dnp",
+  "protocol": "dnp-m6200b",
   "source": 1,
   "destination": 3,
   "port": 20000,

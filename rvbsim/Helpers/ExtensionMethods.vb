@@ -35,7 +35,8 @@ Public Module ExtensionMethods
         Try
 
             ' retrieve test settings per selected protocol
-            testJsonSettings = jsonRead.GetSettings(Of JsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"{SettingFileName}-{ProtocolInUse}.json"))
+            'testJsonSettings = jsonRead.GetSettings(Of JsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"{SettingFileName}-{ProtocolInUse}.json"))
+            testJsonSettings = jsonRead.GetSettings(Of JsonRoot)(Path.Combine(path1:=BaseJsonSettingsFileLocation, path2:=$"{SettingFileName}-{baseJsonSettings.Protocol}.json"))
             testJsonSettingsRegulators = testJsonSettings.Test
 
             ' populate communication data

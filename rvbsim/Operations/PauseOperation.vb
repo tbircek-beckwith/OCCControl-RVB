@@ -30,15 +30,20 @@ Namespace Communication.Operations
 
                 If ProtocolInUse = "modbus" Then
                     'disconnect modbus
-                    modbusRead.Disconnect()
-                    modbusWrite.Disconnect()
+                    If Not IsNothing(modbusRead) Then
+                        modbusRead.Disconnect()
+                    End If
+
+                    If Not IsNothing(modbusWrite) Then
+                        modbusWrite.Disconnect()
+                    End If
 
                 ElseIf ProtocolInUse = "dnp" Then
-                    dnp.Disconnect(Disconnect)
-                    Disconnect.WaitOne()
-                    dnp.Dispose()
-                ElseIf ProtocolInUse = "iec" Then
-                    iec61850.Disconnect(Disconnect)
+                        dnp.Disconnect(Disconnect)
+                        Disconnect.WaitOne()
+                        dnp.Dispose()
+                    ElseIf ProtocolInUse = "iec" Then
+                        iec61850.Disconnect(Disconnect)
                     Disconnect.WaitOne()
                     iec61850.Dispose()
                 End If
@@ -47,7 +52,7 @@ Namespace Communication.Operations
                 ReadTickerDone.Reset()
                 ReadRegisterWait.Unregister(Nothing)
 
-                TimersEvent.Dispose()
+                ' TimersEvent.Dispose()
                 Disconnect.Dispose()
 
                 SetEnable(RVBSim.StopButton, False)

@@ -13,30 +13,34 @@ Namespace PeriodicOperations
         ''' </summary>
         ''' <param name="rvbForm">Reference to the main window</param>
         ''' <param name="regulatorId">the current regulator</param>
-        Protected Friend Sub WriteNew(ByRef rvbForm As RVBSim, regulatorId As Integer)
+        Protected Friend Sub Write(ByRef rvbForm As RVBSim, regulatorId As Integer)
 
             Try
 
-                Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(WriteNew)} is running... STARTS")
+                Console.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(Write)} is running... STARTS")
 
                 Dim controlId = regulatorId + 1
-
-                'Dim WriteEvent As New ManualResetEvent(False)
 
                 Dim query = From regulator In testJsonSettingsRegulators.Regulator
                             Where regulator.Id = controlId
                             Select regulator.Values
 
-                GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=regulatorId)
+
+                'If rvbForm.SinglePhaseCheckBox.Checked AndAlso controlId > 1 Then
+                '    Return ' Exit For
+                'End If
+
+                ' GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=regulatorId)
 
                 For Each values In query
+
+                    ' GenerateRVBVoltage2Transfer(rvbForm:=rvbForm, regulatorNumber:=regulatorId)
 
                     For Each value In values
 
                         If value.Name.Contains("RVBValue") Then
 
                             Dim settingControlName As String = $"{ProtocolInUse}{value.Name}Reg{controlId}"
-                            ' Debug.WriteLine($" <------------------- {settingControlName} processing ...")
 
                             Dim v() As Control = rvbForm.Controls.Find(settingControlName, True)
 
@@ -46,23 +50,57 @@ Namespace PeriodicOperations
 
                                     Dim registerBox As NumericUpDown = CType(v(0), NumericUpDown)
 
-                                    Debug.WriteLine($"------------------- Writing RVB Voltage ({ProtocolInUse}) -------------------")
+                                    Console.WriteLine($"------------------- Writing RVB Voltage ({ProtocolInUse}) -------------------")
 
-                                    Debug.Write($"{Date.Now}{vbTab}Control name: {registerBox.Name}, Comm writes to Reg: {registerBox.Value}, ")
+                                    Console.Write($"{Date.Now}{vbTab}Control name: {registerBox.Name}, Comm writes to Reg: {registerBox.Value}, ")
+
+                                    'Dim writeTask As Tasks.Task 
 
                                     Select Case ProtocolInUse
+
                                         Case "modbus"
+
+                                            'Try
+
                                             If registerBox.Name.Contains("FRVB") Then
 
-                                                Debug.WriteLine($"Local: {Interlocked.Read(FwdRVBVoltages2Write(regulatorId))}")
+                                                    Console.WriteLine($"Local: {Interlocked.Read(FwdRVBVoltages2Write(regulatorId))}")
 
-                                                modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(FwdRVBVoltages2Write(regulatorId)))
+                                                Tasks.Task.Run(Sub()
+                                                                   Try
+                                                                       modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(FwdRVBVoltages2Write(regulatorId)))
+                                                                   Catch ex As Exception
+
+                                                                       Debug.WriteLine("error: &&&&&&&& FORWARD &&&&&&&&&")
+                                                                       Debug.WriteLine("error: " & ex.Message)
+                                                                       Debug.WriteLine("error: &&&&&&&&&&&&&&&&&&&&&&&&")
+
+                                                                   End Try
+
+                                                               End Sub).Wait(CommDelay)   '10)
+
                                             ElseIf registerBox.Name.Contains("RRVB") Then
 
-                                                Debug.WriteLine($"Src:{Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
+                                                    Console.WriteLine($"Src: {Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
 
-                                                modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(RevRVBVoltages2Write(regulatorId)))
+                                                Tasks.Task.Run(Sub()
+                                                                   Try
+                                                                       modbusWrite.WriteSingleRegister(startingAddress:=registerBox.Value, value:=Interlocked.Read(RevRVBVoltages2Write(regulatorId)))
+                                                                   Catch ex As Exception
+
+                                                                       Debug.WriteLine("error: &&&&&&& REVERSE &&&&&&&&")
+                                                                       Debug.WriteLine("error: " & ex.Message)
+                                                                       Debug.WriteLine("error: &&&&&&&&&&&&&&&&&&&&&&&&")
+
+                                                                   End Try
+
+                                                               End Sub
+                                                               ).Wait(CommDelay)   '10)
                                             End If
+
+                                            'Catch ex As Exception
+
+                                            'End Try
 
                                         Case "dnp"
                                             If registerBox.Name.Contains("FRVB") Then
@@ -75,7 +113,7 @@ Namespace PeriodicOperations
 
                                             ElseIf registerBox.Name.Contains("RRVB") Then
 
-                                                Debug.WriteLine($"Src:{Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
+                                                Debug.WriteLine($"Src: {Interlocked.Read(RevRVBVoltages2Write(regulatorId))}")
 
                                                 DnpSend(rvbForm:=rvbForm,
                                                      address:=registerBox.Value,
@@ -97,9 +135,9 @@ Namespace PeriodicOperations
                         End If
                     Next
 
-                    If rvbForm.SinglePhaseCheckBox.Checked Then
-                        Exit For
-                    End If
+                    'If rvbForm.SinglePhaseCheckBox.Checked Then
+                    '    Exit For
+                    'End If
                 Next
 
 
@@ -108,14 +146,13 @@ Namespace PeriodicOperations
                 Interlocked.Increment(errorCounter)
                 ResetMeteringLabels()
                 CheckErrors()
-                Dim message As String = $"{Now}{vbCrLf}{ex.StackTrace}:{vbCrLf}{ex.Message}"
-                ' SetText(rvbForm.lblMsgCenter, message)
-                SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message)
+                Dim message As String = $"{Now}{vbCrLf}{ex.Message}:{vbCrLf}{ex.StackTrace}"
+                SetTextBox(textbox:=RVBSim.ErrorsTextBox, text:=message, append:=True)
                 sb.AppendLine(message)
 
             Finally
 
-                Debug.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(WriteNew)} is running... ENDS")
+                Console.WriteLine($"{Date.Now:hh:mm:ss.ffff} -- {NameOf(Write)} is running... ENDS")
 
             End Try
 

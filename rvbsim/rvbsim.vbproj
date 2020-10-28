@@ -36,8 +36,7 @@
     <ApplicationVersion>1.1.2.8</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>false</BootstrapperEnabled>
-    <BootstrapperComponentsLocation>Absolute</BootstrapperComponentsLocation>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
     <BootstrapperComponentsUrl>\\newton\Applications\dotNet4\</BootstrapperComponentsUrl>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -223,10 +222,13 @@
     <Compile Include="Helpers\CommandLineHandler.vb" />
     <Compile Include="Helpers\ExtensionMethods.vb" />
     <Compile Include="Helpers\ResetMetering.vb" />
+    <Compile Include="Helpers\SetRelativeChecks.vb" />
+    <Compile Include="Helpers\SetVoltageOffsetControls.vb" />
     <Compile Include="Helpers\UpdateMeteringValues.vb" />
     <Compile Include="Helpers\RelativeOrFixedValue.vb" />
     <Compile Include="Helpers\SetControls.vb" />
     <Compile Include="Operations\FileOperations\JsonFile.vb" />
+    <Compile Include="Operations\SaveLogFile.vb" />
     <Compile Include="Operations\Settings\BaseModel\JsonRegulator.vb" />
     <Compile Include="Operations\Settings\BaseModel\JsonRoot.vb" />
     <Compile Include="Operations\Settings\BaseModel\JsonTest.vb" />
@@ -236,7 +238,7 @@
     <Compile Include="Helpers\Helpers.vb" />
     <Compile Include="Helpers\Declarations.vb" />
     <Compile Include="Helpers\DisEnableCheckBoxes.vb" />
-    <Compile Include="Helpers\Error Handler.vb" />
+    <Compile Include="Helpers\ErrorHandler.vb" />
     <Compile Include="Operations\FormOperations.vb" />
     <Compile Include="Helpers\GenerateRVBVoltage.vb" />
     <Compile Include="Operations\PauseOperation.vb" />
@@ -310,9 +312,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

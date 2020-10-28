@@ -56,7 +56,13 @@ Module Populate
                 Case "dnp"
                     RVBSim.dnpbutton.PerformClick()
 
+                Case "dnp-m6200b"
+                    RVBSim.dnpbutton.PerformClick()
+
                 Case "modbus"
+                    RVBSim.modbusbox.PerformClick()
+
+                Case "modbus-m6200b"
                     RVBSim.modbusbox.PerformClick()
 
                 Case "iec"

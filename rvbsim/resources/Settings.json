@@ -2,12 +2,12 @@
   "date": "07-27-2020",
   "description": "general settings",
   "fileversion": "1.0.1",
-  "protocol": "modbus",
-  "read": "192.168.0.101",
+  "protocol": "modbus-m6200b",
+  "read": "192.168.0.125",
   "singlephase": false,
   "title": "Remote Voltage Bias Simulator",
   "uivisible": true,
-  "write": "192.168.0.101",
+  "write": "192.168.0.125",
   "test": {
     "regulator": [
       {
@@ -21,7 +21,7 @@
             "name": "fwdrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 2.3
+            "value": 5.3
           },
           {
             "description": "Remote Voltage Bias Scale factor",
@@ -48,7 +48,7 @@
             "name": "revrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
-            "value": -2.9
+            "value": -5.9
           },
           {
             "description": "Reverse Remote Voltage Bias Scale Factor",
@@ -99,7 +99,7 @@
             "name": "fwdrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 115.6
+            "value": 118.6
           },
           {
             "description": "Remote Voltage Bias Scale factor",
@@ -126,7 +126,7 @@
             "name": "revrvbvoltage",
             "scalefactor": 1,
             "unit": "volts",
-            "value": 125.5
+            "value": 122.5
           },
           {
             "description": "Reverse Remote Voltage Bias Scale Factor",
@@ -162,7 +162,7 @@
             "name": "userelative",
             "scalefactor": 1,
             "unit": "-",
-            "value": 0
+            "value": 1
           }
         ]
       },
