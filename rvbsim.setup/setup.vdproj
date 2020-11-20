@@ -280,6 +280,12 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0B25E25B5E44F3EEF339687A8AAAF02C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_D0793E1BF69C231CA76A62E759C7EB3E"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -395,12 +401,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_41F91331F18ACDDBCB3748F9C89AF85C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0B25E25B5E44F3EEF339687A8AAAF02C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -1448,15 +1448,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:RVB Simulator"
-        "ProductCode" = "8:{3FC07B08-AECC-4E8B-BBEF-CDBFE0B3B52D}"
-        "PackageCode" = "8:{6ACBACDB-906D-494E-9D48-23E59A0A6BCB}"
+        "ProductCode" = "8:{75594A96-FA3E-4AD1-AF05-6A2085D69177}"
+        "PackageCode" = "8:{86A977DC-AFF6-47C6-8630-BCB032C98821}"
         "UpgradeCode" = "8:{A939C5AD-299B-4AEF-9151-D020ABADBB63}"
         "AspNetVersion" = "8:"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:5.0.0"
+        "ProductVersion" = "8:5.0.2"
         "Manufacturer" = "8:BecoLab"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://beckwithelectric.com/support/"
